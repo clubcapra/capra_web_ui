@@ -4,5 +4,8 @@
   </div>
 </template>
 
-<script src="./Victim.js"/>
-<style lang="stylus" scoped />
+<script>
+export default {
+  name: 'Victim'
+}
+</script>

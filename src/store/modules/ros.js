@@ -1,14 +1,18 @@
 export const rosActions = {
   CONNECT: 'CONNECT',
   DISCONNECT: 'DISCONNECT',
-  ERROR: 'ERROR'
+  ERROR: 'ERROR',
+  UPDATE_TWIST: 'UPDATE_TWIST',
+  UPDATE_POSE: 'UPDATE_POSE'
 }
 
-const ros = {
+export default {
   namespaced: true,
   state: {
     connected: false,
-    error: null
+    error: null,
+    twist: {},
+    pose: {}
   },
   mutations: {
     connect(state) {
@@ -19,6 +23,12 @@ const ros = {
     },
     error(state, payload) {
       state.error = payload
+    },
+    updateTwist(state, payload) {
+      state.twist = payload
+    },
+    updatePose(state, payload) {
+      state.pose = payload
     }
   },
   actions: {
@@ -30,8 +40,12 @@ const ros = {
     },
     [rosActions.ERROR]({ commit }, payload) {
       commit('error', payload)
+    },
+    [rosActions.UPDATE_TWIST]({ commit }, payload) {
+      commit('updateTwist', payload)
+    },
+    [rosActions.UPDATE_POSE]({ commit }, payload) {
+      commit('updatePose', payload)
     }
   }
 }
-
-export default ros

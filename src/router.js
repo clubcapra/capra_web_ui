@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Teleop from '@/components/Teleop/Teleop.vue'
-import Victim from '@/components/Victim/Victim.vue'
+import Teleop from '@/components/Teleop'
+import Victim from '@/components/Victim'
 
 Vue.use(Router)
 
