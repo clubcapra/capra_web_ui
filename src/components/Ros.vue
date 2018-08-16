@@ -1,6 +1,8 @@
 <template>
   <div id="ros">
-    <div>connected: {{ connected }}</div>
+    <div :style="{ color: green }">
+      connected: {{ connected }}
+    </div>
     <pre id="error">{{ error }}</pre>
   </div>
 </template>
@@ -22,8 +24,7 @@ export default {
       connect: this.handleConnect,
       disconnect: this.handleDisconnect,
       error: this.handleError,
-      updateTwist: this.handleTwist,
-      updatePose: this.handlePose
+      updateOrientation: this.handleOrientation
     })
     rosclient.connect()
   },
@@ -32,8 +33,7 @@ export default {
       handleConnect: rosActions.CONNECT,
       handleDisconnect: rosActions.DISCONNECT,
       handleError: rosActions.ERROR,
-      handleTwist: rosActions.UPDATE_TWIST,
-      handlePose: rosActions.UPDATE_POSE
+      handleOrientation: rosActions.UPDATE_ORIENTATION
     })
   }
 }

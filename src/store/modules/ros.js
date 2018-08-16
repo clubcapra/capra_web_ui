@@ -3,7 +3,8 @@ export const rosActions = {
   DISCONNECT: 'DISCONNECT',
   ERROR: 'ERROR',
   UPDATE_TWIST: 'UPDATE_TWIST',
-  UPDATE_POSE: 'UPDATE_POSE'
+  UPDATE_POSE: 'UPDATE_POSE',
+  UPDATE_ORIENTATION: 'UPDATE_ORIENTATION'
 }
 
 export default {
@@ -12,7 +13,8 @@ export default {
     connected: false,
     error: null,
     twist: {},
-    pose: {}
+    pose: {},
+    orientation: { x: 0, y: 0, z: 0 }
   },
   mutations: {
     connect(state) {
@@ -29,6 +31,9 @@ export default {
     },
     updatePose(state, payload) {
       state.pose = payload
+    },
+    updateOrientation(state, payload) {
+      state.orientation = payload
     }
   },
   actions: {
@@ -46,6 +51,9 @@ export default {
     },
     [rosActions.UPDATE_POSE]({ commit }, payload) {
       commit('updatePose', payload)
+    },
+    [rosActions.UPDATE_ORIENTATION]({ commit }, payload) {
+      commit('updateOrientation', payload)
     }
   }
 }

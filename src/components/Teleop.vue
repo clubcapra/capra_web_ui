@@ -1,7 +1,10 @@
 <template>
   <div id="teleop">
     <h3>Teleop</h3>
-    <div class="top-panel"/>
+    <div class="top-panel">
+      <img src="http://localhost:8080/stream?topic=/capra/camera_3d/rgb/image">
+      <img src="http://localhost:8080/stream?topic=/capra/camera_3d/depth/image">
+    </div>
     <div class="bottom-panel">
       <IMU />
       <div class="panel-1"/>

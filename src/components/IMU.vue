@@ -1,8 +1,9 @@
 <template>
   <div id="IMU">
     <h3>IMU</h3>
-    <pre>{{ twist }}</pre>
-    <pre>{{ pose }}</pre>
+    <div>x: {{ orientation.x.toFixed(4) }}</div>
+    <div>y: {{ orientation.y.toFixed(4) }}</div>
+    <div>z: {{ orientation.z.toFixed(4) }}</div>
   </div>
 </template>
 
@@ -14,8 +15,7 @@ export default {
   computed: mapState({
     connected: state => state.ros.connected,
     error: state => state.ros.error,
-    twist: state => state.ros.twist,
-    pose: state => state.ros.pose
+    orientation: state => state.ros.orientation
   })
 }
 </script>

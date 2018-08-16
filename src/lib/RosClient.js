@@ -12,23 +12,18 @@ class RosClient {
     this.ros.on('close', actions.disconnect)
     this.ros.on('error', actions.error)
 
-    let odom = new Topic({
+    let imu = new Topic({
       ros: this.ros,
-      name: '/odom',
-      messageType: 'nav_msgs/Odometry'
+      name: '/vectornav/IMU',
+      messageType: 'sensor_msgs/Imu'
     })
 
-    odom.subscribe(message => {
-      let pose = message.pose.pose
-      actions.updatePose(pose)
-
-      let twist = message.twist.twist
-      actions.updateTwist(twist)
-      // odom.unsubscribe()
+    imu.subscribe(({ orientation }) => {
+      actions.updateOrientation(orientation)
     })
   }
 
-  connect(url = 'ws://ubuntu:9090') {
+  connect(url = 'ws://localhost:9090') {
     this.ros.connect(url)
   }
 }
