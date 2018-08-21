@@ -1,12 +1,15 @@
-<template>
-  <div id="app">
-    <Ros />
-    <div id="nav">
-      <router-link to="/teleop">Teleop</router-link> |
-      <router-link to="/victim">Victim</router-link>
-    </div>
-    <router-view/>
-  </div>
+<template lang="pug">
+#app
+  .row#header.tabs
+    ul
+      router-link(active-class='is-active' tag='li' to='/teleop')
+        a Teleop
+      router-link(active-class='is-active' tag='li' to='/victim')
+        a Victim
+  .row#view
+    router-view
+  .row#footer
+    ros
 </template>
 
 <script>
@@ -21,19 +24,21 @@ export default {
 </script>
 
 <style lang="stylus">
+html, body
+  height 100vh
+  margin 0
+
 #app
-  font-family 'Avenir', Helvetica, Arial, sans-serif
-  -webkit-font-smoothing antialiased
-  -moz-osx-font-smoothing grayscale
-  color #2c3e50
+  display flex
+  flex-flow column
+  height 100%
 
-#nav
-  padding 30px
+#app .row#header
+  flex 0 1 auto
 
-  a
-    font-weight bold
-    color #2c3e50
+#app .row#view
+  flex 1 1 auto
 
-    &.router-link-exact-active
-      color #42b983
+#app .row#footer
+  flex 0 1 10px
 </style>

@@ -1,10 +1,7 @@
-<template>
-  <div id="ros">
-    <div :style="{ color: green }">
-      connected: {{ connected }}
-    </div>
-    <pre id="error">{{ error }}</pre>
-  </div>
+<template lang="pug">
+#ros
+  div(:style='{ color: connected ? "green" : "red" }')
+    | connected: {{ connected }}
 </template>
 
 <script>
@@ -24,16 +21,20 @@ export default {
       connect: this.handleConnect,
       disconnect: this.handleDisconnect,
       error: this.handleError,
-      updateOrientation: this.handleOrientation
+      updateOrientation: this.handleOrientation,
+      updateCamera: this.handleCamera
     })
-    rosclient.connect()
+    rosclient.connect({
+      updateCamera: this.handleCamera
+    })
   },
   methods: {
     ...mapActions('ros', {
       handleConnect: rosActions.CONNECT,
       handleDisconnect: rosActions.DISCONNECT,
       handleError: rosActions.ERROR,
-      handleOrientation: rosActions.UPDATE_ORIENTATION
+      handleOrientation: rosActions.UPDATE_ORIENTATION,
+      handleCamera: rosActions.UPDATE_CAMERA
     })
   }
 }

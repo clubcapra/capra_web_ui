@@ -1,38 +1,36 @@
-<template>
-  <div id="teleop">
-    <h3>Teleop</h3>
-    <div class="top-panel">
-      <img src="http://localhost:8080/stream?topic=/capra/camera_3d/rgb/image">
-      <img src="http://localhost:8080/stream?topic=/capra/camera_3d/depth/image">
-    </div>
-    <div class="bottom-panel">
-      <IMU />
-      <div class="panel-1"/>
-      <div class="panel-2"/>
-    </div>
-  </div>
+<template lang="pug">
+#teleop
+  .columns#main-view
+    .column#camera1
+      FrontCameraRGB
+    .column#camera2
+      FrontCamera3d
+  .columns.bottom-panel
+    .column
+      IMU
+    .column
+    .column
 </template>
 
 <script>
 import IMU from '@/components/IMU'
+import FrontCameraRGB from '@/components/cameras/FrontCameraRGB'
+import FrontCamera3d from '@/components/cameras/FrontCamera3d'
+
 export default {
   name: 'Teleop',
   components: {
-    IMU
+    IMU,
+    FrontCameraRGB,
+    FrontCamera3d
   }
 }
 </script>
 
 <style lang="stylus" scoped>
 #teleop
-  display grid
-  height 100%
+  flex 1 1 auto
 
-  .bottom-panel
-    height 50%
-
-  .bottom-panel
-    height 50%
-    display grid
-    grid-template-columns 1fr 1fr 1fr
+  #main-view
+    height 65%
 </style>

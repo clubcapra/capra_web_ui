@@ -23,8 +23,25 @@ class RosClient {
     })
   }
 
-  connect(url = 'ws://localhost:9090') {
-    this.ros.connect(url)
+  connect(actions, robotIP = 'localhost') {
+    this.ros.connect(`ws://${robotIP}:9090`)
+
+    let getCameraURL = (topic, ip = robotIP) =>
+      `http://${ip}:8080/stream?topic=${topic}`
+
+    let camera = {
+      front: {
+        depth: getCameraURL('/capra/camera_3d/depth/image'),
+        thermal: '',
+        rgb: getCameraURL('/capra/camera_3d/rgb/image')
+      },
+      back: {
+        depth: '',
+        rgb: ''
+      }
+    }
+
+    actions.updateCamera(camera)
   }
 }
 

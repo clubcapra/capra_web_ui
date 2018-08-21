@@ -1,7 +1,5 @@
-<template>
-  <div id="victim">
-    <h3>Victim</h3>
-  </div>
+<template lang="pug">
+#victim
 </template>
 
 <script>

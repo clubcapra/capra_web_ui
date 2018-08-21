@@ -4,7 +4,8 @@ export const rosActions = {
   ERROR: 'ERROR',
   UPDATE_TWIST: 'UPDATE_TWIST',
   UPDATE_POSE: 'UPDATE_POSE',
-  UPDATE_ORIENTATION: 'UPDATE_ORIENTATION'
+  UPDATE_ORIENTATION: 'UPDATE_ORIENTATION',
+  UPDATE_CAMERA: 'UPDATE_CAMERA'
 }
 
 export default {
@@ -14,7 +15,18 @@ export default {
     error: null,
     twist: {},
     pose: {},
-    orientation: { x: 0, y: 0, z: 0 }
+    orientation: { x: 0, y: 0, z: 0 },
+    camera: {
+      front: {
+        depth: 'test',
+        thermal: '',
+        rgb: ''
+      },
+      back: {
+        depth: '',
+        rgb: ''
+      }
+    }
   },
   mutations: {
     connect(state) {
@@ -34,6 +46,9 @@ export default {
     },
     updateOrientation(state, payload) {
       state.orientation = payload
+    },
+    updateCamera(state, payload) {
+      state.camera = payload
     }
   },
   actions: {
@@ -54,6 +69,9 @@ export default {
     },
     [rosActions.UPDATE_ORIENTATION]({ commit }, payload) {
       commit('updateOrientation', payload)
+    },
+    [rosActions.UPDATE_CAMERA]({ commit }, payload) {
+      commit('updateCamera', payload)
     }
   }
 }
