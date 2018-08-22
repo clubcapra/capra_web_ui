@@ -14,34 +14,27 @@ class RosClient {
 
     let imu = new Topic({
       ros: this.ros,
-      name: '/vectornav/IMU',
+      name: '/capra/imu',
       messageType: 'sensor_msgs/Imu'
     })
 
     imu.subscribe(({ orientation }) => {
       actions.updateOrientation(orientation)
     })
+
+    let temperature = new Topic({
+      ros: this.ros,
+      name: '/capra/temp',
+      messageType: 'sensor_msgs/Temperature'
+    })
+
+    temperature.subscribe(({ temperature }) => {
+      actions.updateTemperature(temperature)
+    })
   }
 
-  connect(actions, robotIP = 'localhost') {
+  connect(robotIP = 'localhost') {
     this.ros.connect(`ws://${robotIP}:9090`)
-
-    let getCameraURL = (topic, ip = robotIP) =>
-      `http://${ip}:8080/stream?topic=${topic}`
-
-    let camera = {
-      front: {
-        depth: getCameraURL('/capra/camera_3d/depth/image'),
-        thermal: '',
-        rgb: getCameraURL('/capra/camera_3d/rgb/image')
-      },
-      back: {
-        depth: '',
-        rgb: ''
-      }
-    }
-
-    actions.updateCamera(camera)
   }
 }
 

@@ -1,7 +1,10 @@
 <template lang="pug">
 #ros
-  div(:style='{ color: connected ? "green" : "red" }')
-    | connected: {{ connected }}
+  .field.has-addons
+    .control
+      input.input.is-small(v-model="robotIP" v-on:keydown.enter="connect" :class="connected ? 'is-success' : 'is-danger'")
+    .control
+      button.button.is-small(v-on:click="connect" :class="connected ? 'is-success' : 'is-danger'") connect  
 </template>
 
 <script>
@@ -9,24 +12,34 @@ import RosClient from '@/lib/RosClient'
 import { mapState, mapActions } from 'vuex'
 import { rosActions } from '@/store/modules/ros'
 
+let rosclient = null
+
 export default {
   name: 'Ros',
-  computed: mapState({
-    connected: state => state.ros.connected,
-    error: state => state.ros.error
-  }),
+  computed: {
+    ...mapState({
+      connected: state => state.ros.connected,
+      error: state => state.ros.error
+    }),
+    robotIP: {
+      get() {
+        return this.$store.state.ros.robotIP
+      },
+      set(value) {
+        this.handleIP(value)
+      }
+    }
+  },
   mounted() {
-    let rosclient = new RosClient()
+    rosclient = new RosClient()
     rosclient.setListeners({
       connect: this.handleConnect,
       disconnect: this.handleDisconnect,
       error: this.handleError,
       updateOrientation: this.handleOrientation,
-      updateCamera: this.handleCamera
+      updateTemperature: this.handleTemperature
     })
-    rosclient.connect({
-      updateCamera: this.handleCamera
-    })
+    rosclient.connect(this.robotIP)
   },
   methods: {
     ...mapActions('ros', {
@@ -34,13 +47,15 @@ export default {
       handleDisconnect: rosActions.DISCONNECT,
       handleError: rosActions.ERROR,
       handleOrientation: rosActions.UPDATE_ORIENTATION,
-      handleCamera: rosActions.UPDATE_CAMERA
-    })
+      handleTemperature: rosActions.UPDATE_TEMPERATURE,
+      handleIP: rosActions.UPDATE_IP
+    }),
+    connect: function() {
+      rosclient.connect(this.robotIP)
+    }
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-#error
-  color red
 </style>

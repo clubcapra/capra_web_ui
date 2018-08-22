@@ -2,10 +2,9 @@ export const rosActions = {
   CONNECT: 'CONNECT',
   DISCONNECT: 'DISCONNECT',
   ERROR: 'ERROR',
-  UPDATE_TWIST: 'UPDATE_TWIST',
-  UPDATE_POSE: 'UPDATE_POSE',
   UPDATE_ORIENTATION: 'UPDATE_ORIENTATION',
-  UPDATE_CAMERA: 'UPDATE_CAMERA'
+  UPDATE_TEMPERATURE: 'UPDATE_TEMPERATURE',
+  UPDATE_IP: 'UPDATE_IP'
 }
 
 export default {
@@ -13,16 +12,16 @@ export default {
   state: {
     connected: false,
     error: null,
-    twist: {},
-    pose: {},
+    robotIP: '192.168.1.120',
     orientation: { x: 0, y: 0, z: 0 },
+    temperature: 0,
     camera: {
       front: {
-        depth: 'test',
+        depth: '',
         thermal: '',
         rgb: ''
       },
-      back: {
+      rear: {
         depth: '',
         rgb: ''
       }
@@ -31,6 +30,23 @@ export default {
   mutations: {
     connect(state) {
       state.connected = true
+
+      let getCameraURL = topic =>
+        `http://${state.robotIP}:8080/stream?topic=${topic}`
+
+      let cameras = {
+        front: {
+          depth: getCameraURL('/capra/camera_3d/depth/image'),
+          thermal: '',
+          rgb: getCameraURL('/capra/camera_3d/rgb/image')
+        },
+        rear: {
+          depth: '',
+          rgb: ''
+        }
+      }
+
+      state.camera = cameras
     },
     disconnect(state) {
       state.connected = false
@@ -38,17 +54,14 @@ export default {
     error(state, payload) {
       state.error = payload
     },
-    updateTwist(state, payload) {
-      state.twist = payload
+    updateOrientation(state, orientation) {
+      state.orientation = orientation
     },
-    updatePose(state, payload) {
-      state.pose = payload
+    updateTemperature(state, temp) {
+      state.temperature = temp
     },
-    updateOrientation(state, payload) {
-      state.orientation = payload
-    },
-    updateCamera(state, payload) {
-      state.camera = payload
+    updateIP(state, robotIP) {
+      state.robotIP = robotIP
     }
   },
   actions: {
@@ -61,17 +74,14 @@ export default {
     [rosActions.ERROR]({ commit }, payload) {
       commit('error', payload)
     },
-    [rosActions.UPDATE_TWIST]({ commit }, payload) {
-      commit('updateTwist', payload)
-    },
-    [rosActions.UPDATE_POSE]({ commit }, payload) {
-      commit('updatePose', payload)
-    },
     [rosActions.UPDATE_ORIENTATION]({ commit }, payload) {
       commit('updateOrientation', payload)
     },
-    [rosActions.UPDATE_CAMERA]({ commit }, payload) {
-      commit('updateCamera', payload)
+    [rosActions.UPDATE_TEMPERATURE]({ commit }, payload) {
+      commit('updateTemperature', payload)
+    },
+    [rosActions.UPDATE_IP]({ commit }, payload) {
+      commit('updateIP', payload)
     }
   }
 }

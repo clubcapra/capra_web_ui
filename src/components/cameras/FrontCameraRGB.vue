@@ -8,7 +8,7 @@ import { mapState } from 'vuex'
 export default {
   name: 'FrontCameraRGB',
   computed: mapState({
-    stream: state => state.ros.camera.front.rgb
+    stream: state => (state.ros.connected ? state.ros.camera.front.rgb : '')
   })
 }
 </script>

@@ -1,21 +1,30 @@
 <template lang="pug">
 #IMU
   h3 IMU
-  div x: {{ orientation.x.toFixed(4) }}
-  div y: {{ orientation.y.toFixed(4) }}
-  div z: {{ orientation.z.toFixed(4) }}
+  div
+    | x: {{ orientation.x }}
+    | y: {{ orientation.y }}
+    | z: {{ orientation.z }}
+    | temp: {{ temp }}
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import _ from 'lodash'
+
+let mapDirection = dir => dir.toFixed(4).padStart(6)
 
 export default {
   name: 'IMU',
   computed: mapState({
-    orientation: state => state.ros.orientation
+    orientation: state => _.mapValues(state.ros.orientation, mapDirection),
+    temp: state => state.ros.temperature.toFixed(2)
   })
 }
 </script>
 
 <style lang="stylus" scoped>
+#IMU
+  font-family monospace
+  white-space pre
 </style>

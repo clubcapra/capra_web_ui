@@ -10,6 +10,7 @@
   "dependencies": {
     "bulma": "^0.7.1",
     "bulmaswatch": "^0.7.1",
+    "lodash": "^4.17.10",
     "roslib": "^0.20.0",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",

@@ -8,7 +8,7 @@ import { mapState } from 'vuex'
 export default {
   name: 'FrontCamera3d',
   computed: mapState({
-    stream: state => state.ros.camera.front.depth
+    stream: state => (state.ros.connected ? state.ros.camera.front.depth : '')
   })
 }
 </script>
