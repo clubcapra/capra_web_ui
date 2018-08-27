@@ -2,9 +2,9 @@
 #teleop
   .columns#main-view
     .column#camera1
-      FrontCameraRGB
+      Camera(:path="'front.rgb'")
     .column#camera2
-      FrontCamera3d
+      Camera(:path="'front.depth'")
   .columns.bottom-panel
     .column
       IMU
@@ -14,15 +14,13 @@
 
 <script>
 import IMU from '@/components/IMU'
-import FrontCameraRGB from '@/components/cameras/FrontCameraRGB'
-import FrontCamera3d from '@/components/cameras/FrontCamera3d'
+import Camera from '@/components/Camera'
 
 export default {
   name: 'Teleop',
   components: {
     IMU,
-    FrontCameraRGB,
-    FrontCamera3d
+    Camera
   }
 }
 </script>

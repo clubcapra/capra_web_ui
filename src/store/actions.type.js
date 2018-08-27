@@ -1,0 +1,5 @@
+export const CONNECT = 'connect'
+export const DISCONNECT = 'disconnect'
+export const UPDATE_ORIENTATION = 'updateOrientation'
+export const UPDATE_ROBOTIP = 'updateRobotIP'
+export const UPDATE_TEMPERATURE = 'updateTemperature'

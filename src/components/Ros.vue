@@ -2,15 +2,28 @@
 #ros
   .field.has-addons
     .control
-      input.input.is-small(v-model="robotIP" v-on:keydown.enter="connect" :class="connected ? 'is-success' : 'is-danger'")
+      input.input.is-small(
+        v-model="currentIP"
+        v-on:keydown.enter="connect"
+        :class="connectedClass"
+      )
     .control
-      button.button.is-small(v-on:click="connect" :class="connected ? 'is-success' : 'is-danger'") connect  
+      button.button.is-small(
+        v-on:click="connect"
+        :class="connectedClass"
+      ) connect
 </template>
 
 <script>
 import RosClient from '@/lib/RosClient'
 import { mapState, mapActions } from 'vuex'
-import { rosActions } from '@/store/modules/ros'
+import {
+  CONNECT,
+  DISCONNECT,
+  UPDATE_ROBOTIP,
+  UPDATE_ORIENTATION,
+  UPDATE_TEMPERATURE
+} from '@/store/actions.type'
 
 let rosclient = null
 
@@ -19,39 +32,46 @@ export default {
   computed: {
     ...mapState({
       connected: state => state.ros.connected,
-      error: state => state.ros.error
+      robotIP: state => state.ros.robotIP
     }),
-    robotIP: {
+    currentIP: {
       get() {
-        return this.$store.state.ros.robotIP
+        return this.robotIP
       },
-      set(value) {
-        this.handleIP(value)
+      set(robotIP) {
+        this.handleUpdateRobotIP(robotIP)
       }
+    },
+    connectedClass() {
+      return this.connected ? 'is-success' : 'is-danger'
     }
   },
   mounted() {
     rosclient = new RosClient()
     rosclient.setListeners({
-      connect: this.handleConnect,
-      disconnect: this.handleDisconnect,
-      error: this.handleError,
-      updateOrientation: this.handleOrientation,
-      updateTemperature: this.handleTemperature
+      onConnection: this.onConnection,
+      onClose: this.onClose
     })
-    rosclient.connect(this.robotIP)
+    rosclient.setSubscribers({
+      updateOrientation: this.handleUpdateOrientation,
+      updateTemperature: this.handleUpdateTemperature
+    })
+    this.connect()
   },
   methods: {
     ...mapActions('ros', {
-      handleConnect: rosActions.CONNECT,
-      handleDisconnect: rosActions.DISCONNECT,
-      handleError: rosActions.ERROR,
-      handleOrientation: rosActions.UPDATE_ORIENTATION,
-      handleTemperature: rosActions.UPDATE_TEMPERATURE,
-      handleIP: rosActions.UPDATE_IP
+      onConnection: CONNECT,
+      onClose: DISCONNECT,
+      handleUpdateOrientation: UPDATE_ORIENTATION,
+      handleUpdateTemperature: UPDATE_TEMPERATURE,
+      handleUpdateRobotIP: UPDATE_ROBOTIP
     }),
-    connect: function() {
+    connect() {
+      this.disconnect()
       rosclient.connect(this.robotIP)
+    },
+    disconnect() {
+      rosclient.disconnect()
     }
   }
 }

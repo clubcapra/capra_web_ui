@@ -7,34 +7,40 @@ class RosClient {
     this.ros = new Ros()
   }
 
-  setListeners(actions) {
-    this.ros.on('connection', actions.connect)
-    this.ros.on('close', actions.disconnect)
-    this.ros.on('error', actions.error)
+  setListeners({ onConnection, onClose }) {
+    this.ros.on('connection', onConnection)
+    this.ros.on('close', onClose)
+    this.ros.on('error', error => {
+      console.error('RosError', error)
+    })
+  }
 
-    let imu = new Topic({
-      ros: this.ros,
-      name: '/capra/imu',
-      messageType: 'sensor_msgs/Imu'
+  setSubscribers({ updateOrientation, updateTemperature }) {
+    let capraSubscribe = (name, messageType, handler) => {
+      let topic = new Topic({
+        ros: this.ros,
+        name: '/capra/' + name,
+        messageType
+      })
+
+      topic.subscribe(handler)
+    }
+
+    capraSubscribe('imu', 'sensor_msgs/Imu', ({ orientation }) => {
+      updateOrientation(orientation)
     })
 
-    imu.subscribe(({ orientation }) => {
-      actions.updateOrientation(orientation)
-    })
-
-    let temperature = new Topic({
-      ros: this.ros,
-      name: '/capra/temp',
-      messageType: 'sensor_msgs/Temperature'
-    })
-
-    temperature.subscribe(({ temperature }) => {
-      actions.updateTemperature(temperature)
+    capraSubscribe('temp', 'sensor_msgs/Temperature', ({ temperature }) => {
+      updateTemperature(temperature)
     })
   }
 
   connect(robotIP = 'localhost') {
     this.ros.connect(`ws://${robotIP}:9090`)
+  }
+
+  disconnect() {
+    this.ros.close()
   }
 }
 
