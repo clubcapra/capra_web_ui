@@ -1,10 +1,10 @@
 <template lang="pug">
 #teleop
   .columns#main-view
-    .column#camera1
-      Camera(:path="'front.rgb'")
-    .column#camera2
-      Camera(:path="'front.depth'")
+    .column
+      Camera(path='front.rgb')
+    .column
+      Camera(path='front.depth')
   .columns.bottom-panel
     .column
       IMU
@@ -30,5 +30,5 @@ export default {
   flex 1 1 auto
 
   #main-view
-    height 65%
+    height 50vh
 </style>

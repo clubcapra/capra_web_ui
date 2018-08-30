@@ -6,6 +6,8 @@
         a Teleop
       router-link(active-class='is-active' tag='li' to='/victim')
         a Victim
+      router-link(active-class='is-active' tag='li' to='/settings')
+        a Settings
   .row#view
     router-view
   .row#footer

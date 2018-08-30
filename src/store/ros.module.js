@@ -25,13 +25,13 @@ const state = {
 
 const getters = {
   cameras(state) {
-    let getCameraURL = (robotIP, topic) =>
+    let getCameraURL = topic =>
       `http://${state.robotIP}:8080/stream?topic=${topic}`
     let camera3d = '/capra/camera_3d/'
     return {
       front: {
         depth: getCameraURL(camera3d + 'depth/image'),
-        rgb: getCameraURL(camera3d + 'rgb/image')
+        rgb: getCameraURL(camera3d + 'rgb/image_raw')
       },
       rear: {
         depth: '',

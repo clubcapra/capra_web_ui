@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Teleop from '@/components/Teleop'
 import Victim from '@/components/Victim'
+import Settings from '@/components/Settings'
 
 Vue.use(Router)
 
@@ -9,8 +10,9 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'teleop',
-      component: Teleop
+      redirect: {
+        name: 'teleop'
+      }
     },
     {
       path: '/teleop',
@@ -21,6 +23,11 @@ export default new Router({
       path: '/victim',
       name: 'victim',
       component: Victim
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: Settings
     }
   ]
 })

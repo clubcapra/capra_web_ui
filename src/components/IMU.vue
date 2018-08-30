@@ -1,7 +1,7 @@
 <template lang="pug">
 #IMU
   h3 IMU
-  div
+  #data
     | x: {{ orientation.x }}
     | y: {{ orientation.y }}
     | z: {{ orientation.z }}
@@ -25,6 +25,8 @@ export default {
 
 <style lang="stylus" scoped>
 #IMU
-  font-family monospace
-  white-space pre
+  #data
+    font-family monospace
+    white-space pre
+    line-height 1em
 </style>

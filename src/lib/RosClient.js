@@ -1,10 +1,16 @@
 import { Ros, Topic } from 'roslib'
 
+let instance = null
+
 class RosClient {
   ros = null
 
   constructor() {
+    if (!instance) instance = this
+
     this.ros = new Ros()
+
+    return instance
   }
 
   setListeners({ onConnection, onClose }) {
