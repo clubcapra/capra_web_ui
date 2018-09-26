@@ -23,4 +23,7 @@ sudo apt install ros-kinetic-web-video-server
 
 roslaunch rosbridge_server rosbridge_websocket.launch
 rosrun web_video_server web_video_server
+
+roslaunch capra_imu imu.launch
+roslaunch capra_camera_3d capra_camera_3d.launch
 ```

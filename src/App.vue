@@ -52,7 +52,7 @@ html, body
 
 #container
   display grid
-  grid-template-rows 50px 100% 10px
+  grid-template-rows 50px 90% 10px
   height 100%
   min-height 0
 </style>

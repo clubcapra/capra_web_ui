@@ -32,7 +32,7 @@ export default {
   display grid
   height 100%
   min-height 0
-  grid-template-rows 50% 50%
+  grid-template-rows 70% 30%
 
   .main-view
     display grid

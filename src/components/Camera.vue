@@ -1,11 +1,12 @@
 <template>
   <div class="camera">
     <div v-if="connected">
-      <video autoplay>
+      <!-- <video>
         <source
           :src="stream"
           type="video/webm">
-      </video>
+      </video> -->
+      <img :src="stream">
     </div>
     <div
       v-else
@@ -36,8 +37,12 @@ export default {
 .camera
   height 100%
   display grid
-  min-width 0
-
+  min-height 0
+  margin auto
+  
+  img
+    height 100%
+  
   .no-video
     margin auto
 </style>
