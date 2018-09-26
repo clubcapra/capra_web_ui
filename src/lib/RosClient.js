@@ -1,4 +1,5 @@
 import { Ros, Topic } from 'roslib'
+// import ROS2D from 'ros2d/build/ros2d.min'
 
 let instance = null
 
@@ -47,6 +48,30 @@ class RosClient {
 
   disconnect() {
     this.ros.close()
+  }
+
+  initMap2D(divID) {
+    console.log('initMap2D: ' + divID)
+    //console.log(ROS2D)
+    //eslint-disable-next-line
+    // let viewer = new ROS2D.Viewer({
+    //   divID: divID,
+    //   width: 400,
+    //   height: 400
+    // })
+    // console.log(viewer)
+
+    // let gridClient = new ROS2D.OccupancyGridClient({
+    //   ros: this.ros,
+    //   rootObject: viewer.scene
+    // })
+
+    // gridClient.on('change', () => {
+    //   viewer.scaleToDimensions(
+    //     gridClient.currentGrid.width,
+    //     gridClient.currentGrid.height
+    //   )
+    // })
   }
 }
 

@@ -1,16 +1,22 @@
-<template lang="pug">
-.field.has-addons
-  .control
-    input.input.is-small(
-      v-model="currentIP"
-      @keydown.enter="connect"
-      :class="connectedClass"
-    )
-  .control
-    button.button.is-small(
-      @click="connect"
-      :class="connectedClass"
-    ) connect
+<template>
+  <div class="field has-addons">
+    <div class="control">
+      <input
+        v-model="currentIP"
+        :class="connectedClass"
+        class="input is-small"
+        @keydown.enter="connect">
+    </div>
+    <div class="control">
+      <button
+        :class="connectedClass"
+        class="button is-small"
+        @click="connect"
+      >
+        connect
+      </button>
+    </div>
+  </div>
 </template>
 
 <script>

@@ -7,6 +7,8 @@ import '@/assets/themes/slate.css'
 
 Vue.config.productionTip = false
 
+// window.createjs = createjs
+
 new Vue({
   router,
   store,

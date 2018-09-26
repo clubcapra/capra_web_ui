@@ -14,7 +14,7 @@ import {
 
 const state = {
   connected: false,
-  robotIP: '192.168.1.120',
+  robotIP: 'localhost',
   orientation: {
     x: 0,
     y: 0,
@@ -26,7 +26,7 @@ const state = {
 const getters = {
   cameras(state) {
     let getCameraURL = topic =>
-      `http://${state.robotIP}:8080/stream?topic=${topic}`
+      `http://${state.robotIP}:8080/stream?topic=${topic}&type=vp8`
     let camera3d = '/capra/camera_3d/'
     return {
       front: {
@@ -34,8 +34,7 @@ const getters = {
         rgb: getCameraURL(camera3d + 'rgb/image_raw')
       },
       rear: {
-        depth: '',
-        rgb: ''
+        rgb: getCameraURL('/capra/camera/rgb/image_raw')
       }
     }
   }

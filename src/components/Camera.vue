@@ -1,5 +1,18 @@
-<template lang="pug">
-  img(:src="stream")
+<template>
+  <div class="camera">
+    <div v-if="connected">
+      <video autoplay>
+        <source
+          :src="stream"
+          type="video/webm">
+      </video>
+    </div>
+    <div
+      v-else
+      class="no-video">
+      <p>no video</p>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -20,4 +33,11 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.camera
+  height 100%
+  display grid
+  min-width 0
+
+  .no-video
+    margin auto
 </style>

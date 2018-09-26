@@ -1,5 +1,5 @@
-<template lang="pug">
-#victim
+<template>
+  <div id="victim" />
 </template>
 
 <script>

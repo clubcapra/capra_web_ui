@@ -1,4 +1,5 @@
-<template lang="pug">
+<template>
+  <div />
 </template>
 
 <script>

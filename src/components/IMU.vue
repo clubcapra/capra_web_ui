@@ -1,11 +1,13 @@
-<template lang="pug">
-#IMU
-  h3 IMU
-  #data
-    | x: {{ orientation.x }}
-    | y: {{ orientation.y }}
-    | z: {{ orientation.z }}
-    | temp: {{ temp }}
+<template>
+  <div id="IMU">
+    <h3>IMU</h3>
+    <div id="data">
+      x: {{ orientation.x }}
+      y: {{ orientation.y }}
+      z: {{ orientation.z }}
+      temp: {{ temp }}
+    </div>
+  </div>
 </template>
 
 <script>
