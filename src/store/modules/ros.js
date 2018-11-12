@@ -24,9 +24,12 @@ const state = {
 }
 
 const getters = {
-  cameras(state) {
+  hostname(state) {
+    return `http://${state.robotIP}:8080/`
+  },
+  cameras(state, getters) {
     let getCameraURL = topic =>
-      `http://${state.robotIP}:8080/stream?topic=${topic}&type=mjpeg`
+      `${getters.hostname}stream?topic=${topic}&quality=0&type=vp9`
     let camera3d = '/capra/camera_3d/'
     return {
       front: {

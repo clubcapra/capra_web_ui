@@ -7,7 +7,9 @@
     <div class="bottom-panel">
       <IMU />
       <Map2D />
-      <div />
+      <div>
+        <!-- <img src="http://robotwebtools.org/images/demos/ros3djs-fetch-urdf.jpg"> -->
+      </div>
     </div>
   </div>
 </template>
@@ -28,17 +30,24 @@ export default {
 </script>
 
 <style lang="stylus">
+shadow-box = inset 0 0 0 1px #000000
+
 .teleop
   display grid
-  height 100%
-  min-height 0
-  grid-template-rows 70% 30%
+  align-content stretch
+  grid-template-rows 7fr 3fr
 
   .main-view
     display grid
-    grid-template-columns 50% 50%
+    grid-template-columns 1fr 1fr
+
+    >div
+      box-shadow shadow-box
 
   .bottom-panel
     display grid
     grid-template-columns 1fr 1fr 1fr
+
+    >div
+      box-shadow shadow-box
 </style>

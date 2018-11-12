@@ -13,9 +13,12 @@
     "bulmaswatch": "^0.7.1",
     "createjs": "^1.0.1",
     "eventemitter2": "^5.0.1",
+    "exif-js": "^2.3.0",
     "lodash": "^4.17.10",
+    "ogv": "^1.5.8",
     "ros2d": "^0.9.0",
     "roslib": "^0.20.0",
+    "shaka-player": "^2.5.0-beta",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"

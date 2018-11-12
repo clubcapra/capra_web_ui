@@ -1,5 +1,7 @@
 <template>
-  <div id="mad2d" />
+  <div id="mad2d">
+    <!-- <img src="http://robotwebtools.org/images/demos/nav2djs-example.jpg"> -->
+  </div>
 </template>
 
 <script>

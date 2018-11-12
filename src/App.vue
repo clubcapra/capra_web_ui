@@ -45,14 +45,19 @@ export default {
 </script>
 
 <style lang="stylus">
-html, body
+html
   height 100%
-  overflow-y auto !important
-  min-height 0
+
+body
+  min-height 100%
+  display grid
+  align-content stretch
 
 #container
   display grid
-  grid-template-rows 50px 90% 10px
-  height 100%
-  min-height 0
+  grid-template-rows 60px auto 10px
+
+  #view
+    display grid
+    align-content stretch
 </style>

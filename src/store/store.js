@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import ros from './ros.module'
+import ros from './modules/ros'
 
 Vue.use(Vuex)
 
