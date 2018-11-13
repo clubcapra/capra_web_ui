@@ -3,7 +3,7 @@
     <div v-if="connected">
       <video
         :src="stream"
-        autoplay="true"
+        autoplay
         preload="none"
       />
       <!-- <img :src="stream"> -->
