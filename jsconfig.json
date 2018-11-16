@@ -4,9 +4,7 @@
     "baseUrl": ".",
     // Relative to "baseUrl"
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"]
     }
   }
 }
