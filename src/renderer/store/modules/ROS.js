@@ -1,12 +1,6 @@
 const state = {
   connected: false,
-  robotIP: 'localhost:9090',
-  orientation: {
-    x: 0,
-    y: 0,
-    z: 0
-  },
-  temperature: 0
+  robotIP: 'localhost:9090'
 }
 
 const mutations = {

@@ -23,7 +23,7 @@ export default {
   name: 'Settings',
   inject: ['rosClient'],
   computed: {
-    ...mapState('ROS', {
+    ...mapState('ros', {
       connected: state => state.connected,
       robotIP: state => state.robotIP
     }),
@@ -32,7 +32,7 @@ export default {
         return this.robotIP
       },
       set(robotIP) {
-        this.handleUpdateRobotIP(robotIP)
+        this.setRobotIP(robotIP)
       }
     },
     connectedClass() {
@@ -40,11 +40,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions('ROS', {
-      handleUpdateRobotIP: 'setRobotIP'
+    ...mapActions('ros', {
+      setRobotIP: 'setRobotIP'
     }),
     connect() {
-      this.rosClient.disconnect()
       this.rosClient.connect(this.robotIP)
     }
   }

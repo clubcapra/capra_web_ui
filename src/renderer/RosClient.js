@@ -1,7 +1,7 @@
 import { Ros, Topic } from 'roslib'
 // import ROS2D from 'ros2d/build/ros2d.min'
 
-let instance = null
+const instance = null
 
 class RosClient {
   ros = null
@@ -19,21 +19,7 @@ class RosClient {
     })
   }
 
-  setSubscribers({ updateOrientation, updateTemperature }) {
-    this.capraSubscribe('imu', 'sensor_msgs/Imu', ({ orientation }) => {
-      updateOrientation(orientation)
-    })
-
-    this.capraSubscribe(
-      'temp',
-      'sensor_msgs/Temperature',
-      ({ temperature }) => {
-        updateTemperature(temperature)
-      }
-    )
-  }
-
-  connect(robotIP = 'localhost') {
+  connect(robotIP = 'localhost:9090') {
     this.ros.close()
     this.ros.connect(`ws://${robotIP}`)
   }
@@ -42,10 +28,10 @@ class RosClient {
     this.ros.close()
   }
 
-  capraSubscribe(name, messageType, handler) {
-    let topic = new Topic({
+  subscribe({ name, messageType }, handler) {
+    const topic = new Topic({
       ros: this.ros,
-      name: '/capra/' + name,
+      name,
       messageType
     })
 

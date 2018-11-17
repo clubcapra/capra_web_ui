@@ -5,7 +5,7 @@
       <Camera path="front.depth" />
     </div>
     <div class="bottom-panel">
-      <IMU />
+      <Dashboard />
       <Map2D />
       <div>
         <!--
@@ -17,14 +17,14 @@
 </template>
 
 <script>
-import IMU from '@/components/IMU'
+import Dashboard from '@/components/Dashboard'
 import Camera from '@/components/Camera'
 import Map2D from '@/components/Map2D'
 
 export default {
   name: 'Teleop',
   components: {
-    IMU,
+    Dashboard,
     Camera,
     Map2D
   }

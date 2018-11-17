@@ -26,6 +26,10 @@ module.exports = {
           "void": "any"
         }
       }
-    ]
+    ],
+    "prefer-const": ["error", {
+      "destructuring": "any",
+      "ignoreReadBeforeAssign": false
+  }]
   }
 }

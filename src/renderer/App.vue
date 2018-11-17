@@ -18,7 +18,7 @@ export default {
     Navbar
   },
   computed: {
-    ...mapState('ROS', {
+    ...mapState('ros', {
       robotIP: state => state.robotIP
     })
   },
@@ -33,7 +33,7 @@ export default {
     rosClient
   },
   methods: {
-    ...mapActions('ROS', {
+    ...mapActions('ros', {
       onConnection: 'connect',
       onClose: 'disconnect'
     })
