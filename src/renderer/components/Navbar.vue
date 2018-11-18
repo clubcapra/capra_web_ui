@@ -19,3 +19,9 @@ export default {
   name: 'Navbar'
 }
 </script>
+
+<style lang="scss" scoped>
+div.tabs {
+  margin-bottom: 0px;
+}
+</style>

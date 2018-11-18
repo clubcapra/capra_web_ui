@@ -43,7 +43,7 @@ export default {
     }, 250)
   },
   methods: {
-    ...mapActions('Dashboard', {
+    ...mapActions('dashboard', {
       updateOrientation: 'updateOrientation',
       updateTemperature: 'updateTemperature'
     })

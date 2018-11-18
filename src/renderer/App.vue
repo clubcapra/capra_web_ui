@@ -44,6 +44,7 @@ export default {
 <style lang="scss">
 html {
   height: 100%;
+  overflow-y: hidden;
 }
 
 body {
@@ -54,7 +55,7 @@ body {
 
 #container {
   display: grid;
-  grid-template-rows: 60px auto 10px;
+  grid-template-rows: auto 1fr;
 
   #view {
     display: grid;

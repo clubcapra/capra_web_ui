@@ -16,10 +16,9 @@ export default {
   name: 'Camera',
   props: { path: { type: String, default: '' } },
   computed: {
-    ...mapGetters('ROS', { cameras: 'cameras' }),
-    ...mapState('ROS', { connected: state => state.connected }),
+    ...mapGetters('ros', { cameras: 'cameras' }),
+    ...mapState('ros', { connected: state => state.connected }),
     stream() {
-      const test = 'hello'
       return this.connected ? _.get(this.cameras, this.path) : ''
     }
   }

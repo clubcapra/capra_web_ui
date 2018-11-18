@@ -8,9 +8,9 @@
       <Dashboard />
       <Map2D />
       <div>
-        <!--
-          <img src="http://robotwebtools.org/images/demos/ros3djs-fetch-urdf.jpg">
-        -->
+        <img
+          src="http://robotwebtools.org/images/demos/ros3djs-fetch-urdf.jpg"
+        />
       </div>
     </div>
   </div>

@@ -1,10 +1,10 @@
 import { Ros, Topic } from 'roslib'
-// import ROS2D from 'ros2d/build/ros2d.min'
-
-const instance = null
 
 class RosClient {
   ros = null
+  registeredTopics = {}
+
+  getSignature = ({ name, messageType }) => `${name}/${messageType}`
 
   constructor() {
     this.ros = new Ros()
@@ -28,14 +28,34 @@ class RosClient {
     this.ros.close()
   }
 
-  subscribe({ name, messageType }, handler) {
-    const topic = new Topic({
+  getListener(options) {
+    const signature = this.getSignature(options)
+
+    const listener = new Topic({
       ros: this.ros,
-      name,
-      messageType
+      options
     })
 
-    topic.subscribe(handler)
+    listener.subscribe(message => {
+      this.registeredTopics[signature].handlers.forEach(handler =>
+        handler(message)
+      )
+    })
+
+    return listener
+  }
+
+  subscribe(options, handler) {
+    const signature = this.getSignature(options)
+    if (signature in this.registeredTopics) {
+      this.registeredTopics[signature].handlers.push(handler)
+    } else {
+      this.registeredTopics[signature] = {
+        options,
+        listener: this.getListener(options),
+        handlers: [handler]
+      }
+    }
   }
 }
 
