@@ -15,11 +15,6 @@ export default new Router({
       }
     },
     {
-      path: '/landing-page',
-      name: 'landing-page',
-      component: require('@/components/LandingPage').default
-    },
-    {
       path: '/teleop',
       name: 'teleop',
       component: Teleop

@@ -2,11 +2,12 @@ import Vue from 'vue'
 import axios from 'axios'
 
 import 'bulma/css/bulma.css'
-import '@/assets/themes/slate.css'
+// import 'bulmaswatch/superhero/bulmaswatch.scss'
 
 import App from './App'
 import router from './router'
 import store from './store'
+import './requireBaseComponents'
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 

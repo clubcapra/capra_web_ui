@@ -5,6 +5,9 @@ import _ from 'lodash'
 export default {
   name: 'Dashboard',
   inject: ['rosClient'],
+  data: () => {
+    return { speed: 0 }
+  },
   computed: mapState('dashboard', {
     orientation: state => {
       const orientation = state.orientation.data
@@ -14,8 +17,7 @@ export default {
     },
     temp: state => state.temperature.data.toFixed(2),
     orientationTopic: state => state.orientation.topic,
-    temperatureTopic: state => state.temperature.topic,
-    speed: state => state.speed.data
+    temperatureTopic: state => state.temperature.topic
   }),
   mounted: function() {
     this.rosClient.subscribe(this.orientationTopic, this.updateOrientation)
@@ -23,10 +25,7 @@ export default {
 
     // give random speed values
     setInterval(() => {
-      const newSpeed = Math.floor(Math.random() * 10 + 1)
-      console.log(newSpeed)
-      // this.speed = newSpeed
-      this.updateSpeed(newSpeed)
+      this.speed = Math.floor(Math.random() * 10 + 1)
     }, 500)
   },
   methods: {
