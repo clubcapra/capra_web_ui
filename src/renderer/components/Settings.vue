@@ -32,6 +32,7 @@ export default {
         return this.robotIP
       },
       set(robotIP) {
+        console.log(robotIP)
         this.setRobotIP(robotIP)
       }
     },
@@ -49,3 +50,5 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped></style>

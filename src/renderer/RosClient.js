@@ -28,7 +28,7 @@ class RosClient {
     this.ros.close()
   }
 
-  getListener(options) {
+  setListener(options) {
     const signature = this.getSignature(options)
 
     const listener = new Topic({
@@ -41,8 +41,6 @@ class RosClient {
         handler(message)
       )
     })
-
-    return listener
   }
 
   subscribe(options, handler) {
@@ -52,9 +50,11 @@ class RosClient {
     } else {
       this.registeredTopics[signature] = {
         options,
-        listener: this.getListener(options),
+        listener: null,
         handlers: [handler]
       }
+
+      this.setListener(options)
     }
   }
 }

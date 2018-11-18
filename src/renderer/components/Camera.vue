@@ -1,26 +1,32 @@
-<template>
-  <div class="camera">
-    <div v-if="connected">
-      <!-- <video :src="stream" autoplay preload="none" /> -->
-      <img :src="stream" />
-    </div>
-    <div v-else class="no-video"><p>no video</p></div>
-  </div>
-</template>
-
 <script>
-import { mapGetters, mapState } from 'vuex'
-import _ from 'lodash'
+import { mapState } from 'vuex'
+import { get as _get } from 'lodash'
 
 export default {
   name: 'Camera',
   props: { path: { type: String, default: '' } },
   computed: {
-    ...mapGetters('ros', { cameras: 'cameras' }),
     ...mapState('ros', { connected: state => state.connected }),
     stream() {
-      return this.connected ? _.get(this.cameras, this.path) : ''
+      return this.connected ? _get(this.cameras, this.path) : ''
     }
+  },
+  render() {
+    const { connected, stream } = this
+    return (
+      <div class="camera">
+        {connected ? (
+          <div>
+            {/* <video src={stream} autoplay preload="none" /> */}
+            <img src={stream} />
+          </div>
+        ) : (
+          <div class="no-video">
+            <p>no video</p>
+          </div>
+        )}
+      </div>
+    )
   }
 }
 </script>

@@ -1,16 +1,3 @@
-<template>
-  <div id="dashboard">
-    <h3>IMU</h3>
-    <div id="data">
-      <div>x: {{ orientation.x }}</div>
-      <div>y: {{ orientation.y }}</div>
-      <div>z: {{ orientation.z }}</div>
-      <div>temp:{{ temp }}</div>
-      <div>speed: {{ speed }} m/s</div>
-    </div>
-  </div>
-</template>
-
 <script>
 import { mapState, mapActions } from 'vuex'
 import _ from 'lodash'
@@ -18,9 +5,6 @@ import _ from 'lodash'
 export default {
   name: 'Dashboard',
   inject: ['rosClient'],
-  data: function() {
-    return { speed: 10 }
-  },
   computed: mapState('dashboard', {
     orientation: state => {
       const orientation = state.orientation.data
@@ -30,7 +14,8 @@ export default {
     },
     temp: state => state.temperature.data.toFixed(2),
     orientationTopic: state => state.orientation.topic,
-    temperatureTopic: state => state.temperature.topic
+    temperatureTopic: state => state.temperature.topic,
+    speed: state => state.speed.data
   }),
   mounted: function() {
     this.rosClient.subscribe(this.orientationTopic, this.updateOrientation)
@@ -39,14 +24,32 @@ export default {
     // give random speed values
     setInterval(() => {
       const newSpeed = Math.floor(Math.random() * 10 + 1)
-      this.speed = newSpeed
-    }, 250)
+      console.log(newSpeed)
+      // this.speed = newSpeed
+      this.updateSpeed(newSpeed)
+    }, 500)
   },
   methods: {
-    ...mapActions('dashboard', {
-      updateOrientation: 'updateOrientation',
-      updateTemperature: 'updateTemperature'
-    })
+    ...mapActions('dashboard', [
+      'updateOrientation',
+      'updateTemperature',
+      'updateSpeed'
+    ])
+  },
+  render() {
+    const { orientation, temp, speed } = this
+    return (
+      <div id="dashboard">
+        <h3>IMU</h3>
+        <div id="data">
+          <div>x: {orientation.x}</div>
+          <div>y: {orientation.y}</div>
+          <div>z: {orientation.z}</div>
+          <div>temp:{temp}</div>
+          <div>speed: {speed} m/s</div>
+        </div>
+      </div>
+    )
   }
 }
 </script>

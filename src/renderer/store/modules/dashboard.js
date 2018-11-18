@@ -16,6 +16,13 @@ const state = {
       messageType: 'sensor_msgs/Imu'
     },
     data: 0
+  },
+  speed: {
+    topic: {
+      name: '/capra/speed',
+      messageType: 'vel'
+    },
+    data: 2
   }
 }
 
@@ -24,7 +31,10 @@ const mutations = {
     state.orientation.data = newOrientation
   },
   SET_TEMPERATURE(state, newTemperature) {
-    state.temperature = newTemperature
+    state.temperature.data = newTemperature
+  },
+  SET_SPEED(state, newSpeed) {
+    state.speed.data = newSpeed
   }
 }
 
@@ -34,6 +44,9 @@ const actions = {
   },
   updateTemperature({ commit }, temperature) {
     commit('SET_TEMPERATURE', temperature)
+  },
+  updateSpeed({ commit }, speed) {
+    commit('SET_SPEED', speed)
   }
 }
 

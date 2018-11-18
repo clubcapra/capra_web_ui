@@ -5,6 +5,7 @@
     // Relative to "baseUrl"
     "paths": {
       "@/*": ["src/*"]
-    }
+    },
+    "experimentalDecorators": true
   }
 }
