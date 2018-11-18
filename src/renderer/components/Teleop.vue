@@ -35,7 +35,7 @@ export default {
 .teleop {
   display: grid;
   align-content: stretch;
-  grid-template-rows: 7fr 3fr;
+  grid-template-rows: 70% 30%;
 
   .main-view {
     display: grid;

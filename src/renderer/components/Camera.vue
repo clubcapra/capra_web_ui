@@ -1,8 +1,8 @@
 <template>
   <div class="camera">
     <div v-if="connected">
-      <video :src="stream" autoplay preload="none" />
-      <!-- <img :src="stream"> -->
+      <!-- <video :src="stream" autoplay preload="none" /> -->
+      <img :src="stream" />
     </div>
     <div v-else class="no-video"><p>no video</p></div>
   </div>
@@ -27,15 +27,15 @@ export default {
 
 <style lang="scss" scoped>
 .camera {
-  height: 100%;
+  //   height: 100%;
   display: grid;
-  min-height: 0;
-  margin: auto;
-  width: 100%;
+  min-height: 0px;
+  //   margin: auto;
+  //   width: 100%;
 
-  img {
-    height: 100%;
-  }
+  //   img {
+  //     height: 100%;
+  //   }
 
   .no-video {
     margin: auto;

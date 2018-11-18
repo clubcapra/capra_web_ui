@@ -31,6 +31,10 @@ function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
+
+  if (process.env.NODE_ENV === 'production') {
+    mainWindow.setMenu(null)
+  }
 }
 
 app.on('ready', createWindow)
