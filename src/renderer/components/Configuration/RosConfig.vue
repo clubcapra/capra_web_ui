@@ -29,7 +29,7 @@
 import { mapActions, mapState } from 'vuex'
 
 export default {
-  name: 'RosSettings',
+  name: 'RosConfig',
   inject: ['rosClient'],
   computed: {
     ...mapState('ros', {

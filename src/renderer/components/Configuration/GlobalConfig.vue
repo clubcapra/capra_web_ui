@@ -1,21 +1,21 @@
 <template>
   <div id="settings">
-    <ros-settings />
+    <ros />
     <hr />
-    <teleop-settings />
+    <teleop />
   </div>
 </template>
 
 <script>
-import RosSettings from './RosSettings'
-import TeleopSettings from './TeleopSettings'
+import Ros from './RosConfig'
+import Teleop from './TeleopConfig'
 
 export default {
-  name: 'Settings',
+  name: 'GlobalConfig',
   inject: ['rosClient'],
   components: {
-    RosSettings,
-    TeleopSettings
+    Ros,
+    Teleop
   }
 }
 </script>

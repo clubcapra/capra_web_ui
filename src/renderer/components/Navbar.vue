@@ -12,7 +12,7 @@ export default {
             <a>Victim</a>
           </router-link>
           <router-link active-class="is-active" tag="li" to="/settings">
-            <a>Settings</a>
+            <a>Config</a>
           </router-link>
         </ul>
       </div>

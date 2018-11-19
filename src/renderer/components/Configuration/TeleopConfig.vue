@@ -39,7 +39,7 @@ const camera1 = 'camera1'
 const camera2 = 'camera2'
 
 export default {
-  name: 'TeleopSettings',
+  name: 'TeleopConfig',
   computed: {
     ...mapState('teleop', {
       [camera1]: state => state[camera1],
