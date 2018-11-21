@@ -1,3 +1,5 @@
+const production = (a, b) => (process.env.NODE_ENV === 'production' ? a : b)
+
 module.exports = {
   root: true,
   parserOptions: {
@@ -11,25 +13,30 @@ module.exports = {
   globals: {
     __static: true
   },
-  plugins:['vue', 'prettier'],
+  plugins: ['vue', 'prettier'],
   extends: ['prettier', 'plugin:vue/recommended', 'eslint:recommended'],
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-console': production('error', 'off'),
+    'no-debugger': production('error', 'off'),
     'no-var': 'error',
-    "prettier/prettier": "error",
-    'vue/max-attributes-per-line': "off",
-    "vue/html-self-closing": [
-      "error",
+    'no-unused-vars': production('error', 'warn'),
+    'prettier/prettier': 'error',
+    'vue/no-unused-components': production('error', 'warn'),
+    'vue/max-attributes-per-line': 'off',
+    'vue/html-self-closing': [
+      'error',
       {
-        "html": {
-          "void": "any"
+        html: {
+          void: 'any'
         }
       }
     ],
-    "prefer-const": ["error", {
-      "destructuring": "any",
-      "ignoreReadBeforeAssign": false
-  }]
+    'prefer-const': [
+      'error',
+      {
+        destructuring: 'any',
+        ignoreReadBeforeAssign: false
+      }
+    ]
   }
 }

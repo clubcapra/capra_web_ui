@@ -1,35 +1,43 @@
 const state = {
-  camera3drgb: {
+  camera3d_rgb: {
     type: 'mjpeg',
     topic: '/capra/camera_3d/rgb/image_raw'
   },
-  camera3dDepth: {
+  camera3d_depth: {
     type: 'mjpeg',
     topic: '/capra/camera_3d/depth/image_raw'
   }
 }
 
+const SET_TOPIC = 'SET_TOPIC'
+
 const mutations = {
-  SET_TOPIC(state, cameraName, topic) {
+  [SET_TOPIC](state, { cameraName, topic }) {
     state[cameraName].topic = topic
   },
-  SET_TYPE(state, cameraName, type) {
+  SET_TYPE(state, { cameraName, type }) {
     state[cameraName].type = type
   },
-  ADD_CAMERA(state, cameraName, { type = 'mjpeg', topic = '' }) {
+  ADD_CAMERA(
+    state,
+    {
+      cameraName,
+      options: { type = 'mjpeg', topic = '' }
+    }
+  ) {
     state = { ...state, [cameraName]: { type, topic } }
   }
 }
 
 const actions = {
-  setTopic({ commit }, cameraName, topic) {
-    commit('SET_TOPIC', cameraName, topic)
+  setTopic({ commit }, { cameraName, topic }) {
+    commit(SET_TOPIC, { cameraName, topic })
   },
-  setType({ commit }, cameraName, type) {
-    commit('SET_TYPE', cameraName, type)
+  setType({ commit }, { cameraName, type }) {
+    commit('SET_TYPE', { cameraName, type })
   },
-  addCamera({ commit }, cameraName, options) {
-    commit('ADD_CAMERA', cameraName, options)
+  addCamera({ commit }, { cameraName, options }) {
+    commit('ADD_CAMERA', { cameraName, options })
   }
 }
 

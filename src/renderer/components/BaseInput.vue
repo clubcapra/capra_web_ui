@@ -1,9 +1,5 @@
 <template>
-  <input
-    v-model="props.model"
-    :class="props.class"
-    @keydown="props.onKeyDown"
-  />
+  <input :value="props.model" :class="props.class" />
 </template>
 
 <script>

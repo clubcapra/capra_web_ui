@@ -1,61 +1,40 @@
 <template>
-  <div class="card">
-    <div class="card-header">
-      <p class="card-header-title">{{ title }}</p>
-    </div>
-    <div class="card-content">
-      <div class="field">
-        <label>Topic</label> <input v-model="topic" class="input is-small" />
-      </div>
-      <div class="field">
-        <label>Type</label> <input v-model="type" class="input is-small" />
-      </div>
+  <div class="section">
+    <p class="title">Camera</p>
+    <div class="camera-container">
+      <camera-card
+        v-for="(camera, key) in cameras"
+        :key="key"
+        :title="key"
+        :camera-name="key"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapState } from 'vuex'
+import CameraCard from './CameraCard'
 
 export default {
   name: 'CameraConfig',
-  props: {
-    title: {
-      type: String,
-      default: ''
-    },
-    cameraName: {
-      type: String,
-      default: ''
-    },
-    moduleName: {
-      type: String,
-      default: ''
-    }
-  },
+  components: { CameraCard },
   computed: {
-    ...mapState({
-      camera: state => state[this.moduleName][this.cameraName]
-    }),
-    topic: {
-      get() {
-        return this.camera.topic
-      },
-      set(value) {
-        this.setTopic({ cameraName: this.cameraName, topic: value })
-      }
-    },
-    type: {
-      get() {
-        return this.camera.type
-      },
-      set(value) {
-        this.setType({ cameraName: this.cameraName, type: value })
-      }
-    }
-  },
-  methods: {
-    ...mapActions('teleop', ['setTopic', 'setType'])
+    ...mapState('camera', {
+      cameras: state => state
+    })
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.section {
+  display: grid;
+  grid-template-rows: auto auto;
+  .camera-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: space-evenly;
+  }
+}
+</style>

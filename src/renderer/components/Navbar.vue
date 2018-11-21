@@ -11,7 +11,7 @@ export default {
           <router-link active-class="is-active" tag="li" to="/victim">
             <a>Victim</a>
           </router-link>
-          <router-link active-class="is-active" tag="li" to="/settings">
+          <router-link active-class="is-active" tag="li" to="/configuration">
             <a>Config</a>
           </router-link>
         </ul>

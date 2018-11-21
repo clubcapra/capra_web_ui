@@ -2,7 +2,7 @@ import Vue from 'vue'
 import axios from 'axios'
 
 import 'bulma/css/bulma.css'
-// import 'bulmaswatch/superhero/bulmaswatch.scss'
+import 'bulmaswatch/slate/bulmaswatch.scss'
 
 import App from './App'
 import router from './router'

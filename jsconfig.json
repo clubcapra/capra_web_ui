@@ -4,7 +4,7 @@
     "baseUrl": ".",
     // Relative to "baseUrl"
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/renderer/*"]
     },
     "experimentalDecorators": true
   }
