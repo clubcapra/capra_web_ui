@@ -42,6 +42,11 @@ export default {
 </script>
 
 <style lang="scss">
+@import '~bulma/sass/utilities/_all';
+@import '~bulmaswatch/slate/_variables.scss';
+@import '~bulma';
+@import '~bulmaswatch/slate/_overrides.scss';
+
 html {
   height: 100%;
   overflow-y: auto;

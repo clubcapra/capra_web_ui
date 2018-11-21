@@ -8345,6 +8345,11 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
+vue-bulma-components@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/vue-bulma-components/-/vue-bulma-components-2.2.0.tgz#cc85fa35abb049b2aa006dd3012d65fb42ed2a27"
+  integrity sha512-FOpXqMkx//skFUb58JcNqUP1ZI7egv5rTgHDW+R2y5ekAaBZNm8uJ8qbWJ6JW1E0cdCKJ8UclAwXQiopsP84oA==
+
 vue-electron@^1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/vue-electron/-/vue-electron-1.0.6.tgz#e798e03180b8933539defe31f92e53b9242b9406"

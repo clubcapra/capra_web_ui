@@ -1,14 +1,11 @@
 <template>
   <div class="section">
     <p class="title">Camera</p>
-    <div class="camera-container">
-      <camera-card
-        v-for="(camera, key) in cameras"
-        :key="key"
-        :title="key"
-        :camera-name="key"
-      />
-    </div>
+    <b-columns class="camera-container">
+      <b-column v-for="(camera, key) in cameras" :key="key">
+        <camera-card class="camera" :title="key" :camera-name="key" />
+      </b-column>
+    </b-columns>
   </div>
 </template>
 
@@ -34,7 +31,6 @@ export default {
   .camera-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    justify-content: space-evenly;
   }
 }
 </style>

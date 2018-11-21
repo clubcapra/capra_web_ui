@@ -1,17 +1,17 @@
 <template>
   <card :title="title">
     <div class="field">
-      <label>Topic</label> <input v-model="topic" class="input is-small" />
+      <label>Topic</label> <base-input v-model="topic" is-small />
     </div>
     <div class="field">
-      <label>Type</label> <input v-model="type" class="input is-small" />
+      <label>Type</label> <base-input v-model="type" is-small />
     </div>
   </card>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
-import Card from '../Card/Card'
+import Card from '@/components/UI/Card/Card'
 
 export default {
   name: 'CameraCard',

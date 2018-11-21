@@ -5,20 +5,20 @@
       <label class="label">Robot IP</label>
       <div class="field has-addons">
         <div class="control">
-          <input
+          <base-input
             v-model="currentIP"
-            :class="`input is-small ${connectedClass}`"
+            :class="`is-small ${connectedClass}`"
             @keydown:enter="connect"
           />
         </div>
         <div class="control">
-          <button
+          <b-button
             :class="connectedClass"
             class="button is-small"
             @click="connect"
           >
             connect
-          </button>
+          </b-button>
         </div>
       </div>
     </div>
