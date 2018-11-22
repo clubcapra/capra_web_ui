@@ -14,12 +14,29 @@ export default {
   render(h) {
     const { type, value } = this
 
-    return h('b-input', {
+    const renderFunction = h('b-input', {
       type,
       attrs: { value },
       props: { ...this.$attrs },
       on: { input: e => this.$emit('input', e.target.value) }
     })
+
+    const jsx = () => (
+      <b-input
+        type={type}
+        value={value}
+        nativeOnInput={e => this.$emit('input', e.target.value)}
+      />
+    )
+
+    return (
+      <b-input
+        type={type}
+        value={value}
+        nativeOnInput={e => this.$emit('input', e.target.value)}
+        attributes={{ ...this.$attrs }}
+      />
+    )
   }
 }
 </script>
