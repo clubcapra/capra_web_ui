@@ -7,20 +7,24 @@ import { mapState } from 'vuex'
 export default {
   name: 'Teleop',
   computed: {
-    ...mapState('teleop', {
+    ...mapState('camera', {
       camera3drgb: state => ({
-        type: state.camera1.type,
-        topic: state.camera1.topic
+        type: state.camera3d_rgb.type,
+        topic: state.camera3d_rgb.topic
+      }),
+      camera3ddepth: state => ({
+        type: state.camera3d_depth.type,
+        topic: state.camera3d_depth.topic
       })
     })
   },
   render() {
-    const { camera3drgb } = this
+    const { camera3drgb, camera3ddepth } = this
     return (
       <div class="teleop">
         <div class="main-view">
           <Camera type={camera3drgb.type} topic={camera3drgb.topic} />
-          <Camera type={camera3drgb.type} topic={camera3drgb.topic} />
+          <Camera type={camera3ddepth.type} topic={camera3ddepth.topic} />
         </div>
         <div class="bottom-panel">
           <Dashboard />

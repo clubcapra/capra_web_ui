@@ -1,4 +1,5 @@
 const state = {
+  video_server_ip: 'localhost:8080',
   camera3d_rgb: {
     type: 'mjpeg',
     topic: '/capra/camera_3d/rgb/image_raw'

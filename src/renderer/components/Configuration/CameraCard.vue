@@ -35,7 +35,6 @@ export default {
         return this.camera.topic
       },
       set(value) {
-        console.log('​set -> value', value)
         this.setTopic({ cameraName: this.cameraName, topic: value })
       }
     },

@@ -13,10 +13,11 @@ class RosClient {
   setListeners({ onConnection, onClose }) {
     this.ros.on('connection', onConnection)
     this.ros.on('close', onClose)
-    this.ros.on('error', error => {
-      if (process.env.NODE_ENV !== 'production')
-        console.error('RosError', error)
-    })
+    // this.ros.on('error', error => {
+    //   if (process.env.NODE_ENV !== 'production') {
+    //     // console.error('RosError', error)
+    //   }
+    // })
   }
 
   connect(robotIP = 'localhost:9090') {

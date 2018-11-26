@@ -21,22 +21,16 @@ export default {
       on: { input: e => this.$emit('input', e.target.value) }
     })
 
-    const jsx = () => (
-      <b-input
-        type={type}
-        value={value}
-        nativeOnInput={e => this.$emit('input', e.target.value)}
-      />
-    )
+    // const jsx = () => (
+    //   <b-input
+    //     type={type}
+    //     value={value}
+    //     nativeOnInput={e => this.$emit('input', e.target.value)}
+    //     attributes={{ ...this.$attrs }}
+    //   />
+    // )
 
-    return (
-      <b-input
-        type={type}
-        value={value}
-        nativeOnInput={e => this.$emit('input', e.target.value)}
-        attributes={{ ...this.$attrs }}
-      />
-    )
+    return renderFunction
   }
 }
 </script>
