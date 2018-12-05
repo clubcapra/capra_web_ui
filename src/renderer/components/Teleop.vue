@@ -9,12 +9,12 @@ export default {
   computed: {
     ...mapState('camera', {
       camera3drgb: state => ({
-        type: state.camera3d_rgb.type,
-        topic: state.camera3d_rgb.topic
+        type: state.cameras.camera3d_rgb.type,
+        topic: state.cameras.camera3d_rgb.topic
       }),
       camera3ddepth: state => ({
-        type: state.camera3d_depth.type,
-        topic: state.camera3d_depth.topic
+        type: state.cameras.camera3d_depth.type,
+        topic: state.cameras.camera3d_depth.topic
       })
     })
   },
