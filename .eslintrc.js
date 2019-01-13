@@ -20,7 +20,7 @@ module.exports = {
     'no-debugger': production('error', 'off'),
     'no-var': 'error',
     'no-unused-vars': production('error', 'warn'),
-    'prettier/prettier': 'error',
+    'prettier/prettier': 'warn',
     'vue/no-unused-components': production('error', 'warn'),
     'vue/max-attributes-per-line': 'off',
     'vue/html-self-closing': [

@@ -35,37 +35,6 @@ export default {
         : ''
     }
   }
-  // render() {
-  //   const { connected, stream, type } = this
-
-  //   const Viewer = () => {
-  //     console.log(type, stream)
-  //     if (type === 'mjpeg') {
-  //       console.log('mjpeg img')
-  //       return <img src={stream} />
-  //     } else if (type === 'vp8') {
-  //       return <video src={stream} autoplay preload="none" />
-  //     } else {
-  //       return (
-  //         <div class="no-video">
-  //           <p>invalid type</p>
-  //         </div>
-  //       )
-  //     }
-  //   }
-
-  //   return (
-  //     <div class="camera">
-  //       {connected ? (
-  //         <Viewer />
-  //       ) : (
-  //         <div class="no-video">
-  //           <p>no video</p>
-  //         </div>
-  //       )}
-  //     </div>
-  //   )
-  // }
 }
 </script>
 

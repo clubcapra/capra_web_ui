@@ -2,7 +2,7 @@
   <div class="section">
     <p class="title">ROS</p>
     <div class="field">
-      <label class="label">Robot IP</label>
+      <label class="label"> Robot IP </label>
       <div class="field has-addons">
         <div class="control">
           <base-input
