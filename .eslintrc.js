@@ -14,7 +14,12 @@ module.exports = {
     __static: true
   },
   plugins: ['vue', 'prettier'],
-  extends: ['prettier', 'plugin:vue/recommended', 'eslint:recommended'],
+  extends: [
+    'plugin:vue/recommended',
+    'prettier',
+    'prettier/vue',
+    'eslint:recommended'
+  ],
   rules: {
     'no-console': production('error', 'off'),
     'no-debugger': production('error', 'off'),

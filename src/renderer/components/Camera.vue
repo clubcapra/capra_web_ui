@@ -2,7 +2,7 @@
   <div class="camera">
     <div v-if="connected">
       <img v-if="type === 'mjpeg'" :src="stream" />
-      <video v-else-if="type === 'vp8'" :src="stream" autoplay preload="none"  />
+      <video v-else-if="type === 'vp8'" :src="stream" autoplay preload="none" />
       <div v-else class="no-video"><p>invalid type</p></div>
     </div>
     <div v-else>
