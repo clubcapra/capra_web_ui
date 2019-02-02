@@ -1,8 +1,33 @@
 # takin-ui
 
-> Web UI for ros based robots
+User interface for the Takin project. It can be used for any similar robots with the same set of feature using ROS.
 
-## Build Setup
+It currently uses electron to run, but it isn't necessary for now. This could be a simple web app. We might move to a pure web app if fast deployments become necessary. We try to not directly use electron features for now. In some limited testing we saw some small improvements to video streams, but after some more testing it doesn't seem to do much. The limited target environment is nice, but not necessary for now.
+
+## Technologies used
+
+- Vue.js
+  - vuex
+  - vue-router
+  - electron-vue
+- yarn
+- electron
+- css grid, sass/scss
+- bulma for simple css components and we use vue-bulma-components to integrate with vue
+- Eslint
+- prettier
+- webpack
+- electron
+- roslibjs
+- lodash
+- font-awesome
+- babel
+
+You do not need to be familiar with everything on this list but you should try using these before considering adding a new dependency. **Vue is the most important dependency here and you should know it to work on this project.**
+
+Note: most web ecmascript project uses npm. While we do not use it directly you should already have it install. For package management we use yarn.
+
+## Build/run Setup
 
 ```bash
 # if yarn is not installed
