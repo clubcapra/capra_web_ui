@@ -35,15 +35,15 @@ Note: most javascript projects uses npm. While we do not use it directly you sho
 
 src is essentially the root folder everything else is configuration files that shouldn't be touched as much as possible.
 
-- main: contains code that runs on the node runtime. This is specific to electron. For now we try to not use any features not available on the web.
-- renderer: this is essentially the src folder of a normal web app. Everything in here should assume the context of a browser window.
-  - assets: contains any artifacts that aren't code. For examples: images or theme files that are loaded but not modified. If you want a custom theme you should either use the style feature of vue or make a new theme folder, since we use bulma wetry not to invent new themes and use what already exists.
-  - components: contains all vue components used to build the application. The internal structure isn't defined for now, but we try to sort them by features and not type.
-  - store: contains vuex modules and other utility functions related to using these stores
-  - App.vue: main entry point of the vue app
-  - main.js: main entry point of the entire web app. This should rarely change.
-  - router.js: Since our router is really simple we only have a single file. If it becomes more complex we will make a router folder
-  - RosClient.js: small utility library that aims to simplify using roslibjs
+- **main**: contains code that runs on the node runtime. This is specific to electron. For now we try to not use any features not available on the web.
+- **renderer**: this is essentially the src folder of a normal web app. Everything in here should assume the context of a browser window.
+  - **assets**: contains any artifacts that aren't code. For examples: images or theme files that are loaded but not modified. If you want a custom theme you should either use the style feature of vue or make a new theme folder, since we use bulma wetry not to invent new themes and use what already exists.
+  - **components**: contains all vue components used to build the application. The internal structure isn't defined for now, but we try to sort them by features and not type.
+  - **store**: contains vuex modules and other utility functions related to using these stores
+  - **App.vue**: main entry point of the vue app
+  - **main.js**: main entry point of the entire web app. This should rarely change.
+  - **router.js**: Since our router is really simple we only have a single file. If it becomes more complex we will make a router folder
+  - **RosClient.js**: small utility library that aims to simplify using roslibjs
 
 Vue is a component based framework, this means we try to use composition as much as possible. Since this is a vue app we try to use vue features and the vue way of doing things.
 
