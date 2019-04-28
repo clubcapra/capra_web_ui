@@ -16,7 +16,7 @@
     "@types/roslib": "^0.18.3",
     "bulma": "^0.7.4",
     "bulmaswatch": "^0.7.2",
-    "core-js": "^3.0.1",
+    "core-js": "^2.6.5",
     "lodash": "^4.17.11",
     "push-dir": "^0.4.1",
     "reflect-metadata": "^0.1.13",
