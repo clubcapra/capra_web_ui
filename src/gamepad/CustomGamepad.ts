@@ -49,6 +49,23 @@ export default class CustomGamepad {
     return false
   }
 
+  getButtonAxis = (name: string): number => {
+    const { axes, buttons } = this.gamepad
+
+    const button = this.mapping.buttons[name]
+    if (button) {
+      return buttons[button.index].value
+    }
+
+    const axisButton = this.mapping.axesButtons[name]
+    if (axisButton) {
+      const axis = axes[axisButton.axis]
+      return axis
+    }
+
+    return 0
+  }
+
   getAxis = (name: string) => {
     const axis = this.mapping.axes[name]
     return axis ? this.gamepad.axes[axis.index] : 0

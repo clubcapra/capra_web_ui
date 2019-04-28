@@ -1,7 +1,9 @@
 <template>
   <div id="container">
     <navbar />
-    <div id="view"><router-view /></div>
+    <div id="view">
+      <router-view />
+    </div>
     <gamepad-debugger />
   </div>
 </template>
@@ -24,7 +26,7 @@ const rosModule = getModule(RosModule)
 @Component({
   components: {
     Navbar,
-    GamepadDebugger, // eslint-disable-line vue/no-unused-components
+    GamepadDebugger,
   },
 })
 export default class App extends Vue {

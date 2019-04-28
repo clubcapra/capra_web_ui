@@ -1,4 +1,5 @@
 import CustomGamepad from './CustomGamepad'
+import { mapGamepadToTwist } from '@/utils/math'
 
 class GamepadManager {
   gamepads: Array<CustomGamepad> = []
@@ -7,12 +8,12 @@ class GamepadManager {
     if (!(navigator.getGamepads instanceof Function))
       console.warn('This browser does not support gamepads.')
 
-    this.scangamepads()
+    this.scanGamepads()
 
     this.update()
   }
 
-  scangamepads() {
+  scanGamepads() {
     const navigatorGamepads = [...navigator.getGamepads()]
 
     navigatorGamepads.forEach(gamepad => {
@@ -22,6 +23,7 @@ class GamepadManager {
   }
 
   handleConnected = (e: GamepadEvent) => {
+    console.log('gamepad connected', e.gamepad)
     const gamepad = e.gamepad
     this.gamepads[gamepad.index] = new CustomGamepad(gamepad)
   }
@@ -40,12 +42,17 @@ class GamepadManager {
       console.log('a pressed')
     }
 
-    const axis = gamepad.getAxis('left stick x')
-    // console.log(axis)
+    const xAxis = gamepad.getAxis('left stick x')
+    const yAxis = gamepad.getAxis('left stick y')
+    const rightTrigger = gamepad.getButtonAxis('right trigger')
+    // console.log("TCL: GamepadManager -> handleGamepadInput -> rightTrigger", rightTrigger)
+
+    const cmd_vel = mapGamepadToTwist(xAxis, yAxis, rightTrigger ? 1 : 0);
+    console.log('linear', cmd_vel.linear, 'angular', cmd_vel.angular)
   }
 
   update = () => {
-    this.scangamepads()
+    this.scanGamepads()
     const gamepad = this.gamepads[0]
     if (gamepad) this.handleGamepadInput(gamepad)
 
