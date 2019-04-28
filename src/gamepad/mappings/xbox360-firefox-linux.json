@@ -1,0 +1,129 @@
+{
+  "name": "Xbox 360 Firefox Linux",
+  "supported": [
+    {
+      "browser": "Firefox",
+      "id": "045e-028e-Microsoft X-Box 360 pad",
+      "os": "Linux"
+    }
+  ],
+  "axes": {
+    "dpad x": {
+      "index": 6
+    },
+    "dpad y": {
+      "index": 7
+    },
+    "left stick x": {
+      "index": 0
+    },
+    "left stick y": {
+      "index": 1
+    },
+    "left trigger": {
+      "index": 2
+    },
+    "right stick x": {
+      "index": 3
+    },
+    "right stick y": {
+      "index": 4
+    },
+    "right trigger": {
+      "index": 5
+    }
+  },
+  "buttons": {
+    "a": {
+      "index": 0
+    },
+    "b": {
+      "index": 1
+    },
+    "x": {
+      "index": 2
+    },
+    "start": {
+      "index": 7
+    },
+    "y": {
+      "index": 3
+    },
+    "back": {
+      "index": 6
+    },
+    "home": {
+      "index": 8
+    },
+    "left shoulder": {
+      "index": 4
+    },
+    "left stick": {
+      "index": 9
+    },
+    "right shoulder": {
+      "index": 5
+    },
+    "right stick": {
+      "index": 10
+    }
+  },
+  "axesButtons": {
+    "dpad down": {
+      "axis": 7,
+      "direction": 1
+    },
+    "dpad left": {
+      "axis": 6,
+      "direction": -1
+    },
+    "dpad right": {
+      "axis": 6,
+      "direction": 1
+    },
+    "dpad up": {
+      "axis": 7,
+      "direction": -1
+    },
+    "left stick down": {
+      "axis": 1,
+      "direction": 1
+    },
+    "left stick left": {
+      "axis": 0,
+      "direction": -1
+    },
+    "left stick right": {
+      "axis": 0,
+      "direction": 1
+    },
+    "left stick up": {
+      "axis": 1,
+      "direction": -1
+    },
+    "left trigger": {
+      "axis": 2,
+      "direction": 1
+    },
+    "right stick down": {
+      "axis": 4,
+      "direction": 1
+    },
+    "right stick left": {
+      "axis": 3,
+      "direction": -1
+    },
+    "right stick right": {
+      "axis": 3,
+      "direction": 1
+    },
+    "right stick up": {
+      "axis": 4,
+      "direction": -1
+    },
+    "right trigger": {
+      "axis": 5,
+      "direction": 1
+    }
+  }
+}

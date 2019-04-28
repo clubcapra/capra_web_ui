@@ -1,47 +1,36 @@
-const production = (a, b) => (process.env.NODE_ENV === 'production' ? a : b)
+const ifProduction = (a, b) => (process.env.NODE_ENV === 'production' ? a : b)
 
 module.exports = {
   root: true,
-  parserOptions: {
-    parser: 'babel-eslint',
-    sourceType: 'module'
-  },
   env: {
-    browser: true,
-    node: true
+    node: true,
   },
-  globals: {
-    __static: true
-  },
-  plugins: ['vue', 'prettier'],
-  extends: [
-    'plugin:vue/recommended',
-    'prettier',
-    'prettier/vue',
-    'eslint:recommended'
-  ],
+  extends: ['plugin:vue/essential', '@vue/prettier', '@vue/typescript'],
   rules: {
-    'no-console': production('error', 'off'),
-    'no-debugger': production('error', 'off'),
+    'no-console': [ifProduction('error', 'off'), { allow: ['warn', 'error'] }],
+    'no-debugger': ifProduction('error', 'off'),
     'no-var': 'error',
-    'no-unused-vars': production('error', 'warn'),
+    //'no-unused-vars': ifProduction('error', 'warn'),
     'prettier/prettier': 'warn',
-    'vue/no-unused-components': production('error', 'warn'),
+    'vue/no-unused-components': ifProduction('error', 'warn'),
     'vue/max-attributes-per-line': 'off',
     'vue/html-self-closing': [
       'error',
       {
         html: {
-          void: 'any'
-        }
-      }
+          void: 'any',
+        },
+      },
     ],
     'prefer-const': [
       'error',
       {
         destructuring: 'any',
-        ignoreReadBeforeAssign: false
-      }
-    ]
-  }
+        ignoreReadBeforeAssign: false,
+      },
+    ],
+  },
+  parserOptions: {
+    parser: '@typescript-eslint/parser',
+  },
 }

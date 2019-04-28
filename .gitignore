@@ -1,13 +1,6 @@
 .DS_Store
-dist/electron/*
-dist/web/*
-build/*
-!build/icons
-node_modules/
-npm-debug.log
-npm-debug.log.*
-thumbs.db
-!.gitkeep
+node_modules
+/dist
 
 # local env files
 .env.local
@@ -25,6 +18,4 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
-*.sw*
-
-\.vs/
+*.sw?
