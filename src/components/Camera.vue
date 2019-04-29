@@ -16,22 +16,21 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 
 import CameraModule from '@/store/modules/camera'
 import RosModule from '@/store/modules/ros'
-import { getModule } from 'vuex-module-decorators'
-
-const rosModule = getModule(RosModule)
-const cameraModule = getModule(CameraModule)
 
 @Component
 export default class Camera extends Vue {
-  @Prop({ type: String, default: 'mjpeg' }) type!: string
-  @Prop({ type: String, default: '', required: true }) topic!: string
+  @Prop({ default: 'mjpeg' })
+  readonly type!: string
+
+  @Prop({ default: '', required: true })
+  readonly topic!: string
 
   get connected() {
-    return rosModule.connected
+    return RosModule.connected
   }
 
   stream() {
-    const url = `http://${cameraModule.videoServerIP}/stream
+    const url = `http://${CameraModule.videoServerIP}/stream
     ?topic=${this.topic}
     &type=${this.type}
     `

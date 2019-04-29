@@ -14,7 +14,10 @@
     "emitDecoratorMetadata": true,
     "noEmitHelpers": true,
     "types": [
-      "webpack-env"
+      "webpack-env",
+      "node",
+      "roslib",
+      "lodash"
     ],
     "paths": {
       "*": ["types/*"],

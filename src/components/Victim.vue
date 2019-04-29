@@ -27,47 +27,40 @@
   </div>
 </template>
 
-<script>
-import Camera from '@/components/Camera'
-import { mapState } from 'vuex'
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator'
 
-export default {
-  name: 'Victim',
-  components: {
-    Camera,
-  },
-  data: () => {
-    return {
-      QRcodes: [
-        {
-          id: '0',
-          number: '0',
-          text: 'test value',
-        },
-        {
-          id: '1',
-          number: '1',
-          text: 'test value',
-        },
-      ],
-      landolts: [
-        { id: '0', color: 'red', angle: '90' },
-        { id: '0', color: 'green', angle: '45' },
-      ],
-    }
-  },
-  computed: {
-    ...mapState('camera', {
-      camera3drgb: state => ({
-        type: state.cameras.camera3d_rgb.type,
-        topic: state.cameras.camera3d_rgb.topic,
-      }),
-      camera3ddepth: state => ({
-        type: state.cameras.camera3d_depth.type,
-        topic: state.cameras.camera3d_depth.topic,
-      }),
-    }),
-  },
+import Camera from '@/components/Camera.vue'
+
+import CameraModule from '@/store/modules/camera'
+
+@Component({ components: { Camera } })
+export default class Victim extends Vue {
+  QRcodes = [
+    {
+      id: '0',
+      number: '0',
+      text: 'test value',
+    },
+    {
+      id: '1',
+      number: '1',
+      text: 'test value',
+    },
+  ]
+
+  landolts = [
+    { id: '0', color: 'red', angle: '90' },
+    { id: '1', color: 'green', angle: '45' },
+  ]
+
+  get camera3drgb() {
+    return CameraModule.cameras.camera3d_rgb
+  }
+
+  get camera3ddepth() {
+    return CameraModule.cameras.camera3d_depth
+  }
 }
 </script>
 

@@ -11,17 +11,13 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop, Provide, Inject } from 'vue-property-decorator'
-import { namespace, Action, State } from 'vuex-class'
 
 import Navbar from '@/components/Navbar.vue'
 import GamepadDebugger from '@/components/GamepadDebugger.vue'
 
-import RosClient from '@/RosClient.ts'
-
+import GamepadManager from '@/utils/gamepad/GamepadManager'
+import RosClient from '@/utils/ros/RosClient.ts'
 import RosModule from '@/store/modules/ros'
-import { getModule } from 'vuex-module-decorators'
-
-const rosModule = getModule(RosModule)
 
 @Component({
   components: {
@@ -31,15 +27,16 @@ const rosModule = getModule(RosModule)
 })
 export default class App extends Vue {
   @Provide() rosClient = new RosClient()
+  @Provide() gamepadManager = new GamepadManager(this.rosClient)
 
   created() {
     this.rosClient.setListeners(
-      rosModule.onConnect,
-      rosModule.onDisconnect,
+      RosModule.onConnect,
+      RosModule.onDisconnect,
       () => {}
     )
 
-    this.rosClient.connect(rosModule.robotIP)
+    this.rosClient.connect(RosModule.robotIP)
   }
 }
 </script>

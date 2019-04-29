@@ -24,23 +24,20 @@ import Camera from '@/components/Camera.vue'
 import Map2D from '@/components/Map2D.vue'
 
 import CameraModule from '@/store/modules/camera'
-import { getModule } from 'vuex-module-decorators'
-
-const cameraModule = getModule(CameraModule)
 
 @Component({ components: { Camera, Dashboard, Map2D } })
 export default class Teleop extends Vue {
   get camera3drgb() {
     return {
-      type: cameraModule.cameras.camera3d_rgb.type,
-      topic: cameraModule.cameras.camera3d_rgb.topic,
+      type: CameraModule.cameras.camera3d_rgb.type,
+      topic: CameraModule.cameras.camera3d_rgb.topic,
     }
   }
 
   get camera3ddepth() {
     return {
-      type: cameraModule.cameras.camera3d_depth.type,
-      topic: cameraModule.cameras.camera3d_depth.topic,
+      type: CameraModule.cameras.camera3d_depth.type,
+      topic: CameraModule.cameras.camera3d_depth.topic,
     }
   }
 }

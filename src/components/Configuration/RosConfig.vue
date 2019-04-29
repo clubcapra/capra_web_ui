@@ -22,28 +22,25 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Inject } from 'vue-property-decorator'
-import RosClient from '@/RosClient'
+import { Vue, Component, Inject } from 'vue-property-decorator'
+import RosClient from '@/utils/ros/RosClient'
 
 import RosModule from '@/store/modules/ros'
-import { getModule } from 'vuex-module-decorators'
-
-const rosModule = getModule(RosModule)
 
 @Component
 export default class RosConfig extends Vue {
   @Inject('rosClient') rosClient!: RosClient
 
   get connectedClass() {
-    return rosModule.connected ? 'is-success' : 'is-danger'
+    return RosModule.connected ? 'is-success' : 'is-danger'
   }
 
   get currentIP() {
-    return rosModule.robotIP
+    return RosModule.robotIP
   }
 
   set currentIP(event: any) {
-    rosModule.setRobotIP(event.target.value)
+    RosModule.setRobotIP(event.target.value)
   }
 
   connect() {

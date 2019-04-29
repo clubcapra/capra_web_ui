@@ -1,13 +1,17 @@
 import Vue from 'vue'
-import Vuex, { Store } from 'vuex'
-
-// import modules from './modules'
+import Vuex, { Store, StoreOptions } from 'vuex'
 
 Vue.use(Vuex)
 
-const store = new Store({
-  strict: process.env.NODE_ENV !== 'production',
-  // modules,
-})
+interface RootState {
+  isDebug: boolean
+}
 
-export default store
+const store: StoreOptions<RootState> = {
+  strict: process.env.NODE_ENV !== 'production',
+  state: {
+    isDebug: true,
+  },
+}
+
+export default new Store<RootState>(store)

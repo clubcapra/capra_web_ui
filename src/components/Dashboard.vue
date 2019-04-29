@@ -12,15 +12,13 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash'
-
 import { Vue, Component, Prop, Inject } from 'vue-property-decorator'
+import { getModule } from 'vuex-module-decorators'
+
+import _mapValues from 'lodash/mapValues'
 
 import DashboardModule from '@/store/modules/dashboard'
-import { getModule } from 'vuex-module-decorators'
-import RosClient from '@/RosClient'
-
-const dashboardModule = getModule(DashboardModule)
+import RosClient from '@/utils/ros/RosClient'
 
 @Component
 export default class Dashboard extends Vue {
@@ -29,24 +27,24 @@ export default class Dashboard extends Vue {
   speed = 0
 
   get orientation() {
-    const orientation = dashboardModule.orientation.data
+    const orientation = DashboardModule.orientation.data
     const mapDirection = (dir: number) => dir.toFixed(4).padStart(6)
-    return _.mapValues(orientation, mapDirection)
+    return _mapValues(orientation, mapDirection)
   }
 
   get temp() {
-    return dashboardModule.temperature.data
+    return DashboardModule.temperature.data
   }
 
   mounted() {
     this.rosClient.subscribe(
-      dashboardModule.orientation.topic,
-      dashboardModule.setOrientation
+      DashboardModule.orientation.topic,
+      DashboardModule.setOrientation
     )
 
     this.rosClient.subscribe(
-      dashboardModule.temperature.topic,
-      dashboardModule.setTemperature
+      DashboardModule.temperature.topic,
+      DashboardModule.setTemperature
     )
 
     setInterval(() => {

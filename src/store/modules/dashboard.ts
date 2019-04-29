@@ -1,24 +1,23 @@
-import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
+import { Module, VuexModule, Mutation, getModule } from 'vuex-module-decorators'
 import store from '..'
+import { Vector3 } from '@/utils/math/types'
+import { TopicWithData } from '@/utils/ros/types'
 
-type Topic = { name: string; messageType: string }
-type Field = { topic: Topic; data: any }
-
-@Module({ dynamic: true, store, name: 'dsahboard', namespaced: true })
-export default class DashboardModule extends VuexModule {
-  orientation: Field = {
+@Module({ dynamic: true, store, name: 'dashboard', namespaced: true })
+class DashboardModule extends VuexModule {
+  orientation: TopicWithData<Vector3> = {
     topic: {
       name: '/capra/imu',
       messageType: 'sensor_msgs/Imu',
     },
-    data: <Vector3>{
+    data: {
       x: 0,
       y: 0,
       z: 0,
     },
   }
 
-  temperature: Field = {
+  temperature: TopicWithData<number> = {
     topic: {
       name: '/capra/imu',
       messageType: 'sensor_msgs/Imu',
@@ -26,7 +25,7 @@ export default class DashboardModule extends VuexModule {
     data: 0,
   }
 
-  speed: Field = {
+  speed: TopicWithData<number> = {
     topic: {
       name: '/capra/speed',
       messageType: 'vel',
@@ -40,12 +39,14 @@ export default class DashboardModule extends VuexModule {
   }
 
   @Mutation
-  setTemperature(temp: Number) {
+  setTemperature(temp: number) {
     this.temperature.data = temp
   }
 
   @Mutation
-  setSpeed(speed: Number) {
+  setSpeed(speed: number) {
     this.speed.data = speed
   }
 }
+
+export default getModule(DashboardModule)

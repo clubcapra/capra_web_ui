@@ -1,16 +1,22 @@
-import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
+import { Module, VuexModule, Mutation, getModule } from 'vuex-module-decorators'
 import store from '..'
 
 interface CameraMap {
   [cameraName: string]: CameraOptions
 }
 
-type Camera = { cameraName: string; options: CameraOptions }
+interface Camera {
+  cameraName: string
+  options: CameraOptions
+}
 
-type CameraOptions = { type: string; topic: string }
+interface CameraOptions {
+  type: string
+  topic: string
+}
 
 @Module({ dynamic: true, store, name: 'camera', namespaced: true })
-export default class CameraModule extends VuexModule {
+class CameraModule extends VuexModule {
   videoServerIP = 'localhost:8080'
 
   cameras: CameraMap = {
@@ -40,3 +46,5 @@ export default class CameraModule extends VuexModule {
     this.cameras = { ...this.cameras, [payload.cameraName]: { type, topic } }
   }
 }
+
+export default getModule(CameraModule)

@@ -1,4 +1,4 @@
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production' ? '/takin-ui-ts/' : '/',
+  publicPath: '/Takin-UI',
   productionSourceMap: false,
 }

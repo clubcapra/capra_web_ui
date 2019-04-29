@@ -1,18 +1,6 @@
-import { Ros, Topic, Message } from 'roslib'
-
-type TopicOptions = { name: string; messageType: string }
-
-class RegisteredTopic {
-  handlers: Array<Function> = []
-  listener: Topic | undefined | null
-  options: TopicOptions
-
-  constructor(options: TopicOptions, handler: Function) {
-    this.handlers = [handler]
-    this.listener = undefined
-    this.options = options
-  }
-}
+import { Ros, Topic, Message, Service, ServiceRequest } from 'roslib'
+import { TopicOptions } from './types'
+import RegisteredTopic from './RegisteredTopic'
 
 class RosClient {
   ros: Ros
@@ -23,7 +11,7 @@ class RosClient {
   }
 
   constructor(robotIP?: string) {
-    this.ros = new Ros({ url: undefined })
+    this.ros = new Ros({})
     if (robotIP) this.connect(robotIP)
   }
 
@@ -96,8 +84,22 @@ class RosClient {
       name,
       messageType,
     })
-    const message = new Message(payload)
-    topic.publish(message)
+
+    topic.publish(new Message(payload))
+  }
+
+  callService(name: string, serviceType: string, payload: any) {
+    const service = new Service({
+      ros: this.ros,
+      name: name,
+      serviceType: serviceType,
+    })
+
+    const request = new ServiceRequest(payload)
+
+    return new Promise((resolve, reject) => {
+      service.callService(request, resolve, reject)
+    })
   }
 
   unsubscribeAllTopics() {

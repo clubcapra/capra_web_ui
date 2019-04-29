@@ -1,16 +1,27 @@
 import CustomGamepad from './CustomGamepad'
-import { mapGamepadToTwist } from '@/utils/math'
+import { mapGamepadToTwist } from '@/utils/math/index'
+import RosClient from '@/utils/ros/RosClient'
 
-class GamepadManager {
+export default class GamepadManager {
   gamepads: Array<CustomGamepad> = []
+  ros: RosClient
 
-  constructor() {
+  constructor(ros: RosClient) {
+    this.ros = ros
+
     if (!(navigator.getGamepads instanceof Function))
       console.warn('This browser does not support gamepads.')
 
+    this.initEventListeners()
     this.scanGamepads()
-
     this.update()
+  }
+
+  initEventListeners() {
+    window.addEventListener('gamepadconnected', this
+      .handleConnected as EventListener)
+    window.addEventListener('gamepaddisconnected', this
+      .handleDisconnected as EventListener)
   }
 
   scanGamepads() {
@@ -23,7 +34,6 @@ class GamepadManager {
   }
 
   handleConnected = (e: GamepadEvent) => {
-    console.log('gamepad connected', e.gamepad)
     const gamepad = e.gamepad
     this.gamepads[gamepad.index] = new CustomGamepad(gamepad)
   }
@@ -45,30 +55,16 @@ class GamepadManager {
     const xAxis = gamepad.getAxis('left stick x')
     const yAxis = gamepad.getAxis('left stick y')
     const rightTrigger = gamepad.getButtonAxis('right trigger')
-    // console.log("TCL: GamepadManager -> handleGamepadInput -> rightTrigger", rightTrigger)
 
-    const cmd_vel = mapGamepadToTwist(xAxis, yAxis, rightTrigger ? 1 : 0);
-    console.log('linear', cmd_vel.linear, 'angular', cmd_vel.angular)
+    const cmd_vel = mapGamepadToTwist(xAxis, yAxis, rightTrigger ? 1 : 0)
   }
 
   update = () => {
     this.scanGamepads()
+
     const gamepad = this.gamepads[0]
     if (gamepad) this.handleGamepadInput(gamepad)
 
     requestAnimationFrame(this.update)
   }
 }
-
-const instance = new GamepadManager()
-
-window.addEventListener(
-  'gamepadconnected',
-  instance.handleConnected as EventListener
-)
-window.addEventListener(
-  'gamepaddisconnected',
-  instance.handleDisconnected as EventListener
-)
-
-export default instance

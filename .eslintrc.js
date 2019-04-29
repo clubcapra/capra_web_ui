@@ -2,18 +2,24 @@ const ifProduction = (a, b) => (process.env.NODE_ENV === 'production' ? a : b)
 
 module.exports = {
   root: true,
+
   env: {
     node: true,
   },
-  extends: ['plugin:vue/essential', '@vue/prettier', '@vue/typescript'],
+
+  extends: ['plugin:vue/recommended', '@vue/prettier', '@vue/typescript'],
+
   rules: {
-    'no-console': [ifProduction('error', 'off'), { allow: ['warn', 'error'] }],
-    'no-debugger': ifProduction('error', 'off'),
+    'no-console': [
+      'off',
+      {
+        allow: ['warn', 'error'],
+      },
+    ],
+    'no-debugger': 'off',
     'no-var': 'error',
-    //'no-unused-vars': ifProduction('error', 'warn'),
     'prettier/prettier': 'warn',
-    'vue/no-unused-components': ifProduction('error', 'warn'),
-    'vue/max-attributes-per-line': 'off',
+    'vue/no-unused-components': 'warn',
     'vue/html-self-closing': [
       'error',
       {
@@ -30,6 +36,7 @@ module.exports = {
       },
     ],
   },
+
   parserOptions: {
     parser: '@typescript-eslint/parser',
   },

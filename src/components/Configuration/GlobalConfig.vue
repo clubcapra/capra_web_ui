@@ -8,20 +8,21 @@
   </div>
 </template>
 
-<script>
-import Ros from './RosConfig'
-import Teleop from './TeleopConfig'
-import Camera from './CameraConfig'
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator'
 
-export default {
-  name: 'GlobalConfig',
-  inject: ['rosClient'],
+import Ros from './RosConfig.vue'
+import Teleop from './TeleopConfig.vue'
+import Camera from './CameraConfig.vue'
+
+@Component({
   components: {
     Ros,
     Teleop,
     Camera,
   },
-}
+})
+export default class GlobalConfig extends Vue {}
 </script>
 
 <style lang="scss" scoped>

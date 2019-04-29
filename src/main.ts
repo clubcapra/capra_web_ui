@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import '@/gamepad/GamepadManager'
+import '@/utils/gamepad/GamepadManager'
 
 library.add(faCircle)
 

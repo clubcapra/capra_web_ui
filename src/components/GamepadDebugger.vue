@@ -4,16 +4,13 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import debug from '@/gamepad/gamepadDebugger.ts'
-import GamepadManager from '@/gamepad/GamepadManager.ts'
-import CustomGamepad from '@/gamepad/CustomGamepad.ts'
 
-const ifdebug = true
+import debug from '@/utils/gamepad/gamepadDebugger.ts'
 
 @Component
 export default class GamepadDebugger extends Vue {
   mounted() {
-    if (ifdebug) {
+    if (this.$store.state.isDebug) {
       debug()
     }
   }

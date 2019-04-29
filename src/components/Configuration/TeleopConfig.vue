@@ -2,15 +2,13 @@
   <div class="section teleop-settings"><p class="title">Teleop</p></div>
 </template>
 
-<script>
-export default {
-  name: 'TeleopConfig',
-  data() {
-    return {
-      camera1: 'camera1',
-      camera2: 'camera2',
-    }
-  },
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator'
+
+@Component
+export default class TeleopConfig extends Vue {
+  camera1: string = 'camera1'
+  camera2: string = 'camera2'
 }
 </script>
 
