@@ -68,61 +68,61 @@
       "index": 10
     }
   },
-  "axesButtons": {
+  "axisButtons": {
     "dpad down": {
-      "axis": 7,
+      "index": 7,
       "direction": 1
     },
     "dpad left": {
-      "axis": 6,
+      "index": 6,
       "direction": -1
     },
     "dpad right": {
-      "axis": 6,
+      "index": 6,
       "direction": 1
     },
     "dpad up": {
-      "axis": 7,
+      "index": 7,
       "direction": -1
     },
     "left stick down": {
-      "axis": 1,
+      "index": 1,
       "direction": 1
     },
     "left stick left": {
-      "axis": 0,
+      "index": 0,
       "direction": -1
     },
     "left stick right": {
-      "axis": 0,
+      "index": 0,
       "direction": 1
     },
     "left stick up": {
-      "axis": 1,
+      "index": 1,
       "direction": -1
     },
     "left trigger": {
-      "axis": 2,
+      "index": 2,
       "direction": 1
     },
     "right stick down": {
-      "axis": 4,
+      "index": 4,
       "direction": 1
     },
     "right stick left": {
-      "axis": 3,
+      "index": 3,
       "direction": -1
     },
     "right stick right": {
-      "axis": 3,
+      "index": 3,
       "direction": 1
     },
     "right stick up": {
-      "axis": 4,
+      "index": 4,
       "direction": -1
     },
     "right trigger": {
-      "axis": 5,
+      "index": 5,
       "direction": 1
     }
   }

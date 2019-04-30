@@ -1,22 +1,20 @@
 import { Twist } from './types'
 
 export const mapGamepadToTwist = (
-  xAxis: number,
-  zAxis: number,
+  x: number,
+  z: number,
   factor: number
-) => {
-  const cmd_vel: Twist = {
+): Twist => {
+  return {
     linear: {
-      x: xAxis * factor,
+      x: x * factor,
       y: 0,
       z: 0,
     },
     angular: {
       x: 0,
       y: 0,
-      z: zAxis * factor,
+      z: z * factor,
     },
   }
-
-  return cmd_vel
 }

@@ -1,20 +1,60 @@
 import mappings from './mappings'
-import { GamepadMapping } from './mappings/types'
-
-type NativeGamepad = Gamepad
+import {
+  GamepadMapping,
+  NativeGamepad,
+  ButtonNames,
+  AxisNames,
+  StickDirections,
+  Button,
+  Axis,
+  AxisButton,
+} from './mappings/types'
 
 export default class CustomGamepad {
-  gamepad: NativeGamepad
-  mapping: GamepadMapping
-
   private readonly axisButtonRange = 0.75
+
+  private gamepad: NativeGamepad
+  private mapping: GamepadMapping
 
   constructor(gamepad: NativeGamepad) {
     this.gamepad = gamepad
     this.mapping = this.detectMapping(gamepad.id, navigator.userAgent)
   }
 
-  detectMapping(id: string, browser: string) {
+  getButtonPressed = (name: ButtonNames | StickDirections) => {
+    const button = this.mapping.buttons[name as ButtonNames]
+    if (button) {
+      return this.getNativeButton(button).pressed
+    }
+
+    const axisButton = this.mapping.axisButtons[name as StickDirections]
+    if (axisButton) {
+      const axis = this.getNativeAxis(axisButton)
+      return axis < -this.axisButtonRange || axis > this.axisButtonRange
+    }
+
+    return false
+  }
+
+  getButtonValue = (name: ButtonNames): number => {
+    const button = this.mapping.buttons[name]
+    return button ? this.getNativeButton(button).value : 0
+  }
+
+  getAxis = (name: AxisNames) => {
+    const axis = this.mapping.axes[name]
+    return axis ? this.getNativeAxis(axis) : 0
+  }
+
+  private getNativeAxis(axis: Axis | AxisButton) {
+    return this.gamepad.axes[axis.index]
+  }
+
+  private getNativeButton(button: Button) {
+    return this.gamepad.buttons[button.index]
+  }
+
+  private detectMapping(id: string, browser: string) {
     const compatibleMappings = mappings.filter(mapping =>
       this.isCompatible(mapping, id, browser)
     )
@@ -22,52 +62,15 @@ export default class CustomGamepad {
     return compatibleMappings.length > 0 ? compatibleMappings[0] : mappings[0]
   }
 
-  isCompatible = (mapping: GamepadMapping, id: string, browser: string) =>
+  private isCompatible = (
+    mapping: GamepadMapping,
+    id: string,
+    browser: string
+  ) =>
     mapping.supported.some(
       supported =>
         id.includes(supported.id) &&
         browser.includes(supported.os) &&
         browser.includes(browser)
     )
-
-  getButtonPressed = (name: string) => {
-    const { axes, buttons } = this.gamepad
-
-    const button = this.mapping.buttons[name]
-    if (button) {
-      return buttons[button.index].pressed
-    }
-
-    const axisButton = this.mapping.axesButtons[name]
-    if (axisButton) {
-      const axis = axes[axisButton.axis]
-      return axisButton.direction < 0
-        ? axis < -this.axisButtonRange
-        : axis > this.axisButtonRange
-    }
-
-    return false
-  }
-
-  getButtonAxis = (name: string): number => {
-    const { axes, buttons } = this.gamepad
-
-    const button = this.mapping.buttons[name]
-    if (button) {
-      return buttons[button.index].value
-    }
-
-    const axisButton = this.mapping.axesButtons[name]
-    if (axisButton) {
-      const axis = axes[axisButton.axis]
-      return axis
-    }
-
-    return 0
-  }
-
-  getAxis = (name: string) => {
-    const axis = this.mapping.axes[name]
-    return axis ? this.gamepad.axes[axis.index] : 0
-  }
 }

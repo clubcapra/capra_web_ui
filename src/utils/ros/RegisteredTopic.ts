@@ -3,12 +3,12 @@ import { TopicOptions } from './types'
 
 export default class RegisteredTopic {
   handlers: Array<Function> = []
-  listener: Topic | undefined | null
+  topic: Topic | undefined | null
   options: TopicOptions
 
   constructor(options: TopicOptions, handler: Function) {
     this.handlers = [handler]
-    this.listener = undefined
+    this.topic = undefined
     this.options = options
   }
 }

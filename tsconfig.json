@@ -13,6 +13,7 @@
     "baseUrl": ".",
     "emitDecoratorMetadata": true,
     "noEmitHelpers": true,
+    "strictNullChecks": true,
     "types": [
       "webpack-env",
       "node",
