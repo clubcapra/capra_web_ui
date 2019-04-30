@@ -5,6 +5,7 @@
       <router-view />
     </div>
     <gamepad-debugger />
+    <takin-footer />
   </div>
 </template>
 
@@ -13,6 +14,7 @@ import 'reflect-metadata'
 import { Vue, Component, Prop, Provide, Inject } from 'vue-property-decorator'
 
 import Navbar from '@/components/Navbar.vue'
+import TakinFooter from '@/components/Footer.vue'
 import GamepadDebugger from '@/components/GamepadDebugger.vue'
 
 import GamepadManager from '@/utils/gamepad/GamepadManager'
@@ -23,6 +25,7 @@ import RosModule from '@/store/modules/ros'
   components: {
     Navbar,
     GamepadDebugger,
+    TakinFooter,
   },
 })
 export default class App extends Vue {
