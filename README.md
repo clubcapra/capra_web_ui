@@ -65,6 +65,12 @@ npm install -g yarn
 yarn install
 ```
 
+### Gives a nice ui to launch all these commands and also other goodies like analyzing build and dependeny management
+
+```bash
+vue ui
+```
+
 ### Compiles and hot-reloads for development
 
 ```bash
@@ -84,6 +90,8 @@ yarn run lint
 ```
 
 ## ROS dependencies
+
+We might move to https://github.com/RobotWebTools/webrtc_ros instead of web_video_server
 
 ```bash
 sudo apt install ros-kinetic-rosbridge-suite
