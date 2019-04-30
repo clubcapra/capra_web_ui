@@ -12,9 +12,6 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.17",
     "@fortawesome/free-solid-svg-icons": "^5.8.1",
     "@fortawesome/vue-fontawesome": "^0.1.6",
-    "@types/lodash": "^4.14.123",
-    "@types/node": "^11.13.8",
-    "@types/roslib": "^0.18.3",
     "bulma": "^0.7.4",
     "bulmaswatch": "^0.7.2",
     "core-js": "^2.6.5",
@@ -26,13 +23,13 @@
     "roslib": "^1.0.1",
     "vue": "^2.6.10",
     "vue-bulma-components": "^3.2.0",
-    "vue-class-component": "^7.0.2",
-    "vue-property-decorator": "^8.1.0",
     "vue-router": "^3.0.6",
-    "vuex": "^3.1.0",
-    "vuex-module-decorators": "^0.9.8"
+    "vuex": "^3.1.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.123",
+    "@types/node": "^11.13.8",
+    "@types/roslib": "^0.18.3",
     "@vue/cli-plugin-babel": "^3.6.0",
     "@vue/cli-plugin-eslint": "^3.6.0",
     "@vue/cli-plugin-typescript": "^3.6.0",
@@ -45,6 +42,9 @@
     "node-sass": "^4.12.0",
     "sass-loader": "^7.1.0",
     "typescript": "^3.4.5",
-    "vue-template-compiler": "^2.6.10"
+    "vue-template-compiler": "^2.6.10",
+    "vue-class-component": "^7.0.2",
+    "vue-property-decorator": "^8.1.0",
+    "vuex-module-decorators": "^0.9.8"
   }
 }
