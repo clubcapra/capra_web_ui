@@ -29,11 +29,12 @@ export default class Camera extends Vue {
     return RosModule.connected
   }
 
-  stream() {
+  get stream() {
     const url = `http://${CameraModule.videoServerIP}/stream
     ?topic=${this.topic}
     &type=${this.type}
     `
+
     return this.connected ? url : ''
   }
 }

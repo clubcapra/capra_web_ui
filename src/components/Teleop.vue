@@ -1,8 +1,8 @@
 <template>
   <div class="teleop">
     <div class="main-view">
-      <Camera :type="camera3drgb.type" :topic="camera3drgb.topic" />
-      <Camera :type="camera3ddepth.type" :topic="camera3ddepth.topic" />
+      <Camera :type="leftCamera.type" :topic="leftCamera.topic" />
+      <Camera :type="rightCamera.type" :topic="rightCamera.topic" />
     </div>
     <div class="bottom-panel">
       <Dashboard />
@@ -24,21 +24,16 @@ import Camera from '@/components/Camera.vue'
 import Map2D from '@/components/Map2D.vue'
 
 import CameraModule from '@/store/modules/camera'
+import TeleopModule from '@/store/modules/teleop'
 
 @Component({ components: { Camera, Dashboard, Map2D } })
 export default class Teleop extends Vue {
-  get camera3drgb() {
-    return {
-      type: CameraModule.cameras.camera3d_rgb.type,
-      topic: CameraModule.cameras.camera3d_rgb.topic,
-    }
+  get leftCamera() {
+    return CameraModule.cameras[TeleopModule.leftCamera]
   }
 
-  get camera3ddepth() {
-    return {
-      type: CameraModule.cameras.camera3d_depth.type,
-      topic: CameraModule.cameras.camera3d_depth.topic,
-    }
+  get rightCamera() {
+    return CameraModule.cameras[TeleopModule.rightCamera]
   }
 }
 </script>

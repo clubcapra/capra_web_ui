@@ -1,34 +1,33 @@
-import { Module, VuexModule, Mutation, getModule } from 'vuex-module-decorators'
+import {
+  Module,
+  VuexModule,
+  Mutation,
+  getModule,
+  Action,
+} from 'vuex-module-decorators'
+import { CameraMap, CameraType, Camera } from './camera.types'
 import store from '..'
-
-interface CameraMap {
-  [cameraName: string]: CameraOptions
-}
-
-interface Camera {
-  cameraName: string
-  options: CameraOptions
-}
-
-interface CameraOptions {
-  type: string
-  topic: string
-}
 
 @Module({ dynamic: true, store, name: 'camera', namespaced: true })
 class CameraModule extends VuexModule {
   videoServerIP = 'localhost:8080'
 
   cameras: CameraMap = {
-    camera3d_rgb: {
-      type: 'mjpeg',
+    camera1: {
+      type: CameraType.MJPEG,
       topic: '/capra/camera_3d/rgb/image_raw',
     },
-    camera3d_depth: {
-      type: 'mjpeg',
+    camera2: {
+      type: CameraType.MJPEG,
       topic: '/capra/camera_3d/depth/image_raw',
     },
   }
+
+  typesForSelect = [
+    { disabled: false, value: CameraType.MJPEG },
+    { disabled: false, value: CameraType.VP8 },
+    { disabled: true, value: CameraType.WEB_RTC },
+  ]
 
   @Mutation
   setTopic(payload: { cameraName: string; topic: string }) {
@@ -36,13 +35,13 @@ class CameraModule extends VuexModule {
   }
 
   @Mutation
-  setType(payload: { cameraName: string; type: string }) {
+  setType(payload: { cameraName: string; type: CameraType }) {
     this.cameras[payload.cameraName].type = payload.type
   }
 
   @Mutation
   addCamera(payload: Camera) {
-    const { type = 'mjpeg', topic = '' } = payload.options
+    const { type = CameraType.MJPEG, topic = '' } = payload.options
     this.cameras = { ...this.cameras, [payload.cameraName]: { type, topic } }
   }
 }

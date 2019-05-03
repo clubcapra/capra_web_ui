@@ -9,9 +9,13 @@
       <b-control>
         <b-select is-small>
           <select v-model="type">
-            <option v-for="key in types" :key="key" :value="key">{{
-              key
-            }}</option>
+            <option
+              v-for="key in types"
+              :key="key.value"
+              :value="key.value"
+              :disabled="key.disabled"
+              >{{ key.value }}</option
+            >
           </select>
         </b-select>
       </b-control>
@@ -25,6 +29,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import Card from '@/components/UI/Card/Card.vue'
 
 import CameraModule from '@/store/modules/camera'
+import { CameraType } from '../../store/modules/camera.types'
 
 @Component({ components: { Card } })
 export default class CameraCard extends Vue {
@@ -47,17 +52,17 @@ export default class CameraCard extends Vue {
   }
 
   get types() {
-    return ['mjpeg', 'vp8']
+    return CameraModule.typesForSelect
   }
 
   get type() {
     return this.camera.type
   }
 
-  set type(value: any) {
+  set type(value: string) {
     CameraModule.setType({
       cameraName: this.cameraName,
-      type: value,
+      type: value as CameraType,
     })
   }
 }
