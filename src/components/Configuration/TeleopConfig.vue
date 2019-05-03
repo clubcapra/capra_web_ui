@@ -16,6 +16,7 @@ export default class TeleopConfig extends Vue {
 .teleop-settings {
   display: grid;
   grid-template-rows: auto auto;
+
   .camera-container {
     display: grid;
     grid-template-columns: 1fr 1fr;

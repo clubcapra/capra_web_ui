@@ -1,12 +1,12 @@
 <template>
-  <div class="section">
-    <p class="title">Camera</p>
+  <b-section>
+    <b-title>Camera</b-title>
     <b-columns class="camera-container">
       <b-column v-for="(camera, key) in cameras" :key="key">
         <camera-card class="camera" :title="key" :camera-name="key" />
       </b-column>
     </b-columns>
-  </div>
+  </b-section>
 </template>
 
 <script lang="ts">

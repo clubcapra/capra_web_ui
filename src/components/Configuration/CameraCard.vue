@@ -1,11 +1,11 @@
 <template>
   <card :title="title">
-    <div class="field">
-      <label>Topic</label> <b-input v-model="topic" is-small />
-    </div>
+    <b-field>
+      <b-label>Topic</b-label> <b-input v-model="topic" is-small />
+    </b-field>
 
-    <div class="field">
-      <label>Type</label>
+    <b-field>
+      <b-label>Type</b-label>
       <b-control>
         <b-select is-small>
           <select v-model="type">
@@ -15,7 +15,7 @@
           </select>
         </b-select>
       </b-control>
-    </div>
+    </b-field>
   </card>
 </template>
 

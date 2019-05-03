@@ -41,7 +41,7 @@ class RosClient {
   }
 
   callService(options: ServiceOptions, payload: any) {
-    this.serviceManager.callService(options, payload)
+    return this.serviceManager.callService(options, payload)
   }
 
   setListeners(onConnection: Function, onClose: Function, onError: Function) {

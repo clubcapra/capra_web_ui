@@ -12,8 +12,8 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop, Provide, Inject } from 'vue-property-decorator'
 
-import Navbar from '@/components/Navbar.vue'
-import TakinFooter from '@/components/Footer.vue'
+import Navbar from '@/components/UI/layout/Navbar.vue'
+import TakinFooter from '@/components/UI/layout/Footer.vue'
 
 import GamepadManager from '@/utils/gamepad/GamepadManager'
 import RosClient from '@/utils/ros/RosClient.ts'
@@ -58,6 +58,8 @@ $label-color: $text;
 
 @import '~bulma';
 
+$footer-height: 28px;
+
 html {
   height: 100%;
   overflow-y: auto;
@@ -67,12 +69,12 @@ body {
   min-height: 100%;
   display: grid;
   align-content: stretch;
-  // background: $red;
 }
 
 #container {
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto 1fr $footer-height;
+  height: 100vh;
   overflow: auto;
 
   #view {
