@@ -54,7 +54,7 @@ export default class Teleop extends Vue {
     grid-template-columns: 1fr 1fr;
 
     > div {
-      box-shadow: inset 0 0 0 1px #000000;
+      box-shadow: inset 0 0 0 0.5px #000000;
     }
   }
 
@@ -63,7 +63,7 @@ export default class Teleop extends Vue {
     grid-template-columns: 1fr 1fr 1fr;
 
     > div {
-      box-shadow: inset 0 0 0 1px #000000;
+      box-shadow: inset 0 0 0 0.5px #000000;
     }
   }
 }

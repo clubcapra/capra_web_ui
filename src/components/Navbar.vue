@@ -1,5 +1,5 @@
 <template>
-  <div id="header" class="tabs">
+  <div id="header" class="tabs is-small">
     <ul>
       <router-link active-class="is-active" tag="li" to="/teleop">
         <a>Teleop</a>

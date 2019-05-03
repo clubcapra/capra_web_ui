@@ -888,7 +888,7 @@
   resolved "https://registry.yarnpkg.com/@vue/cli-overlay/-/cli-overlay-3.7.0.tgz#0f520c98e1be7618b7a68b768666fffa1f589f94"
   integrity sha512-QO1rsBVKPZrt+5rHSZXc5UEPVwVgiayOk/cDl+GwSJoR36gnWs1wy1oUX1Awd7QpGiMBK/1+A7aAGhfzKR23Cg==
 
-"@vue/cli-plugin-babel@^3.6.0":
+"@vue/cli-plugin-babel@^3.7.0":
   version "3.7.0"
   resolved "https://registry.yarnpkg.com/@vue/cli-plugin-babel/-/cli-plugin-babel-3.7.0.tgz#2be01288980b058f097d26812f65d4d4e8136cca"
   integrity sha512-QysJYerzaGzvJ5iT61KpE4hFHiDU8NQ7QjSwIkOAJAx0KY8o0WCjLpAVvjmKtZqNXPBc5Jc3P+eeaz9qQPWNeQ==
@@ -899,7 +899,7 @@
     babel-loader "^8.0.5"
     webpack ">=4 < 4.29"
 
-"@vue/cli-plugin-eslint@^3.6.0":
+"@vue/cli-plugin-eslint@^3.7.0":
   version "3.7.0"
   resolved "https://registry.yarnpkg.com/@vue/cli-plugin-eslint/-/cli-plugin-eslint-3.7.0.tgz#6b495fe3c82ec94347c424a9de3cca467a53f90e"
   integrity sha512-oFdOLQu6PQKbxinF55XH1lH8hgiDRyb3gIvSKu5YV5r6dnsRdKDxOKLE1PTbaZzQot3Ny/Y7gk025x1qpni3IA==
@@ -913,7 +913,7 @@
     eslint "^4.19.1"
     eslint-plugin-vue "^4.7.1"
 
-"@vue/cli-plugin-typescript@^3.6.0":
+"@vue/cli-plugin-typescript@^3.7.0":
   version "3.7.0"
   resolved "https://registry.yarnpkg.com/@vue/cli-plugin-typescript/-/cli-plugin-typescript-3.7.0.tgz#524fa4873e52a20fbb1c86d099ff0177bea8244e"
   integrity sha512-7XsJ4+LdAyP/MKX3p171fcVOH4mQAYYciM5TdaUkDsw9vvp8cHpK4FwP4o2BO4OjORsDqqyUy5WLtMh/4YB+Qg==
@@ -926,7 +926,7 @@
     tslint "^5.15.0"
     webpack ">=4 < 4.29"
 
-"@vue/cli-service@^3.6.0":
+"@vue/cli-service@^3.7.0":
   version "3.7.0"
   resolved "https://registry.yarnpkg.com/@vue/cli-service/-/cli-service-3.7.0.tgz#af56526cea64042b48c50a15a9d33c84a71abd31"
   integrity sha512-RMVwpCE3EB9cL9VAgu1Dy/tGxz5zrVG4UMPk5t4KDu8jJhHxvcAzgIEIfS6KRp0AKfA6iDW4J0NU0fopnpyL+g==
@@ -1866,11 +1866,6 @@ bulma@^0.7.4:
   version "0.7.4"
   resolved "https://registry.yarnpkg.com/bulma/-/bulma-0.7.4.tgz#7e74512e9118d9799021339e67e365ee0ac4f3f9"
   integrity sha512-krG2rP6eAX1WE0sf6O0SC/FUVSOBX4m1PBC2+GKLpb2pX0qanaDqcv9U2nu75egFrsHkI0zdWYuk/oGwoszVWg==
-
-bulmaswatch@^0.7.2:
-  version "0.7.2"
-  resolved "https://registry.yarnpkg.com/bulmaswatch/-/bulmaswatch-0.7.2.tgz#99b05844123dd9dca2cb1f271b54c8bc0c49e421"
-  integrity sha512-qickVpky/vv/PX/G7DVz1UpYPncJIjoxbovVELf48tgZ7Fd8UAzfWLSzniPWHwPt1YAq/UX9CGTtcl0AbxSMYg==
 
 bytes@3.0.0:
   version "3.0.0"
@@ -3985,11 +3980,6 @@ functional-red-black-tree@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
-
-gamepad-api-mappings@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/gamepad-api-mappings/-/gamepad-api-mappings-4.1.0.tgz#271a688d80ac8a01d7b76d308d7c5a4870b849d8"
-  integrity sha1-JxpojYCsigHXt20wjXxaSHC4Sdg=
 
 gauge@~2.7.3:
   version "2.7.4"

@@ -3,8 +3,18 @@
     <div class="field">
       <label>Topic</label> <b-input v-model="topic" is-small />
     </div>
+
     <div class="field">
-      <label>Type</label> <b-input v-model="type" is-small />
+      <label>Type</label>
+      <b-control>
+        <b-select is-small>
+          <select v-model="type">
+            <option v-for="key in types" :key="key" :value="key">{{
+              key
+            }}</option>
+          </select>
+        </b-select>
+      </b-control>
     </div>
   </card>
 </template>
@@ -36,14 +46,18 @@ export default class CameraCard extends Vue {
     })
   }
 
+  get types() {
+    return ['mjpeg', 'vp8']
+  }
+
   get type() {
     return this.camera.type
   }
 
-  set type(event: any) {
+  set type(value: any) {
     CameraModule.setType({
       cameraName: this.cameraName,
-      type: event.target.value,
+      type: value,
     })
   }
 }

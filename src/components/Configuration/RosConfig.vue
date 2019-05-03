@@ -1,24 +1,28 @@
 <template>
-  <div class="section">
-    <p class="title">ROS</p>
-    <div class="field">
-      <label class="label"> Robot IP </label>
-      <div class="field has-addons">
-        <div class="control">
+  <b-section>
+    <b-title>ROS</b-title>
+    <b-field>
+      <b-label> Robot IP </b-label>
+      <b-field has-addons>
+        <b-control>
           <input
             v-model="currentIP"
             :class="`input is-small ${connectedClass}`"
             @keydown:enter="connect"
           />
-        </div>
-        <div class="control">
-          <button :class="`button is-small ${connectedClass}`" @click="connect">
-            connect
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+        </b-control>
+        <b-control>
+          <b-button
+            is-small
+            :is-danger="notConnected"
+            :is-success="connected"
+            @click="connect"
+            >Connect</b-button
+          >
+        </b-control>
+      </b-field>
+    </b-field>
+  </b-section>
 </template>
 
 <script lang="ts">
@@ -32,7 +36,16 @@ export default class RosConfig extends Vue {
   @Inject('rosClient') rosClient!: RosClient
 
   get connectedClass() {
+    // TODO use this when my PR in vue-bulma-components is merged and released
     return RosModule.connected ? 'is-success' : 'is-danger'
+  }
+
+  get connected() {
+    return RosModule.connected
+  }
+
+  get notConnected() {
+    return !RosModule.connected
   }
 
   get currentIP() {
