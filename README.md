@@ -11,9 +11,9 @@ It currently uses electron to run, but it isn't necessary for now. This could be
   - vuex
     - vuex-module-decorators
   - vue-router
-  - electron-vue
   - vue-class-component
   - vue-property-decorator
+  - vue-cli
 - yarn
 - css grid, sass/scss
 - bulma
@@ -91,7 +91,7 @@ yarn run lint
 
 ## ROS dependencies
 
-We might move to https://github.com/RobotWebTools/webrtc_ros instead of web_video_server
+We might move to <https://github.com/RobotWebTools/webrtc_ros> instead of web_video_server
 
 ```bash
 sudo apt install ros-kinetic-rosbridge-suite
