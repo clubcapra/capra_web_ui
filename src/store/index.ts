@@ -10,7 +10,7 @@ interface RootState {
 const store: StoreOptions<RootState> = {
   strict: process.env.NODE_ENV !== 'production',
   state: {
-    isDebug: false,
+    isDebug: true,
   },
 }
 

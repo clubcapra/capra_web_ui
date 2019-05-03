@@ -5,15 +5,11 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 
-import debug from '@/utils/gamepad/gamepadDebugger.ts'
+import padDebugger from '@/utils/gamepad/debugger/GamepadDebugger.ts'
 
 @Component
 export default class GamepadDebugger extends Vue {
-  mounted() {
-    if (this.$store.state.isDebug) {
-      debug()
-    }
-  }
+  gamepadDebugger: padDebugger = new padDebugger()
 }
 </script>
 

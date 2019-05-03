@@ -1,12 +1,5 @@
 import { GamepadMapping } from './types'
 
-const mappings: GamepadMapping[] = [
-  //xbox360
-  require('./xbox360-chrome-windows-osx.json'),
-  require('./xbox360-firefox-linux.json'),
-
-  //xbone
-  require('./xbone-chrome-linux.json'),
-]
+const mappings: GamepadMapping[] = [require('./standard.json')]
 
 export default mappings

@@ -2,11 +2,13 @@ import { TopicOptions } from '@/utils/ros/types'
 import CustomGamepad from './CustomGamepad'
 import { mapGamepadToTwist } from '@/utils/math/index'
 import RosClient from '@/utils/ros/RosClient'
-import { ButtonNames, StickDirections } from './mappings/types'
+import { Stick, GamepadBtn } from './mappings/types'
 
 export default class GamepadManager {
   private gamepads: Array<CustomGamepad> = []
   private ros: RosClient
+
+  count = 0
 
   constructor(ros: RosClient) {
     this.ros = ros
@@ -14,17 +16,15 @@ export default class GamepadManager {
     if (!(navigator.getGamepads instanceof Function))
       console.warn('This browser does not support gamepads.')
 
-    // setInterval(this.scanGamepads, 500)
-
     this.initEventListeners()
     this.update()
   }
 
   private initEventListeners() {
     window.addEventListener('gamepadconnected', this
-      .handleConnected as EventListener)
+      .onGamepadConnected as EventListener)
     window.addEventListener('gamepaddisconnected', this
-      .handleDisconnected as EventListener)
+      .onGamepadDisconnected as EventListener)
   }
 
   /**
@@ -32,19 +32,38 @@ export default class GamepadManager {
    * @param gamepad
    */
   private handleGamepadInput(gamepad: CustomGamepad) {
-    if (gamepad.getButtonPressed('a')) {
+    if (gamepad.getButtonPressed(GamepadBtn.A)) {
       console.log('a pressed')
     }
 
-    const xAxis = gamepad.getAxis('left stick x')
-    const yAxis = gamepad.getAxis('left stick y')
-    const rightTrigger = gamepad.getButtonValue('right trigger')
+    const leftStick = gamepad.getStick(Stick.Left)
+    const rt = gamepad.getButtonValue(GamepadBtn.RT)
 
-    const twist = mapGamepadToTwist(xAxis, yAxis, rightTrigger)
+    const twist = mapGamepadToTwist(
+      leftStick.horizontal,
+      leftStick.vertical,
+      rt
+    )
+
+    this.count++
+
+    if (this.count >= 5) {
+      this.count = 0
+      // console.log(
+      //   'linear',
+      //   twist.linear,
+      //   'angular',
+      //   twist.angular,
+      //   'factor',
+      //   rt
+      // )
+    }
+
     const topic: TopicOptions = {
       name: '/cmd_vel',
       messageType: 'geometry_msgs/Twist',
     }
+
     this.ros.publish(topic, twist)
   }
 
@@ -57,22 +76,17 @@ export default class GamepadManager {
   }
 
   private scanGamepads() {
-    const navigatorGamepads = [...navigator.getGamepads()]
-
-    this.gamepads = navigatorGamepads
+    this.gamepads = [...navigator.getGamepads()]
       .filter((g): g is Gamepad => Boolean(g))
-      .map(gamepad => {
-        return new CustomGamepad(gamepad)
-      })
+      .map(g => new CustomGamepad(g))
   }
 
-  private handleConnected = (e: GamepadEvent) => {
+  private onGamepadConnected = (e: GamepadEvent) => {
     const gamepad = e.gamepad
-    console.log(gamepad)
     this.gamepads[gamepad.index] = new CustomGamepad(gamepad)
   }
 
-  private handleDisconnected = (e: GamepadEvent) => {
+  private onGamepadDisconnected = (e: GamepadEvent) => {
     const gamepad = e.gamepad
     delete this.gamepads[gamepad.index]
   }
