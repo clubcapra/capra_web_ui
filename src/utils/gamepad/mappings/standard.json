@@ -2,11 +2,15 @@
   "sticks": {
     "leftStick": {
       "horizontal": 0,
-      "vertical": 1
+      "isUpPositive": false,
+      "vertical": 1,
+      "isRightPositive": true
     },
     "rightStick": {
       "horizontal": 2,
-      "vertical": 3
+      "isUpPositive": false,
+      "vertical": 3,
+      "isRightPositive": true
     }
   },
   "buttons": {

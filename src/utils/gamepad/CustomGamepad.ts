@@ -8,7 +8,6 @@ import {
 } from './mappings/types'
 
 export default class CustomGamepad {
-  private readonly AXIS_PRECISION = 3
   private gamepad: Gamepad
   private mapping: GamepadMapping
 
@@ -17,37 +16,42 @@ export default class CustomGamepad {
     this.mapping = this.detectMapping(gamepad)
   }
 
-  getButtonPressed = (button: GamepadBtn | Dpad): boolean => {
+  getButtonPressed(button: GamepadBtn | Dpad): boolean {
     const index = this.mapping.buttons[button]
-    const nativeButton = this.getNativeButton(index)
+    const nativeButton = this.getButton(index)
     return typeof nativeButton == 'number'
       ? nativeButton > 0.1
       : nativeButton.pressed
   }
 
-  getButtonValue = (button: GamepadBtn | Dpad): number => {
+  getButtonValue(button: GamepadBtn | Dpad): number {
     const index = this.mapping.buttons[button]
-    const nativeButton = this.getNativeButton(index)
+    const nativeButton = this.getButton(index)
+
     return typeof nativeButton == 'number' ? nativeButton : nativeButton.value
   }
 
-  getStick = (stick: Stick): StickAxis => {
+  getStick(stick: Stick): StickAxis {
     const stickMapping = this.mapping.sticks[stick]
+
+    const horizontal = this.getAxis(stickMapping.horizontal)
+    const vertical = this.getAxis(stickMapping.vertical)
+
     return {
-      horizontal: this.getNativeAxis(stickMapping.horizontal),
-      vertical: this.getNativeAxis(stickMapping.vertical),
+      horizontal: stickMapping.isRightPositive ? horizontal : -horizontal,
+      vertical: stickMapping.isUpPositive ? vertical : -vertical,
     }
   }
 
-  private getNativeAxis(axis: number) {
+  private getAxis(axis: number) {
     return this.gamepad.axes[axis]
   }
 
-  private getNativeButton(button: number) {
+  private getButton(button: number) {
     return this.gamepad.buttons[button]
   }
 
-  private detectMapping(gamepad: Gamepad) {
+  private detectMapping(_gamepad: Gamepad) {
     return mappings[0]
   }
 }

@@ -3,7 +3,7 @@ export interface GamepadMapping {
   buttons: ButtonMapping
 }
 
-type StickMapping = { [key in Stick]: StickAxis }
+type StickMapping = { [key in Stick]: StickAxisMapping }
 
 type ButtonMapping = { [key in GamepadBtn | Dpad]: number }
 
@@ -42,6 +42,14 @@ export interface StickDirection {
 }
 
 export interface StickAxis {
+  [key: string]: number
   horizontal: number
   vertical: number
+}
+
+export interface StickAxisMapping {
+  horizontal: number
+  isUpPositive: boolean
+  vertical: number
+  isRightPositive: boolean
 }

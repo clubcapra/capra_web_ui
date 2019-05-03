@@ -1,8 +1,9 @@
+import { mapGamepadToTwist } from '@/utils/math/index'
+import { Twist } from '@/utils/math/types'
+import RosClient from '@/utils/ros/RosClient'
 import { TopicOptions } from '@/utils/ros/types'
 import CustomGamepad from './CustomGamepad'
-import { mapGamepadToTwist } from '@/utils/math/index'
-import RosClient from '@/utils/ros/RosClient'
-import { Stick, GamepadBtn } from './mappings/types'
+import { GamepadBtn, Stick } from './mappings/types'
 
 export default class GamepadManager {
   private gamepads: Array<CustomGamepad> = []
@@ -45,19 +46,7 @@ export default class GamepadManager {
       rt
     )
 
-    this.count++
-
-    if (this.count >= 5) {
-      this.count = 0
-      // console.log(
-      //   'linear',
-      //   twist.linear,
-      //   'angular',
-      //   twist.angular,
-      //   'factor',
-      //   rt
-      // )
-    }
+    // this.logTwist(twist, rt)
 
     const topic: TopicOptions = {
       name: '/cmd_vel',
@@ -67,8 +56,15 @@ export default class GamepadManager {
     this.ros.publish(topic, twist)
   }
 
+  private logTwist(twist: Twist, rt: number) {
+    if (++this.count <= 2) return
+    this.count = 0
+    console.log('linear', twist.linear, 'angular', twist.angular, 'factor', rt)
+  }
+
   private update = () => {
     this.scanGamepads()
+
     const gamepad = this.gamepads[0]
     if (gamepad) this.handleGamepadInput(gamepad)
 

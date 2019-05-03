@@ -4,7 +4,6 @@
     <div id="view">
       <router-view />
     </div>
-    <gamepad-debugger />
     <takin-footer />
   </div>
 </template>
@@ -15,7 +14,6 @@ import { Vue, Component, Prop, Provide, Inject } from 'vue-property-decorator'
 
 import Navbar from '@/components/Navbar.vue'
 import TakinFooter from '@/components/Footer.vue'
-import GamepadDebugger from '@/components/GamepadDebugger.vue'
 
 import GamepadManager from '@/utils/gamepad/GamepadManager'
 import RosClient from '@/utils/ros/RosClient.ts'
@@ -24,7 +22,6 @@ import RosModule from '@/store/modules/ros'
 @Component({
   components: {
     Navbar,
-    GamepadDebugger,
     TakinFooter,
   },
 })
