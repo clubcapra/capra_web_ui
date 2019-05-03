@@ -1,6 +1,6 @@
 <template>
   <div class="victim">
-    <Camera :type="camera3drgb.type" :topic="camera3drgb.topic" />
+    <Camera :type="camera.type" :topic="camera.topic" />
     <div class="sensors">
       <div>
         <h2 class="header">QR</h2>
@@ -54,12 +54,8 @@ export default class Victim extends Vue {
     { id: '1', color: 'green', angle: '45' },
   ]
 
-  get camera3drgb() {
-    return CameraModule.cameras.camera3d_rgb
-  }
-
-  get camera3ddepth() {
-    return CameraModule.cameras.camera3d_depth
+  get camera() {
+    return CameraModule.cameras['camera1']
   }
 }
 </script>
