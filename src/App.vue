@@ -45,7 +45,7 @@ export default class App extends Vue {
 $footer-height: 30px;
 
 html {
-  overflow-y: auto !important;
+  overflow-y: hidden !important;
 }
 
 body {
