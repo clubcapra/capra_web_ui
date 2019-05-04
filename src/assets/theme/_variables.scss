@@ -1,0 +1,23 @@
+
+$primary: red;
+$link: $primary;
+$danger: red;
+$success: limegreen;
+
+$background: #ffffff;
+
+@import '~bulma/sass/utilities/_all';
+
+$text: $grey-lighter;
+$text-strong: $text;
+$text-light: $text;
+$title-color: $text;
+$label-color: $text;
+$body-background-color: $dark;
+$card-background-color: $grey-dark;
+
+@import '~bulma/sass/base/_all';
+@import '~bulma/sass/components/_all';
+@import '~bulma/sass/elements/_all';
+@import '~bulma/sass/grid/_all';
+@import '~bulma/sass/layout/_all';

@@ -6,7 +6,7 @@
       <div>y: {{ orientation.y }}</div>
       <div>z: {{ orientation.z }}</div>
       <div>temp: {{ temp }}</div>
-      <div>speed: {{ speed }} m/s</div>
+      <div>speed: <progress-bar :value="speed" /></div>
     </div>
   </div>
 </template>
@@ -20,9 +20,18 @@ import _mapValues from 'lodash/mapValues'
 import DashboardModule from '@/store/modules/dashboard'
 import RosClient from '@/utils/ros/RosClient'
 
-@Component
+import ProgressBar from '@/components/UI/ProgressBar.vue'
+import GamepadManager from '@/utils/gamepad/GamepadManager'
+import { Stick, GamepadBtn } from '../utils/gamepad/mappings/types'
+
+@Component({
+  components: { ProgressBar },
+})
 export default class Dashboard extends Vue {
   @Inject('rosClient') rosClient!: RosClient
+  @Inject() gamepadManager!: GamepadManager
+
+  private readonly GAMEPAD_UPDATE_DELAY = 20
 
   speed = 0
 
@@ -48,8 +57,11 @@ export default class Dashboard extends Vue {
     )
 
     setInterval(() => {
-      this.speed = Math.floor(Math.random() * 10 + 1)
-    }, 500)
+      const { gamepad } = this.gamepadManager
+      this.speed =
+        gamepad.getStick(Stick.Left).vertical *
+        gamepad.getButtonValue(GamepadBtn.RT)
+    }, this.GAMEPAD_UPDATE_DELAY)
   }
 }
 </script>

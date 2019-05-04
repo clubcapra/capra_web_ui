@@ -68,7 +68,7 @@ export default class Victim extends Vue {
   .sensors {
     box-shadow: inset 0 0 0 1px #000000;
     .header {
-      text-decoration: underline;
+      // text-decoration: underline;
       font-weight: bold;
     }
   }

@@ -22,7 +22,7 @@ export default class Navbar extends Vue {}
 </script>
 
 <style lang="scss" scoped>
-div.tabs {
+div.tabs#header {
   margin-bottom: 0px;
 }
 </style>

@@ -19,7 +19,7 @@ export default class Footer extends Vue {}
 .takin-footer {
   display: grid;
   overflow: hidden;
-  grid-template-columns: auto 55px;
+  grid-template-columns: auto 65px;
   grid-template-areas: 'left right';
 
   .left {

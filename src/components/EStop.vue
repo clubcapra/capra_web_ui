@@ -1,7 +1,10 @@
 <template>
   <b-button is-small is-danger class="e-stop-btn" @click="sendServiceStop"
-    >Stop !</b-button
-  >
+    ><b-icon>
+      <font-awesome-icon icon="times-circle" />
+    </b-icon>
+    <span>Stop!</span>
+  </b-button>
 </template>
 
 <script lang="ts">

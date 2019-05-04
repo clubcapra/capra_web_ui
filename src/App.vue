@@ -42,31 +42,13 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
-@import '~bulma/sass/utilities/_all';
-
-$primary: red;
-$link: $primary;
-
-$body-background-color: $dark;
-$background: #ffffff;
-$card-background-color: $grey-dark;
-$text: $grey-lighter;
-$text-strong: $text;
-$text-light: $text;
-$title-color: $text;
-$label-color: $text;
-
-@import '~bulma';
-
-$footer-height: 28px;
+$footer-height: 30px;
 
 html {
-  height: 100%;
-  overflow-y: auto;
+  overflow-y: auto !important;
 }
 
 body {
-  min-height: 100%;
   display: grid;
   align-content: stretch;
 }

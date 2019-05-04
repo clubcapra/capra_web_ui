@@ -37,7 +37,7 @@ export default class RosConfig extends Vue {
 
   get connectedClass() {
     // TODO use this when my PR in vue-bulma-components is merged and released
-    return RosModule.connected ? 'is-success' : 'is-danger'
+    return this.connected ? 'is-success' : 'is-danger'
   }
 
   get connected() {
@@ -45,7 +45,7 @@ export default class RosConfig extends Vue {
   }
 
   get notConnected() {
-    return !RosModule.connected
+    return !this.connected
   }
 
   get currentIP() {
