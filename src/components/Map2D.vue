@@ -1,7 +1,5 @@
 <template>
-  <div id="map2d">
-    <img src="http://robotwebtools.org/images/demos/nav2djs-example.jpg" />
-  </div>
+  <div id="map2d" />
 </template>
 
 <script lang="ts">
