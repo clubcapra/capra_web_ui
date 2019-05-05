@@ -1,32 +1,31 @@
 <template>
-  <div class="global-config">
-    <ros />
-    <hr />
-    <teleop />
-    <hr />
-    <camera />
+  <div class="wrapper">
+    <config-menu />
+    <div class="global-config">
+      <router-view />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
+import ConfigMenu from './ConfigMenu.vue'
 
-import Ros from './RosConfig.vue'
-import Teleop from './TeleopConfig.vue'
-import Camera from './CameraConfig.vue'
-
-@Component({
-  components: {
-    Ros,
-    Teleop,
-    Camera,
-  },
-})
-export default class GlobalConfig extends Vue {}
+@Component({ components: { ConfigMenu } })
+export default class GlobalConfig extends Vue {
+  created() {
+    this.$router.push('/configuration/ros')
+  }
+}
 </script>
 
 <style lang="scss" scoped>
-.global-config {
-  overflow-y: auto;
+.wrapper {
+  display: grid;
+  grid-template-columns: 250px auto;
+
+  .global-config {
+    overflow-y: auto;
+  }
 }
 </style>

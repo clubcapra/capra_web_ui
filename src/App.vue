@@ -1,10 +1,13 @@
 <template>
   <div id="container">
-    <navbar />
+    <tabs />
     <div id="view">
       <router-view />
+      <div class="right-sidebar">
+        <e-stop />
+      </div>
     </div>
-    <takin-footer />
+    <!-- <takin-footer /> -->
   </div>
 </template>
 
@@ -12,17 +15,19 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop, Provide, Inject } from 'vue-property-decorator'
 
-import Navbar from '@/components/UI/layout/Navbar.vue'
+import Tabs from '@/components/UI/layout/Tabs.vue'
 import TakinFooter from '@/components/UI/layout/Footer.vue'
 
 import GamepadManager from '@/utils/gamepad/GamepadManager'
 import RosClient from '@/utils/ros/RosClient.ts'
 import RosModule from '@/store/modules/ros'
+import EStop from '@/components/EStop.vue'
 
 @Component({
   components: {
-    Navbar,
+    Tabs,
     TakinFooter,
+    EStop,
   },
 })
 export default class App extends Vue {
@@ -42,7 +47,7 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
-$footer-height: 30px;
+$footer-height: 0px;
 
 html {
   overflow-y: hidden !important;
@@ -61,6 +66,7 @@ body {
 
   #view {
     display: grid;
+    grid-template-columns: auto 70px;
     align-content: stretch;
     overflow: auto;
   }

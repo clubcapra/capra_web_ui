@@ -1,5 +1,5 @@
 import { mapGamepadToTwist } from '@/utils/math/index'
-import { Twist } from '@/utils/math/types'
+import { Twist, Vector3 } from '@/utils/math/types'
 import RosClient from '@/utils/ros/RosClient'
 import { TopicOptions } from '@/utils/ros/types'
 import CustomGamepad from './CustomGamepad'
@@ -40,29 +40,12 @@ export default class GamepadManager {
       console.log('a pressed')
     }
 
-    const leftStick = gamepad.getStick(Stick.Left)
-    const rt = gamepad.getButtonValue(GamepadBtn.RT)
-
-    const twist = mapGamepadToTwist(
-      leftStick.horizontal,
-      leftStick.vertical,
-      rt
-    )
-
-    // this.logTwist(twist, rt)
-
     const topic: TopicOptions = {
       name: '/cmd_vel',
       messageType: 'geometry_msgs/Twist',
     }
 
-    this.ros.publish(topic, twist)
-  }
-
-  private logTwist(twist: Twist, rt: number) {
-    if (++this.count <= 2) return
-    this.count = 0
-    console.log('linear', twist.linear, 'angular', twist.angular, 'factor', rt)
+    this.ros.publish(topic, mapGamepadToTwist(gamepad))
   }
 
   private update = () => {

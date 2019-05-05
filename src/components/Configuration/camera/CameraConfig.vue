@@ -1,11 +1,15 @@
 <template>
   <b-section>
     <b-title>Camera</b-title>
-    <b-columns class="camera-container">
-      <b-column v-for="(camera, key) in cameras" :key="key">
-        <camera-card class="camera" :title="key" :camera-name="key" />
-      </b-column>
-    </b-columns>
+    <hr />
+
+    <div
+      v-for="(camera, key) in cameras"
+      :key="key"
+      style="width: 550px; padding:12px"
+    >
+      <camera-card class="camera" :title="key" :camera-name="key" />
+    </div>
   </b-section>
 </template>
 
@@ -24,13 +28,4 @@ export default class CameraConfig extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
-.section {
-  display: grid;
-  grid-template-rows: auto auto;
-  .camera-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

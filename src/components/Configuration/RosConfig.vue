@@ -1,6 +1,8 @@
 <template>
   <b-section>
     <b-title>ROS</b-title>
+    <hr />
+
     <b-field>
       <b-label> Robot IP </b-label>
       <b-field has-addons>

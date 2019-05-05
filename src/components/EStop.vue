@@ -1,26 +1,41 @@
 <template>
-  <b-button is-small is-danger class="e-stop-btn" @click="sendServiceStop"
-    ><b-icon>
-      <font-awesome-icon icon="times-circle" />
-    </b-icon>
-    <span>Stop!</span>
-  </b-button>
+  <div class="e-stop-btn">
+    <b-button is-small is-danger class="e-stop-btn" @click="sendServiceStop"
+      ><b-icon>
+        <font-awesome-icon icon="exclamation-triangle" />
+      </b-icon>
+      <span>Stop!</span>
+    </b-button>
+    <modal-card
+      :visible="isModalVisible"
+      title="Warning!"
+      closeable
+      @close="onModalClose"
+    >
+      Robot is currently stopped. Do you want to restart it?
+    </modal-card>
+  </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Inject } from 'vue-property-decorator'
 import RosClient from '../utils/ros/RosClient'
 
-@Component
+import ModalCard from '@/components/UI/modal/ModalCard.vue'
+
+@Component({ components: { ModalCard } })
 export default class EStop extends Vue {
   @Inject() rosClient!: RosClient
 
-  async sendServiceStop() {
-    console.log('Stop')
+  isModalVisible = false
+
+  sendServiceStop() {
     this.rosClient.callService({ name: 'takin_estop', serviceType: '' }, '')
-    const result = await prompt('Robot is stopped.\n Want to restart?')
-    if (result !== null) console.log('restart')
-    else console.log('no restart')
+    this.isModalVisible = true
+  }
+
+  onModalClose() {
+    this.isModalVisible = false
   }
 }
 </script>

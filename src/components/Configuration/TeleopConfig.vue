@@ -1,5 +1,8 @@
 <template>
-  <div class="section teleop-settings"><p class="title">Teleop</p></div>
+  <b-section>
+    <b-title>Teleop</b-title>
+    <hr />
+  </b-section>
 </template>
 
 <script lang="ts">
@@ -12,14 +15,4 @@ export default class TeleopConfig extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
-.teleop-settings {
-  display: grid;
-  grid-template-rows: auto auto;
-
-  .camera-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

@@ -2,15 +2,15 @@
   <div class="victim">
     <Camera :type="camera.type" :topic="camera.topic" />
     <div class="sensors">
-      <div>
+      <b-section>
         <h2 class="header">QR</h2>
         <br />
         <div v-for="qr in QRcodes" :key="qr.id">
           <p>{{ qr.number }} - {{ qr.text }}</p>
         </div>
-      </div>
-      <br />
-      <div>
+      </b-section>
+      <hr />
+      <b-section>
         <h2 class="header">Landolt</h2>
         <br />
         <div v-for="landolt in landolts" :key="landolt.id">
@@ -22,7 +22,7 @@
             - {{ landolt.angle }}
           </p>
         </div>
-      </div>
+      </b-section>
     </div>
   </div>
 </template>

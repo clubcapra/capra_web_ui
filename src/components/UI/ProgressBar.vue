@@ -1,52 +1,70 @@
 <template>
-  <div
-    :style="{ background: color, width: `${value * 100}%` }"
-    class="default-bar-style"
-  />
+  <div class="wrapper" :style="wrapperStyle">
+    <div class="progress-bar" :style="barStyle" />
+  </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
+import { ColorRGB, ColorHSL } from '@/utils/colors/types'
+import { interpolateRGB, hexToRgb } from '@/utils/colors'
+import _ from 'lodash-es'
 
 @Component
 export default class ProgressBar extends Vue {
-  /**
-   * value should be between 0 and 1
-   */
-  @Prop({ default: 1 })
+  @Prop({ required: true, default: 1 })
   readonly value!: number
 
+  @Prop({ default: false })
+  readonly reverse!: boolean
+
+  @Prop({ default: false })
+  readonly vertical!: boolean
+
+  @Prop({ default: false })
+  readonly fillParent!: boolean
+
+  @Prop({ default: 100 })
+  readonly maxWidth!: number
+
+  @Prop({ default: 10 })
+  readonly height!: number
+
   get color() {
-    let red,
-      green = 0
-
-    const limit = 0.5
-
-    const formatValue = (value: number) => Math.round((value / limit) * 255)
-
-    if (this.value >= limit) {
-      green = 255 - formatValue(this.value - limit)
-      red = 255
-    } else {
-      green = 255
-      red = formatValue(this.value)
-    }
-
-    return `rgb(${red}, ${green}, 0)`
+    const color = interpolateRGB(
+      hexToRgb('#00ff00'), // green
+      hexToRgb('#ff0000'), // red
+      this.value
+    )
+    return `rgb(${color.r}, ${color.g}, ${color.b})`
   }
 
   get barStyle() {
+    const percent = `${this.value * 100}%`
+
     return {
       background: this.color,
-      width: `${this.value * 100}%`,
+      width: this.vertical ? '100%' : percent,
+      height: this.vertical ? percent : '100%',
+    }
+  }
+
+  get wrapperStyle() {
+    return {
+      width: this.fillParent ? '100%' : `${this.maxWidth}px`,
+      height: this.fillParent ? '100%' : `${this.height}px`,
+      alignItems: this.vertical && this.reverse ? 'start' : 'end',
+      justifyItems: this.reverse ? 'end' : 'start',
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.default-bar-style {
-  display: inline-block;
-  height: 10px;
+.wrapper {
+  display: grid;
+  .progress-bar {
+    display: grid;
+  }
 }
 </style>

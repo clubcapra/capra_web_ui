@@ -29,7 +29,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import Card from '@/components/UI/Card/Card.vue'
 
 import CameraModule from '@/store/modules/camera'
-import { CameraType } from '../../store/modules/camera.types'
+import { CameraType } from '@/store/modules/camera.types'
 
 @Component({ components: { Card } })
 export default class CameraCard extends Vue {
