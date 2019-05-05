@@ -71,6 +71,8 @@ export default class Dashboard extends Vue {
     setInterval(() => {
       const { gamepad } = this.gamepadManager
 
+      if (!gamepad) return
+
       const twist = mapGamepadToTwist(gamepad)
 
       this.forward = _.clamp(twist.linear.x, 0, 1)

@@ -45,6 +45,14 @@ const routes: RouteConfig[] = [
         component: () =>
           import('@/components/Configuration/camera/CameraConfig.vue'),
       },
+      {
+        path: 'gamepad',
+        component: () => import('@/components/Configuration/GamepadConfig.vue'),
+      },
+      {
+        path: 'victim',
+        component: () => import('@/components/Configuration/VictimConfig.vue'),
+      },
     ],
   },
 ]

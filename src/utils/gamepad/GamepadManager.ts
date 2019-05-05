@@ -3,7 +3,7 @@ import { Twist, Vector3 } from '@/utils/math/types'
 import RosClient from '@/utils/ros/RosClient'
 import { TopicOptions } from '@/utils/ros/types'
 import CustomGamepad from './CustomGamepad'
-import { GamepadBtn, Stick } from './mappings/types'
+import { GamepadBtn } from './mappings/types'
 
 export default class GamepadManager {
   private gamepads: Array<CustomGamepad> = []

@@ -6,10 +6,9 @@ export const mapGamepadToTwist = (gamepad: CustomGamepad): Twist => {
   const leftStick = gamepad.getStick(Stick.Left)
   const rt = gamepad.getButtonValue(GamepadBtn.RT)
   const lt = gamepad.getButtonValue(GamepadBtn.LT)
-  const rb = gamepad.getButtonPressed(GamepadBtn.RB)
-  const lb = gamepad.getButtonPressed(GamepadBtn.LB)
 
-  const x = rb ? 1 : lb ? -1 : 0
+  const x =
+    leftStick.horizontal > 0.15 ? 1 : leftStick.horizontal < -0.15 ? -1 : 0
   const y = leftStick.vertical > 0.15 ? 1 : leftStick.vertical < -0.15 ? -1 : 0
 
   if (lt > 0.1) {

@@ -20,12 +20,14 @@ export default class GlobalConfig extends Vue {
 </script>
 
 <style lang="scss" scoped>
+$menu-width: 250px;
 .wrapper {
   display: grid;
-  grid-template-columns: 250px auto;
+  grid-template-columns: $menu-width auto;
 
+  overflow: hidden;
   .global-config {
-    overflow-y: auto;
+    overflow: auto;
   }
 }
 </style>
