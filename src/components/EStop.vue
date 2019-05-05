@@ -1,10 +1,37 @@
 <template>
   <div class="e-stop-btn">
-    <b-button is-small is-danger class="e-stop-btn" @click="sendServiceStop"
-      ><b-icon>
-        <font-awesome-icon icon="exclamation-triangle" />
-      </b-icon>
-      <span>Stop!</span>
+    <b-button is-danger class="e-stop-btn" @click="sendServiceStop">
+      <!-- <span>Stop!</span> -->
+      <p>
+        <span>E</span>
+        <br />
+        <span>M</span>
+        <br />
+        <span>E</span>
+        <br />
+        <span>R</span>
+        <br />
+        <span>G</span>
+        <br />
+        <span>E</span>
+        <br />
+        <span>N</span>
+        <br />
+        <span>C</span>
+        <br />
+        <span>Y</span>
+        <br />
+        <span />
+        <br />
+        <span>S</span>
+        <br />
+        <span>T</span>
+        <br />
+        <span>O</span>
+        <br />
+        <span>P</span>
+        <br />
+      </p>
     </b-button>
     <modal-card
       :visible="isModalVisible"
@@ -44,5 +71,8 @@ export default class EStop extends Vue {
 .e-stop-btn {
   height: 100%;
   width: 100%;
+  p {
+    font-weight: bold;
+  }
 }
 </style>
