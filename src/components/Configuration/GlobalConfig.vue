@@ -24,8 +24,8 @@ $menu-width: 250px;
 .wrapper {
   display: grid;
   grid-template-columns: $menu-width auto;
-
   overflow: hidden;
+
   .global-config {
     overflow: auto;
   }

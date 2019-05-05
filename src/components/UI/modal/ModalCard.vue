@@ -2,7 +2,7 @@
   <base-modal :visible="visible" @close="close">
     <card :title="title">
       <template v-if="closeable" #header-icon :style="{ padding: 0 }">
-        <b-button id="close-button" is-danger @click="close">
+        <b-button is-danger @click="close">
           <b-icon>
             <font-awesome-icon icon="times" />
           </b-icon>
@@ -14,13 +14,13 @@
       <template #footer>
         <button
           class="button card-footer-item is-success is-fullsize"
-          @click="close"
+          @click="ok"
         >
           Ok
         </button>
         <button
           class="button card-footer-item is-danger is-fullsize"
-          @click="close"
+          @click="cancel"
         >
           Cancel
         </button>
@@ -45,7 +45,30 @@ export default class ModalCard extends Vue {
   @Prop()
   readonly title?: string
 
+  @Prop({ default: () => {} })
+  readonly onOk!: Function
+
+  @Prop({ default: () => {} })
+  readonly onCancel!: Function
+
+  @Prop({ default: () => {} })
+  readonly onClose!: Function
+
+  ok() {
+    console.log('ok')
+    this.onOk()
+    this.close()
+  }
+
+  cancel() {
+    console.log('cancel')
+    this.onCancel()
+    this.close()
+  }
+
   close() {
+    console.log('close')
+    this.onClose()
     this.$emit('close')
   }
 }

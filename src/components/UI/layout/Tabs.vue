@@ -14,7 +14,7 @@
       </ul>
     </b-tabs>
     <div class="logo">
-      <img src="@/assets/logo.png" alt="capra logo" />
+      <img src="@/assets/static/images/logo.png" alt="capra logo" />
     </div>
   </div>
 </template>
