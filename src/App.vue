@@ -47,7 +47,7 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
-$footer-height: 0px;
+$e-stop-width: 70px;
 
 html {
   overflow-y: hidden !important;
@@ -60,13 +60,13 @@ body {
 
 #container {
   display: grid;
-  grid-template-rows: auto 1fr $footer-height;
+  grid-template-rows: auto 1fr;
   height: 100vh;
   overflow: auto;
 
   #view {
     display: grid;
-    grid-template-columns: auto 70px;
+    grid-template-columns: auto $e-stop-width;
     align-content: stretch;
     overflow: auto;
   }

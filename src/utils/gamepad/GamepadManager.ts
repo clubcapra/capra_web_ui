@@ -8,7 +8,6 @@ import { GamepadBtn, Stick } from './mappings/types'
 export default class GamepadManager {
   private gamepads: Array<CustomGamepad> = []
   private ros: RosClient
-  private count = 0
 
   constructor(ros: RosClient) {
     this.ros = ros
