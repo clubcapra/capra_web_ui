@@ -40,8 +40,11 @@ class TopicManager {
     this.listen(options)
   }
 
+  unsubscribe(options: TopicOptions) {
+    this.getTopic(options).unsubscribe()
+  }
+
   publish({ name, messageType }: TopicOptions, payload: any) {
-    // console.log('RosClient publish() -> name:', name, ' message:', payload)
     this.getTopic({ name, messageType }).publish(new Message(payload))
   }
 

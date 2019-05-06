@@ -67,7 +67,7 @@ body {
   #view {
     display: grid;
     grid-template-columns: auto $e-stop-width;
-    align-content: stretch;
+    // align-content: stretch;
     overflow: auto;
   }
 }

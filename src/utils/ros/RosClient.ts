@@ -4,7 +4,7 @@ import TopicManager from './TopicManager'
 import ServiceManager from './ServiceManager'
 
 class RosClient {
-  private ros: Ros = new Ros({})
+  ros: Ros = new Ros({})
   private topicManager: TopicManager = new TopicManager(this.ros)
   private serviceManager: ServiceManager = new ServiceManager(this.ros)
   private robotIP?: string
@@ -34,6 +34,10 @@ class RosClient {
 
   subscribe(options: TopicOptions, handler: Function) {
     this.topicManager.subscribe(options, handler)
+  }
+
+  unsubscribe(options: TopicOptions) {
+    this.topicManager.unsubscribe(options)
   }
 
   publish(options: TopicOptions, payload: any) {

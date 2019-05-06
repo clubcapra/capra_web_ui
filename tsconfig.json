@@ -18,7 +18,7 @@
       "webpack-env",
       "node",
       "roslib",
-      "lodash"
+      "lodash-es"
     ],
     "paths": {
       "*": ["types/*"],

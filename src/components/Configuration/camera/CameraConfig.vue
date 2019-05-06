@@ -2,14 +2,11 @@
   <b-section>
     <b-title>Camera</b-title>
     <hr />
-
-    <div
-      v-for="(camera, key) in cameras"
-      :key="key"
-      style="width: 550px; padding:12px"
-    >
-      <camera-card class="camera" :title="key" :camera-name="key" />
-    </div>
+    <diV class="cameras">
+      <div v-for="(camera, key) in cameras" :key="key">
+        <camera-card class="camera" :title="key" :camera-name="key" />
+      </div>
+    </diV>
   </b-section>
 </template>
 
@@ -28,4 +25,9 @@ export default class CameraConfig extends Vue {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.cameras {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+</style>

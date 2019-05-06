@@ -1,10 +1,4 @@
-import {
-  Module,
-  VuexModule,
-  Mutation,
-  getModule,
-  Action,
-} from 'vuex-module-decorators'
+import { Module, VuexModule, Mutation, getModule } from 'vuex-module-decorators'
 import { CameraMap, CameraType, Camera } from './camera.types'
 import store from '..'
 

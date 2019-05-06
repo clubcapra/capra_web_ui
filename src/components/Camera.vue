@@ -1,26 +1,15 @@
-<template>
-  <div class="camera">
-    <div v-if="connected">
-      <img v-if="type === 'mjpeg'" :src="stream" />
-      <video v-else-if="type === 'vp8'" :src="stream" autoplay preload="none" />
-      <div v-else class="no-video"><p>invalid type</p></div>
-    </div>
-    <div v-else>
-      <div class="no-video"><p>no video</p></div>
-    </div>
-  </div>
-</template>
-
-<script lang="ts">
+<script lang="tsx">
 import { Vue, Component, Prop } from 'vue-property-decorator'
 
 import CameraModule from '@/store/modules/camera'
+import { CameraType } from '@/store/modules/camera.types.ts'
 import RosModule from '@/store/modules/ros'
+import { VNode } from 'vue'
 
 @Component
 export default class Camera extends Vue {
-  @Prop({ default: 'mjpeg' })
-  readonly type!: string
+  @Prop({ type: String, default: CameraType.MJPEG })
+  readonly type!: CameraType
 
   @Prop({ default: '', required: true })
   readonly topic!: string
@@ -36,6 +25,31 @@ export default class Camera extends Vue {
     `
 
     return this.connected ? url : ''
+  }
+
+  render(): VNode {
+    const NoVideo = (context: any) => (
+      <div class="no-video">
+        <p>{context.props.text}</p>
+      </div>
+    )
+
+    const Camera = () => {
+      switch (this.type) {
+        case CameraType.MJPEG:
+          return <img src={this.stream} />
+        case CameraType.VP8:
+          return <video src={this.stream} autoplay preload="none" />
+        default:
+          return <NoVideo text="invalid type" />
+      }
+    }
+
+    return (
+      <div class="camera">
+        {this.connected ? <Camera /> : <NoVideo text="no video" />}
+      </div>
+    )
   }
 }
 </script>

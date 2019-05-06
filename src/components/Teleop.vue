@@ -1,28 +1,29 @@
 <template>
   <div class="teleop">
-    <div class="main-view">
-      <Camera :type="leftCamera.type" :topic="leftCamera.topic" />
-      <Camera :type="rightCamera.type" :topic="rightCamera.topic" />
+    <div class="cameras">
+      <camera :type="leftCamera.type" :topic="leftCamera.topic" />
+      <camera :type="rightCamera.type" :topic="rightCamera.topic" />
     </div>
     <div class="bottom-panel">
-      <Dashboard />
+      <dashboard />
       <Map2D />
-      <div />
+      <Viewer3D />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Inject } from 'vue-property-decorator'
+import { Vue, Component } from 'vue-property-decorator'
 
 import Dashboard from '@/components/Dashboard.vue'
 import Camera from '@/components/Camera.vue'
 import Map2D from '@/components/Map2D.vue'
+import Viewer3D from '@/components/ros/Viewer3D.vue'
 
 import CameraModule from '@/store/modules/camera'
 import TeleopModule from '@/store/modules/teleop'
 
-@Component({ components: { Camera, Dashboard, Map2D } })
+@Component({ components: { Camera, Dashboard, Map2D, Viewer3D } })
 export default class Teleop extends Vue {
   get leftCamera() {
     return CameraModule.cameras[TeleopModule.leftCamera]
@@ -40,7 +41,7 @@ export default class Teleop extends Vue {
   align-content: stretch;
   grid-template-rows: 70% 30%;
 
-  .main-view {
+  .cameras {
     display: grid;
     grid-template-columns: 1fr 1fr;
 
