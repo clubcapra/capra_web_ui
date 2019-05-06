@@ -19,14 +19,8 @@ export default class Viewer3D extends Vue {
     return _.uniqueId('ros-viewer-3d-')
   }
 
-  mounted() {
+  initViewer(): Viewer {
     const refViewer = this.$refs.viewer as Element
-
-    const mesh = new MeshResource({
-      resource: 'test.dae',
-      path: '/',
-      warnings: true,
-    })
 
     const viewer = new Viewer({
       divID: refViewer.id,
@@ -36,22 +30,37 @@ export default class Viewer3D extends Vue {
     })
 
     viewer.addObject(new Grid())
+
+    window.addEventListener('resize', () => {
+      viewer.resize(refViewer.clientWidth - 1, refViewer.clientHeight - 1)
+    })
+
+    return viewer
+  }
+
+  mounted() {
+    const mesh = new MeshResource({
+      resource: 'test.dae',
+      path: '/',
+      warnings: true,
+    })
+
+    const viewer = this.initViewer()
     viewer.addObject(mesh)
 
-    const tfClient = new TFClient({
-      ros: this.rosClient.ros,
-      angularThres: 0.01,
-      transThres: 0.01,
-      rate: 10.0,
-    })
+    // const tfClient = new TFClient({
+    //   ros: this.rosClient.ros,
+    //   angularThres: 0.01,
+    //   transThres: 0.01,
+    //   rate: 10.0,
+    // })
 
-    const urdfClient = new UrdfClient({
-      ros: this.rosClient.ros,
-      tfClient: tfClient,
-      path: 'https://raw.githubusercontent.com/PR2/pr2_common/kinetic-devel/',
-      rootObject: viewer.scene,
-      loader: COLLADA_LOADER,
-    })
+    // const urdfClient = new UrdfClient({
+    //   ros: this.rosClient.ros,
+    //   tfClient: tfClient,
+    //   rootObject: viewer.scene,
+    //   loader: COLLADA_LOADER,
+    // })
   }
 }
 </script>
