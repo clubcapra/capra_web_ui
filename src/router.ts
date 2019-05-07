@@ -14,6 +14,10 @@ Vue.use(Router)
 
 const routes: RouteConfig[] = [
   {
+    path: '/',
+    redirect: 'teleop'
+  },
+  {
     path: '/teleop',
     name: 'teleop',
     component: Teleop,
