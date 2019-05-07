@@ -14,12 +14,6 @@ Vue.use(Router)
 
 const routes: RouteConfig[] = [
   {
-    path: '/',
-    redirect: {
-      name: 'teleop',
-    },
-  },
-  {
     path: '/teleop',
     name: 'teleop',
     component: Teleop,
@@ -57,4 +51,4 @@ const routes: RouteConfig[] = [
   },
 ]
 
-export default new Router({ mode: 'history', routes })
+export default new Router({ base: '/Takin-UI', routes })

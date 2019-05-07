@@ -7229,7 +7229,7 @@ send@0.16.2:
     range-parser "~1.2.0"
     statuses "~1.4.0"
 
-serialize-javascript@^1.4.0, serialize-javascript@^1.5.0, serialize-javascript@^1.7.0:
+serialize-javascript@^1.4.0, serialize-javascript@^1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-1.7.0.tgz#d6e0dfb2a3832a8c94468e6eb1db97e55a192a65"
   integrity sha512-ke8UG8ulpFOxO8f8gRYabHQe/ZntKlcig2Mp+8+URDP1D8vJZ0KUt7LYo07q25Z/+JVSgpr/cui9PIp5H6/+nA==
@@ -8384,11 +8384,6 @@ vue-class-component@^7.0.1, vue-class-component@^7.0.2:
   resolved "https://registry.yarnpkg.com/vue-class-component/-/vue-class-component-7.0.2.tgz#c5f35a91c0e9341532392b84d606a84911fb13bc"
   integrity sha512-8xw/wkZI2tgHcwvkSRC1ax7GeP1CG27wKhedvOAdjdASm05VU4RijGsCYti6s6CzBioBL5BQUmntQQTCsp1wnQ==
 
-vue-cli-plugin-tsx-support@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/vue-cli-plugin-tsx-support/-/vue-cli-plugin-tsx-support-0.4.0.tgz#032ad2e544b7cec09ad1b9527fc1835b010dd285"
-  integrity sha512-8Scqlj/0Jleg4wqQIJnpeSrFQH/63uXIet6AN9L7foYJhX5YlHyKfUNG+x30WyTKoP6PRXj2QvCBnt4uMngnmw==
-
 vue-eslint-parser@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-5.0.0.tgz#00f4e4da94ec974b821a26ff0ed0f7a78402b8a1"
@@ -8405,15 +8400,6 @@ vue-hot-reload-api@^2.3.0:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.3.tgz#2756f46cb3258054c5f4723de8ae7e87302a1ccf"
   integrity sha512-KmvZVtmM26BQOMK1rwUZsrqxEGeKiYSZGA7SNWE6uExx8UX/cj9hq2MRV/wWC3Cq6AoeDGk57rL9YMFRel/q+g==
-
-vue-jsx-hot-loader@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/vue-jsx-hot-loader/-/vue-jsx-hot-loader-1.4.0.tgz#38014b6cac81bdc290f16ca1f4e0e68306542bd8"
-  integrity sha512-RaoRH3Et4DGhvO5hl+xHQY42PmUd4ECe+L0F/aB7uN4PZhq57LpjdxpWi/9eODZ+FhAA3hpH+oBwzy8zKJaYmg==
-  dependencies:
-    hash-sum "^1.0.2"
-    lodash "^4.17.10"
-    serialize-javascript "^1.5.0"
 
 vue-loader@^15.7.0:
   version "15.7.0"

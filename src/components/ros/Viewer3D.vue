@@ -5,7 +5,9 @@
 <script lang="ts">
 import { Vue, Component, Prop, Inject } from 'vue-property-decorator'
 
+// @ts-ignore-start
 import { Viewer, Grid, UrdfClient, COLLADA_LOADER, MeshResource } from 'ros3d'
+// @ts-ignore-end
 import { TFClient } from 'roslib'
 import RosClient from '@/utils/ros//RosClient'
 

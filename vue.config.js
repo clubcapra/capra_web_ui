@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: '/',
+  publicPath: '/Takin-UI',
   productionSourceMap: false,
   css: {
     loaderOptions: {
