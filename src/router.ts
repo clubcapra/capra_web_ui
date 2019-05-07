@@ -1,16 +1,33 @@
 import Vue from 'vue'
 import Router, { RouteConfig } from 'vue-router'
+import LoadingComponent from '@/components/LoadingComponent.vue'
+import ErrorComponent from '@/components/ErrorComponent.vue'
 
-const Teleop = () =>
-  import('@/components/Teleop.vue' /* webpackChunkName: "chunk-teleop" */)
-const Victim = () =>
-  import('@/components/Victim.vue' /* webpackChunkName: "chunk-victim" */)
-const Configuration = () =>
-  import(
-    '@/components/Configuration/GlobalConfig.vue' /* webpackChunkName: "chunk-config" */
-  )
+function lazyLoadView(AsyncView: Promise<typeof import("*.vue")>) {
+  const AsyncHandler = () => ({
+    component: AsyncView,
+    // A component to use while the component is loading.
+    loading: LoadingComponent,
+    // A fallback component in case the timeout is exceeded
+    // when loading the component.
+    error: ErrorComponent,
+    // Delay before showing the loading component.
+    // Default: 200 (milliseconds).
+    delay: 0,
+    // Time before giving up trying to load the component.
+    // Default: Infinity (milliseconds).
+    timeout: 10000
+  })
 
-Vue.use(Router)
+  return Promise.resolve({
+    functional: true,
+    render(h: any, { data, children }: any) {
+      // Transparently pass any props or children
+      // to the view component.
+      return h(AsyncHandler, data, children)
+    }
+  })
+}
 
 const routes: RouteConfig[] = [
   {
@@ -20,39 +37,39 @@ const routes: RouteConfig[] = [
   {
     path: '/teleop',
     name: 'teleop',
-    component: Teleop,
+    component: () => lazyLoadView(import('@/components/Teleop.vue')),
   },
   {
     path: '/victim',
-    component: Victim,
+    component: () => lazyLoadView(import('@/components/Victim.vue')),
   },
   {
     path: '/configuration',
-    component: Configuration,
+    component: () => lazyLoadView(import('@/components/Configuration/GlobalConfig.vue')),
     children: <RouteConfig[]>[
       {
         path: 'ros',
-        component: () => import('@/components/Configuration/RosConfig.vue'),
+        component: () => lazyLoadView(import('@/components/Configuration/RosConfig.vue')),
       },
       {
         path: 'teleop',
-        component: () => import('@/components/Configuration/TeleopConfig.vue'),
+        component: () => lazyLoadView(import('@/components/Configuration/TeleopConfig.vue')),
       },
       {
         path: 'camera',
-        component: () =>
-          import('@/components/Configuration/camera/CameraConfig.vue'),
+        component: () => lazyLoadView(import('@/components/Configuration/camera/CameraConfig.vue')),
       },
       {
         path: 'gamepad',
-        component: () => import('@/components/Configuration/GamepadConfig.vue'),
+        component: () => lazyLoadView(import('@/components/Configuration/GamepadConfig.vue')),
       },
       {
         path: 'victim',
-        component: () => import('@/components/Configuration/VictimConfig.vue'),
+        component: () => lazyLoadView(import('@/components/Configuration/VictimConfig.vue')),
       },
     ],
   },
 ]
 
+Vue.use(Router)
 export default new Router({ base: '/Takin-UI', routes })
