@@ -4,6 +4,10 @@ User interface for the Takin project. It can be used for any similar robots with
 
 It currently uses electron to run, but it isn't necessary for now. This could be a simple web app. We might move to a pure web app if fast deployments become necessary. We try to not directly use electron features for now. In some limited testing we saw some small improvements to video streams, but after some more testing it doesn't seem to do much. The limited target environment is nice, but not necessary for now.
 
+## hosted on github pages
+
+<https://www.clubcapra.com/Takin-UI/>
+
 ## Technologies used
 
 - Typescript
