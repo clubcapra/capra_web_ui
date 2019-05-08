@@ -3,11 +3,11 @@
     <tabs />
     <div id="view">
       <router-view />
+      <takin-footer class="takin-footer" />
       <div class="right-sidebar">
         <e-stop />
       </div>
     </div>
-    <!-- <takin-footer /> -->
   </div>
 </template>
 
@@ -65,10 +65,24 @@ body {
   overflow: auto;
 
   #view {
-    display: grid;
-    grid-template-columns: auto $e-stop-width;
-    // align-content: stretch;
     overflow: auto;
+
+    display: grid;
+    grid-template-areas:
+      'v e'
+      'f e';
+    grid-template-columns: auto $e-stop-width;
+    grid-template-rows: auto 20px;
+
+    &:first-child {
+      grid-area: v;
+    }
+    .takin-footer {
+      grid-area: f;
+    }
+    .right-sidebar {
+      grid-area: e;
+    }
   }
 }
 </style>

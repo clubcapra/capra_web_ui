@@ -1,8 +1,5 @@
 <template>
-  <footer class="takin-footer">
-    <div class="left" />
-    <div class="right"><e-stop /></div>
-  </footer>
+  <footer class="takin-footer">footer</footer>
 </template>
 
 <script>
@@ -14,25 +11,8 @@ export default class Footer extends Vue {}
 
 <style lang="scss">
 .takin-footer {
-  display: grid;
-  overflow: hidden;
-  grid-template-columns: auto 65px;
-  grid-template-areas: 'left right';
-
-  .left {
-    grid-area: left;
-  }
-
-  .right {
-    grid-area: right;
-  }
-
-  background: repeating-linear-gradient(
-    45deg,
-    #ffff00,
-    #ffff00 10px,
-    #000000 10px,
-    #000000 20px
-  );
+  border-top: 1px solid black;
+  height: 100%;
+  font-size: 0.75em;
 }
 </style>
