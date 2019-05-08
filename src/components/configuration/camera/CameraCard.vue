@@ -26,7 +26,7 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
 
-import Card from '@/components/UI/Card/Card.vue'
+import Card from '@/components/ui/card/Card.vue'
 
 import CameraModule from '@/store/modules/camera'
 import { CameraType } from '@/store/modules/camera.types'

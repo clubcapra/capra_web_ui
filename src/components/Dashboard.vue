@@ -26,7 +26,7 @@ import _ from 'lodash-es'
 import DashboardModule from '@/store/modules/dashboard'
 import RosClient from '@/utils/ros/RosClient'
 
-import ProgressBar from '@/components/UI/ProgressBar.vue'
+import ProgressBar from '@/components/ui/ProgressBar.vue'
 import GamepadManager from '@/utils/gamepad/GamepadManager'
 import { Stick, GamepadBtn } from '../utils/gamepad/mappings/types'
 import { mapGamepadToTwist } from '@/utils/math'

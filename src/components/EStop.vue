@@ -48,7 +48,7 @@
 import { Vue, Component, Inject } from 'vue-property-decorator'
 import RosClient from '../utils/ros/RosClient'
 
-import ModalCard from '@/components/UI/modal/ModalCard.vue'
+import ModalCard from '@/components/ui/modal/ModalCard.vue'
 
 @Component({ components: { ModalCard } })
 export default class EStop extends Vue {
