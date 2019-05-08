@@ -4,6 +4,9 @@ import LoadingComponent from '@/components/LoadingComponent.vue'
 import ErrorComponent from '@/components/ErrorComponent.vue'
 import { AsyncComponentFactory, RenderContext } from 'vue/types/options'
 
+const ifProduction = (a: any, b: any) =>
+  process.env.NODE_ENV === 'production' ? a : b
+
 const routes: RouteConfig[] = [
   {
     path: '/',
@@ -66,4 +69,4 @@ function lazyLoadComponent(componentName: string) {
 }
 
 Vue.use(Router)
-export default new Router({ base: '/Takin-UI', routes })
+export default new Router({ base: ifProduction('/Takin-UI', '/'), routes })
