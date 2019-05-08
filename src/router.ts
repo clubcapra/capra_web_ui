@@ -15,45 +15,49 @@ const routes: RouteConfig[] = [
   {
     path: '/teleop',
     name: 'teleop',
-    component: () => lazyLoadComponent('Teleop'),
+    component: () => asyncComponent('Teleop'),
   },
   {
     path: '/victim',
-    component: () => lazyLoadComponent('Victim'),
+    component: () => asyncComponent('Victim'),
   },
   {
     path: '/configuration',
-    component: () => lazyLoadComponent('configuration/GlobalConfig'),
+    component: () => asyncComponent('configuration/GlobalConfig'),
     children: <RouteConfig[]>[
       {
         path: 'ros',
-        component: () => lazyLoadComponent('configuration/RosConfig'),
+        component: () => asyncComponent('configuration/RosConfig'),
       },
       {
         path: 'teleop',
-        component: () => lazyLoadComponent('configuration/TeleopConfig'),
+        component: () => asyncComponent('configuration/TeleopConfig'),
       },
       {
         path: 'camera',
-        component: () => lazyLoadComponent('configuration/camera/CameraConfig'),
+        component: () => asyncComponent('configuration/camera/CameraConfig'),
       },
       {
         path: 'gamepad',
-        component: () => lazyLoadComponent('configuration/GamepadConfig'),
+        component: () => asyncComponent('configuration/GamepadConfig'),
       },
       {
         path: 'victim',
-        component: () => lazyLoadComponent('configuration/VictimConfig'),
+        component: () => asyncComponent('configuration/VictimConfig'),
       },
     ],
   },
 ]
 
-function lazyLoadComponent(componentName: string) {
+/**
+ *
+ * @param componentPath relative to @/components/ and adds .vue at the end
+ */
+function asyncComponent(componentPath: string) {
   const asyncComponentFactory: AsyncComponentFactory = () => ({
     component: import(
       /* webpackChunkName: "[request]" */
-      `@/components/${componentName}.vue`
+      `@/components/${componentPath}.vue`
     ) as any,
     loading: LoadingComponent,
     error: ErrorComponent,

@@ -4,7 +4,7 @@
     <hr />
 
     <b-field>
-      <b-label> Robot IP </b-label>
+      <b-label>Robot IP</b-label>
       <b-field has-addons>
         <b-control>
           <input
@@ -54,8 +54,8 @@ export default class RosConfig extends Vue {
     return RosModule.robotIP
   }
 
-  set currentIP(event: any) {
-    RosModule.setRobotIP(event.target.value)
+  set currentIP(value: string) {
+    RosModule.setRobotIP(value)
   }
 
   connect() {
