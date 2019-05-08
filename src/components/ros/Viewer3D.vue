@@ -50,19 +50,19 @@ export default class Viewer3D extends Vue {
     const viewer = this.initViewer()
     viewer.addObject(mesh)
 
-    // const tfClient = new TFClient({
-    //   ros: this.rosClient.ros,
-    //   angularThres: 0.01,
-    //   transThres: 0.01,
-    //   rate: 10.0,
-    // })
+    const tfClient = new TFClient({
+      ros: this.rosClient.ros,
+      angularThres: 0.01,
+      transThres: 0.01,
+      rate: 10.0,
+    })
 
-    // const urdfClient = new UrdfClient({
-    //   ros: this.rosClient.ros,
-    //   tfClient: tfClient,
-    //   rootObject: viewer.scene,
-    //   loader: COLLADA_LOADER,
-    // })
+    const urdfClient = new UrdfClient({
+      ros: this.rosClient.ros,
+      tfClient: tfClient,
+      rootObject: viewer.scene,
+      loader: COLLADA_LOADER,
+    })
   }
 }
 </script>
