@@ -56,23 +56,12 @@ export default class Camera extends Vue {
 
 <style lang="scss" scoped>
 .camera {
-  height: 100%;
   display: grid;
-  min-height: 0px;
-  margin: auto;
-  width: 100%;
 
-  img {
-    height: 100%;
-  }
-
-  .no-video {
+  > div {
     display: grid;
-    height: 100%;
-
-    p {
-      margin: auto;
-    }
+    align-items: center;
+    justify-items: center;
   }
 }
 </style>

@@ -7,11 +7,8 @@
 
 <script>
 import { Vue, Component } from 'vue-property-decorator'
-import EStop from '@/components/EStop.vue'
 
-@Component({
-  components: { EStop },
-})
+@Component
 export default class Footer extends Vue {}
 </script>
 
