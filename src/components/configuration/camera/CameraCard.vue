@@ -28,7 +28,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 
 import Card from '@/components/ui/card/Card.vue'
 
-import CameraModule from '@/store/modules/camera'
+import { cameraModule } from '@/store'
 import { CameraType } from '@/store/modules/camera.types'
 
 @Component({ components: { Card } })
@@ -37,7 +37,7 @@ export default class CameraCard extends Vue {
   @Prop({ type: String, default: '' }) cameraName!: string
 
   get camera() {
-    return CameraModule.cameras[this.cameraName]
+    return cameraModule.cameras[this.cameraName]
   }
 
   get topic() {
@@ -45,14 +45,14 @@ export default class CameraCard extends Vue {
   }
 
   set topic(event: any) {
-    CameraModule.setTopic({
+    cameraModule.setTopic({
       cameraName: this.cameraName,
       topic: event.target.value,
     })
   }
 
   get types() {
-    return CameraModule.typesForSelect
+    return cameraModule.typesForSelect
   }
 
   get type() {
@@ -60,7 +60,7 @@ export default class CameraCard extends Vue {
   }
 
   set type(value: string) {
-    CameraModule.setType({
+    cameraModule.setType({
       cameraName: this.cameraName,
       type: value as CameraType,
     })

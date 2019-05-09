@@ -45,8 +45,7 @@
 
 <script lang="ts">
 import { Vue, Component, Inject } from 'vue-property-decorator'
-import RosClient from '../utils/ros/RosClient'
-
+import RosClient from '@/utils/ros/RosClient'
 import ModalCard from '@/components/ui/modal/ModalCard.vue'
 
 @Component({ components: { ModalCard } })

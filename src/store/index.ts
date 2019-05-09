@@ -1,17 +1,33 @@
 import Vue from 'vue'
-import Vuex, { Store, StoreOptions } from 'vuex'
+import Vuex, { Store } from 'vuex'
+import { getModule } from 'vuex-module-decorators'
+import {
+  CameraModule,
+  TeleopModule,
+  RosModule,
+  DashboardModule,
+} from '@/store/modules'
 
 Vue.use(Vuex)
 
 interface RootState {
-  isDebug: boolean
+  isProduction: boolean
 }
 
-const store: StoreOptions<RootState> = {
+export const store = new Store<RootState>({
   strict: process.env.NODE_ENV !== 'production',
   state: {
-    isDebug: true,
+    isProduction: process.env.NODE_ENV !== 'production',
   },
-}
+  modules: {
+    camera: CameraModule,
+    teleop: TeleopModule,
+    ros: RosModule,
+    dashboard: DashboardModule,
+  },
+})
 
-export default new Store<RootState>(store)
+export const cameraModule = getModule(CameraModule, store)
+export const teleopModule = getModule(TeleopModule, store)
+export const rosModule = getModule(RosModule, store)
+export const dashboardModule = getModule(DashboardModule, store)

@@ -1,7 +1,23 @@
 <template>
-  <base-modal :visible="visible" @close="close">
+  <b-modal :is-active="visible">
+    <b-modal-background />
+    <b-modal-card>
+      <b-modal-card-head>
+        <b-modal-card-title>{{ title }}</b-modal-card-title>
+        <button class="delete" aria-label="close" @click="close" />
+      </b-modal-card-head>
+      <b-modal-card-body>
+        <slot />
+      </b-modal-card-body>
+      <b-modal-card-foot>
+        <b-button is-success @click="ok">Ok</b-button>
+        <b-button is-danger @click="cancel">Cancel</b-button>
+      </b-modal-card-foot>
+    </b-modal-card>
+  </b-modal>
+  <!-- <base-modal :visible="visible" @close="close">
     <card :title="title">
-      <template v-if="closeable" #header-icon :style="{ padding: 0 }">
+      <template v-if="closeable" #header-icon class="test">
         <b-button is-danger @click="close">
           <b-icon>
             <font-awesome-icon icon="times" />
@@ -26,7 +42,7 @@
         </button>
       </template>
     </card>
-  </base-modal>
+  </base-modal> -->
 </template>
 
 <script lang="ts">
@@ -61,13 +77,11 @@ export default class ModalCard extends Vue {
   }
 
   cancel() {
-    console.log('cancel')
     this.onCancel()
     this.close()
   }
 
   close() {
-    console.log('close')
     this.onClose()
     this.$emit('close')
   }

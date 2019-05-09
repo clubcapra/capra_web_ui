@@ -1,9 +1,8 @@
 <script lang="tsx">
 import { Vue, Component, Prop } from 'vue-property-decorator'
 
-import CameraModule from '@/store/modules/camera'
+import { cameraModule, rosModule } from '@/store'
 import { CameraType } from '@/store/modules/camera.types.ts'
-import RosModule from '@/store/modules/ros'
 import { VNode } from 'vue'
 
 @Component
@@ -15,11 +14,11 @@ export default class Camera extends Vue {
   readonly topic!: string
 
   get connected() {
-    return RosModule.connected
+    return rosModule.connected
   }
 
   get stream() {
-    const url = `http://${CameraModule.videoServerIP}/stream
+    const url = `http://${cameraModule.videoServerIP}/stream
     ?topic=${this.topic}
     &type=${this.type}
     `

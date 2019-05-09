@@ -1,5 +1,4 @@
 import { mapGamepadToTwist } from '@/utils/math/index'
-import { Twist, Vector3 } from '@/utils/math/types'
 import RosClient from '@/utils/ros/RosClient'
 import { TopicOptions } from '@/utils/ros/types'
 import CustomGamepad from './CustomGamepad'
@@ -30,10 +29,7 @@ export default class GamepadManager {
       .onGamepadDisconnected as EventListener)
   }
 
-  /**
-   * TODO add support for listeners
-   * @param gamepad
-   */
+  // TODO add support for listeners
   private handleGamepadInput(gamepad: CustomGamepad) {
     if (gamepad.getButtonPressed(GamepadBtn.A)) {
       console.log('a pressed')
@@ -47,7 +43,13 @@ export default class GamepadManager {
     this.ros.publish(topic, mapGamepadToTwist(gamepad))
   }
 
-  private update = () => {
+  private scanGamepads() {
+    this.gamepads = [...navigator.getGamepads()]
+      .filter((g): g is Gamepad => Boolean(g))
+      .map(g => new CustomGamepad(g))
+  }
+
+  private update() {
     this.scanGamepads()
 
     const gamepad = this.gamepads[0]
@@ -56,18 +58,12 @@ export default class GamepadManager {
     requestAnimationFrame(this.update)
   }
 
-  private scanGamepads() {
-    this.gamepads = [...navigator.getGamepads()]
-      .filter((g): g is Gamepad => Boolean(g))
-      .map(g => new CustomGamepad(g))
-  }
-
-  private onGamepadConnected = (e: GamepadEvent) => {
+  private onGamepadConnected(e: GamepadEvent) {
     const gamepad = e.gamepad
     this.gamepads[gamepad.index] = new CustomGamepad(gamepad)
   }
 
-  private onGamepadDisconnected = (e: GamepadEvent) => {
+  private onGamepadDisconnected(e: GamepadEvent) {
     const gamepad = e.gamepad
     delete this.gamepads[gamepad.index]
   }

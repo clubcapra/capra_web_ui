@@ -31,19 +31,19 @@
 import { Vue, Component, Inject } from 'vue-property-decorator'
 import RosClient from '@/utils/ros/RosClient'
 
-import RosModule from '@/store/modules/ros'
+import { rosModule } from '@/store'
 
 @Component
 export default class RosConfig extends Vue {
   @Inject('rosClient') rosClient!: RosClient
 
   get connectedClass() {
-    // TODO use this when my PR in vue-bulma-components is merged and released
+    // FIXME use this when my PR in vue-bulma-components is merged and released
     return this.connected ? 'is-success' : 'is-danger'
   }
 
   get connected() {
-    return RosModule.connected
+    return rosModule.connected
   }
 
   get notConnected() {
@@ -51,11 +51,11 @@ export default class RosConfig extends Vue {
   }
 
   get currentIP() {
-    return RosModule.robotIP
+    return rosModule.robotIP
   }
 
   set currentIP(value: string) {
-    RosModule.setRobotIP(value)
+    rosModule.setRobotIP(value)
   }
 
   connect() {

@@ -1,10 +1,9 @@
-import { Module, VuexModule, Mutation, getModule } from 'vuex-module-decorators'
-import store from '..'
+import { Module, VuexModule, Mutation } from 'vuex-module-decorators'
 import { Vector3 } from '@/utils/math/types'
 import { TopicWithData } from '@/utils/ros/types'
 
-@Module({ dynamic: true, store, name: 'dashboard', namespaced: true })
-class DashboardModule extends VuexModule {
+@Module({ name: 'dashboard', namespaced: true })
+export default class DashboardModule extends VuexModule {
   orientation: TopicWithData<Vector3> = {
     topic: {
       name: '/capra/imu',
@@ -48,5 +47,3 @@ class DashboardModule extends VuexModule {
     this.speed.data = speed
   }
 }
-
-export default getModule(DashboardModule)

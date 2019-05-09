@@ -15,12 +15,12 @@ import { Vue, Component } from 'vue-property-decorator'
 
 import CameraCard from './CameraCard.vue'
 
-import CameraModule from '@/store/modules/camera'
+import { cameraModule } from '@/store'
 
 @Component({ components: { CameraCard } })
 export default class CameraConfig extends Vue {
   get cameras() {
-    return CameraModule.cameras
+    return cameraModule.cameras
   }
 }
 </script>

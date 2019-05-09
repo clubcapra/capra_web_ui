@@ -1,14 +1,7 @@
-import {
-  Module,
-  VuexModule,
-  Mutation,
-  Action,
-  getModule,
-} from 'vuex-module-decorators'
-import store from '@/store'
+import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 
-@Module({ dynamic: true, store, name: 'ros', namespaced: true })
-class RosModule extends VuexModule {
+@Module({ name: 'ros', namespaced: true })
+export default class RosModule extends VuexModule {
   connected = false
   robotIP = 'localhost:9090'
 
@@ -32,5 +25,3 @@ class RosModule extends VuexModule {
     return false
   }
 }
-
-export default getModule(RosModule)

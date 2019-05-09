@@ -14,23 +14,18 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-
-import Dashboard from '@/components/Dashboard.vue'
-import Camera from '@/components/Camera.vue'
-import Map2D from '@/components/Map2D.vue'
+import { Dashboard, Camera, Map2D } from '@/components'
 import Viewer3D from '@/components/ros/Viewer3D.vue'
-
-import CameraModule from '@/store/modules/camera'
-import TeleopModule from '@/store/modules/teleop'
+import { cameraModule, teleopModule } from '@/store'
 
 @Component({ components: { Camera, Dashboard, Map2D, Viewer3D } })
 export default class Teleop extends Vue {
   get leftCamera() {
-    return CameraModule.cameras[TeleopModule.leftCamera]
+    return cameraModule.cameras[teleopModule.leftCamera]
   }
 
   get rightCamera() {
-    return CameraModule.cameras[TeleopModule.rightCamera]
+    return cameraModule.cameras[teleopModule.rightCamera]
   }
 }
 </script>

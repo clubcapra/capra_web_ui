@@ -19,16 +19,15 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Inject } from 'vue-property-decorator'
-import { getModule } from 'vuex-module-decorators'
 
 import _ from 'lodash-es'
 
-import DashboardModule from '@/store/modules/dashboard'
+import { dashboardModule } from '@/store'
 import RosClient from '@/utils/ros/RosClient'
 
 import ProgressBar from '@/components/ui/ProgressBar.vue'
 import GamepadManager from '@/utils/gamepad/GamepadManager'
-import { Stick, GamepadBtn } from '../utils/gamepad/mappings/types'
+import { Stick, GamepadBtn } from '@/utils/gamepad/mappings/types'
 import { mapGamepadToTwist } from '@/utils/math'
 
 @Component({
@@ -48,24 +47,24 @@ export default class Dashboard extends Vue {
   left = 0
 
   get orientation() {
-    const orientation = DashboardModule.orientation.data
+    const orientation = dashboardModule.orientation.data
     const mapDirection = (dir: number) => dir.toFixed(4).padStart(6)
     return _.mapValues(orientation, mapDirection)
   }
 
   get temp() {
-    return DashboardModule.temperature.data
+    return dashboardModule.temperature.data
   }
 
   mounted() {
     this.rosClient.subscribe(
-      DashboardModule.orientation.topic,
-      DashboardModule.setOrientation
+      dashboardModule.orientation.topic,
+      dashboardModule.setOrientation
     )
 
     this.rosClient.subscribe(
-      DashboardModule.temperature.topic,
-      DashboardModule.setTemperature
+      dashboardModule.temperature.topic,
+      dashboardModule.setTemperature
     )
 
     setInterval(() => {

@@ -1,7 +1,6 @@
 import Vue, { CreateElement } from 'vue'
 import Router, { RouteConfig } from 'vue-router'
-import LoadingComponent from '@/components/LoadingComponent.vue'
-import ErrorComponent from '@/components/ErrorComponent.vue'
+import { LoadingComponent, ErrorComponent } from '@/components/async'
 import { AsyncComponentFactory, RenderContext } from 'vue/types/options'
 
 const ifProduction = (a: any, b: any) =>
@@ -15,11 +14,11 @@ const routes: RouteConfig[] = [
   {
     path: '/teleop',
     name: 'teleop',
-    component: () => asyncComponent('Teleop'),
+    component: () => asyncComponent('tabs/Teleop'),
   },
   {
     path: '/victim',
-    component: () => asyncComponent('Victim'),
+    component: () => asyncComponent('tabs/Victim'),
   },
   {
     path: '/configuration',
@@ -50,8 +49,15 @@ const routes: RouteConfig[] = [
 ]
 
 /**
+ * Dynamically loads a component and shows a loading bar while loading.
  *
  * @param componentPath relative to @/components/ and adds .vue at the end
+ *
+ * @remarks
+ * Components loaded with this strategy DO NOT have access
+ * to in-component guards, such as beforeRouteEnter,
+ * beforeRouteUpdate, and beforeRouteLeave. You must either use
+ * route-level guards instead or lazy-load the component directly
  */
 function asyncComponent(componentPath: string) {
   const asyncComponentFactory: AsyncComponentFactory = () => ({

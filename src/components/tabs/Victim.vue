@@ -10,10 +10,10 @@
       <hr />
       <h2 class="header">Landolt</h2>
       <br />
-      <div v-for="landolt in landolts" :key="landolt.id">
+      <div v-for="landolt in landolts" :key="landolt">
         <p>
-          <font-awesome-icon icon="circle" :style="{ color: landolt.color }" />
-          - {{ landolt.angle }}
+          <font-awesome-icon icon="circle" />
+          - {{ landolt }}
         </p>
       </div>
       <hr />
@@ -30,8 +30,8 @@
 import { Vue, Component, Inject } from 'vue-property-decorator'
 
 import RosClient from '@/utils/ros/RosClient'
-import Camera from '@/components/Camera.vue'
-import CameraModule from '@/store/modules/camera'
+import { Camera } from '@/components'
+import { cameraModule } from '@/store'
 
 @Component({ components: { Camera } })
 export default class Victim extends Vue {
@@ -43,19 +43,14 @@ export default class Victim extends Vue {
       number: '0',
       text: 'test value',
     },
-    {
-      id: '1',
-      number: '1',
-      text: 'test value',
-    },
   ]
 
   landolts: Array<number> = []
 
-  hazmats = []
+  hazmats: Array<{ Class: string; probability: number }> = []
 
   get camera() {
-    return CameraModule.cameras['camera1']
+    return cameraModule.cameras['camera1']
   }
 
   mounted() {
