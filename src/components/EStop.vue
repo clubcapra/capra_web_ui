@@ -1,6 +1,6 @@
 <template>
   <div class="e-stop-btn">
-    <b-button is-danger class="e-stop-btn" @click="sendServiceStop">
+    <b-button is-danger @click="sendServiceStop">
       <p>
         <span>E</span>
         <br />
@@ -37,9 +37,8 @@
       title="Warning!"
       closeable
       @close="onModalClose"
+      >Robot is currently stopped. Do you want to restart it?</modal-card
     >
-      Robot is currently stopped. Do you want to restart it?
-    </modal-card>
   </div>
 </template>
 
