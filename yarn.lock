@@ -8460,6 +8460,13 @@ vue@^2.6.10:
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
   integrity sha512-ImThpeNU9HbdZL3utgMCq0oiMzAkt1mcgy3/E6zWC/G6AaQoeuFdsl9nDhTDU3X1R6FK7nsIUuRACVcjI+A2GQ==
 
+vuex-class-component@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/vuex-class-component/-/vuex-class-component-1.6.0.tgz#2e7142c18c9fe34a68bffcfc70cda744f8b3ba5c"
+  integrity sha512-7GkRjZO6xXO0vMMlmQjN02nTLf42Re31Hpiweg+uHVn+4wkpWaNk4iBDwQ35w2WbWeTx7NjAiej+wBeXeio0SA==
+  dependencies:
+    object.getownpropertydescriptors "^2.0.3"
+
 vuex-module-decorators@^0.9.9:
   version "0.9.9"
   resolved "https://registry.yarnpkg.com/vuex-module-decorators/-/vuex-module-decorators-0.9.9.tgz#3d278531cbd41435b3cba255a6e4db8a2bb3bf5b"

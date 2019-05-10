@@ -22,7 +22,7 @@ const store = new Store<RootState>({
   modules: {
     camera: CameraModule,
     teleop: TeleopModule,
-    ros: RosModule,
+    ros: RosModule.ExtractVuexModule(RosModule),
     dashboard: DashboardModule,
   },
 })
@@ -30,5 +30,5 @@ export default store
 
 export const cameraModule = getModule(CameraModule, store)
 export const teleopModule = getModule(TeleopModule, store)
-export const rosModule = getModule(RosModule, store)
+export const rosModule = RosModule.CreateProxy(store, RosModule)
 export const dashboardModule = getModule(DashboardModule, store)

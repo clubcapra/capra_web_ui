@@ -1,27 +1,28 @@
-import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
+// import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
+import { VuexModule, mutation, action, getter, Module } from "vuex-class-component";
 
-@Module({ name: 'ros', namespaced: true })
+@Module({ namespacedPath: 'ros/'})
 export default class RosModule extends VuexModule {
   connected = false
   robotIP = 'localhost:9090'
 
-  @Mutation
+  @mutation
   setConnected(isConnected: boolean) {
     this.connected = isConnected
   }
 
-  @Mutation
+  @mutation
   setRobotIP(ip: string) {
     this.robotIP = ip
   }
 
-  @Action({ commit: 'setConnected' })
-  onConnect() {
-    return true
+  @action
+  async onConnect() {
+    this.setConnected(true)
   }
 
-  @Action({ commit: 'setConnected' })
-  onDisconnect() {
-    return false
+  @action
+  async onDisconnect() {
+    this.setConnected(false)
   }
 }

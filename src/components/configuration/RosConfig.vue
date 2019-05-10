@@ -16,9 +16,8 @@
         <b-control>
           <b-button
             is-small
-            :is-danger="notConnected"
-            :is-success="connected"
             @click="connect"
+            :class="connectedClass"
             >Connect</b-button
           >
         </b-control>
@@ -38,16 +37,7 @@ export default class RosConfig extends Vue {
   @Inject('rosClient') rosClient!: RosClient
 
   get connectedClass() {
-    // FIXME use this when my PR in vue-bulma-components is merged and released
     return this.connected ? 'is-success' : 'is-danger'
-  }
-
-  get connected() {
-    return rosModule.connected
-  }
-
-  get notConnected() {
-    return !this.connected
   }
 
   get currentIP() {

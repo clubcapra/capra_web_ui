@@ -1,6 +1,6 @@
 <template>
   <div class="e-stop-btn">
-    <b-button is-danger @click="sendServiceStop">
+    <b-button class="is-fullsize" is-danger @click="sendServiceStop">
       <p>
         <span>E</span>
         <br />

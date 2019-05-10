@@ -8,7 +8,7 @@ import { Vue, Component, Prop, Inject } from 'vue-property-decorator'
 import { Viewer, Grid, UrdfClient, COLLADA_LOADER, MeshResource } from 'ros3d'
 
 import { TFClient } from 'roslib'
-import RosClient from '@/utils/ros//RosClient'
+import RosClient from '@/utils/ros/RosClient'
 
 import _ from 'lodash-es'
 
@@ -40,14 +40,14 @@ export default class Viewer3D extends Vue {
   }
 
   mounted() {
-    const mesh = new MeshResource({
-      resource: 'test.dae',
-      path: '/',
-      warnings: true,
-    })
+    // const mesh = new MeshResource({
+    //   resource: 'test.dae',
+    //   path: '/',
+    //   warnings: true,
+    // })
 
-    const viewer = this.initViewer()
-    viewer.addObject(mesh)
+    // const viewer = this.initViewer()
+    // viewer.addObject(mesh)
 
     // const tfClient = new TFClient({
     //   ros: this.rosClient.ros,
