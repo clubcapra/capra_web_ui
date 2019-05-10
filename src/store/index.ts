@@ -14,7 +14,7 @@ interface RootState {
   isProduction: boolean
 }
 
-export const store = new Store<RootState>({
+const store = new Store<RootState>({
   strict: process.env.NODE_ENV !== 'production',
   state: {
     isProduction: process.env.NODE_ENV !== 'production',
@@ -26,6 +26,7 @@ export const store = new Store<RootState>({
     dashboard: DashboardModule,
   },
 })
+export default store
 
 export const cameraModule = getModule(CameraModule, store)
 export const teleopModule = getModule(TeleopModule, store)

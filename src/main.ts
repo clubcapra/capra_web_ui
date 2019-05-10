@@ -3,8 +3,8 @@ import vueBulmaComponents from 'vue-bulma-components'
 import './fontAwesome'
 
 import App from './App.vue'
-import router from './router'
-import store from './store'
+import router from '@/router'
+import store from '@/store'
 import '@/utils/gamepad/GamepadManager'
 
 Vue.config.productionTip = false

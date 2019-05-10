@@ -152,4 +152,6 @@ declare module 'ros3d' {
       warnings?: boolean
     })
   }
+
+  type COLLADA_LOADER = any
 }
