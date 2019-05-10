@@ -48,7 +48,7 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import BaseModal from '@/components/ui/modal/BaseModal.vue'
-import Card from '@/components/ui/card/Card.vue'
+import Card from '@/components/ui/Card.vue'
 
 @Component({ components: { BaseModal, Card } })
 export default class ModalCard extends Vue {
