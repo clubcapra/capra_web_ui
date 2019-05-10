@@ -20,7 +20,7 @@ import TakinFooter from '@/components/ui/layout/Footer.vue'
 
 import GamepadManager from '@/utils/gamepad/GamepadManager'
 import RosClient from '@/utils/ros/RosClient.ts'
-import RosModule from '@/store/modules/ros'
+import { rosModule } from '@/store'
 import EStop from '@/components/EStop.vue'
 
 @Component({
@@ -36,12 +36,12 @@ export default class App extends Vue {
 
   created() {
     this.rosClient.setListeners(
-      RosModule.onConnect,
-      RosModule.onDisconnect,
+      rosModule.onConnect,
+      rosModule.onDisconnect,
       () => {}
     )
 
-    this.rosClient.connect(RosModule.robotIP)
+    this.rosClient.connect(rosModule.robotIP)
   }
 }
 </script>
