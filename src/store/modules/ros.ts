@@ -1,7 +1,6 @@
-// import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
-import { VuexModule, mutation, action, getter, Module } from "vuex-class-component";
+import { VuexModule, mutation, action, Module } from 'vuex-class-component'
 
-@Module({ namespacedPath: 'ros/'})
+@Module({ namespacedPath: 'ros/' })
 export default class RosModule extends VuexModule {
   connected = false
   robotIP = 'localhost:9090'

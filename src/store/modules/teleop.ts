@@ -1,6 +1,6 @@
-import { Module, VuexModule, getModule } from 'vuex-module-decorators'
+import { VuexModule, Module } from 'vuex-class-component'
 
-@Module({ name: 'teleop', namespaced: true })
+@Module({ namespacedPath: 'teleop/' })
 export default class TeleopModule extends VuexModule {
   leftCamera = 'camera1'
   rightCamera = 'camera2'

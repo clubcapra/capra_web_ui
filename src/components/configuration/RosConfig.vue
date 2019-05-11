@@ -14,10 +14,7 @@
           />
         </b-control>
         <b-control>
-          <b-button
-            is-small
-            @click="connect"
-            :class="connectedClass"
+          <b-button is-small :class="connectedClass" @click="connect"
             >Connect</b-button
           >
         </b-control>
@@ -37,7 +34,7 @@ export default class RosConfig extends Vue {
   @Inject('rosClient') rosClient!: RosClient
 
   get connectedClass() {
-    return this.connected ? 'is-success' : 'is-danger'
+    return rosModule.connected ? 'is-success' : 'is-danger'
   }
 
   get currentIP() {

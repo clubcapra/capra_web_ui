@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
-import { getModule } from 'vuex-module-decorators'
 import {
   CameraModule,
   TeleopModule,
@@ -20,15 +19,17 @@ const store = new Store<RootState>({
     isProduction: process.env.NODE_ENV !== 'production',
   },
   modules: {
-    camera: CameraModule,
-    teleop: TeleopModule,
+    camera: CameraModule.ExtractVuexModule(CameraModule),
+    teleop: TeleopModule.ExtractVuexModule(TeleopModule),
     ros: RosModule.ExtractVuexModule(RosModule),
-    dashboard: DashboardModule,
+    dashboard: DashboardModule.ExtractVuexModule(DashboardModule),
   },
 })
+
 export default store
 
-export const cameraModule = getModule(CameraModule, store)
-export const teleopModule = getModule(TeleopModule, store)
+export const cameraModule = CameraModule.CreateProxy(store, CameraModule)
+export const teleopModule = TeleopModule.CreateProxy(store, TeleopModule)
 export const rosModule = RosModule.CreateProxy(store, RosModule)
-export const dashboardModule = getModule(DashboardModule, store)
+export const dashboardModule = DashboardModule.CreateProxy(store, DashboardModule)
+

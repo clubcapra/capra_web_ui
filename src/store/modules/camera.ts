@@ -1,7 +1,7 @@
-import { Module, VuexModule, Mutation } from 'vuex-module-decorators'
+import { VuexModule, mutation, Module } from 'vuex-class-component'
 import { CameraMap, CameraType, Camera } from './camera.types'
 
-@Module({ name: 'camera', namespaced: true })
+@Module({ namespacedPath: 'camera/' })
 export default class CameraModule extends VuexModule {
   videoServerIP = 'localhost:8080'
 
@@ -22,17 +22,17 @@ export default class CameraModule extends VuexModule {
     { disabled: true, value: CameraType.WEB_RTC },
   ]
 
-  @Mutation
+  @mutation
   setTopic(payload: { cameraName: string; topic: string }) {
     this.cameras[payload.cameraName].topic = payload.topic
   }
 
-  @Mutation
+  @mutation
   setType(payload: { cameraName: string; type: CameraType }) {
     this.cameras[payload.cameraName].type = payload.type
   }
 
-  @Mutation
+  @mutation
   addCamera(payload: Camera) {
     const { type = CameraType.MJPEG, topic = '' } = payload.options
     this.cameras = { ...this.cameras, [payload.cameraName]: { type, topic } }

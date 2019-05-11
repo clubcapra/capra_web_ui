@@ -1,8 +1,8 @@
-import { Module, VuexModule, Mutation } from 'vuex-module-decorators'
+import { VuexModule, mutation, Module } from 'vuex-class-component'
 import { Vector3 } from '@/utils/math/types'
 import { TopicWithData } from '@/utils/ros/types'
 
-@Module({ name: 'dashboard', namespaced: true })
+@Module({ namespacedPath: 'dashboard/' })
 export default class DashboardModule extends VuexModule {
   orientation: TopicWithData<Vector3> = {
     topic: {
@@ -24,26 +24,13 @@ export default class DashboardModule extends VuexModule {
     data: 0,
   }
 
-  speed: TopicWithData<number> = {
-    topic: {
-      name: '/capra/speed',
-      messageType: 'vel',
-    },
-    data: 2,
-  }
-
-  @Mutation
+  @mutation
   setOrientation(orientation: Vector3) {
     this.orientation.data = orientation
   }
 
-  @Mutation
+  @mutation
   setTemperature(temp: number) {
     this.temperature.data = temp
-  }
-
-  @Mutation
-  setSpeed(speed: number) {
-    this.speed.data = speed
   }
 }
