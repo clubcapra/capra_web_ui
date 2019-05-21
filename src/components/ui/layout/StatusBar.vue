@@ -6,7 +6,7 @@
 import { Vue, Component } from 'vue-property-decorator'
 
 @Component
-export default class Footer extends Vue {}
+export default class StatusBar extends Vue {}
 </script>
 
 <style lang="scss">

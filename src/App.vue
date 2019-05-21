@@ -3,7 +3,7 @@
     <tabs />
     <div id="view">
       <router-view />
-      <takin-footer class="takin-footer" />
+      <status-bar class="takin-footer" />
       <div class="right-sidebar">
         <e-stop />
       </div>
@@ -16,7 +16,7 @@ import 'reflect-metadata'
 import { Vue, Component, Prop, Provide, Inject } from 'vue-property-decorator'
 
 import Tabs from '@/components/ui/layout/Tabs.vue'
-import TakinFooter from '@/components/ui/layout/Footer.vue'
+import StatusBar from '@/components/ui/layout/StatusBar.vue'
 
 import GamepadManager from '@/utils/gamepad/GamepadManager'
 import RosClient from '@/utils/ros/RosClient.ts'
@@ -26,7 +26,7 @@ import EStop from '@/components/EStop.vue'
 @Component({
   components: {
     Tabs,
-    TakinFooter,
+    StatusBar,
     EStop,
   },
 })
