@@ -44,7 +44,7 @@ class RosClient {
     this.topicManager.publish(options, payload)
   }
 
-  callService(options: ServiceOptions, payload: any) {
+  callService(options: ServiceOptions, payload?: any) {
     return this.serviceManager.callService(options, payload)
   }
 

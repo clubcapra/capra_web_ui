@@ -5,7 +5,12 @@
       <b-modal-content>
         <slot />
       </b-modal-content>
-      <b-modal-close is-large aria-label="close" @click="$emit('close')" />
+      <b-modal-close
+        v-if="closeable"
+        is-large
+        aria-label="close"
+        @click="$emit('close')"
+      />
     </b-modal>
   </div>
 </template>
@@ -17,5 +22,8 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 export default class BaseModal extends Vue {
   @Prop({ default: false })
   readonly visible!: boolean
+
+  @Prop({ default: false })
+  readonly closeable!: boolean
 }
 </script>

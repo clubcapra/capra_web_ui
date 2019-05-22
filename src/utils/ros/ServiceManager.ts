@@ -9,7 +9,7 @@ class ServiceManager {
     this.ros = ros
   }
 
-  callService(options: ServiceOptions, payload: any) {
+  callService(options: ServiceOptions, payload?: any) {
     const service = this.getService(options)
 
     const request = new ServiceRequest(payload)
