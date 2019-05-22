@@ -81,6 +81,11 @@ export default class Dashboard extends Vue {
       this.right = _.clamp(twist.angular.z, 0, 1)
     }, this.GAMEPAD_UPDATE_DELAY)
   }
+
+  beforeDestroy() {
+    this.rosClient.unsubscribe(dashboardModule.orientation.topic)
+    this.rosClient.unsubscribe(dashboardModule.temperature.topic)
+  }
 }
 </script>
 

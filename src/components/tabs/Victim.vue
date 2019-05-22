@@ -32,6 +32,7 @@ import { Vue, Component, Inject } from 'vue-property-decorator'
 import RosClient from '@/utils/ros/RosClient'
 import { Camera } from '@/components'
 import { cameraModule } from '@/store'
+import { TopicOptions } from '../../utils/ros/types'
 
 @Component({ components: { Camera } })
 export default class Victim extends Vue {
@@ -46,15 +47,30 @@ export default class Victim extends Vue {
   ]
 
   landolts: Array<number> = []
-
   hazmats: Array<{ Class: string; probability: number }> = []
+
+  private landoltTopic: TopicOptions = {
+    name: '/landolts',
+    messageType: 'capra_landolt_msgs/Landolts',
+  }
+
+  private boundingBoxTopic: TopicOptions = {
+    name: '/bounding_boxes',
+    messageType: 'darknet_ros_msgs/BoundingBoxes',
+  }
 
   get camera() {
     return cameraModule.cameras['camera1']
   }
 
   mounted() {
-    this.subscribeToTopics()
+    this.rosClient.subscribe(this.boundingBoxTopic, this.setHazmats)
+    this.rosClient.subscribe(this.landoltTopic, this.setLandolts)
+  }
+
+  beforeDestroy() {
+    this.rosClient.unsubscribe(this.boundingBoxTopic)
+    this.rosClient.unsubscribe(this.landoltTopic)
   }
 
   setHazmats(boundingBoxes: []) {
@@ -67,24 +83,6 @@ export default class Victim extends Vue {
 
   setQR(QRcodes: []) {
     this.QRcodes = QRcodes
-  }
-
-  subscribeToTopics() {
-    this.rosClient.subscribe(
-      {
-        name: '/bounding_boxes',
-        messageType: 'darknet_ros_msgs/BoundingBoxes',
-      },
-      this.setHazmats
-    )
-
-    this.rosClient.subscribe(
-      {
-        name: '/landolts',
-        messageType: 'capra_landolt_msgs/Landolts',
-      },
-      this.setLandolts
-    )
   }
 }
 </script>

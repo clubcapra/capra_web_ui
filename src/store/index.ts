@@ -31,5 +31,7 @@ export default store
 export const cameraModule = CameraModule.CreateProxy(store, CameraModule)
 export const teleopModule = TeleopModule.CreateProxy(store, TeleopModule)
 export const rosModule = RosModule.CreateProxy(store, RosModule)
-export const dashboardModule = DashboardModule.CreateProxy(store, DashboardModule)
-
+export const dashboardModule = DashboardModule.CreateProxy(
+  store,
+  DashboardModule
+)
