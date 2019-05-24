@@ -16,7 +16,7 @@
 <script lang="ts">
 import { Vue, Component, Inject } from 'vue-property-decorator'
 import RosClient from '@/utils/ros/RosClient'
-import InputWithButton from '@/components/ui/InputWithButton.vue'
+import { InputWithButton } from '@/components/ui'
 
 import { rosModule } from '@/store'
 
@@ -37,6 +37,7 @@ export default class RosConfig extends Vue {
   }
 
   connect() {
+    console.log('connect')
     this.rosClient.connect(this.currentIP)
   }
 }

@@ -3,13 +3,12 @@
     <b-label v-if="props.label">{{ props.label }}</b-label>
     <b-field has-addons>
       <b-control>
-        <b-input
+        <input
           :value="props.value"
-          :class="data.class"
-          is-small
+          :class="`input is-small ${data.class}`"
           type="text"
-          @keydown:enter="listeners.click"
-          @input="listeners.input && listeners.input($event.target.value)"
+          @keydown.enter="listeners.click"
+          @input="e => data.on.input(e.target.value)"
         />
       </b-control>
       <b-control>

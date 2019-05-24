@@ -1,7 +1,7 @@
 <template>
   <base-modal :visible="visible" :closeable="closeable" @close="close">
     <card :title="title">
-      <template v-if="closeable" #header-icon class="test">
+      <template v-if="closeable" #header-icon>
         <b-button is-danger @click="close">
           <b-icon>
             <font-awesome-icon icon="times" />

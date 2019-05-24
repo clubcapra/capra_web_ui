@@ -1,5 +1,5 @@
-import { VuexModule, mutation, Module } from 'vuex-class-component'
-import { CameraMap, CameraType, Camera, CameraOptions } from './camera.types'
+import { VuexModule, mutation, Module, action } from 'vuex-class-component'
+import { CameraMap, CameraType, Camera } from './camera.types'
 
 @Module({ namespacedPath: 'camera/' })
 export default class CameraModule extends VuexModule {
@@ -42,5 +42,18 @@ export default class CameraModule extends VuexModule {
   addCamera(payload: Camera) {
     const { type = CameraType.MJPEG, topic = '' } = payload.options
     this.cameras = { ...this.cameras, [payload.cameraName]: { type, topic } }
+  }
+
+  @mutation
+  deleteCamera(payload: { cameraName: string }) {
+    delete this.cameras[payload.cameraName]
+    this.cameras = { ...this.cameras }
+  }
+
+  @action
+  async getCamera(payload: { cameraName: string }) {
+    const cam = this.cameras[payload.cameraName]
+    if (cam === undefined) return this.cameras[0]
+    return cam
   }
 }

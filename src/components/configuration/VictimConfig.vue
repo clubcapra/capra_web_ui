@@ -21,7 +21,14 @@ import { CameraMap } from '@/store/modules/camera.types'
 @Component
 export default class VictimConfig extends Vue {
   cameras = cameraModule.camerasForSelect
-  camera = victimModule.camera
+
+  get camera(): string {
+    return victimModule.camera
+  }
+
+  set camera(value) {
+    victimModule.setCamera(value)
+  }
 }
 </script>
 

@@ -1,5 +1,13 @@
 <template>
-  <card :title="title">
+  <card :title="title" is-header-visible>
+    <template #header-icon>
+      <b-button is-danger is-small @click="deleteCamera">
+        <b-icon>
+          <font-awesome-icon icon="times" />
+        </b-icon>
+      </b-button>
+    </template>
+
     <b-field>
       <b-label>Topic</b-label> <b-input v-model="topic" is-small />
     </b-field>
@@ -64,6 +72,10 @@ export default class CameraCard extends Vue {
       cameraName: this.cameraName,
       type: value as CameraType,
     })
+  }
+
+  deleteCamera() {
+    cameraModule.deleteCamera({ cameraName: this.cameraName })
   }
 }
 </script>

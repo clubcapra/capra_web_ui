@@ -22,9 +22,6 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 
 @Component
 export default class Card extends Vue {
-  @Prop({ default: false })
-  readonly closeable!: boolean
-
   @Prop()
   readonly title?: string
 

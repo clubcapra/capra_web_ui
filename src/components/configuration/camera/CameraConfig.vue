@@ -2,6 +2,16 @@
   <b-section>
     <b-title>Camera</b-title>
     <hr />
+
+    <input-with-button
+      ref="camToAdd"
+      v-model="cameraNameToAdd"
+      label="Add Camera"
+      button-text="Add"
+      :class="`is-success`"
+      @click="addCamera"
+    />
+
     <diV class="cameras">
       <div v-for="(camera, key) in cameras" :key="key">
         <camera-card class="camera" :title="key" :camera-name="key" />
@@ -14,13 +24,25 @@
 import { Vue, Component } from 'vue-property-decorator'
 
 import CameraCard from './CameraCard.vue'
+import { InputWithButton } from '@/components/ui'
 
 import { cameraModule } from '@/store'
+import { CameraType } from '@/store/modules/camera.types'
 
-@Component({ components: { CameraCard } })
+@Component({ components: { CameraCard, InputWithButton } })
 export default class CameraConfig extends Vue {
+  cameraNameToAdd = ''
+
   get cameras() {
     return cameraModule.cameras
+  }
+
+  addCamera() {
+    cameraModule.addCamera({
+      cameraName: this.cameraNameToAdd,
+      options: { type: CameraType.MJPEG, topic: '/' },
+    })
+    this.cameraNameToAdd = ''
   }
 }
 </script>
