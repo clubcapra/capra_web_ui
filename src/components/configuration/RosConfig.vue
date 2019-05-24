@@ -3,33 +3,24 @@
     <b-title>ROS</b-title>
     <hr />
 
-    <b-field>
-      <b-label>Robot IP</b-label>
-      <b-field has-addons>
-        <b-control>
-          <input
-            v-model="currentIP"
-            :class="`input is-small ${connectedClass}`"
-            @keydown:enter="connect"
-          />
-        </b-control>
-        <b-control>
-          <b-button is-small :class="connectedClass" @click="connect"
-            >Connect</b-button
-          >
-        </b-control>
-      </b-field>
-    </b-field>
+    <input-with-button
+      v-model="currentIP"
+      label="Robot IP"
+      button-text="Connect"
+      :class="connectedClass"
+      @click="connect"
+    />
   </b-section>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Inject } from 'vue-property-decorator'
 import RosClient from '@/utils/ros/RosClient'
+import InputWithButton from '@/components/ui/InputWithButton.vue'
 
 import { rosModule } from '@/store'
 
-@Component
+@Component({ components: { InputWithButton } })
 export default class RosConfig extends Vue {
   @Inject('rosClient') rosClient!: RosClient
 
@@ -50,5 +41,3 @@ export default class RosConfig extends Vue {
   }
 }
 </script>
-
-<style lang="scss" scoped></style>

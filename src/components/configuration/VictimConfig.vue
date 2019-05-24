@@ -3,11 +3,13 @@
     <b-title>Victim</b-title>
     <hr />
     <h3>Camera</h3>
-    <select v-model="camera">
-      <option v-for="c in cameras" :key="c.name" :value="c.name">{{
-        c.name
-      }}</option>
-    </select>
+    <b-select is-small>
+      <select v-model="camera">
+        <option v-for="c in cameras" :key="c.name" :value="c.name">{{
+          c.name
+        }}</option>
+      </select>
+    </b-select>
   </b-section>
 </template>
 
