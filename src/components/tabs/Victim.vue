@@ -31,7 +31,7 @@ import { Vue, Component, Inject } from 'vue-property-decorator'
 
 import RosClient from '@/utils/ros/RosClient'
 import { Camera } from '@/components'
-import { cameraModule } from '@/store'
+import { cameraModule, victimModule } from '@/store'
 import { TopicOptions } from '../../utils/ros/types'
 
 @Component({ components: { Camera } })
@@ -60,7 +60,7 @@ export default class Victim extends Vue {
   }
 
   get camera() {
-    return cameraModule.cameras['camera1']
+    return cameraModule.cameras[victimModule.camera]
   }
 
   mounted() {
