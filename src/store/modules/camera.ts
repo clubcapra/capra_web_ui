@@ -1,5 +1,5 @@
 import { VuexModule, mutation, Module } from 'vuex-class-component'
-import { CameraMap, CameraType, Camera } from './camera.types'
+import { CameraMap, CameraType, Camera, CameraOptions } from './camera.types'
 
 @Module({ namespacedPath: 'camera/' })
 export default class CameraModule extends VuexModule {
@@ -14,6 +14,12 @@ export default class CameraModule extends VuexModule {
       type: CameraType.MJPEG,
       topic: '/capra/camera_3d/depth/image_raw',
     },
+  }
+
+  get camerasForSelect() {
+    return Object.entries(this.cameras).map((entry) => {
+      return { name: entry[0], ...entry[1] }
+    })
   }
 
   typesForSelect = [

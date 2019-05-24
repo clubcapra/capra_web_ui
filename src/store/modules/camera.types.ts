@@ -7,7 +7,7 @@ export interface Camera {
   options: CameraOptions
 }
 
-interface CameraOptions {
+export interface CameraOptions {
   type: CameraType
   topic: string
 }

@@ -5,6 +5,7 @@ import {
   TeleopModule,
   RosModule,
   DashboardModule,
+  VictimModule
 } from '@/store/modules'
 
 Vue.use(Vuex)
@@ -21,6 +22,7 @@ const store = new Store<RootState>({
   modules: {
     camera: CameraModule.ExtractVuexModule(CameraModule),
     teleop: TeleopModule.ExtractVuexModule(TeleopModule),
+    victim: TeleopModule.ExtractVuexModule(VictimModule),
     ros: RosModule.ExtractVuexModule(RosModule),
     dashboard: DashboardModule.ExtractVuexModule(DashboardModule),
   },
@@ -30,6 +32,7 @@ export default store
 
 export const cameraModule = CameraModule.CreateProxy(store, CameraModule)
 export const teleopModule = TeleopModule.CreateProxy(store, TeleopModule)
+export const victimModule = VictimModule.CreateProxy(store, VictimModule)
 export const rosModule = RosModule.CreateProxy(store, RosModule)
 export const dashboardModule = DashboardModule.CreateProxy(
   store,
