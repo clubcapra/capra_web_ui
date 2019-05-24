@@ -52,8 +52,6 @@ export default class TeleopConfig extends Vue {
   set rightCamera(value) {
     teleopModule.setRightCamera(value)
   }
-
-  rightCamera: string = teleopModule.rightCamera
 }
 </script>
 
