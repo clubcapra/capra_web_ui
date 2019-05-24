@@ -17,7 +17,7 @@ export default class CameraModule extends VuexModule {
   }
 
   get camerasForSelect() {
-    return Object.entries(this.cameras).map((entry) => {
+    return Object.entries(this.cameras).map(entry => {
       return { name: entry[0], ...entry[1] }
     })
   }

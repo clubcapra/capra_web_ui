@@ -5,7 +5,7 @@ import {
   TeleopModule,
   RosModule,
   DashboardModule,
-  VictimModule
+  VictimModule,
 } from '@/store/modules'
 
 Vue.use(Vuex)
