@@ -21,6 +21,7 @@ import { cameraModule, teleopModule } from '@/store'
 @Component({ components: { Camera, Dashboard, Map2D, Viewer3D } })
 export default class Teleop extends Vue {
   get leftCamera() {
+    console.log(this.getCamera(teleopModule.leftCamera))
     return cameraModule.cameras[teleopModule.leftCamera]
   }
 
@@ -28,8 +29,8 @@ export default class Teleop extends Vue {
     return cameraModule.cameras[teleopModule.rightCamera]
   }
 
-  async getCamera(cameraName: string) {
-    return await cameraModule.getCamera({ cameraName })
+  getCamera(cameraName: string) {
+    return cameraModule.getCamera({ cameraName })
   }
 }
 </script>

@@ -3,12 +3,16 @@
     <b-title>Camera</b-title>
     <hr />
 
+    <b-field>
+      <b-label>Web Video Server IP</b-label>
+      <input v-model="currentIP" class="input is-small" />
+    </b-field>
+
     <input-with-button
       ref="camToAdd"
       v-model="cameraNameToAdd"
       label="Add Camera"
       button-text="Add"
-      :class="`is-success`"
       @click="addCamera"
     />
 
@@ -35,6 +39,14 @@ export default class CameraConfig extends Vue {
 
   get cameras() {
     return cameraModule.cameras
+  }
+
+  get currentIP() {
+    return cameraModule.videoServerIP
+  }
+
+  set currentIP(value: string) {
+    cameraModule.setVideoServerIP(value)
   }
 
   addCamera() {

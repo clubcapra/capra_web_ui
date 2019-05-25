@@ -16,17 +16,22 @@ export default class CameraModule extends VuexModule {
     },
   }
 
+  typesForSelect = [
+    { disabled: false, value: CameraType.MJPEG },
+    { disabled: false, value: CameraType.VP8 },
+    { disabled: true, value: CameraType.WEB_RTC },
+  ]
+
   get camerasForSelect() {
     return Object.entries(this.cameras).map(entry => {
       return { name: entry[0], ...entry[1] }
     })
   }
 
-  typesForSelect = [
-    { disabled: false, value: CameraType.MJPEG },
-    { disabled: false, value: CameraType.VP8 },
-    { disabled: true, value: CameraType.WEB_RTC },
-  ]
+  @mutation
+  setVideoServerIP(ip: string) {
+    this.videoServerIP = ip
+  }
 
   @mutation
   setTopic(payload: { cameraName: string; topic: string }) {
