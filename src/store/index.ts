@@ -7,8 +7,13 @@ import {
   DashboardModule,
   VictimModule,
 } from '@/store/modules'
+import VuexPersistence from 'vuex-persist'
 
 Vue.use(Vuex)
+
+const vuexLocal = new VuexPersistence({
+  storage: window.localStorage
+})
 
 interface RootState {
   isProduction: boolean
@@ -26,6 +31,7 @@ const store = new Store<RootState>({
     ros: RosModule.ExtractVuexModule(RosModule),
     dashboard: DashboardModule.ExtractVuexModule(DashboardModule),
   },
+  plugins: [vuexLocal.plugin],
 })
 
 export default store
