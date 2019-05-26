@@ -18,10 +18,11 @@ export default class Camera extends Vue {
   }
 
   get stream() {
-    const url = `http://${cameraModule.videoServerIP}/stream
-    ?topic=${this.topic}
-    &type=${this.type}
-    `
+    const url =
+      `http://${rosModule.robotIP}:${cameraModule.videoServerPort}/stream` +
+      `?topic=${this.topic}` +
+      `&type=${this.type}`
+    // `&quality=${50}`
 
     return this.connected ? url : ''
   }
@@ -33,7 +34,7 @@ export default class Camera extends Vue {
       </div>
     )
 
-    const Camera = () => {
+    const Stream = () => {
       switch (this.type) {
         case CameraType.MJPEG:
           return <img src={this.stream} />
@@ -46,7 +47,7 @@ export default class Camera extends Vue {
 
     return (
       <div class="camera">
-        {this.connected ? <Camera /> : <NoVideo text="no video" />}
+        {this.connected ? <Stream /> : <NoVideo text="no video" />}
       </div>
     )
   }
@@ -57,10 +58,12 @@ export default class Camera extends Vue {
 .camera {
   display: grid;
 
-  > div {
+  > * {
     display: grid;
     align-items: center;
     justify-items: center;
+    height: 100%;
+    width: 100%;
   }
 }
 </style>

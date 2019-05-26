@@ -3,7 +3,7 @@ import { VuexModule, mutation, action, Module } from 'vuex-class-component'
 @Module({ namespacedPath: 'ros/' })
 export default class RosModule extends VuexModule {
   connected = false
-  robotIP = 'localhost:9090'
+  robotIP = 'localhost'
 
   @mutation
   setConnected(isConnected: boolean) {

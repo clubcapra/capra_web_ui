@@ -25,7 +25,11 @@ export default class RosConfig extends Vue {
   @Inject('rosClient') rosClient!: RosClient
 
   get connectedClass() {
-    return rosModule.connected ? 'is-success' : 'is-danger'
+    return this.connected ? 'is-success' : 'is-danger'
+  }
+
+  get connected() {
+    return rosModule.connected
   }
 
   get currentIP() {
@@ -37,8 +41,7 @@ export default class RosConfig extends Vue {
   }
 
   connect() {
-    console.log('connect')
-    this.rosClient.connect(this.currentIP)
+    this.rosClient.connect(rosModule.robotIP)
   }
 }
 </script>

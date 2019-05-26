@@ -3,16 +3,16 @@ import { CameraMap, CameraType, Camera } from './camera.types'
 
 @Module({ namespacedPath: 'camera/' })
 export default class CameraModule extends VuexModule {
-  videoServerIP = 'localhost:8080'
+  videoServerPort = '8080'
 
   cameras: CameraMap = {
     camera1: {
       type: CameraType.MJPEG,
-      topic: '/capra/camera_3d/rgb/image_raw',
+      topic: '/camera_3d/rgb/image_raw',
     },
     camera2: {
       type: CameraType.MJPEG,
-      topic: '/capra/camera_3d/depth/image_raw',
+      topic: '/camera_3d/depth/image',
     },
   }
 
@@ -28,9 +28,17 @@ export default class CameraModule extends VuexModule {
     })
   }
 
+  get getCamera() {
+    return (cameraName: string) => {
+      const cam = this.cameras[cameraName]
+      if (cam === undefined) return this.cameras[0]
+      return cam
+    }
+  }
+
   @mutation
-  setVideoServerIP(ip: string) {
-    this.videoServerIP = ip
+  setVideoServerPort(port: string) {
+    this.videoServerPort = port
   }
 
   @mutation
@@ -53,12 +61,5 @@ export default class CameraModule extends VuexModule {
   deleteCamera(payload: { cameraName: string }) {
     delete this.cameras[payload.cameraName]
     this.cameras = { ...this.cameras }
-  }
-
-  @action
-  async getCamera(payload: { cameraName: string }) {
-    const cam = this.cameras[payload.cameraName]
-    if (cam === undefined) return this.cameras[0]
-    return cam
   }
 }

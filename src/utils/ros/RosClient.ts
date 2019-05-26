@@ -9,6 +9,7 @@ class RosClient {
   private serviceManager: ServiceManager = new ServiceManager(this.ros)
   private robotIP?: string
   private shouldTryToReconnect: boolean
+  private connected: boolean = false
 
   constructor(robotIP?: string, shouldTryToReconnect: boolean = false) {
     this.shouldTryToReconnect = shouldTryToReconnect
@@ -18,10 +19,18 @@ class RosClient {
     }
   }
 
-  connect(robotIP = 'localhost:9090') {
+  connect(robotIP = 'localhost') {
     this.robotIP = robotIP
-    this.ros.close()
-    this.ros.connect(`ws://${robotIP}`)
+    const url = `ws://${robotIP}:9090`
+    console.log('trying to connect to: ' + robotIP)
+
+    if (this.connected) {
+      // this.ros.close()
+      // this.ros = new Ros({})
+      // this.initListeners()
+    }
+
+    this.ros.connect(url)
   }
 
   disconnect() {
@@ -57,13 +66,15 @@ class RosClient {
   private onConnection(onConnection: Function): (event: any) => void {
     return () => {
       this.topicManager.reconnectAllDisconnectedHandler()
-      onConnection
+      this.connected = true
+      onConnection()
     }
   }
 
   private onClose(onClose: Function): (event: any) => void {
     return () => {
       this.topicManager.unsubscribeAllTopics()
+      this.connected = false
       onClose()
     }
   }

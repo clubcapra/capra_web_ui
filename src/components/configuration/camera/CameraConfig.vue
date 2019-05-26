@@ -4,8 +4,8 @@
     <hr />
 
     <b-field>
-      <b-label>Web Video Server IP</b-label>
-      <input v-model="currentIP" class="input is-small" />
+      <b-label>Web Video Server Port</b-label>
+      <input v-model="currentIP" class="input is-small" placeholder="8080" />
     </b-field>
 
     <input-with-button
@@ -42,11 +42,11 @@ export default class CameraConfig extends Vue {
   }
 
   get currentIP() {
-    return cameraModule.videoServerIP
+    return cameraModule.videoServerPort
   }
 
   set currentIP(value: string) {
-    cameraModule.setVideoServerIP(value)
+    cameraModule.setVideoServerPort(value)
   }
 
   addCamera() {
