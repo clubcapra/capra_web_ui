@@ -18,6 +18,7 @@ export default class CameraModule extends VuexModule {
 
   typesForSelect = [
     { disabled: false, value: CameraType.MJPEG },
+    { disabled: false, value: CameraType.PNG },
     { disabled: false, value: CameraType.VP8 },
     { disabled: true, value: CameraType.WEB_RTC },
   ]
