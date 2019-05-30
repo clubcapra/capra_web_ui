@@ -19,10 +19,10 @@ class RosClient {
     }
   }
 
-  connect(robotIP = 'localhost') {
+  connect(robotIP = 'localhost', port = '9090') {
     this.robotIP = robotIP
-    const url = `ws://${robotIP}:9090`
-    console.log('trying to connect to: ' + robotIP)
+    const url = `ws://${robotIP}:${port}`
+    console.log('trying to connect to: ' + url)
 
     if (this.connected) {
       // this.ros.close()

@@ -3,28 +3,27 @@
     <b-title>ROS</b-title>
     <hr />
 
-    <input-with-button
-      v-model="currentIP"
-      label="Robot IP"
-      button-text="Connect"
-      :class="connectedClass"
-      @click="connect"
-    />
+    <input-with-label v-model="currentIP" label="Robot IP" />
+
+    <input-with-label v-model="port" label="Port" />
+
+    <b-button :class="connectedClass" @click="connect">Connect</b-button>
   </b-section>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Inject } from 'vue-property-decorator'
 import RosClient from '@/utils/ros/RosClient'
-import { InputWithButton } from '@/components/ui'
+import { InputWithLabel } from '@/components/ui'
 
 import { rosModule } from '@/store'
 
-@Component({ components: { InputWithButton } })
+@Component({ components: { InputWithLabel } })
 export default class RosConfig extends Vue {
   @Inject('rosClient') rosClient!: RosClient
 
   get connectedClass() {
+    if (rosModule.connecting) return 'is-warning is-loading'
     return this.connected ? 'is-success' : 'is-danger'
   }
 
@@ -40,8 +39,17 @@ export default class RosConfig extends Vue {
     rosModule.setRobotIP(value)
   }
 
+  get port() {
+    return rosModule.port
+  }
+
+  set port(value: string) {
+    rosModule.setPort(value)
+  }
+
   connect() {
-    this.rosClient.connect(rosModule.robotIP)
+    rosModule.onConnecting()
+    this.rosClient.connect()
   }
 }
 </script>
