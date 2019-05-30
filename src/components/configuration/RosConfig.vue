@@ -20,8 +20,6 @@ import { rosModule } from '@/store'
 
 @Component({ components: { InputWithLabel } })
 export default class RosConfig extends Vue {
-  @Inject('rosClient') rosClient!: RosClient
-
   get connectedClass() {
     if (rosModule.connecting) return 'is-warning is-loading'
     return this.connected ? 'is-success' : 'is-danger'
@@ -48,8 +46,7 @@ export default class RosConfig extends Vue {
   }
 
   connect() {
-    rosModule.onConnecting()
-    this.rosClient.connect()
+    rosModule.connect()
   }
 }
 </script>

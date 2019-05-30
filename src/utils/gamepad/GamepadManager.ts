@@ -6,11 +6,8 @@ import { GamepadBtn } from './mappings/types'
 
 export default class GamepadManager {
   private gamepads: Array<CustomGamepad> = []
-  private ros: RosClient
 
-  constructor(ros: RosClient) {
-    this.ros = ros
-
+  constructor() {
     if (!(navigator.getGamepads instanceof Function))
       console.warn('This browser does not support gamepads.')
 
@@ -40,7 +37,7 @@ export default class GamepadManager {
       messageType: 'geometry_msgs/Twist',
     }
 
-    this.ros.publish(topic, mapGamepadToTwist(gamepad))
+    RosClient.publish(topic, mapGamepadToTwist(gamepad))
   }
 
   private scanGamepads() {

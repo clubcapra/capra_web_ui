@@ -34,7 +34,6 @@ import { mapGamepadToTwist } from '@/utils/math'
   components: { ProgressBar },
 })
 export default class Dashboard extends Vue {
-  @Inject('rosClient') rosClient!: RosClient
   @Inject() gamepadManager!: GamepadManager
 
   private readonly GAMEPAD_UPDATE_DELAY = 20
@@ -57,12 +56,12 @@ export default class Dashboard extends Vue {
   }
 
   mounted() {
-    this.rosClient.subscribe(
+    RosClient.subscribe(
       dashboardModule.orientation.topic,
       dashboardModule.setOrientation
     )
 
-    this.rosClient.subscribe(
+    RosClient.subscribe(
       dashboardModule.temperature.topic,
       dashboardModule.setTemperature
     )
@@ -83,8 +82,8 @@ export default class Dashboard extends Vue {
   }
 
   beforeDestroy() {
-    this.rosClient.unsubscribe(dashboardModule.orientation.topic)
-    this.rosClient.unsubscribe(dashboardModule.temperature.topic)
+    RosClient.unsubscribe(dashboardModule.orientation.topic)
+    RosClient.unsubscribe(dashboardModule.temperature.topic)
   }
 }
 </script>

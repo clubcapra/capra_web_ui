@@ -1,12 +1,21 @@
 <template>
-  <footer class="takin-footer">footer</footer>
+  <footer class="takin-footer">{{ status }}</footer>
 </template>
 
 <script>
 import { Vue, Component } from 'vue-property-decorator'
+import { rosModule } from '@/store'
 
 @Component
-export default class Footer extends Vue {}
+export default class Footer extends Vue {
+  get status() {
+    if (rosModule.connecting)
+      return 'trying to connect to : ' + rosModule.robotIP
+    else if (rosModule.connected) return 'connected to ' + rosModule.url
+
+    return 'disconnected'
+  }
+}
 </script>
 
 <style lang="scss">

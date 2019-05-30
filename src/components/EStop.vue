@@ -50,12 +50,10 @@ import { OkCancelModal } from '@/components/ui/modal'
 
 @Component({ components: { OkCancelModal } })
 export default class EStop extends Vue {
-  @Inject() rosClient!: RosClient
-
   isModalVisible = false
 
   sendServiceStop() {
-    this.rosClient.callService({ name: 'takin_estop', serviceType: '' }, '')
+    RosClient.callService({ name: 'takin_estop', serviceType: '' }, '')
     this.isModalVisible = true
   }
 

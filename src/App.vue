@@ -31,17 +31,17 @@ import EStop from '@/components/EStop.vue'
   },
 })
 export default class App extends Vue {
-  @Provide() rosClient = new RosClient()
-  @Provide() gamepadManager = new GamepadManager(this.rosClient)
+  @Provide() gamepadManager = new GamepadManager()
 
   created() {
-    this.rosClient.setListeners(
+    //TODO init in rosModule
+    RosClient.setListeners(
       rosModule.onConnect,
       rosModule.onDisconnect,
       () => {}
     )
 
-    this.rosClient.connect(rosModule.robotIP)
+    rosModule.connect()
   }
 }
 </script>

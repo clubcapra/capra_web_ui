@@ -8,16 +8,16 @@ class RosClient {
   private topicManager: TopicManager = new TopicManager(this.ros)
   private serviceManager: ServiceManager = new ServiceManager(this.ros)
   private robotIP?: string
-  private shouldTryToReconnect: boolean
+  private shouldTryToReconnect: boolean = false
   private connected: boolean = false
 
-  constructor(robotIP?: string, shouldTryToReconnect: boolean = false) {
-    this.shouldTryToReconnect = shouldTryToReconnect
+  // constructor(robotIP?: string, shouldTryToReconnect: boolean = false) {
+  //   this.shouldTryToReconnect = shouldTryToReconnect
 
-    if (robotIP) {
-      this.connect(robotIP)
-    }
-  }
+  //   if (robotIP) {
+  //     this.connect(robotIP)
+  //   }
+  // }
 
   connect(robotIP = 'localhost', port = '9090') {
     this.robotIP = robotIP
@@ -94,4 +94,4 @@ class RosClient {
   }
 }
 
-export default RosClient
+export default new RosClient()

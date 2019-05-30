@@ -36,8 +36,6 @@ import { TopicOptions } from '../../utils/ros/types'
 
 @Component({ components: { Camera } })
 export default class Victim extends Vue {
-  @Inject('rosClient') rosClient!: RosClient
-
   QRcodes = [
     {
       id: '0',
@@ -64,13 +62,13 @@ export default class Victim extends Vue {
   }
 
   mounted() {
-    this.rosClient.subscribe(this.boundingBoxTopic, this.setHazmats)
-    this.rosClient.subscribe(this.landoltTopic, this.setLandolts)
+    RosClient.subscribe(this.boundingBoxTopic, this.setHazmats)
+    RosClient.subscribe(this.landoltTopic, this.setLandolts)
   }
 
   beforeDestroy() {
-    this.rosClient.unsubscribe(this.boundingBoxTopic)
-    this.rosClient.unsubscribe(this.landoltTopic)
+    RosClient.unsubscribe(this.boundingBoxTopic)
+    RosClient.unsubscribe(this.landoltTopic)
   }
 
   setHazmats(boundingBoxes: []) {

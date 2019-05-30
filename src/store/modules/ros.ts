@@ -8,6 +8,10 @@ export default class RosModule extends VuexModule {
   robotIP = 'localhost'
   port = '9090'
 
+  get url() {
+    return `${this.robotIP}:${this.port}`
+  }
+
   @mutation
   setConnected(isConnected: boolean) {
     this.connected = isConnected
@@ -28,10 +32,10 @@ export default class RosModule extends VuexModule {
     this.port = port
   }
 
-  @action
-  async onConnecting() {
-    this.setConnecting(true)
-    this.setConnected(false)
+  @mutation
+  onConnecting() {
+    this.connecting = true
+    this.connected = false
   }
 
   @action
@@ -45,4 +49,12 @@ export default class RosModule extends VuexModule {
     this.setConnecting(false)
     this.setConnected(false)
   }
+
+  @action
+  async connect() {
+    this.onConnecting()
+    RosClient.connect(this.robotIP, this.port)
+  }
+
+  //TODO maybe handle subscribe/unsubscribe
 }
