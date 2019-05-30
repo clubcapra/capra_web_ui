@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vuex, { Store } from 'vuex'
+import Vuex, { Store, Plugin } from 'vuex'
 import {
   CameraModule,
   TeleopModule,
@@ -11,13 +11,15 @@ import VuexPersistence from 'vuex-persist'
 
 Vue.use(Vuex)
 
-const vuexLocal = new VuexPersistence({
-  storage: window.localStorage
-})
-
 interface RootState {
   isProduction: boolean
 }
+
+const vuexLocal = new VuexPersistence<RootState>({
+  storage: window.localStorage,
+})
+
+const plugins: [Plugin<RootState>] = [vuexLocal.plugin]
 
 const store = new Store<RootState>({
   strict: process.env.NODE_ENV !== 'production',
@@ -31,7 +33,7 @@ const store = new Store<RootState>({
     ros: RosModule.ExtractVuexModule(RosModule),
     dashboard: DashboardModule.ExtractVuexModule(DashboardModule),
   },
-  plugins: [vuexLocal.plugin],
+  plugins,
 })
 
 export default store
