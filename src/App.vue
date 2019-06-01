@@ -3,7 +3,7 @@
     <tabs />
     <div id="view">
       <router-view />
-      <status-bar class="takin-footer" />
+      <status-bar class="status-bar" />
       <div class="right-sidebar">
         <e-stop />
       </div>
@@ -77,7 +77,7 @@ body {
     &:first-child {
       grid-area: v;
     }
-    .takin-footer {
+    .status-bar {
       grid-area: f;
     }
     .right-sidebar {
