@@ -1,92 +1,104 @@
 <template>
-  <footer class="takin-footer">
-    <div>allo</div>
+  <div class="status-bar">
+    <div>{{ rosStatus }}</div>
     <div>allo2</div>
     <div>allo2</div>
-    <div><span class="icon"><i class="material-icons" v-text="networkIcon"/></span>allo2</div>
-    <div v-text="currentTime"/>
-  </footer>
+    <div>
+      <i class="material-icons" style="font-size: 16px">{{ networkIcon }}</i>
+      allo2
+    </div>
+    <div v-text="currentTime" />
+  </div>
 </template>
 
 <script>
 import { Vue, Component } from 'vue-property-decorator'
 import { clearInterval } from 'timers'
+import { rosModule } from '@/store'
 
 @Component
 export default class StatusBar extends Vue {
-  currentTime = (new Date()).toLocaleTimeString()
+  currentTime = new Date().toLocaleTimeString()
   networkRTT = navigator.connection.rtt
   networkEffectiveType = navigator.connection.effectiveType
-  networkIcon = "signal_wifi_off"
+  networkIcon = 'signal_wifi_off'
 
-  mounted(){
+  get rosStatus() {
+    if (rosModule.connecting)
+      return 'trying to connect to : ' + rosModule.robotIP
+    else if (rosModule.connected) return 'connected to ' + rosModule.url
+
+    return 'disconnected'
+  }
+
+  mounted() {
     this.interval = setInterval(this.updateTime, 1000)
-    this.networkInfo = setInterval(this.logNetworkInfo, 1000)
+    this.networkInfo = setInterval(this.updateNetworkInfo, 1000)
   }
 
   updateTime() {
-    this.currentTime = (new Date()).toLocaleTimeString()
+    this.currentTime = new Date().toLocaleTimeString()
   }
 
-  logNetworkInfo() {
-    // Network type that browser uses
-    console.log('         type: ' + navigator.connection.type)
+  updateNetworkInfo() {
+    // logNetworkInfo()
+
     switch (navigator.connection.type) {
-      case "bluetooth" :
+      case 'bluetooth':
         switch (navigator.connection.effectiveType) {
-          case "slow-2g":
-          case "2g":
-          case "3g":
-          case "4g":
-            this.networkIcon="bluetooth_connected"
+          case 'slow-2g':
+          case '2g':
+          case '3g':
+          case '4g':
+            this.networkIcon = 'bluetooth_connected'
             break
 
           default:
-            this.networkIcon="bluetooth_disabled"
+            this.networkIcon = 'bluetooth_disabled'
             break
         }
         break
-    case "cellular" :
+      case 'cellular':
         switch (navigator.connection.effectiveType) {
-          case "slow-2g":
-            this.networkIcon="signal_cellular_1_bar"
+          case 'slow-2g':
+            this.networkIcon = 'signal_cellular_1_bar'
             break
-          case "2g":
-            this.networkIcon="signal_cellular_2_bar"
+          case '2g':
+            this.networkIcon = 'signal_cellular_2_bar'
             break
-          case "3g":
-            this.networkIcon="signal_cellular_3_bar"
+          case '3g':
+            this.networkIcon = 'signal_cellular_3_bar'
             break
-          case "4g":
-            this.networkIcon="signal_cellular_4_bar"
+          case '4g':
+            this.networkIcon = 'signal_cellular_4_bar'
             break
 
           default:
-            this.networkIcon="signal_cellular_off"
+            this.networkIcon = 'signal_cellular_off'
             break
         }
         break
-    case "ethernet" :
-        this.networkIcon = "settings_ethernet"
+      case 'ethernet':
+        this.networkIcon = 'settings_ethernet'
         break
-    case "wifi" :
+      case 'wifi':
       default:
         switch (navigator.connection.effectiveType) {
-          case "slow-2g":
-            this.networkIcon = "signal_wifi_1_bar"
+          case 'slow-2g':
+            this.networkIcon = 'signal_wifi_1_bar'
             break
-          case "2g":
-            this.networkIcon = "signal_wifi_2_bar"
+          case '2g':
+            this.networkIcon = 'signal_wifi_2_bar'
             break
-          case "3g":
-            this.networkIcon = "signal_wifi_3_bar"
+          case '3g':
+            this.networkIcon = 'signal_wifi_3_bar'
             break
-          case "4g":
-            this.networkIcon = "signal_wifi_4_bar"
+          case '4g':
+            this.networkIcon = 'signal_wifi_4_bar'
             break
 
           default:
-            this.networkIcon = "signal_wifi_off"
+            this.networkIcon = 'signal_wifi_off'
             break
         }
         // Set wifi icon as default
@@ -95,9 +107,13 @@ export default class StatusBar extends Vue {
 
     this.networkRTT = navigator.connection.rtt
     this.networkEffectiveType = navigator.connection.effectiveType
+  }
 
+  logNetworkInfo() {
+    // Network type that browser uses
+    console.log('         type: ' + navigator.connection.type)
 
-
+      //eslint-disable-line
     // Effective bandwidth estimate
     console.log('     downlink: ' + navigator.connection.downlink + 'Mb/s')
 
@@ -126,8 +142,10 @@ export default class StatusBar extends Vue {
 <style lang="scss">
 $Padding-offset: 0.5%;
 
-.takin-footer {
-  //border-top: 1px solid black
+.status-bar {
+  // display: grid;
+  // grid-template-columns: auto auto auto auto auto;
+  //border-top: 1px solid black;
   height: 100%;
   font-size: 0.75em;
   background-color: purple;

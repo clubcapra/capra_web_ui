@@ -5,6 +5,8 @@
       <div>y: {{ orientation.y }}</div>
       <div>z: {{ orientation.z }}</div>
       <div>temp: {{ temp }}</div>
+      <div>CO2:</div>
+      <CO2Graph />
     </div>
     <div class="speed-progress">
       <progress-bar :value="forward" fill-parent vertical />
@@ -19,7 +21,6 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Inject } from 'vue-property-decorator'
-
 import _ from 'lodash-es'
 
 import { dashboardModule } from '@/store'
@@ -30,8 +31,10 @@ import GamepadManager from '@/utils/gamepad/GamepadManager'
 import { Stick, GamepadBtn } from '@/utils/gamepad/mappings/types'
 import { mapGamepadToTwist } from '@/utils/math'
 
+import CO2Graph from './CO2Graph.vue'
+
 @Component({
-  components: { ProgressBar },
+  components: { ProgressBar, CO2Graph },
 })
 export default class Dashboard extends Vue {
   @Inject() gamepadManager!: GamepadManager
