@@ -15,8 +15,6 @@ import RosClient from '@/utils/ros/RosClient'
 
 @Component
 export default class CO2Graph extends Vue {
-  co2Data: ChartPoint[] = []
-
   private chart?: Chart
   private options = {
     legend: {
@@ -35,14 +33,10 @@ export default class CO2Graph extends Vue {
             pause: false, // chart is not paused
             ttl: undefined, // data will be automatically deleted as it disappears off the chart
           },
-        },
-      ],
-      yAxes: [
-        {
-          ticks: {
-            min: 0,
-            max: 100,
-            stepSize: 25,
+          time: {
+            displayFormats: {
+              second: 'HH:mm:ss',
+            },
           },
         },
       ],
@@ -53,13 +47,13 @@ export default class CO2Graph extends Vue {
     },
     plugins: {
       streaming: {
-        frameRate: 24, // chart is drawn 5 times every second
+        frameRate: 30,
       },
     },
   }
 
   private dataset = {
-    data: this.co2Data,
+    data: [],
     borderColor: 'rgb(255, 0, 0)',
     lineTension: 0,
     showLine: true,
@@ -81,13 +75,28 @@ export default class CO2Graph extends Vue {
 
   mounted() {
     const chart = this.initChart()
-    const time = 0
 
+    const updateChart = (data: ChartPoint) => {
+      //@ts-ignore
+      chart.data.datasets[0].data.push(data)
+      chart.update({ preservation: true })
+    }
+
+    RosClient.subscribe(
+      {
+        name: '/ppm',
+        messageType: 'std_msgs/String',
+      },
+      (value: string) => {
+        const point = { x: Date.now(), y: parseInt(value) }
+        updateChart(point)
+      }
+    )
+
+    //TODO remove this when integration test is done
     setInterval(() => {
       const point = { x: Date.now(), y: _.random(0, 100) }
-      //@ts-ignore
-      chart.data.datasets[0].data.push(point)
-      chart.update({ preservation: true })
+      updateChart(point)
     }, 250)
   }
 }
