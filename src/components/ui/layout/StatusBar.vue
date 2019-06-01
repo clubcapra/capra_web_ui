@@ -5,7 +5,7 @@
     <div>allo2</div>
     <div>
       <i class="material-icons" style="font-size: 16px">{{ networkIcon }}</i>
-      allo2
+      {{networkRTT}}ms
     </div>
     <div v-text="currentTime" />
   </div>
