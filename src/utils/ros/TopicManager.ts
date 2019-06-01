@@ -49,10 +49,10 @@ class TopicManager {
   }
 
   unsubscribeAllTopics() {
-    this.registeredTopics.forEach(topic => {
-      if (topic.topic) {
-        topic.topic.unsubscribe()
-        topic.topic = null
+    this.registeredTopics.forEach(registeredTopic => {
+      if (registeredTopic.topic) {
+        registeredTopic.topic.unsubscribe()
+        registeredTopic.topic = null
       }
     })
   }

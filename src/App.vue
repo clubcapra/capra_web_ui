@@ -3,7 +3,7 @@
     <tabs />
     <div id="view">
       <router-view />
-      <status-bar class="takin-footer" />
+      <takin-footer class="takin-footer" />
       <div class="right-sidebar">
         <e-stop />
       </div>
@@ -16,7 +16,7 @@ import 'reflect-metadata'
 import { Vue, Component, Prop, Provide, Inject } from 'vue-property-decorator'
 
 import Tabs from '@/components/ui/layout/Tabs.vue'
-import StatusBar from '@/components/ui/layout/StatusBar.vue'
+import TakinFooter from '@/components/ui/layout/StatusBar.vue'
 
 import GamepadManager from '@/utils/gamepad/GamepadManager'
 import RosClient from '@/utils/ros/RosClient.ts'
@@ -26,22 +26,22 @@ import EStop from '@/components/EStop.vue'
 @Component({
   components: {
     Tabs,
-    StatusBar,
+    TakinFooter,
     EStop,
   },
 })
 export default class App extends Vue {
-  @Provide() rosClient = new RosClient()
-  @Provide() gamepadManager = new GamepadManager(this.rosClient)
+  @Provide() gamepadManager = new GamepadManager()
 
   created() {
-    this.rosClient.setListeners(
+    //TODO init in rosModule
+    RosClient.setListeners(
       rosModule.onConnect,
       rosModule.onDisconnect,
       () => {}
     )
 
-    this.rosClient.connect(rosModule.robotIP)
+    rosModule.connect()
   }
 }
 </script>

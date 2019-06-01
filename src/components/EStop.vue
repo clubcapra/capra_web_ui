@@ -32,12 +32,13 @@
         <br />
       </p>
     </b-button>
-    <modal-card
+    <ok-cancel-modal
       :visible="isModalVisible"
       title="Warning!"
-      closeable
+      ok-button-text="Yes"
+      cancel-button-text="No"
       @close="onModalClose"
-      >Robot is currently stopped. Do you want to restart it?</modal-card
+      >Robot is currently stopped. Do you want to restart it?</ok-cancel-modal
     >
   </div>
 </template>
@@ -45,16 +46,14 @@
 <script lang="ts">
 import { Vue, Component, Inject } from 'vue-property-decorator'
 import RosClient from '@/utils/ros/RosClient'
-import ModalCard from '@/components/ui/modal/ModalCard.vue'
+import { OkCancelModal } from '@/components/ui/modal'
 
-@Component({ components: { ModalCard } })
+@Component({ components: { OkCancelModal } })
 export default class EStop extends Vue {
-  @Inject() rosClient!: RosClient
-
   isModalVisible = false
 
   sendServiceStop() {
-    this.rosClient.callService({ name: 'takin_estop', serviceType: '' }, '')
+    RosClient.callService({ name: 'takin_estop', serviceType: '' }, '')
     this.isModalVisible = true
   }
 

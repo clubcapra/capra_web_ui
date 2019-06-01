@@ -10,39 +10,10 @@
         <slot />
       </b-modal-card-body>
       <b-modal-card-foot>
-        <b-button is-success @click="ok">Ok</b-button>
-        <b-button is-danger @click="cancel">Cancel</b-button>
+        <slot name="footer" />
       </b-modal-card-foot>
     </b-modal-card>
   </b-modal>
-  <!-- <base-modal :visible="visible" @close="close">
-    <card :title="title">
-      <template v-if="closeable" #header-icon class="test">
-        <b-button is-danger @click="close">
-          <b-icon>
-            <font-awesome-icon icon="times" />
-          </b-icon>
-        </b-button>
-      </template>
-      <template #default>
-        <slot />
-      </template>
-      <template #footer>
-        <button
-          class="button card-footer-item is-success is-fullsize"
-          @click="ok"
-        >
-          Ok
-        </button>
-        <button
-          class="button card-footer-item is-danger is-fullsize"
-          @click="cancel"
-        >
-          Cancel
-        </button>
-      </template>
-    </card>
-  </base-modal> -->
 </template>
 
 <script lang="ts">
@@ -62,24 +33,7 @@ export default class ModalCard extends Vue {
   readonly title?: string
 
   @Prop({ default: () => {} })
-  readonly onOk!: Function
-
-  @Prop({ default: () => {} })
-  readonly onCancel!: Function
-
-  @Prop({ default: () => {} })
   readonly onClose!: Function
-
-  ok() {
-    console.log('ok')
-    this.onOk()
-    this.close()
-  }
-
-  cancel() {
-    this.onCancel()
-    this.close()
-  }
 
   close() {
     this.onClose()

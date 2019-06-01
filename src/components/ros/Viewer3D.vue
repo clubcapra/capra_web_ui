@@ -14,8 +14,6 @@ import _ from 'lodash-es'
 
 @Component
 export default class Viewer3D extends Vue {
-  @Inject('rosClient') rosClient!: RosClient
-
   get id() {
     return _.uniqueId('ros-viewer-3d-')
   }

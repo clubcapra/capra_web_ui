@@ -2,6 +2,20 @@
   <b-section>
     <b-title>Camera</b-title>
     <hr />
+
+    <b-field>
+      <b-label>Web Video Server Port</b-label>
+      <input v-model="currentIP" class="input is-small" placeholder="8080" />
+    </b-field>
+
+    <input-with-button
+      ref="camToAdd"
+      v-model="cameraNameToAdd"
+      label="Add Camera"
+      button-text="Add"
+      @click="addCamera"
+    />
+
     <diV class="cameras">
       <div v-for="(camera, key) in cameras" :key="key">
         <camera-card class="camera" :title="key" :camera-name="key" />
@@ -14,13 +28,33 @@
 import { Vue, Component } from 'vue-property-decorator'
 
 import CameraCard from './CameraCard.vue'
+import { InputWithButton } from '@/components/ui'
 
 import { cameraModule } from '@/store'
+import { CameraType } from '@/store/modules/camera.types'
 
-@Component({ components: { CameraCard } })
+@Component({ components: { CameraCard, InputWithButton } })
 export default class CameraConfig extends Vue {
+  cameraNameToAdd = ''
+
   get cameras() {
     return cameraModule.cameras
+  }
+
+  get currentIP() {
+    return cameraModule.videoServerPort
+  }
+
+  set currentIP(value: string) {
+    cameraModule.setVideoServerPort(value)
+  }
+
+  addCamera() {
+    cameraModule.addCamera({
+      cameraName: this.cameraNameToAdd,
+      options: { type: CameraType.MJPEG, topic: '/' },
+    })
+    this.cameraNameToAdd = ''
   }
 }
 </script>

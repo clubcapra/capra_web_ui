@@ -8,20 +8,29 @@ class RosClient {
   private topicManager: TopicManager = new TopicManager(this.ros)
   private serviceManager: ServiceManager = new ServiceManager(this.ros)
   private robotIP?: string
-  private shouldTryToReconnect: boolean
+  private shouldTryToReconnect: boolean = false
+  private connected: boolean = false
 
-  constructor(robotIP?: string, shouldTryToReconnect: boolean = false) {
-    this.shouldTryToReconnect = shouldTryToReconnect
+  // constructor(robotIP?: string, shouldTryToReconnect: boolean = false) {
+  //   this.shouldTryToReconnect = shouldTryToReconnect
 
-    if (robotIP) {
-      this.connect(robotIP)
-    }
-  }
+  //   if (robotIP) {
+  //     this.connect(robotIP)
+  //   }
+  // }
 
-  connect(robotIP = 'localhost:9090') {
+  connect(robotIP = 'localhost', port = '9090') {
     this.robotIP = robotIP
-    this.ros.close()
-    this.ros.connect(`ws://${robotIP}`)
+    const url = `ws://${robotIP}:${port}`
+    console.log('trying to connect to: ' + url)
+
+    if (this.connected) {
+      // this.ros.close()
+      // this.ros = new Ros({})
+      // this.initListeners()
+    }
+
+    this.ros.connect(url)
   }
 
   disconnect() {
@@ -44,7 +53,7 @@ class RosClient {
     this.topicManager.publish(options, payload)
   }
 
-  callService(options: ServiceOptions, payload: any) {
+  callService(options: ServiceOptions, payload?: any) {
     return this.serviceManager.callService(options, payload)
   }
 
@@ -57,13 +66,15 @@ class RosClient {
   private onConnection(onConnection: Function): (event: any) => void {
     return () => {
       this.topicManager.reconnectAllDisconnectedHandler()
-      onConnection
+      this.connected = true
+      onConnection()
     }
   }
 
   private onClose(onClose: Function): (event: any) => void {
     return () => {
       this.topicManager.unsubscribeAllTopics()
+      this.connected = false
       onClose()
     }
   }
@@ -83,4 +94,4 @@ class RosClient {
   }
 }
 
-export default RosClient
+export default new RosClient()

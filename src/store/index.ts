@@ -1,17 +1,25 @@
 import Vue from 'vue'
-import Vuex, { Store } from 'vuex'
+import Vuex, { Store, Plugin } from 'vuex'
 import {
   CameraModule,
   TeleopModule,
   RosModule,
   DashboardModule,
+  VictimModule,
 } from '@/store/modules'
+import VuexPersistence from 'vuex-persist'
 
 Vue.use(Vuex)
 
 interface RootState {
   isProduction: boolean
 }
+
+const vuexLocal = new VuexPersistence<RootState>({
+  storage: window.localStorage,
+})
+
+const plugins: [Plugin<RootState>] = [vuexLocal.plugin]
 
 const store = new Store<RootState>({
   strict: process.env.NODE_ENV !== 'production',
@@ -21,15 +29,20 @@ const store = new Store<RootState>({
   modules: {
     camera: CameraModule.ExtractVuexModule(CameraModule),
     teleop: TeleopModule.ExtractVuexModule(TeleopModule),
+    victim: TeleopModule.ExtractVuexModule(VictimModule),
     ros: RosModule.ExtractVuexModule(RosModule),
     dashboard: DashboardModule.ExtractVuexModule(DashboardModule),
   },
+  plugins,
 })
 
 export default store
 
 export const cameraModule = CameraModule.CreateProxy(store, CameraModule)
 export const teleopModule = TeleopModule.CreateProxy(store, TeleopModule)
+export const victimModule = VictimModule.CreateProxy(store, VictimModule)
 export const rosModule = RosModule.CreateProxy(store, RosModule)
-export const dashboardModule = DashboardModule.CreateProxy(store, DashboardModule)
-
+export const dashboardModule = DashboardModule.CreateProxy(
+  store,
+  DashboardModule
+)
