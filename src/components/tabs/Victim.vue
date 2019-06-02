@@ -1,33 +1,13 @@
 <template>
   <div class="victim">
-    <Camera :type="camera.type" :topic="camera.topic" />
-    <Camera :type="camera.type" :topic="camera.topic" />
-    <Camera :type="camera.type" :topic="camera.topic" />
-    <Camera :type="camera.type" :topic="camera.topic" />
+    <Camera :type="cameraMotion.type" :topic="cameraMotion.topic" />
+    <Camera :type="cameraThermal.type" :topic="cameraThermal.topic" />
+    <Camera :type="cameraQr.type" :topic="cameraQr.topic" />
+    <Camera :type="cameraHazmat.type" :topic="cameraHazmat.topic" />
 
     <div class="sensors">
       <div>CO2:</div>
       <CO2Graph />
-      <!--<h2 class="header">QR</h2>
-      <br />
-      <div v-for="qr in QRcodes" :key="qr.id">
-        <p>{{ qr.number }} - {{ qr.text }}</p>
-      </div>
-      <hr />
-      <h2 class="header">Landolt</h2>
-      <br />
-      <div v-for="landolt in landolts" :key="landolt">
-        <p>
-          <font-awesome-icon icon="circle" />
-          - {{ landolt }}
-        </p>
-      </div>
-      <hr />
-      <h2 class="header">Hazmat</h2>
-      <br />
-      <div v-for="hazmat in hazmats" :key="hazmat.Class">
-        <p>- {{ hazmat.Class }} probability: {{ hazmat.probability }}</p>
-      </div>-->
     </div>
   </div>
 </template>
@@ -63,8 +43,20 @@ export default class Victim extends Vue {
     messageType: 'darknet_ros_msgs/BoundingBoxes',
   }
 
-  get camera() {
-    return cameraModule.cameras[victimModule.camera]
+  get cameraMotion() {
+    return cameraModule.cameras[victimModule.cameraMotion]
+  }
+
+  get cameraThermal() {
+    return cameraModule.cameras[victimModule.cameraThermal]
+  }
+
+  get cameraQr() {
+    return cameraModule.cameras[victimModule.cameraQr]
+  }
+
+  get cameraHazmat() {
+    return cameraModule.cameras[victimModule.cameraHazmat]
   }
 
   mounted() {
