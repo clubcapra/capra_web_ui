@@ -69,6 +69,10 @@ export default class Dashboard extends Vue {
       const { gamepad } = this.gamepadManager
 
       if (!gamepad) return
+      if (!gamepad.getButtonPressed(GamepadBtn.A)) {
+        this.forward = this.backward = this.left = this.right = 0
+        return
+      }
 
       const twist = mapGamepadToTwist(gamepad)
 
