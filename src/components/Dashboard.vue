@@ -30,7 +30,7 @@ import { Stick, GamepadBtn } from '@/utils/gamepad/mappings/types'
 import { mapGamepadToTwist } from '@/utils/math'
 
 @Component({
-  components: { ProgressBar},
+  components: { ProgressBar },
 })
 export default class Dashboard extends Vue {
   @Inject() gamepadManager!: GamepadManager

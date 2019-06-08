@@ -90,7 +90,6 @@ export default class Victim extends Vue {
   grid-template-rows: 40% 40% 20%;
 
   .sensors {
-    //grid-area: sensors;
     grid-column: 1 / span 2;
     box-shadow: inset 0 0 0 1px #000000;
     .header {

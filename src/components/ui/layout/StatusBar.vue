@@ -5,7 +5,7 @@
     <div>allo2</div>
     <div>
       <i class="material-icons" style="font-size: 16px">{{ networkIcon }}</i>
-      {{networkRTT}}ms
+      {{ networkRTT }}ms
     </div>
     <div v-text="currentTime" />
   </div>
@@ -101,7 +101,6 @@ export default class StatusBar extends Vue {
             this.networkIcon = 'signal_wifi_off'
             break
         }
-        // Set wifi icon as default
         break
     }
 
@@ -113,7 +112,6 @@ export default class StatusBar extends Vue {
     // Network type that browser uses
     console.log('         type: ' + navigator.connection.type)
 
-      //eslint-disable-line
     // Effective bandwidth estimate
     console.log('     downlink: ' + navigator.connection.downlink + 'Mb/s')
 
