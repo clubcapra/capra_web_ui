@@ -8,6 +8,11 @@
     <input-with-label v-model="port" label="Port" />
 
     <b-button :class="connectedClass" @click="connect">Connect</b-button>
+
+    <br />
+    <br />
+
+    <b-button class="is-danger" @click="clearCache">Clear Cache</b-button>
   </b-section>
 </template>
 
@@ -47,6 +52,10 @@ export default class RosConfig extends Vue {
 
   connect() {
     rosModule.connect()
+  }
+
+  clearCache() {
+    localStorage.removeItem('vuex')
   }
 }
 </script>
