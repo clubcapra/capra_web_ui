@@ -12,6 +12,7 @@ import 'chartjs-plugin-streaming'
 
 import { dashboardModule } from '@/store'
 import RosClient from '@/utils/ros/RosClient'
+import { TopicOptions } from '../utils/ros/types'
 
 @Component
 export default class CO2Graph extends Vue {
@@ -77,21 +78,20 @@ export default class CO2Graph extends Vue {
     const chart = this.initChart()
 
     const updateChart = (data: ChartPoint) => {
-      //@ts-ignore
+      // @ts-ignore
       chart.data.datasets[0].data.push(data)
       chart.update({ preservation: true })
     }
 
-    RosClient.subscribe(
-      {
-        name: '/ppm',
-        messageType: 'std_msgs/String',
-      },
-      (value: string) => {
-        const point = { x: Date.now(), y: parseInt(value) }
-        updateChart(point)
-      }
-    )
+    const co2Topic: TopicOptions = {
+      name: '/ppm',
+      messageType: 'std_msgs/String',
+    }
+
+    RosClient.subscribe(co2Topic, (value: string) => {
+      const point = { x: Date.now(), y: parseInt(value) }
+      updateChart(point)
+    })
 
     //TODO remove this when integration test is done
     setInterval(() => {
@@ -105,6 +105,6 @@ export default class CO2Graph extends Vue {
 <style lang="scss" scoped>
 #graph {
   height: 75px;
-  width: 100%;
+  width: 99%;
 }
 </style>
