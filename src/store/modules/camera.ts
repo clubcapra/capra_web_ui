@@ -6,13 +6,37 @@ export default class CameraModule extends VuexModule {
   videoServerPort = '8080'
 
   cameras: CameraMap = {
-    camera1: {
+    camera3d_rgb: {
       type: CameraType.MJPEG,
       topic: '/camera_3d/rgb/image_raw',
     },
-    camera2: {
+    camera3d_depth: {
       type: CameraType.MJPEG,
       topic: '/camera_3d/depth/image',
+    },
+    camera_back: {
+      type: CameraType.MJPEG,
+      topic: '',
+    },
+    thermal: {
+      type: CameraType.MJPEG,
+      topic: '',
+    },
+    detection: {
+      type: CameraType.MJPEG,
+      topic: '',
+    },
+    qr: {
+      type: CameraType.MJPEG,
+      topic: '',
+    },
+    landolt: {
+      type: CameraType.MJPEG,
+      topic: '',
+    },
+    hazmat: {
+      type: CameraType.MJPEG,
+      topic: '',
     },
   }
 

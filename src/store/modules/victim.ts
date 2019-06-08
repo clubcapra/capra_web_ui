@@ -2,10 +2,10 @@ import { VuexModule, Module, mutation } from 'vuex-class-component'
 
 @Module({ namespacedPath: 'victim/' })
 export default class VictimModule extends VuexModule {
-  cameraMotion = 'camera1'
-  cameraThermal = 'camera1'
-  cameraQr = 'camera1'
-  cameraHazmat = 'camera1'
+  cameraMotion = 'camera3d_rgb'
+  cameraThermal = 'camera3d_rgb'
+  cameraQr = 'camera3d_rgb'
+  cameraHazmat = 'camera3d_rgb'
 
   @mutation
   setCameraMotion(cameraName: string) {
