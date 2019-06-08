@@ -15,7 +15,7 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop, Provide, Inject } from 'vue-property-decorator'
 import Tabs from '@/components/ui/layout/Tabs.vue'
-import StatusBar from '@/components/StatusBar/StatusBar.vue'
+import StatusBar from '@/components/ui/layout/StatusBar/StatusBar.vue'
 import GamepadManager from '@/utils/gamepad/GamepadManager'
 import RosClient from '@/utils/ros/RosClient.ts'
 import { rosModule } from '@/store'
