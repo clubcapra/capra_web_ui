@@ -3,7 +3,6 @@ import RosClient from '@/utils/ros/RosClient'
 import { TopicOptions } from '@/utils/ros/types'
 import CustomGamepad from './CustomGamepad'
 import { GamepadBtn } from './mappings/types'
-import _ from 'lodash'
 
 const topic: TopicOptions = {
   name: '/cmd_vel',
@@ -25,7 +24,7 @@ export default class GamepadManager {
     return this.gamepads[0]
   }
 
-  private initEventListeners() {
+  private initEventListeners = () => {
     window.addEventListener('gamepadconnected', this
       .onGamepadConnected as EventListener)
     window.addEventListener('gamepaddisconnected', this
