@@ -80,6 +80,7 @@ export default class CO2Graph extends Vue {
     const updateChart = (data: ChartPoint) => {
       // @ts-ignore
       chart.data.datasets[0].data.push(data)
+      // @ts-ignore
       chart.update({ preservation: true })
     }
 
