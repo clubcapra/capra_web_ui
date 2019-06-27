@@ -93,12 +93,6 @@ export default class CO2Graph extends Vue {
       const point = { x: Date.now(), y: parseInt(value) }
       updateChart(point)
     })
-
-    //TODO remove this when integration test is done
-    setInterval(() => {
-      const point = { x: Date.now(), y: _.random(0, 100) }
-      updateChart(point)
-    }, 250)
   }
 }
 </script>
