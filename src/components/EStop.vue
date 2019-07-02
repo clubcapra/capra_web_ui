@@ -40,8 +40,7 @@
       @close="onModalClose"
       @ok="onModalOk"
       @cancel="onModalCancel"
-      >Robot is currently stopped. Do you want to restart it?</ok-cancel-modal
-    >
+    >Robot is currently stopped. Do you want to restart it?</ok-cancel-modal>
   </div>
 </template>
 
@@ -55,7 +54,7 @@ export default class EStop extends Vue {
   isModalVisible = false
 
   sendServiceStop() {
-    RosClient.callService({ name: 'takin_estop', serviceType: '' }, '')
+    RosClient.callService({ name: 'takin_estop_disable', serviceType: '' }, '')
     this.isModalVisible = true
   }
 
@@ -64,7 +63,8 @@ export default class EStop extends Vue {
   }
 
   onModalOk() {
-    console.log('ok estop')
+    RosClient.callService({ name: 'takin_estop_enable', serviceType: '' }, '')
+    this.isModalVisible = false
   }
 
   onModalCancel() {
