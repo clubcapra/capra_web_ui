@@ -38,6 +38,8 @@
       ok-button-text="Yes"
       cancel-button-text="No"
       @close="onModalClose"
+      @ok="onModalOk"
+      @cancel="onModalCancel"
       >Robot is currently stopped. Do you want to restart it?</ok-cancel-modal
     >
   </div>
@@ -59,6 +61,14 @@ export default class EStop extends Vue {
 
   onModalClose() {
     this.isModalVisible = false
+  }
+
+  onModalOk() {
+    console.log('ok estop')
+  }
+
+  onModalCancel() {
+    console.log('cancel estop')
   }
 }
 </script>

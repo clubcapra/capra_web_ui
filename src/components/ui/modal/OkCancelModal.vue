@@ -45,14 +45,8 @@ export default class OkCancelModal extends Vue {
   @Prop()
   readonly title?: string
 
-  @Prop({ default: () => {} })
-  readonly onOk!: Function
-
   @Prop({ default: 'Ok' })
   readonly okButtonText!: String
-
-  @Prop({ default: () => {} })
-  readonly onCancel!: Function
 
   @Prop({ default: 'Cancel' })
   readonly cancelButtonText!: String
@@ -61,12 +55,12 @@ export default class OkCancelModal extends Vue {
   readonly onClose!: Function
 
   ok() {
-    this.onOk()
+    this.$emit('ok')
     this.close()
   }
 
   cancel() {
-    this.onCancel()
+    this.$emit('cancel')
     this.close()
   }
 
