@@ -2,7 +2,7 @@ import { mapGamepadToTwist } from '@/utils/math/index'
 import RosClient from '@/utils/ros/RosClient'
 import { TopicOptions } from '@/utils/ros/types'
 import CustomGamepad from './CustomGamepad'
-import { GamepadBtn } from './mappings/types'
+import { GamepadBtn, Dpad } from './mappings/types'
 
 const topic: TopicOptions = {
   name: '/cmd_vel',
@@ -37,11 +37,11 @@ export default class GamepadManager {
     if (gamepad.getButtonPressed(GamepadBtn.A)) {
       RosClient.publish(topic, mapGamepadToTwist(gamepad))
     }
-    if (gamepad.getButtonPressed(GamepadBtn.LB) && !this.repeate) {
+    if (gamepad.getButtonPressed(Dpad.Left) && !this.repeate) {
       console.log('pressed and true')
       RosClient.callService({ name: '/headlights', serviceType: '' }, '')
       this.repeate = true
-    } else if (!gamepad.getButtonPressed(GamepadBtn.LB) && this.repeate) {
+    } else if (!gamepad.getButtonPressed(Dpad.Left) && this.repeate) {
       this.repeate = false
       console.log('pressed and false')
     }

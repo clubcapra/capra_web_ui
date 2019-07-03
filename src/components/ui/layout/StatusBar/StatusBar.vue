@@ -30,7 +30,10 @@ export default class StatusBar extends Vue {
 
   get backgroundColour() {
     if (rosModule.connecting) return 'has-background-warning has-text-black'
-    return this.connected ? 'has-background-success' : 'has-background-danger'
+
+    return rosModule.connected
+      ? 'has-background-success'
+      : 'has-background-danger'
   }
 
   mounted() {
