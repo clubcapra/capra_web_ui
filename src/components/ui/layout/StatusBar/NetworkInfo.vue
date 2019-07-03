@@ -13,8 +13,6 @@ import { clearInterval } from 'timers'
 export default class NetworkInfo extends Vue {
   // @ts-ignore
   networkRTT = navigator.connection.rtt
-  // @ts-ignore
-  networkEffectiveType = navigator.connection.effectiveType
   networkIcon = 'signal_wifi_off'
   networkInfo!: NodeJS.Timeout
 
@@ -30,6 +28,11 @@ export default class NetworkInfo extends Vue {
     // logNetworkInfo()
     // @ts-ignore
     const connection: any = navigator.connection
+    this.networkIcon = this.getNetworkIcon(connection)
+    this.networkRTT = connection.rtt
+  }
+
+  getNetworkIcon(connection: any) {
     switch (connection.type) {
       case 'bluetooth':
         switch (connection.effectiveType) {
@@ -37,61 +40,40 @@ export default class NetworkInfo extends Vue {
           case '2g':
           case '3g':
           case '4g':
-            this.networkIcon = 'bluetooth_connected'
-            break
-
+            return 'bluetooth_connected'
           default:
-            this.networkIcon = 'bluetooth_disabled'
-            break
+            return 'bluetooth_disabled'
         }
-        break
       case 'cellular':
         switch (connection.effectiveType) {
           case 'slow-2g':
-            this.networkIcon = 'signal_cellular_1_bar'
-            break
+            return 'signal_cellular_1_bar'
           case '2g':
-            this.networkIcon = 'signal_cellular_2_bar'
-            break
+            return 'signal_cellular_2_bar'
           case '3g':
-            this.networkIcon = 'signal_cellular_3_bar'
-            break
+            return 'signal_cellular_3_bar'
           case '4g':
-            this.networkIcon = 'signal_cellular_4_bar'
-            break
-
+            return 'signal_cellular_4_bar'
           default:
-            this.networkIcon = 'signal_cellular_off'
-            break
+            return 'signal_cellular_off'
         }
-        break
       case 'ethernet':
-        this.networkIcon = 'settings_ethernet'
-        break
+        return 'settings_ethernet'
       case 'wifi':
       default:
         switch (connection.effectiveType) {
           case 'slow-2g':
-            this.networkIcon = 'signal_wifi_1_bar'
-            break
+            return 'signal_wifi_1_bar'
           case '2g':
-            this.networkIcon = 'signal_wifi_2_bar'
-            break
+            return 'signal_wifi_2_bar'
           case '3g':
-            this.networkIcon = 'signal_wifi_3_bar'
-            break
+            return 'signal_wifi_3_bar'
           case '4g':
-            this.networkIcon = 'signal_wifi_4_bar'
-            break
+            return 'signal_wifi_4_bar'
           default:
-            this.networkIcon = 'signal_wifi_off'
-            break
+            return 'signal_wifi_off'
         }
-        break
     }
-
-    this.networkRTT = connection.rtt
-    this.networkEffectiveType = connection.effectiveType
   }
 
   logNetworkInfo() {
@@ -100,20 +82,15 @@ export default class NetworkInfo extends Vue {
 
     // Network type that browser uses
     console.log('         type: ' + connection.type)
-
     // Effective bandwidth estimate
     console.log('     downlink: ' + connection.downlink + 'Mb/s')
-
     // Effective round-trip time estimate
     console.log('          rtt: ' + connection.rtt + 'ms')
-
     // Upper bound on the downlink speed of the first network hop
     console.log('  downlinkMax: ' + connection.downlinkMax + 'Mb/s')
-
     // Effective connection type determined using a combination of recently
     // observed rtt and downlink values: ' +
     console.log('effectiveType: ' + connection.effectiveType)
-
     // True if the user has requested a reduced data usage mode from the user
     // agent.
     console.log('     saveData: ' + connection.saveData)
