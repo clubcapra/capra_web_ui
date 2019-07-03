@@ -11,7 +11,7 @@ const topic: TopicOptions = {
 
 export default class GamepadManager {
   private gamepads: Array<CustomGamepad> = []
-  private repeate: Boolean = false
+  private headlightsOn: Boolean = false
 
   constructor() {
     if (!(navigator.getGamepads instanceof Function))
@@ -37,13 +37,11 @@ export default class GamepadManager {
     if (gamepad.getButtonPressed(GamepadBtn.A)) {
       RosClient.publish(topic, mapGamepadToTwist(gamepad))
     }
-    if (gamepad.getButtonPressed(Dpad.Left) && !this.repeate) {
-      console.log('pressed and true')
+    if (gamepad.getButtonPressed(Dpad.Left) && !this.headlightsOn) {
       RosClient.callService({ name: '/headlights', serviceType: '' }, '')
-      this.repeate = true
-    } else if (!gamepad.getButtonPressed(Dpad.Left) && this.repeate) {
-      this.repeate = false
-      console.log('pressed and false')
+      this.headlightsOn = true
+    } else if (!gamepad.getButtonPressed(Dpad.Left) && this.headlightsOn) {
+      this.headlightsOn = false
     }
   }
 
