@@ -16,7 +16,7 @@ export default class CameraModule extends VuexModule {
     },
     camera_back: {
       type: CameraType.MJPEG,
-      topic: '',
+      topic: '/usb_cam/image_raw',
     },
     thermal: {
       type: CameraType.MJPEG,
@@ -24,7 +24,7 @@ export default class CameraModule extends VuexModule {
     },
     detection: {
       type: CameraType.MJPEG,
-      topic: '',
+      topic: '/camera_3d/motion_detection/rgb/image_raw/motion',
     },
     qr: {
       type: CameraType.MJPEG,
@@ -32,11 +32,11 @@ export default class CameraModule extends VuexModule {
     },
     landolt: {
       type: CameraType.MJPEG,
-      topic: '',
+      topic: '/landolt/image',
     },
     hazmat: {
       type: CameraType.MJPEG,
-      topic: '',
+      topic: '/darknet_ros/darknet_ros/detection_image',
     },
   }
 
