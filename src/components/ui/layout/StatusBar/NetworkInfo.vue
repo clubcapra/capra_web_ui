@@ -1,6 +1,6 @@
 <template>
   <div>
-    <i class="material-icons" style="font-size: 16px">{{ networkIcon }}</i>
+    <!-- <i class="material-icons" style="font-size: 16px">{{ networkIcon }}</i> -->
     {{ networkRTT }}ms
   </div>
 </template>
