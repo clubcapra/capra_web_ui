@@ -8,7 +8,7 @@ import {
 } from './mappings/types'
 
 export default class CustomGamepad {
-  private gamepad: Gamepad
+  public gamepad: Gamepad
   private mapping: GamepadMapping
 
   constructor(gamepad: Gamepad) {

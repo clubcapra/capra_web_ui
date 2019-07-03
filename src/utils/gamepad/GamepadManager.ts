@@ -3,10 +3,16 @@ import RosClient from '@/utils/ros/RosClient'
 import { TopicOptions } from '@/utils/ros/types'
 import CustomGamepad from './CustomGamepad'
 import { GamepadBtn, Dpad } from './mappings/types'
+import { mapGamepadToJoy } from './GamepadUtils'
 
-const topic: TopicOptions = {
+const cmdVelTopic: TopicOptions = {
   name: '/cmd_vel',
   messageType: 'geometry_msgs/Twist',
+}
+
+const joyTopic: TopicOptions = {
+  name: '/joy',
+  messageType: 'sensor_msgs/Joy',
 }
 
 export default class GamepadManager {
@@ -34,9 +40,12 @@ export default class GamepadManager {
 
   // TODO add support for listeners
   private handleGamepadInput(gamepad: CustomGamepad) {
+    RosClient.publish(joyTopic, mapGamepadToJoy(gamepad.gamepad))
+
     if (gamepad.getButtonPressed(GamepadBtn.A)) {
-      RosClient.publish(topic, mapGamepadToTwist(gamepad))
+      RosClient.publish(cmdVelTopic, mapGamepadToTwist(gamepad))
     }
+
     if (gamepad.getButtonPressed(Dpad.Left) && !this.headlightsOn) {
       RosClient.callService({ name: '/headlights', serviceType: '' }, '')
       this.headlightsOn = true

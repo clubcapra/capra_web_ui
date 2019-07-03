@@ -1,11 +1,19 @@
-export const getButtonPressed = (button: GamepadButton) => {
-  return typeof button == 'number' ? button > 0.1 : button.pressed
-}
+let joySeqId = 0
 
-export const getButtonValue = (button: GamepadButton) => {
-  return typeof button == 'number' ? button : button.value
-}
+export const mapGamepadToJoy = (gamepad: Gamepad) => {
+  const d = new Date()
+  const seconds = Math.round(d.getTime() / 1000)
 
-export const getButton = (gamepad: Gamepad, index: number) => {
-  return gamepad.buttons[index]
+  return {
+    Header: {
+      seq: joySeqId++,
+      stamp: {
+        sec: seconds,
+        nsecs: 0,
+      },
+      frame_id: '',
+    },
+    axis: gamepad.axes,
+    buttons: gamepad.buttons,
+  }
 }
