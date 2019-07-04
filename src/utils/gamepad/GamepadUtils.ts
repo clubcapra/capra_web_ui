@@ -13,7 +13,7 @@ export const mapGamepadToJoy = (gamepad: Gamepad) => {
       },
       frame_id: '',
     },
-    axes: gamepad.axes,
+    axes: gamepad.axes.map(x => x  < 0.09?0.0:x),
     buttons: gamepad.buttons.map(x =>  ~~(x.value)) //Convert to int32 (~~)
   }
 }
