@@ -18,6 +18,8 @@ const joyTopic: TopicOptions = {
 export default class GamepadManager {
   private gamepads: Array<CustomGamepad> = []
   private headlightsOn: Boolean = false
+  private armTogglePressed: Boolean = false
+  private isArmControlled: Boolean = false
 
   constructor() {
     if (!(navigator.getGamepads instanceof Function))
@@ -25,6 +27,10 @@ export default class GamepadManager {
 
     this.initEventListeners()
     this.update()
+  }
+
+  get getIsArmControlled() {
+    return this.isArmControlled
   }
 
   get gamepad() {
@@ -40,12 +46,36 @@ export default class GamepadManager {
 
   // TODO add support for listeners
   private handleGamepadInput(gamepad: CustomGamepad) {
-    RosClient.publish(joyTopic, mapGamepadToJoy(gamepad.gamepad))
+    this.handleControlMode(gamepad)
 
+    if (this.isArmControlled) {
+      this.handleArmControl(gamepad)
+    } else {
+      this.handleRobotControl(gamepad)
+    }
+
+    this.handleHeadLight(gamepad)
+  }
+
+  private handleRobotControl(gamepad: CustomGamepad) {
     if (gamepad.getButtonPressed(GamepadBtn.A)) {
       RosClient.publish(cmdVelTopic, mapGamepadToTwist(gamepad))
     }
+  }
+  private handleArmControl(gamepad: CustomGamepad) {
+    RosClient.publish(joyTopic, mapGamepadToJoy(gamepad.gamepad))
+  }
 
+  private handleControlMode(gamepad: CustomGamepad) {
+    if (gamepad.getButtonPressed(Dpad.Right) && !this.armTogglePressed) {
+      this.isArmControlled != this.isArmControlled
+      this.armTogglePressed = true
+    } else if (!gamepad.getButtonPressed(Dpad.Right) && this.armTogglePressed) {
+      this.armTogglePressed = false
+    }
+  }
+
+  private handleHeadLight(gamepad: CustomGamepad) {
     if (gamepad.getButtonPressed(Dpad.Left) && !this.headlightsOn) {
       RosClient.callService({ name: '/headlights', serviceType: '' }, '')
       this.headlightsOn = true
