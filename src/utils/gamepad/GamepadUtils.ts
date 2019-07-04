@@ -5,7 +5,7 @@ export const mapGamepadToJoy = (gamepad: Gamepad) => {
   const seconds = Math.round(d.getTime() / 1000)
 
   return {
-    Header: {
+    header: {
       seq: joySeqId++,
       stamp: {
         sec: seconds,
@@ -13,7 +13,7 @@ export const mapGamepadToJoy = (gamepad: Gamepad) => {
       },
       frame_id: '',
     },
-    axis: gamepad.axes,
-    buttons: gamepad.buttons.map(x =>  ~~(x.value))
+    axes: gamepad.axes,
+    buttons: gamepad.buttons.map(x =>  ~~(x.value)) //Convert to int32 (~~)
   }
 }
