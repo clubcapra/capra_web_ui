@@ -14,6 +14,6 @@ export const mapGamepadToJoy = (gamepad: Gamepad) => {
       frame_id: '',
     },
     axis: gamepad.axes,
-    buttons: gamepad.buttons,
+    buttons: gamepad.buttons.filter(x => x.value)
   }
 }
