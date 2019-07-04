@@ -89,7 +89,6 @@ export default class Dashboard extends Vue {
   }
 
   beforeDestroy() {
-    
     RosClient.unsubscribe(dashboardModule.orientation.topic)
     RosClient.unsubscribe(dashboardModule.temperature.topic)
   }
