@@ -16,7 +16,7 @@ export default class CameraModule extends VuexModule {
     },
     camera_back: {
       type: CameraType.MJPEG,
-      topic: '/usb_cam/image_raw',
+      topic: '/camera_rearview/image_raw',
     },
     thermal: {
       type: CameraType.MJPEG,
@@ -33,6 +33,10 @@ export default class CameraModule extends VuexModule {
     landolt: {
       type: CameraType.MJPEG,
       topic: '/landolt/image',
+    },
+    camera_arm: {
+      type: CameraType.MJPEG,
+      topic: '/camera_handcam/image_raw',
     },
     hazmat: {
       type: CameraType.MJPEG,
@@ -57,6 +61,7 @@ export default class CameraModule extends VuexModule {
     return (cameraName: string) => {
       const cam = this.cameras[cameraName]
       if (cam === undefined) return this.cameras[0]
+
       return cam
     }
   }

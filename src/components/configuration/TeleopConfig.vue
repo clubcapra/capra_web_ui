@@ -5,24 +5,21 @@
     <h3>Left camera</h3>
     <b-select is-small>
       <select v-model="leftCamera">
-        <option
-          v-for="camera in cameras"
-          :key="camera.name"
-          :value="camera.name"
-          >{{ camera.name }}</option
-        >
+        <option v-for="camera in cameras" :key="camera.name" :value="camera.name">{{ camera.name }}</option>
       </select>
     </b-select>
 
     <h3>Right camera</h3>
     <b-select is-small>
       <select v-model="rightCamera">
-        <option
-          v-for="camera in cameras"
-          :key="camera.name"
-          :value="camera.name"
-          >{{ camera.name }}</option
-        >
+        <option v-for="camera in cameras" :key="camera.name" :value="camera.name">{{ camera.name }}</option>
+      </select>
+    </b-select>
+
+    <h3>Bottom camera</h3>
+    <b-select is-small>
+      <select v-model="bottomCamera">
+        <option v-for="camera in cameras" :key="camera.name" :value="camera.name">{{ camera.name }}</option>
       </select>
     </b-select>
   </b-section>
@@ -51,6 +48,14 @@ export default class TeleopConfig extends Vue {
 
   set rightCamera(value) {
     teleopModule.setRightCamera(value)
+  }
+  //change effectué
+  get bottomCamera(): string {
+    console.log('passe ici pour get')
+    return teleopModule.bottomCamera
+  }
+  set bottomCamera(value) {
+    teleopModule.setBottomCamera(value)
   }
 }
 </script>

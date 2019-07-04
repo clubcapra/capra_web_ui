@@ -6,7 +6,7 @@ import { TopicWithData } from '@/utils/ros/types'
 export default class DashboardModule extends VuexModule {
   orientation: TopicWithData<Vector3> = {
     topic: {
-      name: '/capra/imu',
+      name: '/vectornav/IMU',
       messageType: 'sensor_msgs/Imu',
     },
     data: {
@@ -18,7 +18,7 @@ export default class DashboardModule extends VuexModule {
 
   temperature: TopicWithData<number> = {
     topic: {
-      name: '/capra/imu',
+      name: '/vectornav/IMU',
       messageType: 'sensor_msgs/Imu',
     },
     data: 0,

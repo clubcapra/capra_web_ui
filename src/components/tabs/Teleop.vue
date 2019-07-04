@@ -7,7 +7,7 @@
     <div class="bottom-panel">
       <dashboard />
       <Map2D />
-      <Viewer3D />
+      <camera :type="bottomCamera.type" :topic="bottomCamera.topic" />
     </div>
   </div>
 </template>
@@ -18,7 +18,7 @@ import { Dashboard, Camera, Map2D } from '@/components'
 import Viewer3D from '@/components/ros/Viewer3D.vue'
 import { cameraModule, teleopModule } from '@/store'
 
-@Component({ components: { Camera, Dashboard, Map2D, Viewer3D } })
+@Component({ components: { Camera, Dashboard } })
 export default class Teleop extends Vue {
   get leftCamera() {
     return cameraModule.getCamera(teleopModule.leftCamera)
@@ -26,6 +26,10 @@ export default class Teleop extends Vue {
 
   get rightCamera() {
     return cameraModule.getCamera(teleopModule.rightCamera)
+  }
+
+  get bottomCamera() {
+    return cameraModule.getCamera(teleopModule.bottomCamera)
   }
 }
 </script>
