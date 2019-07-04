@@ -14,6 +14,6 @@ export const mapGamepadToJoy = (gamepad: Gamepad) => {
       frame_id: '',
     },
     axis: gamepad.axes,
-    buttons: new Int32Array(gamepad.buttons.map(x =>  x.value))
+    buttons: gamepad.buttons.map(x =>  ~~(x.value))
   }
 }
