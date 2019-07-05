@@ -68,7 +68,7 @@ export default class GamepadManager {
 
   private handleControlMode(gamepad: CustomGamepad) {
     if (gamepad.getButtonPressed(Dpad.Right) && !this.armTogglePressed) {
-      this.isArmControlled != this.isArmControlled
+      this.isArmControlled = !this.isArmControlled
       this.armTogglePressed = true
     } else if (!gamepad.getButtonPressed(Dpad.Right) && this.armTogglePressed) {
       this.armTogglePressed = false
@@ -76,10 +76,10 @@ export default class GamepadManager {
   }
 
   private handleHeadLight(gamepad: CustomGamepad) {
-    if (gamepad.getButtonPressed(Dpad.Left) && !this.headlightsOn) {
+    if (gamepad.getButtonPressed(Dpad.Left) && this.headlightsOn) {
       RosClient.callService({ name: '/headlights', serviceType: '' }, '')
       this.headlightsOn = true
-    } else if (!gamepad.getButtonPressed(Dpad.Left) && this.headlightsOn) {
+    } else if (!gamepad.getButtonPressed(Dpad.Left) && !this.headlightsOn) {
       this.headlightsOn = false
     }
   }
