@@ -40,7 +40,8 @@
       @close="onModalClose"
       @ok="onModalOk"
       @cancel="onModalCancel"
-    >Robot is currently stopped. Do you want to restart it?</ok-cancel-modal>
+      >Robot is currently stopped. Do you want to restart it?</ok-cancel-modal
+    >
   </div>
 </template>
 
