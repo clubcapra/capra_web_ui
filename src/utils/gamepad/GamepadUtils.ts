@@ -8,11 +8,11 @@ export const mapGamepadToJoy = (gamepad: Gamepad) => {
   const seconds = Math.round(d.getTime() / 1000)
   const cgamepad  = new CustomGamepad(gamepad)
 
-  const axs  = gamepad.axes.map(x => x  < 0.09?0.0:x)
+  const axs  = gamepad.axes.map(x => x  < 0.09 && x>-0.09?0.0:x)
 
   //Add Trigger axis at the right place in the axes array
-  axs.splice(2,0,cgamepad.getButtonValue(GamepadBtn.LT))
-  axs.splice(5,0,cgamepad.getButtonValue(GamepadBtn.RT))
+  // axs.splice(2,0,cgamepad.getButtonValue(GamepadBtn.LT))
+  // axs.splice(5,0,cgamepad.getButtonValue(GamepadBtn.RT))
 
 
   return {
