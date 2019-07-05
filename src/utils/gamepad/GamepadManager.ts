@@ -47,14 +47,10 @@ export default class GamepadManager {
   // TODO add support for listeners
   private handleGamepadInput(gamepad: CustomGamepad) {
     this.handleControlMode(gamepad)
-    console.log(this.isArmControlled)
+
     if (this.isArmControlled) {
-      console.log('ok arm')
-      console.log(this.isArmControlled)
       this.handleArmControl(gamepad)
     } else {
-      console.log('ok robot')
-      console.log(this.isArmControlled)
       this.handleRobotControl(gamepad)
     }
 
@@ -80,10 +76,10 @@ export default class GamepadManager {
   }
 
   private handleHeadLight(gamepad: CustomGamepad) {
-    if (gamepad.getButtonPressed(Dpad.Left) && !this.headlightsOn) {
+    if (gamepad.getButtonPressed(Dpad.Left) && this.headlightsOn) {
       RosClient.callService({ name: '/headlights', serviceType: '' }, '')
       this.headlightsOn = true
-    } else if (!gamepad.getButtonPressed(Dpad.Left) && this.headlightsOn) {
+    } else if (!gamepad.getButtonPressed(Dpad.Left) && !this.headlightsOn) {
       this.headlightsOn = false
     }
   }
