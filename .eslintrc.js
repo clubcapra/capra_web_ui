@@ -35,6 +35,7 @@ module.exports = {
         ignoreReadBeforeAssign: false,
       },
     ],
+    'linebreak-style': ['error', 'windows'],
   },
 
   parserOptions: {
