@@ -7,6 +7,12 @@ export const mapGamepadToJoy = (gamepad: Gamepad) => {
   const d = new Date()
   const seconds = Math.round(d.getTime() / 1000)
   const cgamepad  = new CustomGamepad(gamepad)
+
+  const axs  = gamepad.axes.map(x => x  < 0.09?0.0:x)
+  axs.splice(2,0,cgamepad.getButtonValue(GamepadBtn.LT))
+  axs.splice(5,0,cgamepad.getButtonValue(GamepadBtn.RT))
+
+
   return {
     header: {
       seq: joySeqId++,
@@ -16,7 +22,7 @@ export const mapGamepadToJoy = (gamepad: Gamepad) => {
       },
       frame_id: '',
     },
-    axes: gamepad.axes.map(x => x  < 0.09?0.0:x).concat([cgamepad.getButtonValue(GamepadBtn.LT),cgamepad.getButtonValue(GamepadBtn.RT)]),
-    buttons: gamepad.buttons.map(x =>  ~~(x.value)) //Convert to int32 (~~)
+    axes: axs,
+    buttons: gamepad.buttons.map(x => ~~x.value) //Convert to int32 (~~)
   }
 }
