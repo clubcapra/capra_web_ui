@@ -3,7 +3,6 @@
     <b-level-left>
       <left-status-bar />
     </b-level-left>
-    <GamePadStateInfo />
     <right-status-bar />
   </b-level>
 </template>
@@ -13,9 +12,8 @@ import { Vue, Component } from 'vue-property-decorator'
 import { rosModule } from '@/store'
 import LeftStatusBar from './LeftStatusBar'
 import RightStatusBar from './RightStatusBar'
-import GamePadStateInfo from './GamePadStateBar.vue'
 
-@Component({ components: { LeftStatusBar, RightStatusBar, GamePadStateInfo } })
+@Component({ components: { LeftStatusBar, RightStatusBar } })
 export default class StatusBar extends Vue {
   get backgroundColour() {
     if (rosModule.connecting) return 'has-background-warning has-text-black'

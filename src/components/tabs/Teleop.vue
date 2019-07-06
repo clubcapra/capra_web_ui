@@ -18,7 +18,7 @@ import { Dashboard, Camera, Map2D } from '@/components'
 import Viewer3D from '@/components/ros/Viewer3D.vue'
 import { cameraModule, teleopModule } from '@/store'
 
-@Component({ components: { Camera, Dashboard } })
+@Component({ components: { Camera, Dashboard, Map2D } })
 export default class Teleop extends Vue {
   get leftCamera() {
     return cameraModule.getCamera(teleopModule.leftCamera)

@@ -4,7 +4,7 @@ import { VuexModule, Module, mutation } from 'vuex-class-component'
 export default class TeleopModule extends VuexModule {
   leftCamera = 'camera3d_rgb'
   rightCamera = 'camera_back'
-  bottomCamera = 'camera_arm' //J'ai pas le nom à faire
+  bottomCamera = 'camera_arm'
 
   @mutation
   setLeftCamera(cameraName: string) {

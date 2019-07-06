@@ -48,7 +48,7 @@ export default class Dashboard extends Vue {
     const orientation = dashboardModule.orientation.data
     RosClient.subscribe(
       { name: '/vectornav/IMU', messageType: 'sensor_msgs/Imu' },
-      (data: string) => console.log(data)
+      (data: string) => console.log(data) //eslint-disable-line
     )
     const mapDirection = (dir: number) => dir.toFixed(4).padStart(6)
     return _.mapValues(orientation, mapDirection)

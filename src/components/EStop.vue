@@ -39,7 +39,6 @@
       cancel-button-text="No"
       @close="onModalClose"
       @ok="onModalOk"
-      @cancel="onModalCancel"
       >Robot is currently stopped. Do you want to restart it?</ok-cancel-modal
     >
   </div>
@@ -66,10 +65,6 @@ export default class EStop extends Vue {
   onModalOk() {
     RosClient.callService({ name: 'takin_estop_enable', serviceType: '' }, '')
     this.isModalVisible = false
-  }
-
-  onModalCancel() {
-    console.log('cancel estop')
   }
 }
 </script>

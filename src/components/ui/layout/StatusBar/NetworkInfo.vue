@@ -77,6 +77,8 @@ export default class NetworkInfo extends Vue {
   }
 
   logNetworkInfo() {
+    /* eslint-disable no-console */
+
     // @ts-ignore
     const connection: any = navigator.connection
 
@@ -94,6 +96,8 @@ export default class NetworkInfo extends Vue {
     // True if the user has requested a reduced data usage mode from the user
     // agent.
     console.log('     saveData: ' + connection.saveData)
+
+    /* eslint-enable no-console */
   }
 }
 </script>

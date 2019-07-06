@@ -1,6 +1,9 @@
 <template>
   <b-level-right>
     <b-level-item>
+      <GamePadStateInfo />
+    </b-level-item>
+    <b-level-item>
       <network-info />
     </b-level-item>
     <b-level-item class="time">{{ currentTime }}</b-level-item>
@@ -11,8 +14,9 @@
 import { Vue, Component } from 'vue-property-decorator'
 import { rosModule } from '@/store'
 import NetworkInfo from './NetworkInfo.vue'
+import GamePadStateInfo from './GamePadStateBar.vue'
 
-@Component({ components: { NetworkInfo } })
+@Component({ components: { NetworkInfo, GamePadStateInfo } })
 export default class RightStatusBar extends Vue {
   currentTime = new Date().toLocaleTimeString()
   interval: any = null

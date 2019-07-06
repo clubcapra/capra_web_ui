@@ -64,11 +64,11 @@ export default class TeleopConfig extends Vue {
   set rightCamera(value) {
     teleopModule.setRightCamera(value)
   }
-  //change effectué
+
   get bottomCamera(): string {
-    console.log('passe ici pour get')
     return teleopModule.bottomCamera
   }
+
   set bottomCamera(value) {
     teleopModule.setBottomCamera(value)
   }
