@@ -1,5 +1,5 @@
 <template>
-  <div class="icon">
+  <div class="status-icon">
     <font-awesome-icon :icon="getIcon" />
   </div>
 </template>
@@ -27,11 +27,7 @@ export default class GamePadStateInfo extends Vue {
 </script>
 
 <style lang="scss">
-.icon {
-  color: black;
-  font-weight: bold;
-  height: 100%;
-  font-size: 1.05rem;
+.status-icon {
+  font-size: 16px;
 }
 </style>
-

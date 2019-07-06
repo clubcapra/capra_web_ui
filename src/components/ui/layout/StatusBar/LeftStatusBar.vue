@@ -19,10 +19,3 @@ export default class LeftStatusBar extends Vue {
   }
 }
 </script>
-
-<style lang="scss">
-.rosStatus {
-  color: black;
-  font-weight: bold;
-}
-</style>

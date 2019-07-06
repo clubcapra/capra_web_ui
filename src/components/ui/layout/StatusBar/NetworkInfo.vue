@@ -97,9 +97,3 @@ export default class NetworkInfo extends Vue {
   }
 }
 </script>
-<style lang="scss">
-.netInfo {
-  color: black;
-  font-weight: bold;
-}
-</style>

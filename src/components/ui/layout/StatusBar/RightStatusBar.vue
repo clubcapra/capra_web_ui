@@ -30,10 +30,3 @@ export default class RightStatusBar extends Vue {
   }
 }
 </script>
-
-<style lang="scss">
-.time {
-  color: black;
-  font-weight: bold;
-}
-</style>

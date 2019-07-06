@@ -31,10 +31,13 @@ export default class StatusBar extends Vue {
 $Padding-offset: 0.5%;
 
 .status-bar {
+  color: black;
+  font-weight: bold;
   height: 100%;
   font-size: 0.75em;
   margin: 0px !important;
   padding-left: $Padding-offset;
   padding-right: $Padding-offset;
+  overflow: hidden;
 }
 </style>
