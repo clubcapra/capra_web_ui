@@ -1,40 +1,58 @@
-import { mapGamepadToTwist } from '@/utils/math/index'
-import RosClient from '@/utils/ros/RosClient'
-import { TopicOptions } from '@/utils/ros/types'
 import CustomGamepad from './CustomGamepad'
-import { GamepadBtn, Dpad } from './mappings/types'
-import { mapGamepadToJoy } from './GamepadUtils'
-
-const cmdVelTopic: TopicOptions = {
-  name: '/cmd_vel',
-  messageType: 'geometry_msgs/Twist',
-}
-
-const joyTopic: TopicOptions = {
-  name: '/joy',
-  messageType: 'sensor_msgs/Joy',
-}
+import { InputHandler } from './InputHandler'
 
 export default class GamepadManager {
   private gamepads: Array<CustomGamepad> = []
-  private headlightsOn: Boolean = false
-  private armTogglePressed: Boolean = false
-  private isArmControlled: Boolean = false
+  private inputHandler = new InputHandler()
+  private isPolling = false
+  private prevTimestamp!: number
 
   constructor() {
     if (!(navigator.getGamepads instanceof Function))
       console.warn('This browser does not support gamepads.')
 
     this.initEventListeners()
-    this.update()
-  }
-
-  get getIsArmControlled() {
-    return this.isArmControlled
+    this.startPolling()
   }
 
   get gamepad() {
     return this.gamepads[0]
+  }
+
+  startPolling() {
+    if (!this.isPolling) {
+      this.isPolling = true
+      this.update()
+    }
+  }
+
+  stopPolling() {
+    this.isPolling = false
+  }
+
+  private scheduleNextUpdate() {
+    if (this.isPolling) requestAnimationFrame(tFrame => this.update(tFrame))
+  }
+
+  private update(tFrame?: DOMHighResTimeStamp) {
+    this.pollStatus()
+    this.scheduleNextUpdate()
+  }
+
+  private pollStatus() {
+    const gamepad = navigator.getGamepads && navigator.getGamepads()[0]
+
+    if (!gamepad) return
+
+    // Don’t do anything if the current timestamp is the same as previous
+    // one, which means that the state of the gamepad hasn’t changed.
+    if (gamepad.timestamp && gamepad.timestamp == this.prevTimestamp) {
+      return
+    }
+
+    this.prevTimestamp = gamepad.timestamp
+
+    this.inputHandler.handleGamepadInput(new CustomGamepad(gamepad))
   }
 
   private initEventListeners = () => {
@@ -44,66 +62,6 @@ export default class GamepadManager {
       .onGamepadDisconnected as EventListener)
   }
 
-  // TODO add support for listeners
-  private handleGamepadInput(gamepad: CustomGamepad) {
-    this.handleControlMode(gamepad)
-
-    if (this.isArmControlled) {
-      this.handleArmControl(gamepad)
-    } else {
-      this.handleRobotControl(gamepad)
-    }
-
-    this.handleHeadLight(gamepad)
-  }
-
-  private handleRobotControl(gamepad: CustomGamepad) {
-    if (gamepad.getButtonPressed(GamepadBtn.A)) {
-      RosClient.publish(cmdVelTopic, mapGamepadToTwist(gamepad))
-    }
-  }
-  private handleArmControl(gamepad: CustomGamepad) {
-    RosClient.publish(joyTopic, mapGamepadToJoy(gamepad.gamepad))
-  }
-
-  private handleControlMode(gamepad: CustomGamepad) {
-    if (gamepad.getButtonPressed(Dpad.Right) && !this.armTogglePressed) {
-      this.isArmControlled = !this.isArmControlled
-      this.armTogglePressed = true
-    } else if (!gamepad.getButtonPressed(Dpad.Right) && this.armTogglePressed) {
-      this.armTogglePressed = false
-    }
-  }
-
-  private handleHeadLight(gamepad: CustomGamepad) {
-    if (gamepad.getButtonPressed(Dpad.Left) && this.headlightsOn) {
-      RosClient.callService({ name: '/headlights', serviceType: '' }, '')
-      this.headlightsOn = true
-    } else if (!gamepad.getButtonPressed(Dpad.Left) && !this.headlightsOn) {
-      this.headlightsOn = false
-    }
-  }
-
-  private scanGamepads() {
-    return [...navigator.getGamepads()]
-      .filter((g): g is Gamepad => Boolean(g))
-      .map(g => new CustomGamepad(g))
-  }
-
-  private update = () => {
-    this.gamepads = this.scanGamepads()
-
-    const gamepad = this.gamepads[0]
-    if (gamepad) this.handleGamepadInput(gamepad)
-
-    requestAnimationFrame(this.update)
-  }
-
-  private onGamepadConnected = (e: GamepadEvent) => {
-    this.gamepads = this.scanGamepads()
-  }
-
-  private onGamepadDisconnected = (e: GamepadEvent) => {
-    delete this.gamepads[e.gamepad.index]
-  }
+  private onGamepadConnected = (e: GamepadEvent) => {}
+  private onGamepadDisconnected = (e: GamepadEvent) => {}
 }

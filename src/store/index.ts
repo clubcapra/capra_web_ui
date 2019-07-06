@@ -6,6 +6,7 @@ import {
   RosModule,
   DashboardModule,
   VictimModule,
+  GamepadModule,
 } from '@/store/modules'
 import VuexPersistence from 'vuex-persist'
 
@@ -32,6 +33,7 @@ const store = new Store<RootState>({
     victim: TeleopModule.ExtractVuexModule(VictimModule),
     ros: RosModule.ExtractVuexModule(RosModule),
     dashboard: DashboardModule.ExtractVuexModule(DashboardModule),
+    gamepad: GamepadModule.ExtractVuexModule(GamepadModule),
   },
   plugins,
 })
@@ -46,3 +48,4 @@ export const dashboardModule = DashboardModule.CreateProxy(
   store,
   DashboardModule
 )
+export const gamepadModule = GamepadModule.CreateProxy(store, GamepadModule)
