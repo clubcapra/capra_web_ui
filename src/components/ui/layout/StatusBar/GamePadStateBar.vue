@@ -28,6 +28,8 @@ export default class GamePadStateInfo extends Vue {
 
 <style lang="scss">
 .icon {
+  color: black;
+  font-weight: bold;
   height: 100%;
   font-size: 1.05rem;
 }

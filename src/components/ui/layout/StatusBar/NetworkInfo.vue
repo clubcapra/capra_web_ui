@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="netInfo">
     <!-- <i class="material-icons" style="font-size: 16px">{{ networkIcon }}</i> -->
     {{ networkRTT }}ms
   </div>
@@ -97,3 +97,9 @@ export default class NetworkInfo extends Vue {
   }
 }
 </script>
+<style lang="scss">
+.netInfo {
+  color: black;
+  font-weight: bold;
+}
+</style>

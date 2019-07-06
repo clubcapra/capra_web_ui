@@ -1,6 +1,6 @@
 <template>
   <b-level-left>
-    <b-level-item>{{ rosStatus }}</b-level-item>
+    <b-level-item class="rosStatus">{{ rosStatus }}</b-level-item>
   </b-level-left>
 </template>
 
@@ -19,3 +19,10 @@ export default class LeftStatusBar extends Vue {
   }
 }
 </script>
+
+<style lang="scss">
+.rosStatus {
+  color: black;
+  font-weight: bold;
+}
+</style>

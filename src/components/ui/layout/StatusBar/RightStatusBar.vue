@@ -3,7 +3,7 @@
     <b-level-item>
       <network-info />
     </b-level-item>
-    <b-level-item>{{ currentTime }}</b-level-item>
+    <b-level-item class="time">{{ currentTime }}</b-level-item>
   </b-level-right>
 </template>
 
@@ -30,3 +30,10 @@ export default class RightStatusBar extends Vue {
   }
 }
 </script>
+
+<style lang="scss">
+.time {
+  color: black;
+  font-weight: bold;
+}
+</style>
