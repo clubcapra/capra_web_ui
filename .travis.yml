@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "10"
+  - '10'
 script:
   - yarn lint
   - yarn build
@@ -10,5 +10,5 @@ deploy:
   github_token: GITHUB_TOKEN
   keep_history: true
   on:
-    branch: gh-pages
+    branch: master
   local_dir: dist
