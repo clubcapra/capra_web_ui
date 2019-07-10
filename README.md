@@ -2,8 +2,6 @@
 
 User interface for the Takin project. It can be used for any similar robots with the same set of feature using ROS.
 
-It currently uses electron to run, but it isn't necessary for now. This could be a simple web app. We might move to a pure web app if fast deployments become necessary. We try to not directly use electron features for now. In some limited testing we saw some small improvements to video streams, but after some more testing it doesn't seem to do much. The limited target environment is nice, but not necessary for now.
-
 ## hosted on github pages
 
 <https://www.clubcapra.com/Takin-UI/>
@@ -13,7 +11,8 @@ It currently uses electron to run, but it isn't necessary for now. This could be
 - Typescript
 - Vue.js
   - vuex
-    - vuex-module-decorators
+    - vuex-class-component
+    - vuex-persist
   - vue-router
   - vue-class-component
   - vue-property-decorator
@@ -22,7 +21,7 @@ It currently uses electron to run, but it isn't necessary for now. This could be
 - css grid, sass/scss
 - bulma
   - vue-bulma-components to integrate with vue
-- Eslint
+- eslint
 - prettier
 - webpack
 - roslibjs
@@ -35,11 +34,11 @@ You can look in project.json for more specific dependencies.
 
 You do not need to be familiar with everything on this list but you should try using these before considering adding a new dependency. We try not to add dependency for simple functionalities, try to either write it yourself or use already used dependencies. lodash provides a lot of utility functions not provided by the small javascript standard library.
 
-Note: most javascript projects uses npm. While we do not use it directly you should already have it installed. For package management we use yarn.
+Note: most javascript projects uses npm. While we do not use it directly you should already have it installed. For package management and build scripts we use yarn.
 
 ## Folder structure
 
-src is essentially the root folder everything else is configuration files that shouldn't be touched as much as possible.
+src is essentially the root folder everything else is configuration files that shouldn't be touched unless necessary.
 
 - **src**:
   - **assets**: contains any artifacts that aren't code. For examples: images or theme files that are loaded but not modified.
@@ -71,6 +70,8 @@ yarn install
 
 ### Gives a nice ui to launch all these commands and also other goodies like analyzing build and dependeny management
 
+needs `yarn global add @vue/cli@next`
+
 ```bash
 vue ui
 ```
@@ -78,32 +79,24 @@ vue ui
 ### Compiles and hot-reloads for development
 
 ```bash
-yarn run serve
+yarn serve
 ```
 
 ### Compiles and minifies for production
 
 ```bash
-yarn run build
+yarn build
 ```
 
 ### Lints and fixes files
 
 ```bash
-yarn run lint
+yarn lint
 ```
 
 ## ROS dependencies
 
-We might move to <https://github.com/RobotWebTools/webrtc_ros> instead of web_video_server
+rosbrige_suite
+web_video_server
 
-```bash
-sudo apt install ros-kinetic-rosbridge-suite
-sudo apt install ros-kinetic-web-video-server
-
-roslaunch rosbridge_server rosbridge_websocket.launch
-rosrun web_video_server web_video_server
-
-roslaunch capra_imu imu.launch
-roslaunch capra_camera_3d capra_camera_3d.launch
-```
+Use `takin_web_ui.launch` in https://github.com/clubcapra/takin_bringup/tree/master/launch to launch necessayr ros dependencies
