@@ -5,7 +5,9 @@ import './fontAwesome'
 import App from './App.vue'
 import router from '@/router'
 import store from '@/store'
-import '@/utils/gamepad/GamepadManager'
+import { gamepadManagerInstance } from '@/utils/gamepad/GamepadManager'
+
+gamepadManagerInstance.start()
 
 Vue.config.productionTip = false
 
@@ -14,5 +16,5 @@ Vue.use(vueBulmaComponents)
 new Vue({
   router,
   store,
-  render: h => h(App),
+  render: (h: any) => h(App),
 }).$mount('#app')

@@ -1,3 +1,4 @@
+import { getButtonValue, getButtonPressed, getStick } from './GamepadUtils'
 import mappings from './mappings'
 import {
   GamepadMapping,
@@ -17,41 +18,19 @@ export default class CustomGamepad {
   }
 
   getButtonPressed(button: GamepadBtn | Dpad): boolean {
-    const index = this.mapping.buttons[button]
-    const nativeButton = this.getButton(index)
-    return typeof nativeButton == 'number'
-      ? nativeButton > 0.1
-      : nativeButton.pressed
+    return getButtonPressed(this.gamepad, this.mapping, button)
   }
 
   getButtonValue(button: GamepadBtn | Dpad): number {
-    const index = this.mapping.buttons[button]
-    const nativeButton = this.getButton(index)
-
-    return typeof nativeButton == 'number' ? nativeButton : nativeButton.value
+    return getButtonValue(this.gamepad, this.mapping, button)
   }
 
   getStick(stick: Stick): StickAxis {
-    const stickMapping = this.mapping.sticks[stick]
-
-    const horizontal = this.getAxis(stickMapping.horizontal)
-    const vertical = this.getAxis(stickMapping.vertical)
-
-    return {
-      horizontal: stickMapping.isRightPositive ? horizontal : -horizontal,
-      vertical: stickMapping.isUpPositive ? vertical : -vertical,
-    }
+    return getStick(this.gamepad, this.mapping, stick)
   }
 
-  private getAxis(axis: number) {
-    return this.gamepad.axes[axis]
-  }
-
-  private getButton(button: number) {
-    return this.gamepad.buttons[button]
-  }
-
-  private detectMapping(_gamepad: Gamepad) {
+  // TODO: actually support multpile mappings
+  private detectMapping(gamepad: Gamepad) {
     return mappings[0]
   }
 }

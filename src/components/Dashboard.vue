@@ -25,16 +25,14 @@ import { dashboardModule } from '@/store'
 import RosClient from '@/utils/ros/RosClient'
 
 import ProgressBar from '@/components/ui/ProgressBar.vue'
-import GamepadManager from '@/utils/gamepad/GamepadManager'
 import { Stick, GamepadBtn } from '@/utils/gamepad/mappings/types'
-import { mapGamepadToTwist } from '@/utils/gamepad/GamepadUtils'
+import { gamepadManagerInstance } from '@/utils/gamepad/GamepadManager'
+import { mapGamepadToTwist } from '@/utils/gamepad/RosGamepadUtils'
 
 @Component({
   components: { ProgressBar },
 })
 export default class Dashboard extends Vue {
-  @Inject() gamepadManager!: GamepadManager
-
   private readonly GAMEPAD_UPDATE_DELAY = 20
 
   speed = 0
@@ -70,7 +68,7 @@ export default class Dashboard extends Vue {
     )
 
     setInterval(() => {
-      const { gamepad } = this.gamepadManager
+      const { gamepad } = gamepadManagerInstance
 
       if (!gamepad) return
       if (!gamepad.getButtonPressed(GamepadBtn.A)) {

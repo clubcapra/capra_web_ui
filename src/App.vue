@@ -16,7 +16,6 @@ import 'reflect-metadata'
 import { Vue, Component, Prop, Provide, Inject } from 'vue-property-decorator'
 import Tabs from '@/components/ui/layout/Tabs.vue'
 import StatusBar from '@/components/ui/layout/StatusBar/StatusBar.vue'
-import GamepadManager from '@/utils/gamepad/GamepadManager'
 import RosClient from '@/utils/ros/RosClient.ts'
 import { rosModule } from '@/store'
 import EStop from '@/components/EStop.vue'
@@ -29,8 +28,6 @@ import EStop from '@/components/EStop.vue'
   },
 })
 export default class App extends Vue {
-  @Provide() gamepadManager = new GamepadManager()
-
   created() {
     //TODO init in rosModule
     RosClient.setListeners(

@@ -1,25 +1,19 @@
 import { gamepadModule } from '@/store'
 import CustomGamepad from './CustomGamepad'
 import RosClient from '@/utils/ros/RosClient'
-import { TopicOptions } from '@/utils/ros/types'
-import { mapGamepadToJoy, mapGamepadToTwist } from './GamepadUtils'
+import {
+  mapGamepadToJoy,
+  mapGamepadToTwist,
+  cmdVelTopic,
+  joyTopic,
+} from './RosGamepadUtils'
 import { GamepadBtn, Dpad } from './mappings/types'
-
-const cmdVelTopic: TopicOptions = {
-  name: '/cmd_vel',
-  messageType: 'geometry_msgs/Twist',
-}
-
-const joyTopic: TopicOptions = {
-  name: '/joy',
-  messageType: 'sensor_msgs/Joy',
-}
 
 export class InputHandler {
   private headlightsOn: Boolean = false
   private isArmTogglePressed = false
 
-  handleGamepadInput(gamepad: CustomGamepad) {
+  handleGamepadInput(gamepad: CustomGamepad, prevGamepad: CustomGamepad) {
     this.handleControlMode(gamepad)
 
     if (gamepadModule.isArmControlled) {

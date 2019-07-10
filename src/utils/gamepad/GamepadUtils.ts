@@ -1,61 +1,55 @@
-import CustomGamepad from './CustomGamepad'
-import { Stick, GamepadBtn } from './mappings/types'
-import { Twist, Vector3 } from '@/utils/math/types'
+import {
+  Stick,
+  GamepadBtn,
+  GamepadMapping,
+  Dpad,
+  StickAxis,
+} from './mappings/types'
 
-let joySeqId = 0
-
-export const mapGamepadToJoy = (gamepad: Gamepad) => {
-  const d = new Date()
-  const seconds = Math.round(d.getTime() / 1000)
-  const cgamepad = new CustomGamepad(gamepad)
-
-  const axes = gamepad.axes.map(x => (x < 0.09 && x > -0.09 ? 0.0 : x))
-
-  //Add Trigger axis at the right place in the axes array
-  // axs.splice(2,0,cgamepad.getButtonValue(GamepadBtn.LT))
-  // axs.splice(5,0,cgamepad.getButtonValue(GamepadBtn.RT))
-
-  const buttons = gamepad.buttons.map(x => Math.floor(x.value))
-
-  const joyMsg = {
-    header: {
-      seq: joySeqId++,
-      stamp: {
-        sec: seconds,
-        nsecs: 0,
-      },
-      frame_id: '',
-    },
-    axes: axes,
-    buttons: buttons,
-  }
-
-  return joyMsg
+const getButton = (gamepad: Gamepad, button: number) => {
+  return gamepad.buttons[button]
 }
 
-export const mapGamepadToTwist = (gamepad: CustomGamepad): Twist => {
-  const { horizontal, vertical } = gamepad.getStick(Stick.Left)
-  const rt = gamepad.getButtonValue(GamepadBtn.RT)
-  const lt = gamepad.getButtonValue(GamepadBtn.LT)
+const getAxis = (gamepad: Gamepad, axis: number) => {
+  return gamepad.axes[axis]
+}
 
-  const x = horizontal > 0.15 ? -1 : horizontal < -0.15 ? 1 : 0
-  const y = vertical > 0.15 ? 1 : vertical < -0.15 ? -1 : 0
+export const getButtonPressed = (
+  gamepad: Gamepad,
+  mapping: GamepadMapping,
+  button: GamepadBtn | Dpad
+): boolean => {
+  const index = mapping.buttons[button]
+  const nativeButton = getButton(gamepad, index)
 
-  if (lt > 0.1) {
-    return new Twist(Vector3.zero(), Vector3.zero())
+  return typeof nativeButton == 'number'
+    ? nativeButton > 0.1
+    : nativeButton.pressed
+}
+
+export const getButtonValue = (
+  gamepad: Gamepad,
+  mapping: GamepadMapping,
+  button: GamepadBtn | Dpad
+): number => {
+  const index = mapping.buttons[button]
+  const nativeButton = getButton(gamepad, index)
+
+  return typeof nativeButton == 'number' ? nativeButton : nativeButton.value
+}
+
+export const getStick = (
+  gamepad: Gamepad,
+  mapping: GamepadMapping,
+  stick: Stick
+): StickAxis => {
+  const stickMapping = mapping.sticks[stick]
+
+  const horizontal = getAxis(gamepad, stickMapping.horizontal)
+  const vertical = getAxis(gamepad, stickMapping.vertical)
+
+  return {
+    horizontal: stickMapping.isRightPositive ? horizontal : -horizontal,
+    vertical: stickMapping.isUpPositive ? vertical : -vertical,
   }
-
-  const linear = {
-    x: y * rt,
-    y: 0,
-    z: 0,
-  }
-
-  const angular = {
-    x: 0,
-    y: 0,
-    z: x * rt,
-  }
-
-  return new Twist(linear, angular)
 }

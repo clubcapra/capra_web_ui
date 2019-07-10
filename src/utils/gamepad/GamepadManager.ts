@@ -1,45 +1,47 @@
 import CustomGamepad from './CustomGamepad'
 import { InputHandler } from './InputHandler'
 
-export default class GamepadManager {
-  private gamepads: Array<CustomGamepad> = []
-  private inputHandler = new InputHandler()
-  private isPolling = false
+export class GamepadManager {
+  private inputHandler: InputHandler
+  private isRunning = false
   private prevTimestamp!: number
+  private _gamepad!: CustomGamepad
+  private prevGamepad!: CustomGamepad
 
-  constructor() {
+  constructor(inputHandler: InputHandler = new InputHandler()) {
     if (!(navigator.getGamepads instanceof Function))
       console.warn('This browser does not support gamepads.')
 
+    this.inputHandler = inputHandler
+
     this.initEventListeners()
-    this.startPolling()
   }
 
   get gamepad() {
-    return this.gamepads[0]
+    return this._gamepad
   }
 
-  startPolling() {
-    if (!this.isPolling) {
-      this.isPolling = true
+  start() {
+    if (!this.isRunning) {
+      this.isRunning = true
       this.update()
     }
   }
 
-  stopPolling() {
-    this.isPolling = false
+  stop() {
+    this.isRunning = false
   }
 
   private scheduleNextUpdate() {
-    if (this.isPolling) requestAnimationFrame(tFrame => this.update(tFrame))
+    if (this.isRunning) requestAnimationFrame(tFrame => this.update(tFrame))
   }
 
   private update(tFrame?: DOMHighResTimeStamp) {
-    this.pollStatus()
+    this.updateGamepadStatus()
     this.scheduleNextUpdate()
   }
 
-  private pollStatus() {
+  private updateGamepadStatus() {
     const gamepad = navigator.getGamepads && navigator.getGamepads()[0]
 
     if (!gamepad) return
@@ -51,8 +53,11 @@ export default class GamepadManager {
     }
 
     this.prevTimestamp = gamepad.timestamp
+    this._gamepad = new CustomGamepad(gamepad)
 
-    this.inputHandler.handleGamepadInput(new CustomGamepad(gamepad))
+    this.inputHandler.handleGamepadInput(this._gamepad, this.prevGamepad)
+
+    this.prevGamepad = this._gamepad
   }
 
   private initEventListeners = () => {
@@ -65,3 +70,5 @@ export default class GamepadManager {
   private onGamepadConnected = (e: GamepadEvent) => {}
   private onGamepadDisconnected = (e: GamepadEvent) => {}
 }
+
+export const gamepadManagerInstance = new GamepadManager()
