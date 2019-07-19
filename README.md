@@ -100,3 +100,7 @@ rosbrige_suite
 web_video_server
 
 Use `takin_web_ui.launch` in https://github.com/clubcapra/takin_bringup/tree/master/launch to launch necessayr ros dependencies
+
+### Want a new feature or a bug fixed?
+
+Create an issue and it will automatically be added to the project board and be tracked there
