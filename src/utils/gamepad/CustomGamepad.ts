@@ -9,12 +9,25 @@ import {
 } from './mappings/types'
 
 export default class CustomGamepad {
-  public gamepad: Gamepad
   private mapping: GamepadMapping
 
   constructor(gamepad: Gamepad) {
     this.gamepad = gamepad
     this.mapping = this.detectMapping(gamepad)
+  }
+
+  set gamepad(newGamepad: Gamepad) {
+    this.gamepad = newGamepad
+    if (this.gamepad.id !== newGamepad.id)
+      this.mapping = this.detectMapping(newGamepad)
+  }
+
+  get isSpaceMouse() {
+    const gamepadName = this.gamepad.id
+    return (
+      gamepadName.includes('spacenavigator') ||
+      gamepadName.includes('space navigator')
+    )
   }
 
   getButtonPressed(button: GamepadBtn | Dpad): boolean {
