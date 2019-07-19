@@ -10,16 +10,11 @@ import {
 
 export default class CustomGamepad {
   private mapping: GamepadMapping
+  gamepad: Gamepad
 
   constructor(gamepad: Gamepad) {
     this.gamepad = gamepad
     this.mapping = this.detectMapping(gamepad)
-  }
-
-  set gamepad(newGamepad: Gamepad) {
-    this.gamepad = newGamepad
-    if (this.gamepad.id !== newGamepad.id)
-      this.mapping = this.detectMapping(newGamepad)
   }
 
   get isSpaceMouse() {

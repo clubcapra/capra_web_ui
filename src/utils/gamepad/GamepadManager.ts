@@ -5,8 +5,9 @@ export class GamepadManager {
   private inputHandler!: InputHandler
   private isRunning = false
   private prevTimestamp!: number
-  private customGamepad!: CustomGamepad
+  private customGamepad: CustomGamepad | null = null
   private prevGamepad!: CustomGamepad
+  private currentGamepadIndex: number = 0
 
   constructor(inputHandler: InputHandler = new InputHandler()) {
     if (!(navigator.getGamepads instanceof Function)) {
@@ -23,28 +24,31 @@ export class GamepadManager {
     return this._gamepad
   }
 
-  start(): void {
+  start = () => {
     if (!this.isRunning) {
       this.isRunning = true
       this.update()
     }
   }
 
-  stop(): void {
+  stop = () => {
     this.isRunning = false
   }
 
-  private scheduleNextUpdate(): void {
+  private scheduleNextUpdate = () => {
     if (this.isRunning) requestAnimationFrame(tFrame => this.update(tFrame))
   }
 
-  private update(tFrame?: DOMHighResTimeStamp): void {
-    this.updateGamepadStatus()
+  private update = (tFrame?: DOMHighResTimeStamp) => {
+    this.updateGamepadState()
     this.scheduleNextUpdate()
   }
 
-  private updateGamepadState() {
-    navigator.getGamepads().forEach(gamepad => {
+  private updateGamepadState = () => {
+    const gamepads = navigator.getGamepads()
+    for (let i = 0; i <= gamepads.length; i++) {
+      const gamepad = gamepads[i]
+
       if (!gamepad) return
 
       // Don’t do anything if the current timestamp is the same as previous
@@ -54,9 +58,9 @@ export class GamepadManager {
       }
 
       this.prevTimestamp = gamepad.timestamp
-      this.customGamepad.gamepad = gamepad
+      this.customGamepad = new CustomGamepad(gamepad)
 
-      if (this.customGamepad.gamepad.index === 0) {
+      if (this.customGamepad.gamepad.index === this.currentGamepadIndex) {
         this.inputHandler.handleGamepadInput(
           this.customGamepad,
           this.prevGamepad
@@ -65,7 +69,7 @@ export class GamepadManager {
       } else if (this.customGamepad.isSpaceMouse) {
         console.log(this.customGamepad.gamepad)
       }
-    })
+    }
   }
 
   private initEventListeners = () => {
@@ -75,8 +79,14 @@ export class GamepadManager {
       .onGamepadDisconnected as EventListener)
   }
 
-  private onGamepadConnected = (e: GamepadEvent) => {}
-  private onGamepadDisconnected = (e: GamepadEvent) => {}
+  private onGamepadConnected = (e: GamepadEvent) => {
+    const { id, ...rest } = e.gamepad
+    console.log(id, 'connected', rest)
+  }
+  private onGamepadDisconnected = (e: GamepadEvent) => {
+    const { id, ...rest } = e.gamepad
+    console.log(id, 'disconnected', rest)
+  }
 }
 
 export const gamepadManagerInstance = new GamepadManager()
