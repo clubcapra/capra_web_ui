@@ -8,7 +8,7 @@ import { Vue, Component, Prop, Inject } from 'vue-property-decorator'
 import { Viewer, Grid, UrdfClient, COLLADA_LOADER, MeshResource } from 'ros3d'
 
 import { TFClient } from 'roslib'
-import RosClient from '@/utils/ros/RosClient'
+import { rosClient } from '@/utils/ros/rosClient'
 
 import _ from 'lodash-es'
 

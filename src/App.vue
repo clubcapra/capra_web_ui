@@ -16,9 +16,9 @@ import 'reflect-metadata'
 import { Vue, Component, Prop, Provide, Inject } from 'vue-property-decorator'
 import Tabs from '@/components/ui/layout/Tabs.vue'
 import StatusBar from '@/components/ui/layout/StatusBar/StatusBar.vue'
-import RosClient from '@/utils/ros/RosClient.ts'
 import { rosModule } from '@/store'
 import EStop from '@/components/EStop.vue'
+import { rosClient } from '@/utils/ros/rosClient'
 
 @Component({
   components: {
@@ -30,7 +30,7 @@ import EStop from '@/components/EStop.vue'
 export default class App extends Vue {
   created() {
     //TODO init in rosModule
-    RosClient.setListeners(
+    rosClient.setListeners(
       rosModule.onConnect,
       rosModule.onDisconnect,
       () => {}

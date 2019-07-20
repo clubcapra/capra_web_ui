@@ -1,5 +1,5 @@
 import { VuexModule, mutation, action, Module } from 'vuex-class-component'
-import RosClient from '@/utils/ros/RosClient'
+import { rosClient } from '@/utils/ros/rosClient'
 
 @Module({ namespacedPath: 'ros/' })
 export default class RosModule extends VuexModule {
@@ -53,7 +53,7 @@ export default class RosModule extends VuexModule {
   @action
   async connect() {
     this.onConnecting()
-    RosClient.connect(this.robotIP, this.port)
+    rosClient.connect(this.robotIP, this.port)
   }
 
   //TODO maybe handle subscribe/unsubscribe

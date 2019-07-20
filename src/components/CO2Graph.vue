@@ -11,8 +11,8 @@ import Chart, { ChartPoint, ChartDataSets } from 'chart.js'
 import 'chartjs-plugin-streaming'
 
 import { dashboardModule } from '@/store'
-import RosClient from '@/utils/ros/RosClient'
-import { TopicOptions } from '../utils/ros/types'
+import { rosClient } from '@/utils/ros/rosClient'
+import { TopicOptions } from '@club_capra/roslib-ts-client'
 
 @Component
 export default class CO2Graph extends Vue {
@@ -89,7 +89,7 @@ export default class CO2Graph extends Vue {
       messageType: 'std_msgs/String',
     }
 
-    RosClient.subscribe(co2Topic, (value: string) => {
+    rosClient.subscribe(co2Topic, (value: string) => {
       const point = { x: Date.now(), y: parseInt(value) }
       updateChart(point)
     })

@@ -15,10 +15,10 @@
 <script lang="ts">
 import { Vue, Component, Inject } from 'vue-property-decorator'
 
-import RosClient from '@/utils/ros/RosClient'
+import { rosClient } from '@/utils/ros/rosClient'
 import { Camera, CO2Graph } from '@/components'
 import { cameraModule, victimModule } from '@/store'
-import { TopicOptions } from '../../utils/ros/types'
+import { TopicOptions } from '@club_capra/roslib-ts-client'
 
 @Component({ components: { Camera, CO2Graph } })
 export default class Victim extends Vue {
@@ -60,13 +60,13 @@ export default class Victim extends Vue {
   }
 
   mounted() {
-    RosClient.subscribe(this.boundingBoxTopic, this.setHazmats)
-    RosClient.subscribe(this.landoltTopic, this.setLandolts)
+    rosClient.subscribe(this.boundingBoxTopic, this.setHazmats)
+    rosClient.subscribe(this.landoltTopic, this.setLandolts)
   }
 
   beforeDestroy() {
-    RosClient.unsubscribe(this.boundingBoxTopic)
-    RosClient.unsubscribe(this.landoltTopic)
+    rosClient.unsubscribe(this.boundingBoxTopic)
+    rosClient.unsubscribe(this.landoltTopic)
   }
 
   setHazmats(boundingBoxes: []) {

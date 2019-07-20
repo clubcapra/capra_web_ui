@@ -1,7 +1,7 @@
-import { TopicOptions } from '@/utils/ros/types'
 import { Twist, Vector3 } from '@/utils/math/types'
 import CustomGamepad from './CustomGamepad'
 import { GamepadBtn, Stick } from './mappings/types'
+import { TopicOptions } from '@club_capra/roslib-ts-client'
 
 export const cmdVelTopic: TopicOptions = {
   name: '/cmd_vel',

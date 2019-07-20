@@ -18,9 +18,7 @@
 
 <script lang="ts">
 import { Vue, Component, Inject } from 'vue-property-decorator'
-import RosClient from '@/utils/ros/RosClient'
 import { InputWithLabel } from '@/components/ui'
-
 import { rosModule } from '@/store'
 
 @Component({ components: { InputWithLabel } })

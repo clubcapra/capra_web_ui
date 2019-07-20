@@ -693,6 +693,14 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
+"@club_capra/roslib-ts-client@^0.1.10":
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/@club_capra/roslib-ts-client/-/roslib-ts-client-0.1.10.tgz#f4757240b5021e2ad986cc2ced66114c40058969"
+  integrity sha512-iHOcfoWuD6+eN2XFjYpE6eUplbyYPgtI4FVqmCJi3GY5OljMsV8K7RbtTBJhJzY/mScoeou/QjmUQMkY5bL/Zg==
+  dependencies:
+    roslib "^1.0.1"
+    tslib "^1.10.0"
+
 "@fortawesome/fontawesome-common-types@^0.2.19":
   version "0.2.19"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.19.tgz#754a0f85e1290858152e1c05700ab502b11197f1"
@@ -8233,6 +8241,11 @@ ts-loader@^6.0.1:
     loader-utils "^1.0.2"
     micromatch "^4.0.0"
     semver "^6.0.0"
+
+tslib@^1.10.0:
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.10.0.tgz#c3c19f95973fb0a62973fb09d90d961ee43e5c8a"
+  integrity sha512-qOebF53frne81cf0S9B41ByenJ3/IuH8yJKngAX35CmiZySA0khhkovshKK+jGCaMnVomla7gVlIcc3EvKPbTQ==
 
 tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0:
   version "1.9.3"
