@@ -11,6 +11,7 @@
     "deploy": "yarn run build && push-dir --dir=dist --branch=gh-pages --cleanup"
   },
   "dependencies": {
+    "@club_capra/roslib-ts-client": "^0.1.10",
     "@fortawesome/fontawesome-svg-core": "^1.2.19",
     "@fortawesome/free-regular-svg-icons": "^5.9.0",
     "@fortawesome/free-solid-svg-icons": "^5.9.0",

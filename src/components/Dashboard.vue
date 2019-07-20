@@ -22,7 +22,7 @@ import { Vue, Component, Prop, Inject } from 'vue-property-decorator'
 import _ from 'lodash-es'
 
 import { dashboardModule } from '@/store'
-import RosClient from '@/utils/ros/RosClient'
+import { rosClient } from '@/utils/ros/rosClient'
 
 import ProgressBar from '@/components/ui/ProgressBar.vue'
 import { Stick, GamepadBtn } from '@/utils/gamepad/mappings/types'
@@ -44,7 +44,7 @@ export default class Dashboard extends Vue {
 
   get orientation() {
     const orientation = dashboardModule.orientation.data
-    RosClient.subscribe(
+    rosClient.subscribe(
       { name: '/vectornav/IMU', messageType: 'sensor_msgs/Imu' },
       (data: string) => console.log(data) //eslint-disable-line
     )
@@ -57,12 +57,12 @@ export default class Dashboard extends Vue {
   }
 
   mounted() {
-    RosClient.subscribe(
+    rosClient.subscribe(
       dashboardModule.orientation.topic,
       dashboardModule.setOrientation
     )
 
-    RosClient.subscribe(
+    rosClient.subscribe(
       dashboardModule.temperature.topic,
       dashboardModule.setTemperature
     )
@@ -87,8 +87,8 @@ export default class Dashboard extends Vue {
   }
 
   beforeDestroy() {
-    RosClient.unsubscribe(dashboardModule.orientation.topic)
-    RosClient.unsubscribe(dashboardModule.temperature.topic)
+    rosClient.unsubscribe(dashboardModule.orientation.topic)
+    rosClient.unsubscribe(dashboardModule.temperature.topic)
   }
 }
 </script>

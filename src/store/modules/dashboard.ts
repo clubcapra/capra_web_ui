@@ -1,6 +1,6 @@
 import { VuexModule, mutation, Module } from 'vuex-class-component'
 import { Vector3 } from '@/utils/math/types'
-import { TopicWithData } from '@/utils/ros/types'
+import { TopicWithData } from '@club_capra/roslib-ts-client/dist/@types'
 
 @Module({ namespacedPath: 'dashboard/' })
 export default class DashboardModule extends VuexModule {

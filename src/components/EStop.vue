@@ -46,7 +46,7 @@
 
 <script lang="ts">
 import { Vue, Component, Inject } from 'vue-property-decorator'
-import RosClient from '@/utils/ros/RosClient'
+import { rosClient } from '@/utils/ros/rosClient'
 import { OkCancelModal } from '@/components/ui/modal'
 
 @Component({ components: { OkCancelModal } })
@@ -54,7 +54,7 @@ export default class EStop extends Vue {
   isModalVisible = false
 
   sendServiceStop() {
-    RosClient.callService({ name: 'takin_estop_disable', serviceType: '' }, '')
+    rosClient.callService({ name: 'takin_estop_disable', serviceType: '' }, '')
     this.isModalVisible = true
   }
 
@@ -63,7 +63,7 @@ export default class EStop extends Vue {
   }
 
   onModalOk() {
-    RosClient.callService({ name: 'takin_estop_enable', serviceType: '' }, '')
+    rosClient.callService({ name: 'takin_estop_enable', serviceType: '' }, '')
     this.isModalVisible = false
   }
 }

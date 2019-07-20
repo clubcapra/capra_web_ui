@@ -1,6 +1,5 @@
 import { gamepadModule } from '@/store'
 import CustomGamepad from './CustomGamepad'
-import RosClient from '@/utils/ros/RosClient'
 import {
   mapGamepadToJoy,
   mapGamepadToTwist,
@@ -8,6 +7,7 @@ import {
   joyTopic,
 } from './RosGamepadUtils'
 import { GamepadBtn, Dpad } from './mappings/types'
+import { rosClient } from '@/utils/ros/rosClient'
 
 export class InputHandler {
   private headlightsOn: Boolean = false
@@ -27,11 +27,11 @@ export class InputHandler {
 
   private handleRobotControl(gamepad: CustomGamepad) {
     if (gamepad.getButtonPressed(GamepadBtn.A)) {
-      RosClient.publish(cmdVelTopic, mapGamepadToTwist(gamepad))
+      rosClient.publish(cmdVelTopic, mapGamepadToTwist(gamepad))
     }
   }
   private handleArmControl(gamepad: CustomGamepad) {
-    RosClient.publish(joyTopic, mapGamepadToJoy(gamepad.gamepad))
+    rosClient.publish(joyTopic, mapGamepadToJoy(gamepad.gamepad))
   }
 
   private handleControlMode(gamepad: CustomGamepad) {
@@ -48,7 +48,7 @@ export class InputHandler {
 
   private handleHeadLight(gamepad: CustomGamepad) {
     if (gamepad.getButtonPressed(Dpad.Left) && this.headlightsOn) {
-      RosClient.callService({ name: '/headlights', serviceType: '' }, '')
+      rosClient.callService({ name: '/headlights', serviceType: '' }, '')
       this.headlightsOn = true
     } else if (!gamepad.getButtonPressed(Dpad.Left) && !this.headlightsOn) {
       this.headlightsOn = false
