@@ -18,7 +18,6 @@ import Tabs from '@/components/ui/layout/Tabs.vue'
 import StatusBar from '@/components/ui/layout/StatusBar/StatusBar.vue'
 import { rosModule } from '@/store'
 import EStop from '@/components/EStop.vue'
-
 import { rosClient } from '@/utils/ros/rosClient'
 
 @Component({
