@@ -79,4 +79,4 @@ function asyncComponent(componentPath: string) {
 }
 
 Vue.use(Router)
-export default new Router({ base: ifProduction('/Takin-UI', '/'), routes })
+export default new Router({ base: ifProduction('/capra_web_ui', '/'), routes })

@@ -46,7 +46,7 @@ class IgnoreNotFoundExportPlugin {
 }
 
 module.exports = {
-  publicPath: ifProduction('/Takin-UI', '/'),
+  publicPath: ifProduction('/capra_web_ui', '/'),
   productionSourceMap: false,
   css: {
     loaderOptions: {

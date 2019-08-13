@@ -1,10 +1,10 @@
-# takin-ui
+# capra-web-ui
 
-User interface for the Takin project. It can be used for any similar robots with the same set of feature using ROS.
+Web based user interface for ROS based robots.
 
 ## hosted on github pages
 
-<https://www.clubcapra.com/Takin-UI/>
+<https://www.clubcapra.com/capra_web_ui/>
 
 ## Technologies used
 
