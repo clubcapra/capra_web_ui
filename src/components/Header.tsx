@@ -1,12 +1,50 @@
 import React, { FC } from 'react'
-import { styled } from 'globalStyles/styled'
+import logo from 'assets/images/logo.png'
+import {
+  HeaderGrid,
+  LeftHeader,
+  StyledNavLink,
+  RightHeader,
+  StyledLogo,
+} from 'components/Header.styles'
 
-const Wrapper = styled.div`
-  height: 100%;
-  background-color: ${({ theme }) => theme.colors.darkerBackground};
-  box-shadow: 0 4px 2px rgba(0, 0, 0, 0.25);
-`
+interface NavLinkDefinition {
+  to: string
+  label: string
+}
+
+const navLinks: NavLinkDefinition[] = [
+  {
+    to: '/teleop',
+    label: 'Teleop',
+  },
+  {
+    to: '/victim',
+    label: 'Victim',
+  },
+  {
+    to: '/map',
+    label: 'Map',
+  },
+  {
+    to: '/config',
+    label: 'Config',
+  },
+]
 
 export const Header: FC = () => {
-  return <Wrapper>Header</Wrapper>
+  return (
+    <HeaderGrid>
+      <LeftHeader navlinks={navLinks}>
+        {navLinks.map(({ to, label }) => (
+          <StyledNavLink key={to} to={to} activeClassName="is-active">
+            {label}
+          </StyledNavLink>
+        ))}
+      </LeftHeader>
+      <RightHeader>
+        <StyledLogo src={logo} />
+      </RightHeader>
+    </HeaderGrid>
+  )
 }

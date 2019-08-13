@@ -14,9 +14,10 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'prettier',
     'prettier/@typescript-eslint',
+    'plugin:react/recommended',
   ],
 
-  plugins: ['prettier', '@typescript-eslint'],
+  plugins: ['prettier', '@typescript-eslint', 'react'],
 
   rules: {
     'no-console': [
@@ -46,6 +47,8 @@ module.exports = {
     ],
     '@typescript-eslint/interface-name-prefix': 0,
     '@typescript-eslint/camelcase': 0,
+    'react/self-closing-comp': 1,
+    'react/prop-types': 0,
   },
 
   parserOptions: {
