@@ -1,4 +1,4 @@
-import { gamepadModule } from '@/store'
+// import { gamepadModule } from 'store'
 import CustomGamepad from './CustomGamepad'
 import {
   mapGamepadToJoy,
@@ -7,16 +7,17 @@ import {
   joyTopic,
 } from './RosGamepadUtils'
 import { GamepadBtn, Dpad } from './mappings/types'
-import { rosClient } from '@/utils/ros/rosClient'
+import { rosClient } from 'utils/ros/rosClient'
 
 export class InputHandler {
-  private headlightsOn: Boolean = false
+  private headlightsOn: boolean = false
   private isArmTogglePressed = false
 
-  handleGamepadInput(gamepad: CustomGamepad, prevGamepad: CustomGamepad) {
+  handleGamepadInput(gamepad: CustomGamepad, prevGamepad: CustomGamepad): void {
     this.handleControlMode(gamepad)
 
-    if (gamepadModule.isArmControlled) {
+    const isArmControlled = false
+    if (isArmControlled) {
       this.handleArmControl(gamepad)
     } else {
       this.handleRobotControl(gamepad)
@@ -25,18 +26,18 @@ export class InputHandler {
     this.handleHeadLight(gamepad)
   }
 
-  private handleRobotControl(gamepad: CustomGamepad) {
+  private handleRobotControl(gamepad: CustomGamepad): void {
     if (gamepad.getButtonPressed(GamepadBtn.A)) {
       rosClient.publish(cmdVelTopic, mapGamepadToTwist(gamepad))
     }
   }
-  private handleArmControl(gamepad: CustomGamepad) {
+  private handleArmControl(gamepad: CustomGamepad): void {
     rosClient.publish(joyTopic, mapGamepadToJoy(gamepad.gamepad))
   }
 
-  private handleControlMode(gamepad: CustomGamepad) {
+  private handleControlMode(gamepad: CustomGamepad): void {
     if (gamepad.getButtonPressed(Dpad.Right) && !this.isArmTogglePressed) {
-      gamepadModule.toggleIsArmControlled()
+      // gamepadModule.toggleIsArmControlled()
       this.isArmTogglePressed = true
     } else if (
       !gamepad.getButtonPressed(Dpad.Right) &&
@@ -46,7 +47,7 @@ export class InputHandler {
     }
   }
 
-  private handleHeadLight(gamepad: CustomGamepad) {
+  private handleHeadLight(gamepad: CustomGamepad): void {
     if (gamepad.getButtonPressed(Dpad.Left) && this.headlightsOn) {
       rosClient.callService({ name: '/headlights', serviceType: '' }, '')
       this.headlightsOn = true

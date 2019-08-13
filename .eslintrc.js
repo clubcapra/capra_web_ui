@@ -7,7 +7,16 @@ module.exports = {
     node: true,
   },
 
-  extends: ['plugin:vue/recommended', '@vue/prettier', '@vue/typescript'],
+  extends: [
+    'react-app',
+    'eslint:recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended',
+    'prettier',
+    'prettier/@typescript-eslint',
+  ],
+
+  plugins: ['prettier', '@typescript-eslint'],
 
   rules: {
     'no-console': [
@@ -19,15 +28,6 @@ module.exports = {
     'no-debugger': 'off',
     'no-var': 'error',
     'prettier/prettier': 'warn',
-    'vue/no-unused-components': 'warn',
-    'vue/html-self-closing': [
-      'error',
-      {
-        html: {
-          void: 'any',
-        },
-      },
-    ],
     'prefer-const': [
       'error',
       {
@@ -36,9 +36,20 @@ module.exports = {
       },
     ],
     'linebreak-style': ['error', 'windows'],
+    '@typescript-eslint/explicit-member-accessibility': [
+      1,
+      { accessibility: 'no-public' },
+    ],
+    '@typescript-eslint/explicit-function-return-type': [
+      1,
+      { allowExpressions: true, allowTypedFunctionExpressions: true },
+    ],
+    '@typescript-eslint/interface-name-prefix': 0,
+    '@typescript-eslint/camelcase': 0,
   },
 
   parserOptions: {
     parser: '@typescript-eslint/parser',
+    project: './tsconfig.json',
   },
 }

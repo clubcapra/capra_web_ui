@@ -1,7 +1,8 @@
-import { Twist, Vector3 } from '@/utils/math/types'
+import { Vector3 } from 'utils/math/types'
 import CustomGamepad from './CustomGamepad'
 import { GamepadBtn, Stick } from './mappings/types'
 import { TopicOptions } from '@club_capra/roslib-ts-client'
+import { IJoyMsg, ITwistMsg, Twist } from 'utils/ros/rosMsgs.types'
 
 export const cmdVelTopic: TopicOptions = {
   name: '/cmd_vel',
@@ -15,36 +16,30 @@ export const joyTopic: TopicOptions = {
 
 let joySeqId = 0
 
-export const mapGamepadToJoy = (gamepad: Gamepad) => {
+export const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
   const d = new Date()
   const seconds = Math.round(d.getTime() / 1000)
-  const cgamepad = new CustomGamepad(gamepad)
 
   const axes = gamepad.axes.map(x => (x < 0.09 && x > -0.09 ? 0.0 : x))
 
-  //Add Trigger axis at the right place in the axes array
-  // axs.splice(2,0,cgamepad.getButtonValue(GamepadBtn.LT))
-  // axs.splice(5,0,cgamepad.getButtonValue(GamepadBtn.RT))
-
   const buttons = gamepad.buttons.map(x => Math.floor(x.value))
 
-  const joyMsg = {
+  return {
     header: {
       seq: joySeqId++,
       stamp: {
         sec: seconds,
         nsecs: 0,
       },
+      // eslint-disable-next-line @typescript-eslint/camelcase
       frame_id: '',
     },
     axes: axes,
     buttons: buttons,
   }
-
-  return joyMsg
 }
 
-export const mapGamepadToTwist = (gamepad: CustomGamepad): Twist => {
+export const mapGamepadToTwist = (gamepad: CustomGamepad): ITwistMsg => {
   const { horizontal, vertical } = gamepad.getStick(Stick.Left)
   const rt = gamepad.getButtonValue(GamepadBtn.RT)
   const lt = gamepad.getButtonValue(GamepadBtn.LT)

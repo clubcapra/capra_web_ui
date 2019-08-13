@@ -9,18 +9,8 @@ Web based user interface for ROS based robots.
 ## Technologies used
 
 - Typescript
-- Vue.js
-  - vuex
-    - vuex-class-component
-    - vuex-persist
-  - vue-router
-  - vue-class-component
-  - vue-property-decorator
-  - vue-cli
-- yarn
-- css grid, sass/scss
-- bulma
-  - vue-bulma-components to integrate with vue
+- React
+- css grid
 - eslint
 - prettier
 - webpack
@@ -30,77 +20,48 @@ Web based user interface for ROS based robots.
 
 You can look in project.json for more specific dependencies.
 
-**Vue is the most important dependency here and you should know it to work on this project.**
-
-You do not need to be familiar with everything on this list but you should try using these before considering adding a new dependency. We try not to add dependency for simple functionalities, try to either write it yourself or use already used dependencies. lodash provides a lot of utility functions not provided by the small javascript standard library.
-
-Note: most javascript projects uses npm. While we do not use it directly you should already have it installed. For package management and build scripts we use yarn.
-
 ## Folder structure
 
 src is essentially the root folder everything else is configuration files that shouldn't be touched unless necessary.
 
 - **src**:
   - **assets**: contains any artifacts that aren't code. For examples: images or theme files that are loaded but not modified.
-  - **components**: contains all vue components used to build the application. The internal structure isn't defined for now, but we try to sort them by features.
+  - **components**: contains all the components used to build the application. The internal structure isn't defined for now, but we try to sort them by features.
   - **store**: contains vuex modules and other utility functions related to using these stores
   - **utils**:
     - **gamepad**: wrapper to simplify using the gamepad api and also does the input handling
     - **math**: math stuff like Vecor2/Vector3
     - **ros**: RosClient is a wrapper for the roslibjs library to simplify usage
-  - **App.vue**: main entry point of the vue app
-  - **main.ts**: main entry point of the entire web app. This should rarely change.
-  - **router.ts**: Since our router is really simple we only have a single file. If it becomes more complex we will make a router folder
+  - **App.tsx**: main entry point of the vue app
+  - **index.ts**: main entry point of the entire web app. This should rarely change.
 
-Vue is a component based framework, this means we try to use composition as much as possible. Since this is a vue app we try to use vue features and the vue way of doing things.
-
-## Build/run Setup
-
-### if yarn is not installed
-
-```bash
-npm install -g yarn
-```
+React is a component based framework, this means we try to use composition as much as possible. Since this is a react app we try to use react features and the react way of doing things.
 
 ### Project setup
 
-```bash
-yarn install
-```
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### Gives a nice ui to launch all these commands and also other goodies like analyzing build and dependeny management
+### `npm run eject`
 
-needs `yarn global add @vue/cli@next`
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-```bash
-vue ui
-```
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-### Compiles and hot-reloads for development
+Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-```bash
-yarn serve
-```
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-### Compiles and minifies for production
+## Learn More
 
-```bash
-yarn build
-```
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-### Lints and fixes files
-
-```bash
-yarn lint
-```
+To learn React, check out the [React documentation](https://reactjs.org/).
 
 ## ROS dependencies
 
 rosbrige_suite
 web_video_server
 
-Use `takin_web_ui.launch` in https://github.com/clubcapra/takin_bringup/tree/master/launch to launch necessayr ros dependencies
+Use `takin_web_ui.launch` in https://github.com/clubcapra/takin_bringup/tree/master/launch to launch necessary ros dependencies
 
-## Want a new feature or a bug fixed?
-
-Create an issue and it will automatically be added to the project board and be tracked there
+TODO change the launch file

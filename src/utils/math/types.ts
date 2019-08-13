@@ -10,11 +10,15 @@ export interface IVector3 {
 }
 
 export class Vector3 implements IVector3, IVector2 {
-  constructor(
-    public x: number = 0,
-    public y: number = 0,
-    public z: number = 0
-  ) {}
+  x: number = 0
+  y: number = 0
+  z: number = 0
+
+  constructor(x: number = 0, y: number = 0, z: number = 0) {
+    this.x = x
+    this.y = y
+    this.z = z
+  }
 
   static zero(): Vector3 {
     return new Vector3()
@@ -23,13 +27,4 @@ export class Vector3 implements IVector3, IVector2 {
   static one(): Vector3 {
     return new Vector3(1, 1, 1)
   }
-}
-
-export interface ITwist {
-  linear: Vector3
-  angular: Vector3
-}
-
-export class Twist implements ITwist {
-  constructor(public linear: Vector3, public angular: Vector3) {}
 }
