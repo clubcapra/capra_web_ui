@@ -17,38 +17,38 @@ export class GamepadManager {
     this.initEventListeners()
   }
 
-  get gamepad() {
+  get gamepad(): CustomGamepad {
     return this._gamepad
   }
 
-  start() {
+  start(): void {
     if (!this.isRunning) {
       this.isRunning = true
       this.update()
     }
   }
 
-  stop() {
+  stop(): void {
     this.isRunning = false
   }
 
-  private scheduleNextUpdate() {
+  private scheduleNextUpdate(): void {
     if (this.isRunning) requestAnimationFrame(tFrame => this.update(tFrame))
   }
 
-  private update(tFrame?: DOMHighResTimeStamp) {
+  private update(tFrame?: DOMHighResTimeStamp): void {
     this.updateGamepadStatus()
     this.scheduleNextUpdate()
   }
 
-  private updateGamepadStatus() {
+  private updateGamepadStatus(): void {
     const gamepad = navigator.getGamepads && navigator.getGamepads()[0]
 
     if (!gamepad) return
 
     // Don’t do anything if the current timestamp is the same as previous
     // one, which means that the state of the gamepad hasn’t changed.
-    if (gamepad.timestamp && gamepad.timestamp == this.prevTimestamp) {
+    if (gamepad.timestamp && gamepad.timestamp === this.prevTimestamp) {
       return
     }
 

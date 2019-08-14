@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { Route, Redirect, Switch } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import { Teleop } from 'components/pages/Teleop'
 import { Victim } from 'components/pages/Victim'
 import { MapPage } from 'components/pages/MapPage'
