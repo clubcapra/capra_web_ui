@@ -1,27 +1,20 @@
-import CustomGamepad from './CustomGamepad'
-import { InputHandler } from './InputHandler'
+import CustomGamepad from 'utils/gamepad/CustomGamepad'
+import { InputHandler } from 'utils/gamepad/@types'
 
 export class GamepadManager {
   private inputHandler!: InputHandler
   private isRunning = false
-  private prevTimestamp!: number
-  private customGamepad: CustomGamepad | null = null
-  private prevGamepad!: CustomGamepad
-  private currentGamepadIndex: number = 0
+  private prevTimestamp!: number[]
+  private prevGamepad!: Gamepad[]
 
-  constructor(inputHandler: InputHandler = new InputHandler()) {
+  constructor(inputHandler: InputHandler) {
     if (!(navigator.getGamepads instanceof Function)) {
       console.warn('This browser does not support gamepads.')
       return
     }
 
     this.inputHandler = inputHandler
-
     this.initEventListeners()
-  }
-
-  get gamepad(): CustomGamepad {
-    return this._gamepad
   }
 
   start = () => {
@@ -51,24 +44,15 @@ export class GamepadManager {
 
       if (!gamepad) return
 
-      // Don’t do anything if the current timestamp is the same as previous
-      // one, which means that the state of the gamepad hasn’t changed.
-      if (gamepad.timestamp && gamepad.timestamp == this.prevTimestamp) {
+      if (gamepad.timestamp && gamepad.timestamp === this.prevTimestamp[i]) {
         return
       }
 
-      this.prevTimestamp = gamepad.timestamp
-      this.customGamepad = new CustomGamepad(gamepad)
+      const customGamepad = new CustomGamepad(gamepad, this.prevGamepad[i])
+      this.inputHandler.handleGamepadInput(customGamepad)
 
-      if (this.customGamepad.gamepad.index === this.currentGamepadIndex) {
-        this.inputHandler.handleGamepadInput(
-          this.customGamepad,
-          this.prevGamepad
-        )
-        this.prevGamepad = this.customGamepad
-      } else if (this.customGamepad.isSpaceMouse) {
-        console.log(this.customGamepad.gamepad)
-      }
+      this.prevTimestamp[i] = gamepad.timestamp
+      this.prevGamepad[i] = gamepad
     }
   }
 
@@ -88,5 +72,3 @@ export class GamepadManager {
     console.log(id, 'disconnected', rest)
   }
 }
-
-export const gamepadManagerInstance = new GamepadManager()

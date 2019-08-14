@@ -1,29 +1,46 @@
-// import { gamepadModule } from 'store'
 import CustomGamepad from './CustomGamepad'
 import {
   mapGamepadToJoy,
   mapGamepadToTwist,
   cmdVelTopic,
   joyTopic,
+  spaceMouseTopic,
+  mapSpaceMouseToTwist,
 } from './RosGamepadUtils'
-import { GamepadBtn, Dpad } from './mappings/types'
 import { rosClient } from 'utils/ros/rosClient'
+import { store } from 'store/store'
+import { gamepadSlice } from 'store/modules/gamepad/reducer'
+import { GamepadBtn, Dpad, InputHandler } from 'utils/gamepad/@types'
+import { isSpaceMouse } from 'utils/gamepad/GamepadUtils'
 
-export class InputHandler {
-  private headlightsOn: boolean = false
-  private isArmTogglePressed = false
+export class DefaultInputHandler implements InputHandler {
+  handleGamepadInput(gamepad: CustomGamepad): void {
+    if (isSpaceMouse(gamepad)) {
+      this.handleSpaceMouse(gamepad)
+    } else {
+      this.handleGamepad(gamepad)
+    }
+  }
 
-  handleGamepadInput(gamepad: CustomGamepad, prevGamepad: CustomGamepad): void {
-    this.handleControlMode(gamepad)
+  private handleSpaceMouse(spaceMouse: CustomGamepad): void {
+    rosClient.publish(spaceMouseTopic, mapSpaceMouseToTwist(spaceMouse.gamepad))
+  }
 
-    const isArmControlled = false
-    if (isArmControlled) {
+  private handleGamepad(gamepad: CustomGamepad): void {
+    if (gamepad.getTogglePressed(Dpad.Right)) {
+      store.dispatch(gamepadSlice.actions.toggleIsArmControlled)
+      return
+    }
+
+    if (store.getState().gamepad.isArmControlled) {
       this.handleArmControl(gamepad)
     } else {
       this.handleRobotControl(gamepad)
     }
 
-    this.handleHeadLight(gamepad)
+    if (gamepad.getTogglePressed(Dpad.Left)) {
+      rosClient.callService({ name: '/headlights', serviceType: '' }, '')
+    }
   }
 
   private handleRobotControl(gamepad: CustomGamepad): void {
@@ -31,28 +48,8 @@ export class InputHandler {
       rosClient.publish(cmdVelTopic, mapGamepadToTwist(gamepad))
     }
   }
+
   private handleArmControl(gamepad: CustomGamepad): void {
     rosClient.publish(joyTopic, mapGamepadToJoy(gamepad.gamepad))
-  }
-
-  private handleControlMode(gamepad: CustomGamepad): void {
-    if (gamepad.getButtonPressed(Dpad.Right) && !this.isArmTogglePressed) {
-      // gamepadModule.toggleIsArmControlled()
-      this.isArmTogglePressed = true
-    } else if (
-      !gamepad.getButtonPressed(Dpad.Right) &&
-      this.isArmTogglePressed
-    ) {
-      this.isArmTogglePressed = false
-    }
-  }
-
-  private handleHeadLight(gamepad: CustomGamepad): void {
-    if (gamepad.getButtonPressed(Dpad.Left) && this.headlightsOn) {
-      rosClient.callService({ name: '/headlights', serviceType: '' }, '')
-      this.headlightsOn = true
-    } else if (!gamepad.getButtonPressed(Dpad.Left) && !this.headlightsOn) {
-      this.headlightsOn = false
-    }
   }
 }

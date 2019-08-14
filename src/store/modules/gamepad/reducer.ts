@@ -1,12 +1,11 @@
 import { createSlice } from 'redux-starter-kit'
-import { GamepadState } from 'store/modules/gamepad/@types';
+import { GamepadState } from 'store/modules/gamepad/@types'
 
 const initialState: GamepadState = {
-  isArmControlled: true
-
+  isArmControlled: true,
 }
 
-export const gempadSlice = createSlice({
+export const gamepadSlice = createSlice({
   initialState,
   reducers: {
     toggleIsArmControlled: state => ({

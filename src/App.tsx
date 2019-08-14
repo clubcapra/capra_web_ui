@@ -6,8 +6,10 @@ import { defaultTheme } from 'globalStyles/themes/defaultTheme'
 import { ToastProvider } from 'react-toast-notifications'
 import { Layout } from 'components/Layout'
 import { GlobalStyles } from 'App.styles'
-import { gamepadManagerInstance } from 'utils/gamepad/GamepadManager'
+import { GamepadManager } from 'utils/gamepad/GamepadManager'
+import { DefaultInputHandler } from 'utils/gamepad/InputHandler'
 
+const gamepadManagerInstance = new GamepadManager(new DefaultInputHandler())
 gamepadManagerInstance.start()
 
 const TeleopRedirect: FC = () => <Redirect to="/teleop" />

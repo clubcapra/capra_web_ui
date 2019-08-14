@@ -14,6 +14,11 @@ export const joyTopic: TopicOptions = {
   messageType: 'sensor_msgs/Joy',
 }
 
+export const spaceMouseTopic: TopicOptions = {
+  name: '/spacenav/twist',
+  messageType: 'geometry_msgs/Twist',
+}
+
 let joySeqId = 0
 
 export const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
@@ -61,6 +66,22 @@ export const mapGamepadToTwist = (gamepad: CustomGamepad): ITwistMsg => {
     x: 0,
     y: 0,
     z: x * rt,
+  }
+
+  return new Twist(linear, angular)
+}
+
+export const mapSpaceMouseToTwist = (spacemouse: Gamepad): Twist => {
+  const linear = {
+    x: spacemouse.axes[0],
+    y: spacemouse.axes[1],
+    z: spacemouse.axes[2],
+  }
+
+  const angular = {
+    x: spacemouse.axes[3],
+    y: spacemouse.axes[4],
+    z: spacemouse.axes[5],
   }
 
   return new Twist(linear, angular)

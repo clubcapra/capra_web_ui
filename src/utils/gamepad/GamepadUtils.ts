@@ -1,16 +1,12 @@
-import {
-  Stick,
-  GamepadBtn,
-  GamepadMapping,
-  Dpad,
-  StickAxis,
-} from './mappings/types'
+import { GamepadMapping } from './mappings/types'
+import { GamepadBtn, Dpad, Stick, StickAxis } from 'utils/gamepad/@types'
+import CustomGamepad from 'utils/gamepad/CustomGamepad'
 
-const getButton = (gamepad: Gamepad, button: number) => {
+const getButton = (gamepad: Gamepad, button: number): GamepadButton => {
   return gamepad.buttons[button]
 }
 
-const getAxis = (gamepad: Gamepad, axis: number) => {
+const getAxis = (gamepad: Gamepad, axis: number): number => {
   return gamepad.axes[axis]
 }
 
@@ -53,3 +49,6 @@ export const getStick = (
     vertical: stickMapping.isUpPositive ? vertical : -vertical,
   }
 }
+
+export const isSpaceMouse = (gamepad: CustomGamepad): boolean =>
+  gamepad.gamepad.id.includes('SpaceMouse')

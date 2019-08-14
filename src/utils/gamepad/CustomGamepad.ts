@@ -1,44 +1,43 @@
 import { getButtonValue, getButtonPressed, getStick } from './GamepadUtils'
 import mappings from './mappings'
-import {
-  GamepadMapping,
-  Stick,
-  GamepadBtn,
-  Dpad,
-  StickAxis,
-} from './mappings/types'
+import { GamepadMapping } from './mappings/types'
+import { GamepadBtn, Dpad, Stick, StickAxis } from 'utils/gamepad/@types'
 
 export default class CustomGamepad {
-  private mapping: GamepadMapping
   gamepad: Gamepad
+  private mapping: GamepadMapping
+  private prevGamepad: Gamepad
 
-  constructor(gamepad: Gamepad) {
+  constructor(gamepad: Gamepad, prevGamepad: Gamepad) {
     this.gamepad = gamepad
+    this.prevGamepad = prevGamepad
     this.mapping = this.detectMapping(gamepad)
   }
 
-  get isSpaceMouse() {
-    const gamepadName = this.gamepad.id
-    return (
-      gamepadName.includes('spacenavigator') ||
-      gamepadName.includes('space navigator')
-    )
-  }
-
-  getButtonPressed(button: GamepadBtn | Dpad): boolean {
+  getButtonPressed = (button: GamepadBtn | Dpad): boolean => {
     return getButtonPressed(this.gamepad, this.mapping, button)
   }
 
-  getButtonValue(button: GamepadBtn | Dpad): number {
+  getButtonPressedFromPrev = (button: GamepadBtn | Dpad): boolean => {
+    return getButtonPressed(this.prevGamepad, this.mapping, button)
+  }
+
+  getTogglePressed = (button: GamepadBtn | Dpad): boolean => {
+    return (
+      this.getButtonPressed(button) && !this.getButtonPressedFromPrev(button)
+    )
+  }
+
+  getButtonValue = (button: GamepadBtn | Dpad): number => {
     return getButtonValue(this.gamepad, this.mapping, button)
   }
 
-  getStick(stick: Stick): StickAxis {
+  getStick = (stick: Stick): StickAxis => {
     return getStick(this.gamepad, this.mapping, stick)
   }
 
   // TODO: actually support multpile mappings
-  private detectMapping(gamepad: Gamepad) {
+  private detectMapping = (gamepad: Gamepad) => {
     return mappings[0]
   }
 }
