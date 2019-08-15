@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components'
-import { Theme, styled } from 'globalStyles/styled'
+import { Theme } from 'globalStyles/styled'
 
 /*
     Important note regarding tests :

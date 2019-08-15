@@ -18,6 +18,12 @@ export enum FeedType {
   joystick,
 }
 
+export enum CameraType {
+  img,
+  png,
+  vp8,
+}
+
 export interface FeedCollection {
   [feedId: string]: Feed
 }
@@ -36,10 +42,8 @@ export interface CameraFeed {
 }
 
 export interface Camera {
-  topic: string
-  fileType: string
   name: string
-  socketConnection: string // Might be an IP, no idea
+  type: CameraType
 }
 
 interface MinimapFeed {
@@ -58,7 +62,6 @@ export interface Minimap3DFeed extends MinimapFeed {
 export interface ModelFeed {
   type: FeedType.model
   id: string
-  socketConnection: string // There SHOULD be something, though what should it be, I cannot tell.
 }
 
 export interface JoystickFeed {
