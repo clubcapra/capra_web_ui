@@ -1,16 +1,26 @@
 import React, { FC } from 'react'
-import { styled } from 'globalStyles/styled'
-
-const Wrapper = styled.div`
-  display: grid;
-  align-items: center;
-  height: 100%;
-  background-color: ${({ theme }) => theme.colors.darkerBackground};
-  color: ${({ theme }) => theme.colors.fontLight};
-  box-shadow: 0 -3px 2px rgba(0, 0, 0, 0.25);
-  font-size: 14px;
-`
+import {
+  StyledStatusBarWrapper,
+  RightStatusBar,
+  LeftStatusBar,
+} from './StatusBar.styles'
+import { useSelector } from 'react-redux'
+import { fullRobotIpAddress } from 'store/modules/ros/reducer'
+import { GlobalState } from 'store/rootReducer'
 
 export const StatusBar: FC = () => {
-  return <Wrapper>Connected to: localhost</Wrapper>
+  const robotIpAddress = useSelector(fullRobotIpAddress)
+  const connected = useSelector((state: GlobalState) => state.ros.connected)
+
+  return (
+    <StyledStatusBarWrapper>
+      <LeftStatusBar>
+        {connected ? `Connected to: ${robotIpAddress}` : 'Disconnected'}
+      </LeftStatusBar>
+      <RightStatusBar>
+        <div>test</div>
+        <div>test2</div>
+      </RightStatusBar>
+    </StyledStatusBarWrapper>
+  )
 }

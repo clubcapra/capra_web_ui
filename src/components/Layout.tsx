@@ -12,7 +12,7 @@ const GridLayout = styled.div`
     'h e'
     'v e'
     's e';
-  grid-template-columns: 1fr 80px;
+  grid-template-columns: 1fr 70px;
   grid-template-rows: auto 1fr 20px;
 `
 
