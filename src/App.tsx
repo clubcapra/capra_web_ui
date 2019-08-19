@@ -8,8 +8,9 @@ import { Layout } from 'components/Layout'
 import { GlobalStyles } from 'App.styles'
 import { GamepadManager } from 'utils/gamepad/GamepadManager'
 import { DefaultInputHandler } from 'utils/gamepad/InputHandler'
-import { Provider } from 'react-redux';
-import { store } from 'store/store';
+import { Provider } from 'react-redux'
+import { store } from 'store/store'
+import { PwaNotifier } from 'components/PwaNotifier'
 
 const gamepadManagerInstance = new GamepadManager(new DefaultInputHandler())
 gamepadManagerInstance.start()
@@ -20,6 +21,7 @@ const App: React.FC = () => {
   return (
     <Provider store={store}>
       <ToastProvider placement={'bottom-right'}>
+        <PwaNotifier />
         <BrowserRouter>
           <ThemeProvider theme={defaultTheme}>
             <>
