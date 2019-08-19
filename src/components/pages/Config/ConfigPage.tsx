@@ -1,11 +1,15 @@
 import React, { FC } from 'react'
-import { ConfigPageGrid, MenuArea, ConfigRouterArea } from 'components/pages/Config/ConfigPage.styles'
-import { Route, Switch } from 'react-router';
-import { ConfigMenu } from './ConfigMenu';
+import {
+  ConfigPageGrid,
+  MenuArea,
+  ConfigRouterArea,
+} from 'components/pages/Config/ConfigPage.styles'
+import { Route, Switch, Redirect } from 'react-router'
+import { ConfigMenu } from './ConfigMenu'
 
-const RosConfig = () => <div> Ros</div >
-const CameraConfig = () => <div>Camera</div>
-const GamepadConfig = () => <div>Gamepad</div>
+const RosConfig: FC = () => <div> Ros</div>
+const CameraConfig: FC = () => <div>Camera</div>
+const GamepadConfig: FC = () => <div>Gamepad</div>
 
 export const ConfigPage: FC = () => {
   return (
@@ -14,6 +18,7 @@ export const ConfigPage: FC = () => {
         <ConfigMenu />
       </MenuArea>
       <ConfigRouterArea>
+        <Redirect to="/config/ros" />
         <Switch>
           <Route path="/config/ros" component={RosConfig} />
           <Route path="/config/camera" component={CameraConfig} />

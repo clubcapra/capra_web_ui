@@ -28,11 +28,12 @@ export const StyledNavLink = styled(NavLink)`
   text-align: center;
   text-decoration: none;
   color: ${({ theme }) => theme.colors.fontLight};
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, border-bottom 0.2s ease-in-out;
   transition-delay: 0.2s;
+  border-bottom-color: ${({ theme }) => theme.colors.primary};
 
   &:hover {
-    color: ${({ theme }) => theme.colors.fontDark};
+    font-weight: bold;
   }
 
   &.is-active {
