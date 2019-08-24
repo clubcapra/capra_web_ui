@@ -10,17 +10,14 @@ export const initialState: PWAState = {
 export const pwaSlice = createSlice({
   initialState,
   reducers: {
-    onContentLoaded: (state): PWAState => ({
-      ...state,
-      contentLoaded: true,
-    }),
-    onNewContentLoaded: (state): PWAState => ({
-      ...state,
-      newContentLoaded: true,
-    }),
-    onOfflineModeDetected: (state): PWAState => ({
-      ...state,
-      offlineMode: true,
-    }),
+    onContentLoaded: state => {
+      state.contentLoaded = true
+    },
+    onNewContentLoaded: state => {
+      state.newContentLoaded = true
+    },
+    onOfflineModeDetected: state => {
+      state.offlineMode = true
+    },
   },
 })

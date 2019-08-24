@@ -8,9 +8,8 @@ const initialState: GamepadState = {
 export const gamepadSlice = createSlice({
   initialState,
   reducers: {
-    toggleIsArmControlled: state => ({
-      ...state,
-      isArmControlled: !state.isArmControlled,
-    }),
+    toggleIsArmControlled: state => {
+      state.isArmControlled = !state.isArmControlled
+    },
   },
 })

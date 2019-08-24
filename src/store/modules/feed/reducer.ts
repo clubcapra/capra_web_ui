@@ -9,55 +9,37 @@ export const feedSlice = createSlice({
   reducers: {
     addCamera: (state, { payload }: PayloadAction<Camera>) => {
       const id = shortid()
-      return {
-        ...state,
-        feeds: {
-          ...state.feeds,
-          [id]: {
-            id,
-            type: FeedType.video,
-            camera: payload,
-          },
-        },
+      state.feeds[id] = {
+        id,
+        type: FeedType.video,
+        camera: payload,
       }
     },
-    removeCamera: (state, { payload }: PayloadAction<string>) => {
-      const newState = { ...state }
+    removeFeed: (state, { payload }: PayloadAction<string>) => {
+      delete state.feeds[payload]
 
-      const newFeeds = { ...newState.feeds }
-      delete newFeeds[payload]
-
-      const newMap = { ...newState.feedMap }
-      Object.values(newMap).forEach(m => {
+      Object.values(state.feedMap).some(m => {
         if (m.feedId === payload) {
-          delete newMap[m.id]
+          delete state.feedMap[m.id]
+          return true
         }
+        return false
       })
-
-      return {
-        ...newState,
-        feeds: { ...newFeeds },
-        feedMap: newMap,
-      }
     },
     changeCamera: (
       state,
       { payload: { camera, id } }: PayloadAction<{ camera: Camera; id: string }>
     ) => {
-      const feed = { ...state.feeds[id] }
+      const feed = state.feeds[id]
 
-      if (feed.type !== FeedType.video) return { ...state }
-
+      if (feed.type !== FeedType.video) return
       feed.camera = camera
-      return { ...state, feeds: { ...state.feeds, [id]: feed } }
     },
-    selectFedd: (
+    updateFeedMap: (
       state,
       { payload: { id, feedId } }: PayloadAction<{ id: string; feedId: string }>
     ) => {
-      const newState = { ...state }
-      newState.feedMap[id] = { id, feedId }
-      return newState
+      state.feedMap[id] = { id, feedId }
     },
   },
 })

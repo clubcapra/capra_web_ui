@@ -6,12 +6,10 @@ export const initialState: FeedState = {
     minimap_2d: {
       type: FeedType.minimap2D,
       id: 'minimap_2d',
-      socketConnection: 'AHHHHH!!!', // This will probably be handled differently
     },
     minimap_3d: {
       type: FeedType.minimap3D,
       id: 'minimap_3d',
-      socketConnection: 'AHHHHH!!! (but in 3d)', // This will probably be handled differently
     },
     model: {
       type: FeedType.model,
@@ -23,10 +21,11 @@ export const initialState: FeedState = {
     },
     teleop_cam_1: {
       type: FeedType.video,
-      id: 'teleop_cam_1',
+      id: 'camera_3d_rgb',
       camera: {
-        name: 'teleop_1',
+        name: 'camera_3d_rgb',
         type: CameraType.img,
+        topic: '/camera_3d/rgb',
       },
     },
   },
