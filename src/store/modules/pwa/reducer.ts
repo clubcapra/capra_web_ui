@@ -1,5 +1,5 @@
 import { PWAState } from './@types'
-import { createSlice, PayloadAction } from 'redux-starter-kit'
+import { createSlice } from 'redux-starter-kit'
 
 export const initialState: PWAState = {
   contentLoaded: false,

@@ -6,26 +6,29 @@ export const initialState: RosState = {
   connected: false,
   robotIp: 'localhost',
   robotPort: '9090',
+  error: '',
 }
 
 export const rosSlice = createSlice({
   initialState,
   reducers: {
-    setRobotIp: (state, { payload }: PayloadAction<string>): RosState => ({
-      ...state,
-      robotIp: payload,
-    }),
-    setRobotPort: (state, { payload }: PayloadAction<string>): RosState => ({
-      ...state,
-      robotPort: payload,
-    }),
-    setConnected: (state, { payload }: PayloadAction<boolean>): RosState => ({
-      ...state,
-      connected: payload,
-    }),
+    setRobotIp: (state, { payload }: PayloadAction<string>) => {
+      state.robotIp = payload
+    },
+    setRobotPort: (state, { payload }: PayloadAction<string>) => {
+      state.robotPort = payload
+    },
+    setConnected: (state, { payload }: PayloadAction<boolean>) => {
+      state.connected = payload
+    },
+    setError: (state, { payload }: PayloadAction<unknown>) => {
+      state.error = payload
+    },
   },
 })
 
-export const fullRobotIpAddress = (state: GlobalState): string => {
-  return `http://${state.ros.robotIp}:${state.ros.robotPort}/`
-}
+const formatIp = (state: RosState): string =>
+  `http://${state.robotIp}:${state.robotPort}/`
+
+export const fullRobotIpAddress = (state: GlobalState): string =>
+  formatIp(state.ros)
