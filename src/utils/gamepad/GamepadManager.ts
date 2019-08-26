@@ -6,10 +6,12 @@ export class GamepadManager {
   private isRunning = false
   private prevTimestamp!: number[]
   private prevGamepad!: Gamepad[]
+  private isBrowserSupported: boolean = true
 
   constructor(inputHandler: InputHandler) {
     if (!(navigator.getGamepads instanceof Function)) {
       console.warn('This browser does not support gamepads.')
+      this.isBrowserSupported = false
       return
     }
 
@@ -18,7 +20,7 @@ export class GamepadManager {
   }
 
   start = () => {
-    if (!this.isRunning) {
+    if (!this.isRunning && this.isBrowserSupported) {
       this.isRunning = true
       this.update()
     }
