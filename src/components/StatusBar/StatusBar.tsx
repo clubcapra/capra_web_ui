@@ -7,6 +7,7 @@ import {
 import { useSelector } from 'react-redux'
 import { fullRobotIpAddress } from 'store/modules/ros/reducer'
 import { GlobalState } from 'store/rootReducer'
+import { TimeDisplay } from 'components/StatusBar/TimeDisplay'
 
 export const StatusBar: FC = () => {
   const robotIpAddress = useSelector(fullRobotIpAddress)
@@ -18,8 +19,7 @@ export const StatusBar: FC = () => {
         {connected ? `Connected to: ${robotIpAddress}` : 'Disconnected'}
       </LeftStatusBar>
       <RightStatusBar>
-        <div>test</div>
-        <div>test2</div>
+        <TimeDisplay />
       </RightStatusBar>
     </StyledStatusBarWrapper>
   )

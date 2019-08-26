@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { EStopButton } from 'components/EStopButton'
 import { Header } from 'components/Header'
-import { StatusBar } from 'components/StatusBar'
+import { StatusBar } from 'components/StatusBar/StatusBar'
 import { Router } from 'components/Router'
 import { styled } from 'globalStyles/styled'
 
