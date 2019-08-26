@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 //@ts-ignore
 import { useToasts } from 'react-toast-notifications'
-import { useSelector } from 'common/hooks/useTypedSelector'
+import { useSelector } from 'utils/hooks/typedUseSelector'
 import { fullRobotIpAddress } from 'store/modules/ros/reducer'
 
 export const RosNotifier: FC = () => {

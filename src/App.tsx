@@ -13,7 +13,7 @@ import { store } from 'store/store'
 import { PwaNotifier } from 'components/PwaNotifier'
 import { rosClient } from 'utils/ros/rosClient'
 import { rosSlice, fullRobotIpAddress } from 'store/modules/ros/reducer'
-import { useSelector } from 'common/hooks/useTypedSelector'
+import { useSelector } from 'utils/hooks/typedUseSelector'
 import { RosNotifier } from 'components/RosNotifier'
 
 const gamepadManagerInstance = new GamepadManager(new DefaultInputHandler())
