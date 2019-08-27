@@ -5,21 +5,27 @@ import { toast } from 'react-toastify'
 
 export const initialState: RosState = {
   connected: false,
-  robotIp: 'localhost',
-  robotPort: '9090',
+  IP: 'localhost',
+  port: '9090',
   error: '',
+  tryingToConnect: false,
+  connectingToastId: '',
+  errorToastId: '',
 }
 
 export const rosSlice = createSlice({
   initialState,
   reducers: {
-    setRobotIp: (state, { payload }: PayloadAction<string>) => {
-      state.robotIp = payload
+    setIp: (state, { payload }: PayloadAction<string>) => {
+      state.IP = payload
     },
-    setRobotPort: (state, { payload }: PayloadAction<string>) => {
-      state.robotPort = payload
+    setPort: (state, { payload }: PayloadAction<string>) => {
+      state.port = payload
     },
     setConnected: (state, { payload }: PayloadAction<boolean>) => {
+      toast.dismiss(state.connectingToastId)
+      state.tryingToConnect = false
+
       if (payload) {
         toast.info(`ROS: Connected to: ${formatIp(state)}`)
       } else if (state.connected) {
@@ -29,14 +35,20 @@ export const rosSlice = createSlice({
       state.connected = payload
     },
     setError: (state, { payload }: PayloadAction<unknown>) => {
-      toast.error(`ROS: ${payload}`)
+      state.errorToastId = toast.error(`ROS: ${payload}`)
       state.error = payload
+    },
+    tryToConnect: state => {
+      toast.dismiss(state.errorToastId)
+      state.connectingToastId = toast.warn(
+        `ROS: Trying to connect to: ${formatIp(state)}`
+      )
+      state.tryingToConnect = true
     },
   },
 })
 
 const formatIp = (state: RosState): string =>
-  `http://${state.robotIp}:${state.robotPort}/`
+  `http://${state.IP}:${state.port}/`
 
-export const fullRobotIpAddress = (state: GlobalState): string =>
-  formatIp(state.ros)
+export const fullIpAddress = (state: GlobalState): string => formatIp(state.ros)

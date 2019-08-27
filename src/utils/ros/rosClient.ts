@@ -1,11 +1,9 @@
 import RosClient from '@club_capra/roslib-ts-client'
 import { store } from 'store/store'
-import { rosSlice, fullRobotIpAddress } from 'store/modules/ros/reducer'
+import { rosSlice, fullIpAddress } from 'store/modules/ros/reducer'
 
 export const rosClient = new RosClient()
 // rosClient.enableLogging()
-
-const fullRobotIp = fullRobotIpAddress(store.getState())
 
 rosClient.setListeners(
   () => {
@@ -19,9 +17,13 @@ rosClient.setListeners(
   () => {
     // onError
     store.dispatch(
-      rosSlice.actions.setError(`Failed to connect to: ${fullRobotIp}`)
+      rosSlice.actions.setError(
+        `Failed to connect to: ${fullIpAddress(store.getState())}`
+      )
     )
   }
 )
 
-rosClient.connect(fullRobotIp)
+const rosState = store.getState().ros
+
+rosClient.connect(rosState.IP, rosState.port)

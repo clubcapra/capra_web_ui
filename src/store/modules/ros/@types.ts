@@ -1,6 +1,11 @@
+import { ReactText } from 'react'
+
 export interface RosState {
-  robotIp: string
-  robotPort: string
+  IP: string
+  port: string
   connected: boolean
   error: unknown
+  tryingToConnect: boolean
+  connectingToastId: ReactText
+  errorToastId: ReactText
 }
