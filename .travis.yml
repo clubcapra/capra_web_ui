@@ -3,7 +3,7 @@ node_js:
   - '12'
 script:
   - npm test
-  - npm build
+  - npm run build
 deploy:
   provider: pages
   skip_cleanup: true
@@ -11,4 +11,4 @@ deploy:
   keep_history: true
   on:
     branch: master
-  local_dir: dist
+  local_dir: build
