@@ -1,7 +1,7 @@
 import { createSlice } from 'redux-starter-kit'
 import { GamepadState } from 'store/modules/gamepad/@types'
 
-const initialState: GamepadState = {
+export const initialState: GamepadState = {
   isArmControlled: true,
 }
 
