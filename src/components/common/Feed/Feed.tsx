@@ -1,4 +1,4 @@
-import React, { FC, useState, useCallback, useMemo } from 'react'
+import React, { FC, useState, useMemo } from 'react'
 import { useSelector } from 'utils/hooks/typedUseSelector'
 import { StyledFeedComponent } from 'components/common/Feed/Feed.styles'
 import {

@@ -6,9 +6,9 @@ import {
 } from 'components/pages/Config/ConfigPage.styles'
 import { Route, Switch, Redirect } from 'react-router'
 import { ConfigMenu } from './ConfigMenu'
-import { RosConfig } from 'components/pages/Config/RosConfig'
+import { RosConfig } from 'components/pages/Config/pages/RosConfig'
+import { CameraConfig } from 'components/pages/Config/pages/CameraConfig'
 
-const CameraConfig: FC = () => <div>Camera</div>
 const GamepadConfig: FC = () => <div>Gamepad</div>
 
 export const ConfigPage: FC = () => {

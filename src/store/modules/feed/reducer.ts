@@ -1,4 +1,4 @@
-import { ICameraData } from './@types'
+import { ICameraData, ICameraFeed } from './@types'
 import { PayloadAction, createSlice } from 'redux-starter-kit'
 import { FeedTypeEnum } from 'store/modules/feed/@types'
 import { initialState } from 'store/modules/feed/initialState'
@@ -50,3 +50,7 @@ export const feedSlice = createSlice({
 export const selectAllFeeds = (state: GlobalState) => state.feed.feeds
 export const selectFeedFromFeedMap = (id: string) => (state: GlobalState) =>
   state.feed.feedMap[id]
+export const selectAllCamera = (state: GlobalState) =>
+  Object.values(state.feed.feeds)
+    .filter(feed => feed.type === FeedTypeEnum.camera)
+    .reverse() as ICameraFeed[]
