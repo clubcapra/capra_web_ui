@@ -42,7 +42,7 @@ module.exports = {
       { accessibility: 'no-public' },
     ],
     '@typescript-eslint/explicit-function-return-type': [
-      1,
+      0,
       { allowExpressions: true, allowTypedFunctionExpressions: true },
     ],
     '@typescript-eslint/interface-name-prefix': 0,

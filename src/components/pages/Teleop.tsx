@@ -1,5 +1,6 @@
 import React, { FC } from 'react'
+import { Feed } from 'components/common/Feed/Feed'
 
 export const Teleop: FC = () => {
-  return <h2>Teleop</h2>
+  return <Feed id="teleop_main" defaultFeed="camera_3d_rgb" />
 }

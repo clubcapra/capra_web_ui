@@ -2,6 +2,7 @@ import { RosState } from 'store/modules/ros/@types'
 import { GlobalState } from 'store/rootReducer'
 import { createSlice, PayloadAction } from 'redux-starter-kit'
 import { toast } from 'react-toastify'
+import { ICameraData } from 'store/modules/feed/@types'
 
 export const initialState: RosState = {
   connected: false,
@@ -52,3 +53,9 @@ const formatIp = (state: RosState): string =>
   `http://${state.IP}:${state.port}/`
 
 export const fullIpAddress = (state: GlobalState): string => formatIp(state.ros)
+
+export const selectVideoStreamUrl = (camera: ICameraData) => (
+  state: GlobalState
+): string =>
+  `http://${state.ros.IP}:${state.ros.port}/stream` +
+  `?topic=${camera.topic}&type=${camera.type}`

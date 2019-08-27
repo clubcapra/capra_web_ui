@@ -1,17 +1,18 @@
-import { Camera } from './@types'
+import { ICameraData } from './@types'
 import { PayloadAction, createSlice } from 'redux-starter-kit'
-import { FeedType } from 'store/modules/feed/@types'
+import { FeedTypeEnum } from 'store/modules/feed/@types'
 import { initialState } from 'store/modules/feed/initialState'
 import shortid from 'shortid'
+import { GlobalState } from 'store/rootReducer'
 
 export const feedSlice = createSlice({
   initialState,
   reducers: {
-    addCamera: (state, { payload }: PayloadAction<Camera>) => {
+    addCamera: (state, { payload }: PayloadAction<ICameraData>) => {
       const id = shortid()
       state.feeds[id] = {
         id,
-        type: FeedType.video,
+        type: FeedTypeEnum.camera,
         camera: payload,
       }
     },
@@ -28,11 +29,13 @@ export const feedSlice = createSlice({
     },
     changeCamera: (
       state,
-      { payload: { camera, id } }: PayloadAction<{ camera: Camera; id: string }>
+      {
+        payload: { camera, id },
+      }: PayloadAction<{ camera: ICameraData; id: string }>
     ) => {
       const feed = state.feeds[id]
 
-      if (feed.type !== FeedType.video) return
+      if (feed.type !== FeedTypeEnum.camera) return
       feed.camera = camera
     },
     updateFeedMap: (
@@ -43,3 +46,7 @@ export const feedSlice = createSlice({
     },
   },
 })
+
+export const selectAllFeeds = (state: GlobalState) => state.feed.feeds
+export const selectFeedFromFeedMap = (id: string) => (state: GlobalState) =>
+  state.feed.feedMap[id]

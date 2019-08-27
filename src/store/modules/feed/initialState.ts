@@ -1,30 +1,30 @@
-import { FeedState, FeedType, CameraType } from 'store/modules/feed/@types'
+import { FeedState, FeedTypeEnum, CameraType } from 'store/modules/feed/@types'
 
 export const initialState: FeedState = {
   feedMap: {},
   feeds: {
     minimap_2d: {
-      type: FeedType.minimap2D,
+      type: FeedTypeEnum.minimap2D,
       id: 'minimap_2d',
     },
     minimap_3d: {
-      type: FeedType.minimap3D,
+      type: FeedTypeEnum.minimap3D,
       id: 'minimap_3d',
     },
     model: {
-      type: FeedType.model,
+      type: FeedTypeEnum.model,
       id: 'model',
     },
     joystick: {
-      type: FeedType.joystick,
+      type: FeedTypeEnum.joystick,
       id: 'joystick',
     },
-    teleop_cam_1: {
-      type: FeedType.video,
+    camera_3d_rgb: {
+      type: FeedTypeEnum.camera,
       id: 'camera_3d_rgb',
       camera: {
         name: 'camera_3d_rgb',
-        type: CameraType.img,
+        type: CameraType.MJPEG,
         topic: '/camera_3d/rgb',
       },
     },

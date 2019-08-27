@@ -13,7 +13,6 @@
     "chart.js": "^2.8.0",
     "chartjs-plugin-streaming": "^1.8.0",
     "date-fns": "^2.0.1",
-    "lodash-es": "^4.17.15",
     "polished": "^3.4.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",

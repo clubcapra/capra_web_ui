@@ -3,16 +3,17 @@ export interface FeedState {
   feedMap: FeedMap
 }
 
-//TODO use actual Map
 export interface FeedMap {
-  [id: string]: {
-    id: string
-    feedId: string
-  }
+  [id: string]: FeedMapValue
 }
 
-export enum FeedType {
-  video,
+export interface FeedMapValue {
+  id: string
+  feedId: string
+}
+
+export enum FeedTypeEnum {
+  camera,
   minimap2D,
   minimap3D,
   model,
@@ -20,53 +21,53 @@ export enum FeedType {
 }
 
 export enum CameraType {
-  img,
-  png,
-  vp8,
+  MJPEG,
+  PNG,
+  VP8,
 }
 
 export interface FeedCollection {
-  [feedId: string]: Feed
+  [feedId: string]: FeedType
 }
 
-export type Feed =
-  | CameraFeed
-  | Minimap2DFeed
-  | Minimap3DFeed
-  | ModelFeed
-  | JoystickFeed
+export type FeedType =
+  | ICameraFeed
+  | IMinimap2DFeed
+  | IMinimap3DFeed
+  | IModelFeed
+  | IJoystickFeed
 
 interface IFeed {
-  type: FeedType
+  type: FeedTypeEnum
   id: string
 }
 
-export interface CameraFeed extends IFeed {
-  type: FeedType.video
+export interface ICameraFeed extends IFeed {
+  type: FeedTypeEnum.camera
   id: string
-  camera: Camera
+  camera: ICameraData
 }
 
-export interface Camera {
+export interface ICameraData {
   name: string
   type: CameraType
   topic: string
 }
 
-export interface Minimap2DFeed extends IFeed {
-  type: FeedType.minimap2D
+export interface IMinimap2DFeed extends IFeed {
+  type: FeedTypeEnum.minimap2D
 }
 
-export interface Minimap3DFeed extends IFeed {
-  type: FeedType.minimap3D
+export interface IMinimap3DFeed extends IFeed {
+  type: FeedTypeEnum.minimap3D
 }
 
-export interface ModelFeed extends IFeed {
-  type: FeedType.model
+export interface IModelFeed extends IFeed {
+  type: FeedTypeEnum.model
   id: string
 }
 
-export interface JoystickFeed extends IFeed {
-  type: FeedType.joystick
+export interface IJoystickFeed extends IFeed {
+  type: FeedTypeEnum.joystick
   id: string
 }
