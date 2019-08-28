@@ -16,10 +16,12 @@ gamepadManagerInstance.start()
 
 const TeleopRedirect: FC = () => <Redirect to="/teleop" />
 
+console.log('PUBLIC_URL:', process.env.PUBLIC_URL)
+
 const App: React.FC = () => (
   <Provider store={store}>
     <ToastContainer position={'bottom-right'} />
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <ThemeProvider theme={defaultTheme}>
         <>
           <GlobalStyles />
