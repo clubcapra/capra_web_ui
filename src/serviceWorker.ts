@@ -85,7 +85,7 @@ function registerValidSW(swUrl: string, config?: Config): void {
                   'tabs for this page are closed. See https://bit.ly/CRA-PWA.'
               )
 
-              store.dispatch(pwaSlice.actions.onOfflineModeDetected())
+              store.dispatch(pwaSlice.actions.onNewContentLoaded())
 
               // Execute callback
               if (config && config.onUpdate) {
