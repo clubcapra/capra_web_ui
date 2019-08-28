@@ -50,12 +50,12 @@ export const rosSlice = createSlice({
 })
 
 const formatIp = (state: RosState): string =>
-  `http://${state.IP}:${state.port}/`
+  `https://${state.IP}:${state.port}/`
 
 export const fullIpAddress = (state: GlobalState): string => formatIp(state.ros)
 
 export const selectVideoStreamUrl = (camera: ICameraData) => (
   state: GlobalState
 ): string =>
-  `http://${state.ros.IP}:${state.ros.port}/stream` +
+  `https://${state.ros.IP}:${state.ros.port}/stream` +
   `?topic=${camera.topic}&type=${camera.type}`
