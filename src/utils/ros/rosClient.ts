@@ -2,7 +2,8 @@ import RosClient from '@club_capra/roslib-ts-client'
 import { store } from 'store/store'
 import { rosSlice, fullIpAddress } from 'store/modules/ros/reducer'
 
-export const rosClient = new RosClient()
+const rosState = store.getState().ros
+export const rosClient = new RosClient(rosState.IP, rosState.port)
 
 rosClient.setListeners({
   onConnection: () => {
@@ -19,6 +20,3 @@ rosClient.setListeners({
     )
   },
 })
-
-const rosState = store.getState().ros
-rosClient.connect(rosState.IP, rosState.port)
