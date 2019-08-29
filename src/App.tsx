@@ -2,7 +2,7 @@ import React, { FC, useEffect } from 'react'
 import { BrowserRouter, Route, Redirect } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 import { defaultTheme } from 'globalStyles/themes/defaultTheme'
-import { ToastContainer } from 'react-toastify'
+import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Layout } from 'components/Layout'
 import { GlobalStyles } from 'App.styles'
@@ -19,7 +19,11 @@ const TeleopRedirect: FC = () => <Redirect to="/teleop" />
 
 const App: React.FC = () => {
   useEffect(() => {
-    rosClient.connect()
+    try {
+      rosClient.connect()
+    } catch {
+      toast.error('failed to connect')
+    }
   }, [])
 
   return (
