@@ -19,11 +19,7 @@ const TeleopRedirect: FC = () => <Redirect to="/teleop" />
 
 const App: React.FC = () => {
   useEffect(() => {
-    try {
-      rosClient.connect()
-    } catch {
-      toast.error('failed to connect')
-    }
+    rosClient.connect()
   }, [])
 
   return (

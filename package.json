@@ -10,7 +10,7 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "@club_capra/roslib-ts-client": "^0.3.1",
+    "@club_capra/roslib-ts-client": "^0.3.3",
     "chart.js": "^2.8.0",
     "chartjs-plugin-streaming": "^1.8.0",
     "date-fns": "^2.0.1",
