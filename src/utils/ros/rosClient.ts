@@ -3,27 +3,22 @@ import { store } from 'store/store'
 import { rosSlice, fullIpAddress } from 'store/modules/ros/reducer'
 
 export const rosClient = new RosClient()
-// rosClient.enableLogging()
 
-rosClient.setListeners(
-  () => {
-    //onConnection
+rosClient.setListeners({
+  onConnection: () => {
     store.dispatch(rosSlice.actions.setConnected(true))
   },
-  () => {
-    //onClose
+  onClose: () => {
     store.dispatch(rosSlice.actions.setConnected(false))
   },
-  () => {
-    // onError
+  onError: () => {
     store.dispatch(
       rosSlice.actions.setError(
         `Failed to connect to: ${fullIpAddress(store.getState())}`
       )
     )
-  }
-)
+  },
+})
 
 const rosState = store.getState().ros
-
 rosClient.connect(rosState.IP, rosState.port)

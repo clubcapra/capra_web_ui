@@ -10,7 +10,7 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "@club_capra/roslib-ts-client": "^0.1.12",
+    "@club_capra/roslib-ts-client": "^0.3.1",
     "chart.js": "^2.8.0",
     "chartjs-plugin-streaming": "^1.8.0",
     "date-fns": "^2.0.1",
@@ -25,7 +25,7 @@
     "redux-starter-kit": "^0.6.3",
     "shortid": "^2.2.14",
     "styled-components": "^4.3.2",
-    "typescript": "3.5.3",
+    "typescript": "3.6.2",
     "use-force-update": "^1.0.7"
   },
   "devDependencies": {

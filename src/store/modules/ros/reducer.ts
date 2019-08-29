@@ -49,8 +49,7 @@ export const rosSlice = createSlice({
   },
 })
 
-const formatIp = (state: RosState): string =>
-  `https://${state.IP}:${state.port}/`
+const formatIp = (state: RosState): string => `${state.IP}:${state.port}/`
 
 export const fullIpAddress = (state: GlobalState): string => formatIp(state.ros)
 
