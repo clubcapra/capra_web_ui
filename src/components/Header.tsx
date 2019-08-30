@@ -22,10 +22,10 @@ const navLinks: NavLinkDefinition[] = [
     to: '/victim',
     label: 'Victim',
   },
-  {
-    to: '/map',
-    label: 'Map',
-  },
+  // {
+  //   to: '/map',
+  //   label: 'Map',
+  // },
   {
     to: '/config',
     label: 'Config',

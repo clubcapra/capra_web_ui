@@ -13,7 +13,7 @@ interface LeftHeaderProps {
 
 export const LeftHeader = styled.div<LeftHeaderProps>`
   display: grid;
-  grid-template-columns: ${({ navlinks }) => navlinks.map(x => '100px ')};
+  grid-template-columns: ${({ navlinks }) => navlinks.map(() => '100px ')};
   justify-items: center;
 `
 
