@@ -1,31 +1,15 @@
 import * as React from 'react'
 import { ICameraFeed, CameraType } from 'store/modules/feed/@types'
 
-import { styled } from 'globalStyles/styled'
 import { useSelector } from 'utils/hooks/typedUseSelector'
 import { FC } from 'react'
 import { selectVideoStreamUrl } from 'store/modules/ros/reducer'
-
-const CameraGrid = styled.div`
-  display: grid;
-  > * {
-    display: grid;
-    align-items: center;
-    justify-items: center;
-    height: 100%;
-    width: 100%;
-  }
-`
 
 interface Props {
   feed: ICameraFeed
 }
 
-const NoVideo: FC<{ text: string }> = ({ text }) => (
-  <div>
-    <p>{text}</p>
-  </div>
-)
+const NoVideo: FC<{ text: string }> = ({ text }) => <p>{text}</p>
 
 const View: FC<Props> = ({ feed }) => {
   const source = useSelector(selectVideoStreamUrl(feed.camera))
@@ -44,9 +28,5 @@ const View: FC<Props> = ({ feed }) => {
 export const CameraFeed: FC<Props> = ({ feed }) => {
   const connected = useSelector(state => state.ros.connected)
 
-  return (
-    <CameraGrid>
-      {connected ? <View feed={feed} /> : <NoVideo text="no video" />}
-    </CameraGrid>
-  )
+  return connected ? <View feed={feed} /> : <NoVideo text="no video" />
 }
