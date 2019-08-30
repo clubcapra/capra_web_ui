@@ -60,5 +60,5 @@ export const fullIpAddress = (state: GlobalState): string => formatIp(state.ros)
 export const selectVideoStreamUrl = (camera: ICameraData) => (
   state: GlobalState
 ): string =>
-  `https://${state.ros.IP}:${state.ros.port}/stream` +
+  `http://${state.ros.IP}:${state.ros.port}/stream` +
   `?topic=${camera.topic}&type=${camera.type}`
