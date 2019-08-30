@@ -1,12 +1,12 @@
 import React, { FC, useState, useMemo } from 'react'
 import { useSelector } from 'utils/hooks/typedUseSelector'
-import { StyledFeedComponent } from 'components/common/Feed/Feed.styles'
+import { StyledFeedComponent } from 'components/Feed/Feed.styles'
 import {
   selectAllFeeds,
   selectFeedFromFeedMap,
 } from 'store/modules/feed/reducer'
-import { FeedSelect } from 'components/common/Feed/FeedSelect'
-import { FeedView } from 'components/common/Feed/FeedView'
+import { FeedSelect } from 'components/Feed/FeedSelect'
+import { FeedView } from 'components/Feed/FeedView'
 
 interface FeedProps {
   id: string

@@ -8,6 +8,7 @@ export const initialState: RosState = {
   connected: false,
   IP: 'localhost',
   port: '9090',
+  videoServerPort: '8080',
   error: '',
   tryingToConnect: false,
   connectingToastId: '',
@@ -22,6 +23,9 @@ export const rosSlice = createSlice({
     },
     setPort: (state, { payload }: PayloadAction<string>) => {
       state.port = payload
+    },
+    setVideoServerPort: (state, { payload }: PayloadAction<string>) => {
+      state.videoServerPort = payload
     },
     setConnected: (state, { payload }: PayloadAction<boolean>) => {
       toast.dismiss(state.connectingToastId)

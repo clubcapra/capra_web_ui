@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { FeedType, FeedTypeEnum } from 'store/modules/feed/@types'
-import { CameraFeed } from 'components/common/Feed/Feeds/CameraFeed'
+import { CameraFeed } from 'components/Feed/Feeds/CameraFeed'
 
 interface FeedViewProps {
   feed: FeedType

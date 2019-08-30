@@ -2,7 +2,7 @@ import React, { FC, ChangeEvent } from 'react'
 import { FeedType, FeedTypeEnum } from 'store/modules/feed/@types'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectAllFeeds, feedSlice } from 'store/modules/feed/reducer'
-import { StyledFeedSelect } from 'components/common/Feed/FeedSelect.styles'
+import { StyledFeedSelect } from 'components/Feed/FeedSelect.styles'
 
 interface FeedSelectProps {
   id: string
