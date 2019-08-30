@@ -1,8 +1,10 @@
 import { GlobalState } from 'store/rootReducer'
 
+const stateKey = 'state'
+
 export const loadState = () => {
   try {
-    const serializedState = localStorage.getItem('state')
+    const serializedState = localStorage.getItem(stateKey)
     if (serializedState === null) {
       return undefined
     }
@@ -15,10 +17,14 @@ export const loadState = () => {
 export const saveState = (state: GlobalState) => {
   try {
     const serializedState = JSON.stringify(state)
-    localStorage.setItem('state', serializedState)
+    localStorage.setItem(stateKey, serializedState)
   } catch {
     console.error('failed to persist state')
   }
+}
+
+export const deleteLocalStorage = () => {
+  localStorage.removeItem(stateKey)
 }
 
 export default { loadState, saveState }

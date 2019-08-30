@@ -4,12 +4,13 @@ import { useDispatch } from 'react-redux'
 import { rosSlice } from 'store/modules/ros/reducer'
 import { rosClient } from 'utils/ros/rosClient'
 import { LabeledInput } from 'components/common/LabeledInput'
+import { deleteLocalStorage } from 'store/localStorage'
 
 const IpInput: FC = () => {
   const dispatch = useDispatch()
   const IP = useSelector(state => state.ros.IP)
   const updateIp = (e: ChangeEvent<HTMLInputElement>): void => {
-    dispatch(rosSlice.actions.setIp(e.currentTarget.value))
+    dispatch(rosSlice.actions.setIp(e.target.value))
   }
 
   return <LabeledInput label="IP address" value={IP} onChange={updateIp} />
@@ -19,7 +20,7 @@ const PortInput: FC = () => {
   const dispatch = useDispatch()
   const port = useSelector(state => state.ros.port)
   const updatePort = (e: ChangeEvent<HTMLInputElement>): void => {
-    dispatch(rosSlice.actions.setPort(e.currentTarget.value))
+    dispatch(rosSlice.actions.setPort(e.target.value))
   }
 
   return <LabeledInput label="Port" value={port} onChange={updatePort} />
@@ -43,6 +44,8 @@ export const RosConfig: FC = () => {
       <IpInput />
       <PortInput />
       <button onClick={connect}>Connect</button>
+      <br />
+      <button onClick={deleteLocalStorage}>Clear Cache</button>
     </>
   )
 }
