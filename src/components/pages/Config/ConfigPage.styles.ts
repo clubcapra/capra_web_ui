@@ -4,13 +4,13 @@ export const ConfigPageGrid = styled.div`
   display: grid;
   grid-template: 'm r';
   grid-template-columns: 1fr 5fr;
-  position: relative;
-  height: 99%;
+  height: 100%;
+  max-height: 100%;
 `
 
 export const MenuArea = styled.div`
   grid-area: m;
-  border-right: 1px solid ${({ theme }) => theme.colors.border};
+  background-color: ${({ theme }) => theme.colors.darkerBackground};
   margin: 0;
   min-height: 100%;
 `

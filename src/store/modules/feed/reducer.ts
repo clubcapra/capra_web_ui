@@ -27,7 +27,7 @@ export const feedSlice = createSlice({
         return false
       })
     },
-    changeCamera: (
+    updateCamera: (
       state,
       {
         payload: { camera, id },

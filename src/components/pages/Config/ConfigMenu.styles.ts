@@ -1,16 +1,6 @@
 import { styled } from 'globalStyles/styled'
 import { NavLink } from 'react-router-dom'
-
-export const MenuLabel = styled.p`
-  color: ${props => props.theme.colors.fontLight};
-  font-size: 0.75em;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin: 0;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
-  padding: 8px 16px 8px;
-  background-color: ${({ theme }) => theme.colors.foreground};
-`
+import { darken } from 'polished'
 
 export const MenuList = styled.ul`
   margin: 0;
@@ -30,12 +20,10 @@ export const StyledNavLink = styled(NavLink)`
   text-decoration: none;
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.darkerBackground};
-    color: ${({ theme }) => theme.colors.fontLight};
+    background-color: ${({ theme }) => darken(0.05, theme.colors.background)};
   }
 
   &.is-active {
-    background-color: ${({ theme }) => theme.colors.primary};
-    color: ${({ theme }) => theme.colors.fontLight};
+    background-color: ${({ theme }) => theme.colors.background};
   }
 `

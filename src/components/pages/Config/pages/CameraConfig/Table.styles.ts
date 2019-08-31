@@ -25,6 +25,7 @@ export const StyledCameraConfigTable = styled.table`
 
 export const StyledTableInput = styled.input`
   height: 32px;
+  width: 100%;
   padding: 4px 8px;
   background-color: ${({ theme }) => theme.colors.foreground};
   border: 1px solid ${({ theme }) => theme.colors.border};

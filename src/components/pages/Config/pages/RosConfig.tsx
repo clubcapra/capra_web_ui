@@ -5,32 +5,28 @@ import { rosSlice } from 'store/modules/ros/reducer'
 import { rosClient } from 'utils/ros/rosClient'
 import { LabeledInput } from 'components/common/LabeledInput'
 import { deleteLocalStorage } from 'store/localStorage'
+import { Button } from 'components/common/Button'
+import { SectionTitle } from 'components/pages/Config/styles'
 
-const IpInput: FC = () => {
-  const dispatch = useDispatch()
-  const IP = useSelector(state => state.ros.IP)
-  const updateIp = (e: ChangeEvent<HTMLInputElement>): void => {
-    dispatch(rosSlice.actions.setIp(e.target.value))
-  }
-
-  return <LabeledInput label="IP address" value={IP} onChange={updateIp} />
-}
-
-const PortInput: FC = () => {
-  const dispatch = useDispatch()
-  const port = useSelector(state => state.ros.port)
-  const updatePort = (e: ChangeEvent<HTMLInputElement>): void => {
-    dispatch(rosSlice.actions.setPort(e.target.value))
-  }
-
-  return <LabeledInput label="Port" value={port} onChange={updatePort} />
-}
-
-export const RosConfig: FC = () => {
+const ConnectionSection = () => {
   const dispatch = useDispatch()
 
   const IP = useSelector(state => state.ros.IP)
   const port = useSelector(state => state.ros.port)
+
+  const updateIp = useCallback(
+    (e: ChangeEvent<HTMLInputElement>): void => {
+      dispatch(rosSlice.actions.setIp(e.target.value))
+    },
+    [dispatch]
+  )
+
+  const updatePort = useCallback(
+    (e: ChangeEvent<HTMLInputElement>): void => {
+      dispatch(rosSlice.actions.setPort(e.target.value))
+    },
+    [dispatch]
+  )
 
   const connect = useCallback(() => {
     rosClient.connect(IP, port)
@@ -39,13 +35,26 @@ export const RosConfig: FC = () => {
 
   return (
     <>
-      <h1>Ros</h1>
-      <hr />
-      <IpInput />
-      <PortInput />
-      <button onClick={connect}>Connect</button>
-      <br />
-      <button onClick={deleteLocalStorage}>Clear Cache</button>
+      <SectionTitle>Connection</SectionTitle>
+      <div style={{ display: 'flex' }}>
+        <LabeledInput label="IP address" value={IP} onChange={updateIp} />
+        <LabeledInput label="Port" value={port} onChange={updatePort} />
+      </div>
+      <Button onClick={connect}>Connect</Button>
     </>
   )
 }
+
+const DataSection = () => (
+  <>
+    <SectionTitle>Data</SectionTitle>
+    <Button onClick={deleteLocalStorage}>Clear Cache</Button>
+  </>
+)
+
+export const RosConfig: FC = () => (
+  <>
+    <ConnectionSection />
+    <DataSection />
+  </>
+)

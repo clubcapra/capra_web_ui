@@ -13,9 +13,9 @@ export const LabeledInput: FC<LabeledInputProps> = ({
   label,
 }) => {
   return (
-    <>
+    <div>
       <StyledLabel>{label}</StyledLabel>
       <StyledInput type="text" value={value} onChange={onChange} />
-    </>
+    </div>
   )
 }

@@ -6,7 +6,7 @@ import { Router } from 'components/Router'
 import { styled } from 'globalStyles/styled'
 
 const GridLayout = styled.div`
-  height: calc(100% - 1px);
+  height: 100%;
   display: grid;
   grid-template-areas:
     'h e'

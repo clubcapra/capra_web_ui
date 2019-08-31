@@ -1,6 +1,5 @@
 import React, { FC } from 'react'
 import {
-  MenuLabel,
   MenuList,
   StyledNavLink,
 } from 'components/pages/Config/ConfigMenu.styles'
@@ -8,7 +7,6 @@ import {
 export const ConfigMenu: FC = () => {
   return (
     <aside>
-      <MenuLabel>Global</MenuLabel>
       <MenuList>
         <li>
           <StyledNavLink to="/config/ros" activeClassName="is-active">
