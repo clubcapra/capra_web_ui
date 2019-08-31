@@ -1,6 +1,9 @@
-import React, { FC } from 'react'
+import React, { FC, useState, useCallback } from 'react'
 import { styled } from 'globalStyles/styled'
 import { darken } from 'polished'
+import { Modal } from './common/Modal'
+import { Button } from './common/Button'
+import { rosClient } from 'utils/ros/rosClient'
 
 export const StyledStopButton = styled.div`
   height: 100%;
@@ -30,13 +33,36 @@ export const StyledStopButton = styled.div`
 `
 
 export const EStopButton: FC = () => {
-  const onClick = (): void => {
-    console.log('EStop clicked')
-  }
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const stopRobot = useCallback(() => {
+    rosClient.callService({ name: 'takin_estop_disable', serviceType: '' }, '')
+    setIsModalOpen(true)
+  }, [])
+
+  const closeModal = useCallback(() => {
+    setIsModalOpen(false)
+  }, [])
+
+  const restartRobot = useCallback(() => {
+    rosClient.callService({ name: 'takin_estop_enable', serviceType: '' }, '')
+    closeModal()
+  }, [closeModal])
 
   return (
-    <StyledStopButton onClick={onClick}>
-      <span>EMERGENCY STOP</span>
-    </StyledStopButton>
+    <>
+      <StyledStopButton onClick={stopRobot}>
+        <span>EMERGENCY STOP</span>
+      </StyledStopButton>
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <h2>Warning!</h2>
+        <p>Robot is currently stopped</p>
+        <p>Do you want to restart it?</p>
+        <div style={{ display: 'flex' }}>
+          <Button onClick={restartRobot}>Yes</Button>
+          <Button onClick={closeModal}>No</Button>
+        </div>
+      </Modal>
+    </>
   )
 }
