@@ -1,4 +1,4 @@
-import React, { FC, useCallback, ChangeEvent } from 'react'
+import React, { FC, ChangeEvent } from 'react'
 import { useSelector } from 'utils/hooks/typedUseSelector'
 import { useDispatch } from 'react-redux'
 import { rosSlice } from 'store/modules/ros/reducer'
@@ -14,24 +14,18 @@ const ConnectionSection = () => {
   const IP = useSelector(state => state.ros.IP)
   const port = useSelector(state => state.ros.port)
 
-  const updateIp = useCallback(
-    (e: ChangeEvent<HTMLInputElement>): void => {
-      dispatch(rosSlice.actions.setIp(e.target.value))
-    },
-    [dispatch]
-  )
+  const updateIp = (e: ChangeEvent<HTMLInputElement>): void => {
+    dispatch(rosSlice.actions.setIp(e.target.value))
+  }
 
-  const updatePort = useCallback(
-    (e: ChangeEvent<HTMLInputElement>): void => {
-      dispatch(rosSlice.actions.setPort(e.target.value))
-    },
-    [dispatch]
-  )
+  const updatePort = (e: ChangeEvent<HTMLInputElement>): void => {
+    dispatch(rosSlice.actions.setPort(e.target.value))
+  }
 
-  const connect = useCallback(() => {
+  const connect = () => {
     rosClient.connect(IP, port)
     dispatch(rosSlice.actions.tryToConnect())
-  }, [IP, port, dispatch])
+  }
 
   return (
     <>

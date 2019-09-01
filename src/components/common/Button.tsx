@@ -57,9 +57,11 @@ const StyledButton = styled.button<StyledButtonProps>`
 
   &:hover {
     background-image: linear-gradient(
-      ${({ theme }) => theme.colors.darkerBackground},
-      ${({ theme }) => theme.colors.darkerBackground}
+      ${({ theme, btnType }) => getColor(theme, btnType, theme.colors.darkerBackground)},
+      ${({ theme, btnType }) => getColor(theme, btnType, theme.colors.darkerBackground)}
     );
+
+    color: ${({ theme }) => theme.colors.fontLight};
   }
 
   &:active {
