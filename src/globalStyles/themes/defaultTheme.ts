@@ -13,6 +13,7 @@ export const defaultTheme = {
     fontDark: 'black',
     fontLight: 'white',
     success: 'limegreen',
+    danger: 'red',
   },
   font: {
     primary: 'Arial',

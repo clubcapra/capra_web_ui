@@ -45,6 +45,7 @@ export const rosSlice = createSlice({
     },
     tryToConnect: state => {
       toast.dismiss(state.errorToastId)
+      toast.dismiss(state.connectingToastId)
       state.connectingToastId = toast.warn(
         `ROS: Trying to connect to: ${formatIp(state)}`
       )

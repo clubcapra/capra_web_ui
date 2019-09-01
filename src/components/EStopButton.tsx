@@ -58,8 +58,12 @@ export const EStopButton: FC = () => {
         <p>Robot is currently stopped</p>
         <p>Do you want to restart it?</p>
         <div style={{ display: 'flex' }}>
-          <Button onClick={restartRobot}>Yes</Button>
-          <Button onClick={closeModal}>No</Button>
+          <Button onClick={restartRobot} btnType="success">
+            Yes
+          </Button>
+          <Button onClick={closeModal} btnType="danger">
+            No
+          </Button>
         </div>
       </Modal>
     </>
