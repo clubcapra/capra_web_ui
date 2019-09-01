@@ -1,4 +1,4 @@
-import React, { FC, useState, useCallback } from 'react'
+import React, { FC, useState } from 'react'
 import { styled } from 'globalStyles/styled'
 import { darken } from 'polished'
 import { Modal } from './common/Modal'
@@ -35,19 +35,18 @@ export const StyledStopButton = styled.div`
 export const EStopButton: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const stopRobot = useCallback(() => {
+  const stopRobot = () => {
     rosClient.callService({ name: 'takin_estop_disable', serviceType: '' }, '')
     setIsModalOpen(true)
-  }, [])
+  }
 
-  const closeModal = useCallback(() => {
+  const closeModal = () => {
     setIsModalOpen(false)
-  }, [])
-
-  const restartRobot = useCallback(() => {
+  }
+  const restartRobot = () => {
     rosClient.callService({ name: 'takin_estop_enable', serviceType: '' }, '')
     closeModal()
-  }, [closeModal])
+  }
 
   return (
     <>

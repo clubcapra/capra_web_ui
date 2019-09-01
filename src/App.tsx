@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, StrictMode } from 'react'
 import { BrowserRouter, Route, Redirect } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 import { defaultTheme } from 'globalStyles/themes/defaultTheme'
@@ -17,18 +17,20 @@ gamepadManagerInstance.start()
 const TeleopRedirect: FC = () => <Redirect to="/teleop" />
 
 const App: React.FC = () => (
-  <Provider store={store}>
-    <ToastContainer position={'bottom-right'} />
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
-      <ThemeProvider theme={defaultTheme}>
-        <>
-          <GlobalStyles />
-          <Route exact path="/" component={TeleopRedirect} />
-          <Layout />
-        </>
-      </ThemeProvider>
-    </BrowserRouter>
-  </Provider>
+  <StrictMode>
+    <Provider store={store}>
+      <ToastContainer position={'bottom-right'} />
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
+        <ThemeProvider theme={defaultTheme}>
+          <>
+            <GlobalStyles />
+            <Route exact path="/" component={TeleopRedirect} />
+            <Layout />
+          </>
+        </ThemeProvider>
+      </BrowserRouter>
+    </Provider>
+  </StrictMode>
 )
 
 export default App

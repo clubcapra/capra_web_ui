@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, FC } from 'react'
+import React, { ChangeEvent, FC } from 'react'
 import { useDispatch } from 'react-redux'
 import { CameraType } from 'store/modules/feed/@types'
 import { useSelector } from 'utils/hooks/typedUseSelector'
@@ -14,12 +14,8 @@ const VideoServerPortConfig: FC = () => {
   const dispatch = useDispatch()
   const videoServerPort = useSelector(state => state.ros.videoServerPort)
 
-  const updateVideoServerPort = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      dispatch(rosSlice.actions.setVideoServerPort(e.target.value))
-    },
-    [dispatch]
-  )
+  const updateVideoServerPort = (e: ChangeEvent<HTMLInputElement>) =>
+    dispatch(rosSlice.actions.setVideoServerPort(e.target.value))
 
   return (
     <LabeledInput
@@ -33,7 +29,7 @@ const VideoServerPortConfig: FC = () => {
 const AddCamera = () => {
   const dispatch = useDispatch()
 
-  const addFeed = useCallback(() => {
+  const addFeed = () =>
     dispatch(
       feedSlice.actions.addCamera({
         name: '',
@@ -41,7 +37,6 @@ const AddCamera = () => {
         type: CameraType.MJPEG,
       })
     )
-  }, [dispatch])
 
   return <Button onClick={addFeed}>Add New Camera</Button>
 }

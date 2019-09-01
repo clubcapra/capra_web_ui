@@ -4,7 +4,7 @@ import { selectAllCamera, feedSlice } from 'store/modules/feed/reducer'
 import { ICameraData, CameraType, ICameraFeed } from 'store/modules/feed/@types'
 import { FaTimes } from 'react-icons/fa'
 import { useSelector } from 'utils/hooks/typedUseSelector'
-import { StyledCameraConfigTable, StyledTableInput } from './Table.styles'
+import { StyledTable, StyledTableInput } from './Table.styles'
 
 interface TableRowProps {
   feed: ICameraFeed
@@ -21,12 +21,8 @@ const TableRow: FC<TableRowProps> = ({ feed, updateCamera }) => {
 
   const dispatch = useDispatch()
 
-  const removeCamera = useCallback(
-    () => dispatch(feedSlice.actions.removeFeed(id)),
-    [dispatch, id]
-  )
-
-  const updateCameraId = useCallback(updateCamera(id), [id])
+  const removeCamera = () => dispatch(feedSlice.actions.removeFeed(id))
+  const updateCameraId = updateCamera(id)
 
   return (
     <tr>
@@ -79,7 +75,7 @@ export const Table: FC = () => {
   )
 
   return (
-    <StyledCameraConfigTable>
+    <StyledTable>
       <thead>
         <tr>
           <th>Name</th>
@@ -93,6 +89,6 @@ export const Table: FC = () => {
           <TableRow key={feed.id} feed={feed} updateCamera={updateCamera} />
         ))}
       </tbody>
-    </StyledCameraConfigTable>
+    </StyledTable>
   )
 }
