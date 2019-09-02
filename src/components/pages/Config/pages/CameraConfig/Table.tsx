@@ -33,7 +33,7 @@ const TableRow: FC<TableRowProps> = ({ feed, updateCamera }) => {
         <StyledTableInput value={topic} onChange={updateCameraId('topic')} />
       </td>
       <td>
-        <StyledTableInput value={type} onChange={updateCameraId('type')} />
+        <StyledTableInput value={type} onChange={updateCameraId('type')} disabled/>
       </td>
       <td>
         <div onClick={removeCamera}>

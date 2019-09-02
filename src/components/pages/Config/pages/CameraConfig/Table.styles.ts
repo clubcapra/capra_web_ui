@@ -1,4 +1,5 @@
 import { styled } from 'globalStyles/styled'
+import { darken } from 'polished';
 
 export const StyledTable = styled.table`
   width: 100%;
@@ -44,5 +45,11 @@ export const StyledTableInput = styled.input`
   &:active,
   &:focus {
     outline-color: ${({ theme }) => theme.colors.primary};
+  }
+
+  &:disabled {
+    background-color: ${({ theme }) => darken(0.1, theme.colors.foreground)};
+    color: ${({ theme }) => darken(0.2, theme.colors.fontLight)};
+    cursor: not-allowed;
   }
 `
