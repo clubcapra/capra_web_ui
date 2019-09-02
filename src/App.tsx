@@ -16,7 +16,7 @@ gamepadManagerInstance.start()
 
 const TeleopRedirect: FC = () => <Redirect to="/teleop" />
 
-const App: React.FC = () => (
+const App: FC = () => (
   <StrictMode>
     <Provider store={store}>
       <ToastContainer position={'bottom-right'} />
