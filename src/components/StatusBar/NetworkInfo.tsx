@@ -83,4 +83,8 @@ const NetworkInfo = () => {
   )
 }
 
-export default NetworkInfo
+export const NetworkDisplay = () => {
+  //@ts-ignore
+  if (navigator && navigator.connection) return <NetworkInfo />
+  return null
+}

@@ -7,7 +7,7 @@ import {
 import { fullIpAddress } from 'store/modules/ros/reducer'
 import { TimeDisplay } from 'components/StatusBar/TimeDisplay'
 import { useSelector } from 'utils/hooks/typedUseSelector'
-import NetworkInfo from './NetworkInfo'
+import { NetworkDisplay } from './NetworkInfo'
 
 const RosConnectionStatus: FC = () => {
   const robotIpAddress = useSelector(fullIpAddress)
@@ -31,7 +31,7 @@ export const StatusBar: FC = () => (
       <RosConnectionStatus />
     </LeftStatusBar>
     <RightStatusBar>
-      <NetworkInfo />
+      <NetworkDisplay />
       <TimeDisplay />
     </RightStatusBar>
   </StyledStatusBarWrapper>
