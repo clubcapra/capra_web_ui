@@ -1,4 +1,4 @@
-# capra-web-ui
+# capra-web-ui [![Build Status](https://travis-ci.com/clubcapra/capra_web_ui.svg?branch=master)](https://travis-ci.com/clubcapra/capra_web_ui)
 
 Web based user interface for ROS based robots.
 
