@@ -1,8 +1,8 @@
-import React, { useState, FC } from 'react'
+import React, { FC } from 'react'
 import {
   MdBluetoothConnected,
   MdBluetoothDisabled,
-  MdSignalCellular0Bar,
+  MdSignalCellular4Bar,
   MdSignalCellularOff,
   MdSignalWifi1Bar,
   MdSignalWifi2Bar,
@@ -11,33 +11,15 @@ import {
   MdSignalWifiOff,
   MdSettingsEthernet,
 } from 'react-icons/md'
-import { useInterval } from 'utils/hooks/useInterval'
+import { useConnection } from 'utils/hooks/useConnection'
 
 const NetworkInfo = () => {
-  // @ts-ignore
-  const { connection } = navigator
-
-  const [state, setState] = useState({
-    networkRTT: connection.rtt,
-    connectionType: connection.type,
-    connectionEffectiveType: connection.effectiveType,
-  })
-
-  useInterval(() => {
-    //@ts-ignore
-    const { connection } = navigator
-
-    setState({
-      networkRTT: connection.rtt,
-      connectionType: connection.type,
-      connectionEffectiveType: connection.effectiveType,
-    })
-  }, 1000)
+  const connection = useConnection()
 
   const NetworkIcon: FC = () => {
-    switch (state.connectionType) {
+    switch (connection.type) {
       case 'bluetooth':
-        switch (state.connectionEffectiveType) {
+        switch (connection.effectiveType) {
           case 'slow-2g':
           case '2g':
           case '3g':
@@ -47,12 +29,12 @@ const NetworkInfo = () => {
             return <MdBluetoothDisabled />
         }
       case 'cellular':
-        switch (state.connectionEffectiveType) {
+        switch (connection.effectiveType) {
           case 'slow-2g':
           case '2g':
           case '3g':
           case '4g':
-            return <MdSignalCellular0Bar />
+            return <MdSignalCellular4Bar />
           default:
             return <MdSignalCellularOff />
         }
@@ -60,7 +42,7 @@ const NetworkInfo = () => {
         return <MdSettingsEthernet />
       case 'wifi':
       default:
-        switch (state.connectionEffectiveType) {
+        switch (connection.effectiveType) {
           case 'slow-2g':
             return <MdSignalWifi1Bar />
           case '2g':
@@ -77,7 +59,7 @@ const NetworkInfo = () => {
 
   return (
     <div>
-      {state.networkRTT}ms &nbsp;
+      {connection.rtt}ms &nbsp;
       <NetworkIcon />
     </div>
   )
