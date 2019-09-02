@@ -49,7 +49,6 @@ const StyledButton = styled.button<StyledButtonProps>`
   justify-content: center;
   white-space: nowrap;
   vertical-align: middle;
-
   background-image: linear-gradient(
     ${({ theme }) => theme.colors.background},
     ${({ theme }) => theme.colors.darkerBackground}
@@ -57,17 +56,17 @@ const StyledButton = styled.button<StyledButtonProps>`
 
   &:hover {
     background-image: linear-gradient(
-      ${({ theme, btnType }) => getColor(theme, btnType, theme.colors.darkerBackground)},
-      ${({ theme, btnType }) => getColor(theme, btnType, theme.colors.darkerBackground)}
+      ${({ theme, btnType }) =>
+        getColor(theme, btnType, theme.colors.darkerBackground)},
+      ${({ theme, btnType }) =>
+        getColor(theme, btnType, theme.colors.darkerBackground)}
     );
 
     color: ${({ theme }) => theme.colors.fontLight};
   }
 
-  &:active {
-    transition: none;
-    background-color: ${({ theme }) => theme.colors.primary};
-    color: ${({ theme }) => theme.colors.fontLight};
+  &:focus {
+    outline: 0;
   }
 `
 
