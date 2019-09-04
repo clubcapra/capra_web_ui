@@ -1,11 +1,6 @@
-import { useEffect, useState, FC } from 'react'
+import { useEffect, useState } from 'react'
 
-interface Props {
-  value: any
-  delay: number
-}
-
-export const useDebounce: FC<Props> = ({ value, delay }) => {
+export const useDebounce = <T>(value: T, delay: number): T => {
   const [debouncedValue, setDebouncedValue] = useState(value)
 
   useEffect(() => {
