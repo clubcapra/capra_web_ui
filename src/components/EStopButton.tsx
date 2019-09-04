@@ -1,36 +1,37 @@
 import React, { FC, useState } from 'react'
-import { styled } from 'globalStyles/styled'
-import { darken } from 'polished'
 import { Modal } from './common/Modal'
 import { Button } from './common/Button'
 import { rosClient } from 'utils/ros/rosClient'
+import { TopicOptions } from '@club_capra/roslib-ts-client'
+import { StyledStopButton } from './EStopButton.styles'
+import { useRosSubscribe } from 'utils/hooks/useRosSubscribe'
 
-export const StyledStopButton = styled.div`
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  user-select: none;
-  background-color: ${({ theme }) => theme.colors.primary};
-  color: ${({ theme }) => theme.colors.fontLight};
+const topic: TopicOptions = {
+  name: 'takin_estop_status',
+  messageType: 'std_msgs/Bool',
+}
 
-  &:hover {
-    box-shadow: inset 0 0 2px #000000;
-  }
+interface StopButtonProps {
+  onClick: () => void
+}
 
-  &:active {
-    box-shadow: inset 0 0 6px #000000;
-    background-color: ${({ theme }) => darken(0.05, theme.colors.primary)};
-  }
+const StopButton: FC<StopButtonProps> = ({ onClick }) => {
+  const [text, setText] = useState('EMERGENCY STOP')
 
-  span {
-    font-weight: bold;
-    font-size: 1.8em;
-    writing-mode: vertical-rl;
-    text-orientation: upright;
-  }
-`
+  useRosSubscribe(topic, (data: boolean) => {
+    if (data) {
+      setText('EMERGENCY STOP')
+    } else {
+      setText('REARM')
+    }
+  })
+
+  return (
+    <StyledStopButton onClick={onClick}>
+      <span>{text}</span>
+    </StyledStopButton>
+  )
+}
 
 export const EStopButton: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -43,6 +44,7 @@ export const EStopButton: FC = () => {
   const closeModal = () => {
     setIsModalOpen(false)
   }
+
   const restartRobot = () => {
     rosClient.callService({ name: 'takin_estop_enable', serviceType: '' }, '')
     closeModal()
@@ -50,9 +52,7 @@ export const EStopButton: FC = () => {
 
   return (
     <>
-      <StyledStopButton onClick={stopRobot}>
-        <span>EMERGENCY STOP</span>
-      </StyledStopButton>
+      <StopButton onClick={stopRobot} />
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <h2>Warning!</h2>
         <p>Robot is currently stopped</p>
