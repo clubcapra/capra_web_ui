@@ -9,7 +9,6 @@ import { rosSlice } from 'store/modules/ros/reducer'
 import { Table } from './Table'
 import { Button } from 'components/common/Button'
 import { SectionTitle } from 'components/pages/Config/styles'
-import isReachable from 'is-reachable'
 import { toast } from 'react-toastify'
 
 const VideoServerPortConfig: FC = () => {
@@ -21,16 +20,21 @@ const VideoServerPortConfig: FC = () => {
     dispatch(rosSlice.actions.setVideoServerPort(e.target.value))
 
   const testVideoServer = async () => {
-    const isVideoServerReachable = await isReachable(
-      `http://${robotIP}:${videoServerPort}`,
-      { timeout: 1000 }
-    )
-
-    if (!isVideoServerReachable) {
+    const notifyNotReachable = () =>
       toast.error(
         `The video server is not reachable. ` +
           `Are you sure the video server is on port: ${videoServerPort}`
       )
+
+    try {
+      const response = await fetch(`http://${robotIP}:${videoServerPort}`)
+      const serverHeader = response.headers.get('Server')
+      if (serverHeader !== 'web_video_server') {
+        notifyNotReachable()
+      }
+    } catch (err) {
+      console.error(err)
+      notifyNotReachable()
     }
   }
 
