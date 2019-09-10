@@ -1,5 +1,5 @@
-import CustomGamepad from 'utils/gamepad/CustomGamepad'
-import { InputHandler } from 'utils/gamepad/@types'
+import { InputHandler, GamepadData } from 'utils/gamepad/@types'
+import { detectMapping, isSupported } from 'utils/gamepad/GamepadUtils'
 
 export class GamepadManager {
   private inputHandler!: InputHandler
@@ -8,8 +8,8 @@ export class GamepadManager {
   private prevGamepad!: Gamepad[]
   private isBrowserSupported: boolean = true
 
-  constructor(inputHandler: InputHandler) {
-    if (!(navigator.getGamepads instanceof Function)) {
+  constructor(inputHandler: (data: GamepadData) => void) {
+    if (!isSupported()) {
       console.warn('This browser does not support gamepads.')
       this.isBrowserSupported = false
       return
@@ -50,8 +50,13 @@ export class GamepadManager {
         return
       }
 
-      const customGamepad = new CustomGamepad(gamepad, this.prevGamepad[i])
-      this.inputHandler.handleGamepadInput(customGamepad)
+      const gamepadData: GamepadData = {
+        gamepad,
+        mapping: detectMapping(gamepad),
+        prevGamepad: this.prevGamepad[i],
+      }
+
+      this.inputHandler(gamepadData)
 
       this.prevTimestamp[i] = gamepad.timestamp
       this.prevGamepad[i] = gamepad

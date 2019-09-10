@@ -1,9 +1,9 @@
-import { Stick } from 'utils/gamepad/@types'
+import { Stick, GamepadData } from 'utils/gamepad/@types'
 import { Vector3 } from 'utils/math/types'
-import CustomGamepad from './CustomGamepad'
 import { TopicOptions } from '@club_capra/roslib-ts-client'
-import { IJoyMsg, ITwistMsg, Twist } from 'utils/ros/rosMsgs.types'
+import { IJoyMsg, ITwistMsg } from 'utils/ros/rosMsgs.types'
 import { GamepadBtn } from './@types'
+import { getStick, getButtonValue } from 'utils/gamepad/GamepadUtils'
 
 export const cmdVelTopic: TopicOptions = {
   name: '/cmd_vel',
@@ -45,45 +45,41 @@ export const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
   }
 }
 
-export const mapGamepadToTwist = (gamepad: CustomGamepad): ITwistMsg => {
-  const { horizontal, vertical } = gamepad.getStick(Stick.Left)
-  const rt = gamepad.getButtonValue(GamepadBtn.RT)
-  const lt = gamepad.getButtonValue(GamepadBtn.LT)
+export const mapGamepadToTwist = (gamepad: GamepadData): ITwistMsg => {
+  const { horizontal, vertical } = getStick(Stick.Left)(gamepad)
+  const rt = getButtonValue(GamepadBtn.RT)(gamepad)
+  const lt = getButtonValue(GamepadBtn.LT)(gamepad)
 
   const x = horizontal > 0.15 ? -1 : horizontal < -0.15 ? 1 : 0
   const y = vertical > 0.15 ? 1 : vertical < -0.15 ? -1 : 0
 
   if (lt > 0.1) {
-    return new Twist(Vector3.zero(), Vector3.zero())
+    return { linear: Vector3.zero(), angular: Vector3.zero() }
   }
 
-  const linear = {
-    x: y * rt,
-    y: 0,
-    z: 0,
+  return {
+    linear: {
+      x: y * rt,
+      y: 0,
+      z: 0,
+    },
+    angular: {
+      x: 0,
+      y: 0,
+      z: x * rt,
+    },
   }
-
-  const angular = {
-    x: 0,
-    y: 0,
-    z: x * rt,
-  }
-
-  return new Twist(linear, angular)
 }
 
-export const mapSpaceMouseToTwist = (spacemouse: Gamepad): Twist => {
-  const linear = {
+export const mapSpaceMouseToTwist = (spacemouse: Gamepad): ITwistMsg => ({
+  linear: {
     x: spacemouse.axes[0],
     y: spacemouse.axes[1],
     z: spacemouse.axes[2],
-  }
-
-  const angular = {
+  },
+  angular: {
     x: spacemouse.axes[3],
     y: spacemouse.axes[4],
     z: spacemouse.axes[5],
-  }
-
-  return new Twist(linear, angular)
-}
+  },
+})

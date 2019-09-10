@@ -16,13 +16,3 @@ export interface ITwistMsg {
   linear: Vector3
   angular: Vector3
 }
-
-export class Twist implements ITwistMsg {
-  linear: Vector3
-  angular: Vector3
-
-  constructor(linear: Vector3, angular: Vector3) {
-    this.linear = linear
-    this.angular = angular
-  }
-}

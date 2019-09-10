@@ -1,4 +1,10 @@
-import CustomGamepad from 'utils/gamepad/CustomGamepad'
+import { GamepadMapping } from './mappings/types'
+
+export interface GamepadData {
+  gamepad: Gamepad
+  mapping: GamepadMapping
+  prevGamepad: Gamepad
+}
 
 export enum GamepadBtn {
   A = 'A',
@@ -40,13 +46,4 @@ export interface StickAxis {
   vertical: number
 }
 
-export interface StickAxisMapping {
-  horizontal: number
-  isUpPositive: boolean
-  vertical: number
-  isRightPositive: boolean
-}
-
-export interface InputHandler {
-  handleGamepadInput(gamepad: CustomGamepad): void
-}
+export type InputHandler = (data: GamepadData) => void

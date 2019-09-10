@@ -7,11 +7,11 @@ import 'react-toastify/dist/ReactToastify.css'
 import { Layout } from 'components/Layout'
 import { GlobalStyles } from 'App.styles'
 import { GamepadManager } from 'utils/gamepad/GamepadManager'
-import { DefaultInputHandler } from 'utils/gamepad/InputHandler'
 import { Provider } from 'react-redux'
 import { store } from 'store/store'
+import { handleGamepadInput } from 'utils/gamepad/InputHandler'
 
-const gamepadManagerInstance = new GamepadManager(new DefaultInputHandler())
+const gamepadManagerInstance = new GamepadManager(handleGamepadInput)
 gamepadManagerInstance.start()
 
 const TeleopRedirect: FC = () => <Redirect to="/teleop" />
