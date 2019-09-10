@@ -33,7 +33,9 @@ function handleSpaceMouse(gamepadData: GamepadData): void {
 }
 
 function handleGamepad(gamepadData: GamepadData): void {
-  if (getTogglePressed(Dpad.Right)(gamepadData)) {
+  const isTogglePressed = getTogglePressed(gamepadData)
+
+  if (isTogglePressed(Dpad.Right)) {
     store.dispatch(gamepadSlice.actions.toggleIsArmControlled)
     return
   }
@@ -44,13 +46,13 @@ function handleGamepad(gamepadData: GamepadData): void {
     handleRobotControl(gamepadData)
   }
 
-  if (getTogglePressed(Dpad.Left)(gamepadData)) {
+  if (isTogglePressed(Dpad.Left)) {
     rosClient.callService({ name: '/headlights', serviceType: '' }, '')
   }
 }
 
 function handleRobotControl(data: GamepadData): void {
-  if (getButtonPressed(GamepadBtn.A)(data)) {
+  if (getButtonPressed(GamepadBtn.A)(data.gamepad, data.mapping)) {
     rosClient.publish(cmdVelTopic, mapGamepadToTwist(data))
   }
 }

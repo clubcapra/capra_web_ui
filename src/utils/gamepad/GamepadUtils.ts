@@ -14,44 +14,41 @@ export function isSupported(): boolean {
   return false
 }
 
-const getButton = (gamepad: Gamepad, button: number): GamepadButton => {
-  return gamepad.buttons[button]
+const getRawButton = (
+  button: GamepadBtn | Dpad,
+  gamepad: Gamepad,
+  mapping: GamepadMapping
+) => {
+  const rawBtnIndex = mapping.buttons[button]
+  return gamepad.buttons[rawBtnIndex]
 }
 
-const getAxis = (gamepad: Gamepad, axis: number): number => {
-  return gamepad.axes[axis]
+const getRawAxis = (gamepad: Gamepad) => (axis: number): number =>
+  gamepad.axes[axis]
+
+export const getButtonPressed = (button: GamepadBtn | Dpad) => (
+  gamepad: Gamepad,
+  mapping: GamepadMapping
+): boolean => {
+  const rawBtn = getRawButton(button, gamepad, mapping)
+  return typeof rawBtn == 'number' ? rawBtn > 0.1 : rawBtn.pressed
 }
 
-export const getButtonPressed = (button: GamepadBtn | Dpad) => ({
-  mapping,
-  gamepad,
-}: GamepadData): boolean => {
-  const index = mapping.buttons[button]
-  const nativeButton = getButton(gamepad, index)
-
-  return typeof nativeButton == 'number'
-    ? nativeButton > 0.1
-    : nativeButton.pressed
-}
-
-export const getButtonValue = (button: GamepadBtn | Dpad) => ({
-  mapping,
-  gamepad,
-}: GamepadData): number => {
-  const index = mapping.buttons[button]
-  const nativeButton = getButton(gamepad, index)
-
-  return typeof nativeButton == 'number' ? nativeButton : nativeButton.value
+export const getButtonValue = (button: GamepadBtn | Dpad) => (
+  gamepadData: GamepadData
+): number => {
+  const rawBtn = getRawButton(button, gamepadData.gamepad, gamepadData.mapping)
+  return typeof rawBtn == 'number' ? rawBtn : rawBtn.value
 }
 
 export const getStick = (stick: Stick) => ({
   mapping,
   gamepad,
 }: GamepadData): StickAxis => {
+  const rawGamepadAxis = getRawAxis(gamepad)
   const stickMapping = mapping.sticks[stick]
-
-  const horizontal = getAxis(gamepad, stickMapping.horizontal)
-  const vertical = getAxis(gamepad, stickMapping.vertical)
+  const horizontal = rawGamepadAxis(stickMapping.horizontal)
+  const vertical = rawGamepadAxis(stickMapping.vertical)
 
   return {
     horizontal: stickMapping.isRightPositive ? horizontal : -horizontal,
@@ -59,18 +56,11 @@ export const getStick = (stick: Stick) => ({
   }
 }
 
-export const getButtonPressedFromPrev = (button: GamepadBtn | Dpad) => (
-  data: GamepadData
-): boolean => {
-  return getButtonPressed(button)(data)
-}
-
-export const getTogglePressed = (button: GamepadBtn | Dpad) => (
-  data: GamepadData
+export const getTogglePressed = (gamepadData: GamepadData) => (
+  button: GamepadBtn | Dpad
 ): boolean =>
-  getButtonPressed(button)(data) && !getButtonPressedFromPrev(button)(data)
-
-const defaultMapping = mappings[0]
+  getButtonPressed(button)(gamepadData.gamepad, gamepadData.mapping) &&
+  !getButtonPressed(button)(gamepadData.prevGamepad, gamepadData.mapping)
 
 /**
  * Detects the mapping of the gamepad based on the id given by the browser.
@@ -80,8 +70,8 @@ const defaultMapping = mappings[0]
  */
 export const detectMapping = (gamepad: Gamepad): GamepadMapping => {
   //TODO support different mappings
-  return defaultMapping
+  return mappings[0]
 }
 
-export const isSpaceMouse = ({ gamepad }: GamepadData): boolean =>
-  gamepad.id.includes('SpaceMouse')
+export const isSpaceMouse = ({ gamepad: { id } }: GamepadData): boolean =>
+  id.includes('SpaceMouse')
