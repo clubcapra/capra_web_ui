@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import {
   MdBluetoothConnected,
   MdBluetoothDisabled,
@@ -11,7 +11,31 @@ import {
   MdSignalWifiOff,
   MdSettingsEthernet,
 } from 'react-icons/md'
-import { useConnection } from 'utils/hooks/useConnection'
+import { useInterval } from 'utils/hooks/useInterval'
+
+const useConnection = () => {
+  // @ts-ignore
+  const { connection } = navigator
+
+  const [state, setState] = useState({
+    rtt: connection.rtt,
+    type: connection.type,
+    effectiveType: connection.effectiveType,
+  })
+
+  useInterval(() => {
+    //@ts-ignore
+    const { connection } = navigator
+
+    setState({
+      rtt: connection.rtt,
+      type: connection.type,
+      effectiveType: connection.effectiveType,
+    })
+  }, 1000)
+
+  return { ...state }
+}
 
 const NetworkInfo = () => {
   const connection = useConnection()
