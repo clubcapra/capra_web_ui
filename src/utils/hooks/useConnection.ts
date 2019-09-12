@@ -1,6 +1,9 @@
 import { useInterval } from 'utils/hooks/useInterval'
-import { useState } from 'react';
+import { useState } from 'react'
 
+/**
+ * Hook for the navigator.connection api
+ */
 export const useConnection = () => {
   // @ts-ignore
   const { connection } = navigator

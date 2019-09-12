@@ -1,5 +1,12 @@
 import { useEffect, useRef } from 'react'
 
+/**
+ * Hook wrapper around setInterval() that will automatically
+ * stop the interval when the component unmount
+ *
+ * @param callback will be called after every interval
+ * @param delay time between interval in ms
+ */
 export const useInterval = (callback: Function, delay: number): void => {
   const savedCallback = useRef<Function>()
 
