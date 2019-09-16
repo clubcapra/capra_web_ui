@@ -24,6 +24,7 @@ export enum CameraType {
   MJPEG = 'mjpeg',
   PNG = 'png',
   VP8 = 'vp8',
+  WEBCAM = 'webcam',
 }
 
 export interface FeedCollection {
