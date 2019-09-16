@@ -4,8 +4,8 @@ import { detectMapping, isSupported } from 'utils/gamepad/GamepadUtils'
 export class GamepadManager {
   private inputHandler!: InputHandler
   private isRunning = false
-  private prevTimestamp!: number[]
-  private prevGamepad!: Gamepad[]
+  private prevTimestamp: number[] = []
+  private prevGamepad: Gamepad[] = []
   private isBrowserSupported: boolean = true
 
   constructor(inputHandler: (data: GamepadData) => void) {
@@ -44,10 +44,12 @@ export class GamepadManager {
     for (let i = 0; i <= gamepads.length; i++) {
       const gamepad = gamepads[i]
 
-      if (!gamepad) return
+      if (!gamepad) continue
+
+      if (gamepad.id.includes('Unknown Gamepad')) continue
 
       if (gamepad.timestamp && gamepad.timestamp === this.prevTimestamp[i]) {
-        return
+        continue
       }
 
       const gamepadData: GamepadData = {
