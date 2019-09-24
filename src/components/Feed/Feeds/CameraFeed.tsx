@@ -3,7 +3,7 @@ import { ICameraFeed, CameraType } from 'store/modules/feed/@types'
 
 import { useSelector } from 'utils/hooks/typedUseSelector'
 import { FC, useEffect, useRef } from 'react'
-import { selectVideoStreamUrl } from 'store/modules/ros/reducer'
+import { selectVideoUrl } from 'store/modules/ros/reducer'
 import { styled } from 'globalStyles/styled'
 
 interface Props {
@@ -61,7 +61,7 @@ const Webcam: FC = () => {
 }
 
 const View: FC<Props> = ({ feed }) => {
-  const source = useSelector(selectVideoStreamUrl(feed.camera))
+  const source = useSelector(selectVideoUrl(feed.camera))
 
   switch (feed.camera.type) {
     case CameraType.MJPEG:
