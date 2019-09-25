@@ -8,8 +8,7 @@ import { Route, Switch, Redirect } from 'react-router'
 import { ConfigMenu } from './ConfigMenu'
 import { RosConfig } from 'components/pages/Config/pages/RosConfig'
 import { CameraConfig } from 'components/pages/Config/pages/CameraConfig/CameraConfig'
-
-const GamepadConfig: FC = () => <div>Gamepad</div>
+import { GamepadConfig } from 'components/pages/Config/pages/GamepadConfig/GamepadConfig'
 
 export const ConfigPage: FC = () => {
   return (

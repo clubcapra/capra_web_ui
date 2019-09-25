@@ -42,7 +42,7 @@ export const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
   }
 }
 
-export const getTwist = (
+export const mapToTwist = (
   horizontal: number,
   vertical: number,
   rt: number,
