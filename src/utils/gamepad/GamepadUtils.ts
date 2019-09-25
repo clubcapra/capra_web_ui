@@ -26,25 +26,23 @@ const getRawButton = (
 const getRawAxis = (gamepad: Gamepad) => (axis: number): number =>
   gamepad.axes[axis]
 
-export const getButtonPressed = (button: GamepadBtn | Dpad) => (
-  gamepad: Gamepad,
-  mapping: GamepadMapping
+export const getButtonPressed = (gamepad: Gamepad, mapping: GamepadMapping) => (
+  button: GamepadBtn | Dpad
 ): boolean => {
   const rawBtn = getRawButton(button, gamepad, mapping)
   return typeof rawBtn == 'number' ? rawBtn > 0.1 : rawBtn.pressed
 }
 
-export const getButtonValue = (button: GamepadBtn | Dpad) => (
-  gamepadData: GamepadData
+export const getButtonValue = ({ gamepad, mapping }: GamepadData) => (
+  button: GamepadBtn | Dpad
 ): number => {
-  const rawBtn = getRawButton(button, gamepadData.gamepad, gamepadData.mapping)
+  const rawBtn = getRawButton(button, gamepad, mapping)
   return typeof rawBtn == 'number' ? rawBtn : rawBtn.value
 }
 
-export const getStick = (stick: Stick) => ({
-  mapping,
-  gamepad,
-}: GamepadData): StickAxis => {
+export const getStick = ({ mapping, gamepad }: GamepadData) => (
+  stick: Stick
+): StickAxis => {
   const rawGamepadAxis = getRawAxis(gamepad)
   const stickMapping = mapping.sticks[stick]
   const horizontal = rawGamepadAxis(stickMapping.horizontal)
@@ -56,11 +54,29 @@ export const getStick = (stick: Stick) => ({
   }
 }
 
-export const getTogglePressed = (gamepadData: GamepadData) => (
+export const getButtonDown = ({
+  gamepad,
+  prevGamepad,
+  mapping,
+}: GamepadData) => (button: GamepadBtn | Dpad): boolean => {
+  if (getButtonPressed(gamepad, mapping)(button) && !prevGamepad) return true
+
+  return (
+    getButtonPressed(gamepad, mapping)(button) &&
+    !getButtonPressed(prevGamepad, mapping)(button)
+  )
+}
+
+export const getButtonUp = ({ gamepad, prevGamepad, mapping }: GamepadData) => (
   button: GamepadBtn | Dpad
-): boolean =>
-  getButtonPressed(button)(gamepadData.gamepad, gamepadData.mapping) &&
-  !getButtonPressed(button)(gamepadData.prevGamepad, gamepadData.mapping)
+): boolean => {
+  if (!prevGamepad) return false
+
+  return (
+    !getButtonPressed(gamepad, mapping)(button) &&
+    getButtonPressed(prevGamepad, mapping)(button)
+  )
+}
 
 /**
  * Detects the mapping of the gamepad based on the id given by the browser.
@@ -75,3 +91,11 @@ export const detectMapping = (gamepad: Gamepad): GamepadMapping => {
 
 export const isSpaceMouse = ({ gamepad: { id } }: GamepadData): boolean =>
   id.includes('SpaceMouse')
+
+export const getDataFunctions = (data: GamepadData) => ({
+  isButtonDown: getButtonDown(data),
+  isButtonUp: getButtonUp(data),
+  isButtonPressed: getButtonPressed(data.gamepad, data.mapping),
+  getStick: getStick(data),
+  getButtonValue: getButtonValue(data),
+})

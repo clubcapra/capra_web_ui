@@ -6,7 +6,7 @@ export class GamepadManager {
   private isRunning = false
   private prevTimestamp: number[] = []
   private prevGamepad: Gamepad[] = []
-  private isBrowserSupported: boolean = true
+  private isBrowserSupported = true
 
   constructor(inputHandler: (data: GamepadData) => void) {
     if (!isSupported()) {
