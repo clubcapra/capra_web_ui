@@ -58,8 +58,9 @@ const formatIp = (state: RosState): string => `${state.IP}:${state.port}/`
 
 export const fullIpAddress = (state: GlobalState): string => formatIp(state.ros)
 
-export const selectVideoStreamUrl = (camera: ICameraData) => (
-  state: GlobalState
-): string =>
-  `http://${state.ros.IP}:${state.ros.videoServerPort}/stream` +
+export const selectVideoUrl = (
+  camera: ICameraData,
+  param: 'stream' | 'snapshot' = 'stream'
+) => (state: GlobalState): string =>
+  `http://${state.ros.IP}:${state.ros.videoServerPort}/${param}` +
   `?topic=${camera.topic}&type=${camera.type}`

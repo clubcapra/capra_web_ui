@@ -5,6 +5,10 @@ import { ICameraData, CameraType, ICameraFeed } from 'store/modules/feed/@types'
 import { FaTimes } from 'react-icons/fa'
 import { useSelector } from 'utils/hooks/typedUseSelector'
 import { StyledTable, StyledTableInput } from './Table.styles'
+import { Button } from 'components/common/Button'
+import { Modal } from 'components/common/Modal'
+import { useOpenClose } from 'utils/hooks/useOpenClose'
+import { selectVideoUrl } from 'store/modules/ros/reducer'
 
 interface TableRowProps {
   feed: ICameraFeed
@@ -23,6 +27,8 @@ const TableRow: FC<TableRowProps> = ({ feed, updateCamera }) => {
 
   const removeCamera = () => dispatch(feedSlice.actions.removeFeed(id))
   const updateCameraId = updateCamera(id)
+  const [isOpen, onOpen, onClose] = useOpenClose()
+  const snapshotSource = useSelector(selectVideoUrl(feed.camera, 'snapshot'))
 
   return (
     <tr>
@@ -38,6 +44,12 @@ const TableRow: FC<TableRowProps> = ({ feed, updateCamera }) => {
           onChange={updateCameraId('type')}
           disabled
         />
+      </td>
+      <td>
+        <Button onClick={onOpen}>Test</Button>
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <img src={snapshotSource} alt="video server snapshot" />
+        </Modal>
       </td>
       <td>
         <div onClick={removeCamera}>
@@ -85,6 +97,7 @@ export const Table: FC = () => {
           <th>Name</th>
           <th>Topic</th>
           <th>Type</th>
+          <th>Snapshot</th>
           <th />
         </tr>
       </thead>
