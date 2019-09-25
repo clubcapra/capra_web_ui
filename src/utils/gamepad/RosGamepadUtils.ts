@@ -1,9 +1,6 @@
-import { Stick, GamepadData } from 'utils/gamepad/@types'
 import { Vector3 } from 'utils/math/types'
 import { TopicOptions } from '@club_capra/roslib-ts-client'
 import { IJoyMsg, ITwistMsg } from 'utils/ros/rosMsgs.types'
-import { GamepadBtn } from './@types'
-import { getStick, getButtonValue } from 'utils/gamepad/GamepadUtils'
 
 export const cmdVelTopic: TopicOptions = {
   name: '/cmd_vel',
@@ -45,11 +42,12 @@ export const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
   }
 }
 
-export const mapGamepadToTwist = (gamepad: GamepadData): ITwistMsg => {
-  const { horizontal, vertical } = getStick(Stick.Left)(gamepad)
-  const rt = getButtonValue(GamepadBtn.RT)(gamepad)
-  const lt = getButtonValue(GamepadBtn.LT)(gamepad)
-
+export const getTwist = (
+  horizontal: number,
+  vertical: number,
+  rt: number,
+  lt: number
+): ITwistMsg => {
   const x = horizontal > 0.15 ? -1 : horizontal < -0.15 ? 1 : 0
   const y = vertical > 0.15 ? 1 : vertical < -0.15 ? -1 : 0
 
