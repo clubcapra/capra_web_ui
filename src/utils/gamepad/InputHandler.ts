@@ -1,6 +1,6 @@
 import {
   mapGamepadToJoy,
-  getTwist,
+  mapToTwist,
   cmdVelTopic,
   joyTopic,
   spaceMouseTopic,
@@ -58,7 +58,7 @@ function handleRobotControl(data: GamepadData): void {
     const { horizontal, vertical } = getStick(Stick.Left)
     rosClient.publish(
       cmdVelTopic,
-      getTwist(
+      mapToTwist(
         horizontal,
         vertical,
         getButtonValue(GamepadBtn.RT),
