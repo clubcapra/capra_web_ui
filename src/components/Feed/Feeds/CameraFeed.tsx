@@ -39,19 +39,25 @@ const Webcam: FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
-    navigator.getUserMedia(
-      { video: true, audio: false },
-      mediaStream => {
-        if (videoRef && videoRef.current)
-          videoRef.current.srcObject = mediaStream
-      },
-      error => {
-        console.error(error)
-      }
-    )
+    if (navigator && navigator.getUserMedia) {
+      navigator.getUserMedia(
+        { video: true, audio: false },
+        mediaStream => {
+          if (videoRef && videoRef.current)
+            videoRef.current.srcObject = mediaStream
+        },
+        error => {
+          console.error(error)
+        }
+      )
+    }
   }, [])
 
-  return <StyledVideo ref={videoRef} autoPlay />
+  return videoRef.current ? (
+    <StyledVideo ref={videoRef} autoPlay />
+  ) : (
+    <NoVideo text="webcam not supported" />
+  )
 }
 
 const View: FC<Props> = ({ feed }) => {

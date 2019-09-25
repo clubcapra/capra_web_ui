@@ -28,14 +28,14 @@ export const initialState: FeedState = {
         topic: '/camera_3d/rgb',
       },
     },
-    webcam: {
-      type: FeedTypeEnum.camera,
-      id: 'webcam',
-      camera: {
-        name: 'webcam',
-        type: CameraType.WEBCAM,
-        topic: '',
-      },
-    },
+    // webcam: {
+    //   type: FeedTypeEnum.camera,
+    //   id: 'webcam',
+    //   camera: {
+    //     name: 'webcam',
+    //     type: CameraType.WEBCAM,
+    //     topic: '',
+    //   },
+    // },
   },
 }
