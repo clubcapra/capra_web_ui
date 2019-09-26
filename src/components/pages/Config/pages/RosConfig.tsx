@@ -4,9 +4,9 @@ import { useDispatch } from 'react-redux'
 import { rosSlice } from 'store/modules/ros/reducer'
 import { rosClient } from 'utils/ros/rosClient'
 import { LabeledInput } from 'components/common/LabeledInput'
-import { deleteLocalStorage } from 'store/localStorage'
 import { Button } from 'components/common/Button'
 import { SectionTitle } from 'components/pages/Config/styles'
+import { RESET_STATE } from 'store/rootReducer'
 
 const ConnectionSection = () => {
   const dispatch = useDispatch()
@@ -39,12 +39,16 @@ const ConnectionSection = () => {
   )
 }
 
-const DataSection = () => (
-  <>
-    <SectionTitle>Data</SectionTitle>
-    <Button onClick={deleteLocalStorage}>Clear Cache</Button>
-  </>
-)
+const DataSection = () => {
+  const dispatch = useDispatch()
+
+  return (
+    <>
+      <SectionTitle>Data</SectionTitle>
+      <Button onClick={() => dispatch(RESET_STATE)}>Reset Default</Button>
+    </>
+  )
+}
 
 export const RosConfig: FC = () => (
   <>
