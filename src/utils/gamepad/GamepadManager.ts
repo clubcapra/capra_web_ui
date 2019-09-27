@@ -74,10 +74,12 @@ export class GamepadManager {
 
   private onGamepadConnected = (e: GamepadEvent) => {
     const { id, ...rest } = e.gamepad
+    // eslint-disable-next-line no-console
     console.log(id, 'connected', rest)
   }
   private onGamepadDisconnected = (e: GamepadEvent) => {
     const { id, ...rest } = e.gamepad
+    // eslint-disable-next-line no-console
     console.log(id, 'disconnected', rest)
   }
 }

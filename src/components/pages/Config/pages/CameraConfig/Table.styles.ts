@@ -1,5 +1,5 @@
 import { styled } from 'globalStyles/styled'
-import { darken } from 'polished';
+import { darken } from 'polished'
 
 export const StyledTable = styled.table`
   width: 100%;

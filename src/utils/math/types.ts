@@ -10,11 +10,11 @@ export interface IVector3 {
 }
 
 export class Vector3 implements IVector3, IVector2 {
-  x: number = 0
-  y: number = 0
-  z: number = 0
+  x = 0
+  y = 0
+  z = 0
 
-  constructor(x: number = 0, y: number = 0, z: number = 0) {
+  constructor(x = 0, y = 0, z = 0) {
     this.x = x
     this.y = y
     this.z = z

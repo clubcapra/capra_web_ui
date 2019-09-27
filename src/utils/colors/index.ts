@@ -1,5 +1,5 @@
-import { ColorHSL, ColorRGB } from './types'
-import _ from 'lodash-es'
+import { ColorRGB } from './types'
+import _ from 'lodash'
 
 export function interpolateRGB(
   color1: ColorRGB,

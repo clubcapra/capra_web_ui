@@ -11,28 +11,26 @@ import {
   MdSignalWifiOff,
   MdSettingsEthernet,
 } from 'react-icons/md'
-import { useInterval } from 'utils/hooks/useInterval'
 
 const useConnection = () => {
-  // @ts-ignore
-  const { connection } = navigator
+  // const connection: { rtt: number; type: string; effectiveType: string } =
+  //   navigator['connection']
 
-  const [state, setState] = useState({
-    rtt: connection.rtt,
-    type: connection.type,
-    effectiveType: connection.effectiveType,
+  const [state] = useState({
+    rtt: 0,
+    type: 'wifi',
+    effectiveType: '4g',
   })
 
-  useInterval(() => {
-    //@ts-ignore
-    const { connection } = navigator
+  // useInterval(() => {
+  //   const connection = navigator['connection']
 
-    setState({
-      rtt: connection.rtt,
-      type: connection.type,
-      effectiveType: connection.effectiveType,
-    })
-  }, 1000)
+  //   setState({
+  //     rtt: connection.rtt,
+  //     type: connection.type,
+  //     effectiveType: connection.effectiveType,
+  //   })
+  // }, 1000)
 
   return { ...state }
 }
@@ -90,7 +88,6 @@ const NetworkInfo = () => {
 }
 
 export const NetworkDisplay = () => {
-  //@ts-ignore
-  if (navigator && navigator.connection) return <NetworkInfo />
+  if (navigator) return <NetworkInfo />
   return null
 }
