@@ -29,7 +29,7 @@ export const FeedSelect: FC<FeedSelectProps> = ({
     <StyledFeedSelect
       onChange={selectFeed}
       value={currentFeedId}
-      hidden={visible}
+      hidden={!visible}
     >
       {feedCollection.map(feed => (
         <option key={feed.id} value={feed.id}>

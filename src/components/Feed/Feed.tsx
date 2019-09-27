@@ -37,7 +37,7 @@ export const Feed: FC<FeedProps> = ({ id, defaultFeed }) => {
       onMouseOver={onOver}
     >
       <FeedView feed={feed} />
-      <FeedSelect id={id} visible={!isMouseOver} currentFeedId={feed.id} />
+      <FeedSelect id={id} visible={isMouseOver} currentFeedId={feed.id} />
     </StyledFeedComponent>
   )
 }
