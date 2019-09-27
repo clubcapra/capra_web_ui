@@ -1,4 +1,4 @@
-import React, { FC, useState, useMemo } from 'react'
+import React, { FC, useMemo } from 'react'
 import { useSelector } from 'utils/hooks/typedUseSelector'
 import { StyledFeedComponent } from 'components/Feed/Feed.styles'
 import {
@@ -7,6 +7,7 @@ import {
 } from 'store/modules/feed/reducer'
 import { FeedSelect } from 'components/Feed/FeedSelect'
 import { FeedView } from 'components/Feed/FeedView'
+import { useOpenClose } from 'utils/hooks/useOpenClose'
 
 interface FeedProps {
   id: string
@@ -14,8 +15,7 @@ interface FeedProps {
 }
 
 export const Feed: FC<FeedProps> = ({ id, defaultFeed }) => {
-  const [hover, setHover] = useState(false)
-  const toggleHover = () => setHover(!hover)
+  const [isMouseOver, onOver, onLeave] = useOpenClose()
 
   const mappedFeed = useSelector(selectFeedFromFeedMap(id))
   const allFeeds = useSelector(selectAllFeeds)
@@ -31,9 +31,13 @@ export const Feed: FC<FeedProps> = ({ id, defaultFeed }) => {
   }, [allFeeds, defaultFeed, mappedFeed])
 
   return (
-    <StyledFeedComponent onMouseEnter={toggleHover} onMouseLeave={toggleHover}>
+    <StyledFeedComponent
+      onMouseEnter={onOver}
+      onMouseLeave={onLeave}
+      onMouseOver={onOver}
+    >
       <FeedView feed={feed} />
-      <FeedSelect id={id} visible={!hover} currentFeedId={feed.id} />
+      <FeedSelect id={id} visible={isMouseOver} currentFeedId={feed.id} />
     </StyledFeedComponent>
   )
 }
