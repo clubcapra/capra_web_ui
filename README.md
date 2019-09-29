@@ -138,7 +138,7 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 The build is minified and the filenames include the hashes.
 
-Also builds an electron app installer for linux in windows in the folder `/dist`.
+Also builds an electron app installer for linux and windows in the folder `/dist`.
 
 #### `npm run eject`
 
