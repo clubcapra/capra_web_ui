@@ -1,14 +1,36 @@
 {
-  "name": "capra-web-ui",
+  "name": "capra_web_ui",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://www.clubcapra.com/capra_web_ui",
+  "homepage": "./",
+  "main": "src/electron/main.js",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "concurrently -k -s first -n react,electron npm:start:react npm:start:electron",
+    "start:react": "react-scripts start",
+    "start:electron": "wait-on http://localhost:3000 && electron .",
+    "build": "npm run build:react && npm run build:electron",
+    "build:react": "react-scripts build",
+    "build:electron": "electron-builder",
     "test": "react-scripts test --transformIgnorePatterns \"/node_modules/(?!@club_capra/roslib-ts-client).+\\.js$\"",
     "eject": "react-scripts eject",
     "lint": "eslint --ext js,ts,tsx src"
+  },
+  "build": {
+    "appId": "com.clubcapra.capra_web_ui",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*",
+      "src/electron/**/*.js"
+    ],
+    "linux": {
+      "target": [
+        "deb"
+      ]
+    },
+    "directories": {
+      "buildResources": "./src/assets"
+    },
+    "extends": null
   },
   "dependencies": {
     "@club_capra/roslib-ts-client": "^0.3.3",
@@ -40,12 +62,16 @@
     "@types/react-router-dom": "^5.1.0",
     "@types/shortid": "0.0.29",
     "@types/styled-components": "^4.1.19",
+    "concurrently": "^4.1.2",
+    "electron": "^6.0.10",
+    "electron-builder": "^21.2.0",
     "eslint-config-prettier": "^6.3.0",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.14.3",
     "husky": "^3.0.7",
     "prettier": "^1.18.2",
-    "react-scripts": "3.1.2"
+    "react-scripts": "3.1.2",
+    "wait-on": "^3.3.0"
   },
   "browserslist": {
     "production": [
