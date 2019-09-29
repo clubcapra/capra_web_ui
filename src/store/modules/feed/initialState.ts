@@ -25,7 +25,16 @@ export const initialState: FeedState = {
       camera: {
         name: 'camera_3d_rgb',
         type: CameraType.MJPEG,
-        topic: '/camera_3d/rgb',
+        topic: '/camera_3d/rgb/image_raw',
+      },
+    },
+    camera_3d_depth: {
+      type: FeedTypeEnum.camera,
+      id: 'camera_3d_depth',
+      camera: {
+        name: 'camera_3d_depth',
+        type: CameraType.MJPEG,
+        topic: '/camera_3d/depth/image',
       },
     },
     // webcam: {
