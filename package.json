@@ -1,6 +1,8 @@
 {
   "name": "capra_web_ui",
   "version": "0.1.0",
+  "author": "Club Capra",
+  "description": "User Interface for ROS based robots",
   "private": true,
   "homepage": "./",
   "main": "src/electron/main.js",
