@@ -1,4 +1,4 @@
-import { configureStore } from 'redux-starter-kit'
+import { configureStore } from '@reduxjs/toolkit'
 import { rootReducer } from 'store/rootReducer'
 import { loadState, saveState } from 'store/localStorage'
 import { throttle } from 'lodash'

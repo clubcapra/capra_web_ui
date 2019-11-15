@@ -1,11 +1,12 @@
 import { ICameraData, ICameraFeed } from './@types'
-import { PayloadAction, createSlice } from 'redux-starter-kit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { FeedTypeEnum } from 'store/modules/feed/@types'
 import { initialState } from 'store/modules/feed/initialState'
 import shortid from 'shortid'
 import { GlobalState } from 'store/rootReducer'
 
 export const feedSlice = createSlice({
+  name: 'feed',
   initialState,
   reducers: {
     addCamera: (state, { payload }: PayloadAction<ICameraData>) => {

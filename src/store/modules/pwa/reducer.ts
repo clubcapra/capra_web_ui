@@ -1,5 +1,5 @@
 import { PWAState } from './@types'
-import { createSlice } from 'redux-starter-kit'
+import { createSlice } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify'
 
 export const initialState: PWAState = {
@@ -9,6 +9,7 @@ export const initialState: PWAState = {
 }
 
 export const pwaSlice = createSlice({
+  name: 'pwa',
   initialState,
   reducers: {
     onContentLoaded: state => {

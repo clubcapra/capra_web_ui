@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from 'redux-starter-kit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { GamepadState } from 'store/modules/gamepad/@types'
 import { GlobalState } from 'store/rootReducer'
 
@@ -7,6 +7,7 @@ export const initialState: GamepadState = {
 }
 
 export const gamepadSlice = createSlice({
+  name: 'gamepad',
   initialState,
   reducers: {
     setIsArmControlled: (state, { payload }: PayloadAction<boolean>) => {

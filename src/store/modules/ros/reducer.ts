@@ -1,6 +1,6 @@
 import { RosState } from 'store/modules/ros/@types'
 import { GlobalState } from 'store/rootReducer'
-import { createSlice, PayloadAction } from 'redux-starter-kit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify'
 import { ICameraData } from 'store/modules/feed/@types'
 
@@ -16,6 +16,7 @@ export const initialState: RosState = {
 }
 
 export const rosSlice = createSlice({
+  name: 'ros',
   initialState,
   reducers: {
     setIp: (state, { payload }: PayloadAction<string>) => {
