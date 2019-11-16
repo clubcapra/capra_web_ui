@@ -1,4 +1,4 @@
-import RosClient from '@club_capra/roslib-ts-client'
+import RosClient from './roslib-ts-client/RosClient'
 import { store } from 'store/store'
 import { rosSlice, fullIpAddress } from 'store/modules/ros/reducer'
 

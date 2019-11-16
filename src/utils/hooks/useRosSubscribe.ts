@@ -1,6 +1,7 @@
 import { rosClient } from 'utils/ros/rosClient'
-import { TopicOptions } from '@club_capra/roslib-ts-client'
 import { useEffect } from 'react'
+import { useSelector } from 'utils/hooks/typedUseSelector'
+import { TopicOptions } from 'utils/ros/roslib-ts-client/@types'
 
 /**
  * Subscribes to a specified topic
@@ -8,9 +9,16 @@ import { useEffect } from 'react'
  *
  * This will automatically unsubscribe when the component is unmounted
  */
-export const useRosSubscribe = (topic: TopicOptions, callback: Function) => {
+export const useRosSubscribe = <R>(
+  topic: TopicOptions<R>,
+  callback: (message: { data: R }) => void
+) => {
+  const connected = useSelector(state => state.ros.connected)
+
   useEffect(() => {
-    rosClient.subscribe(topic, callback)
-    return rosClient.unsubscribe(topic)
-  }, [callback, topic])
+    if (connected) {
+      rosClient.subscribe(topic, callback)
+      return rosClient.unsubscribe(topic)
+    }
+  }, [callback, connected, topic])
 }
