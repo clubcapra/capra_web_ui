@@ -4,7 +4,7 @@
   "author": {
     "name": "Club Capra",
     "email": "admin@clubcapra.com",
-    "url": "clubcapra.com"
+    "url": "http://www.clubcapra.com"
   },
   "description": "User Interface for ROS based robots",
   "private": true,
@@ -39,8 +39,8 @@
     "extends": null
   },
   "dependencies": {
-    "@club_capra/roslib-ts-client": "^0.3.3",
     "@reduxjs/toolkit": "^1.0.4",
+    "@types/roslib": "^1.0.0",
     "chart.js": "^2.9.3",
     "chartjs-plugin-streaming": "^1.8.0",
     "date-fns": "^2.7.0",
@@ -53,6 +53,7 @@
     "react-router-dom": "^5.1.2",
     "react-toastify": "^5.4.1",
     "redux": "^4.0.4",
+    "roslib": "^1.0.1",
     "shortid": "^2.2.15",
     "styled-components": "^4.4.1",
     "typescript": "3.7.2"
@@ -60,8 +61,8 @@
   "devDependencies": {
     "@types/chart.js": "^2.9.0",
     "@types/jest": "24.0.23",
-    "@types/lodash": "^4.14.147",
-    "@types/node": "12.12.7",
+    "@types/lodash": "^4.14.148",
+    "@types/node": "12.12.8",
     "@types/react": "16.9.11",
     "@types/react-dom": "16.9.4",
     "@types/react-redux": "^7.1.5",

@@ -2,11 +2,11 @@ import React, { FC, useState } from 'react'
 import { Modal } from './common/Modal'
 import { Button } from './common/Button'
 import { rosClient } from 'utils/ros/rosClient'
-import { TopicOptions } from '@club_capra/roslib-ts-client'
 import { StyledStopButton } from './EStopButton.styles'
 import { useRosSubscribe } from 'utils/hooks/useRosSubscribe'
+import { TopicOptions } from 'utils/ros/roslib-ts-client/@types'
 
-const topic: TopicOptions = {
+const topic: TopicOptions<boolean> = {
   name: 'takin_estop_status',
   messageType: 'std_msgs/Bool',
 }
@@ -18,8 +18,8 @@ interface StopButtonProps {
 const StopButton: FC<StopButtonProps> = ({ onClick }) => {
   const [text, setText] = useState('EMERGENCY STOP')
 
-  useRosSubscribe(topic, (data: boolean) => {
-    if (data) {
+  useRosSubscribe(topic, message => {
+    if (message.data) {
       setText('EMERGENCY STOP')
     } else {
       setText('REARM')

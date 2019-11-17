@@ -1,6 +1,6 @@
 import { Vector3 } from 'utils/math/types'
-import { TopicOptions } from '@club_capra/roslib-ts-client'
 import { IJoyMsg, ITwistMsg } from 'utils/ros/rosMsgs.types'
+import { TopicOptions } from 'utils/ros/roslib-ts-client/@types'
 
 export const cmdVelTopic: TopicOptions = {
   name: '/cmd_vel',
