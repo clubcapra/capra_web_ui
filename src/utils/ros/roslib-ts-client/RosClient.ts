@@ -82,7 +82,7 @@ export default class RosClient {
     this.topicManager.unsubscribe(options)
   }
 
-  publish(options: TopicOptions, payload: unknown) {
+  publish<R>(options: TopicOptions<R>, payload: R) {
     this.topicManager.publish(options, payload)
   }
 
