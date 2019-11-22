@@ -12,7 +12,12 @@ const isDev = require('./isDev')
 let mainWindow
 
 function createWindow() {
-  mainWindow = new BrowserWindow({ width: 900, height: 680 })
+  mainWindow = new BrowserWindow({
+    width: 900,
+    height: 680,
+    icon: path.join(__dirname, '../../public/logo512.png'),
+    title: 'capra_web_ui',
+  })
 
   mainWindow.loadURL(
     isDev
