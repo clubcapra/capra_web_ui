@@ -66,10 +66,14 @@ export class GamepadManager {
   }
 
   private initEventListeners = () => {
-    window.addEventListener('gamepadconnected', this
-      .onGamepadConnected as EventListener)
-    window.addEventListener('gamepaddisconnected', this
-      .onGamepadDisconnected as EventListener)
+    window.addEventListener(
+      'gamepadconnected',
+      this.onGamepadConnected as EventListener
+    )
+    window.addEventListener(
+      'gamepaddisconnected',
+      this.onGamepadDisconnected as EventListener
+    )
   }
 
   private onGamepadConnected = (e: GamepadEvent) => {
