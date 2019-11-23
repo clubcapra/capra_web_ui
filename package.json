@@ -16,10 +16,11 @@
     "start:electron": "wait-on http://localhost:3000 && electron .",
     "build": "npm run build:react && npm run build:electron",
     "build:react": "react-scripts build",
-    "build:electron": "electron-builder -lw",
+    "build:electron": "electron-builder",
     "test": "react-scripts test --transformIgnorePatterns \"/node_modules/(?!@club_capra/roslib-ts-client).+\\.js$\"",
     "eject": "react-scripts eject",
-    "lint": "eslint --ext js,ts,tsx src"
+    "lint": "eslint --ext js,ts,tsx src",
+    "typecheck": "tsc --noEmit"
   },
   "build": {
     "appId": "com.clubcapra.capra_web_ui",
