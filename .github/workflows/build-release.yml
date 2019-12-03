@@ -2,7 +2,7 @@ name: Build/Release
 
 on:
   push:
-    tags: #matches semver
+    tags:
       - 'v*'
     branches: 
       - master
@@ -11,7 +11,7 @@ jobs:
   build:
     strategy:
       matrix:
-        platform: [ubuntu-latest, windows-latest] # macos-latest
+        platform: [windows-latest] # ubuntu-latest, macos-latest
         
     runs-on: ${{ matrix.platform }}
 
@@ -22,13 +22,28 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: 12.x
-    - name: Build/release Electron app
-      uses: samuelmeuli/action-electron-builder@v1
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1.0.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        # GitHub token, automatically provided to the action
-        # (No need to define this secret in the repo settings)
-        github_token: ${{ secrets.github_token }}
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+    - name: build
+      run: |
+        npm ci
+        npm run build:electron
+    - name: Upload Release Asset
+      id: upload-release-asset 
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        asset_path: ./capra_web_ui-setup.exe
+        asset_name: capra_web_ui-setup.exe
+        asset_content_type: application/vnd.microsoft.portable-executable
 
-        # If the commit is tagged with a version (e.g. "v1.0.0"),
-        # release the app after building
-        release: ${{ github.ref }}
