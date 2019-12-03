@@ -37,6 +37,7 @@
     "directories": {
       "buildResources": "./src/assets"
     },
+    "artifactName": "capra_web_ui-setup.${ext}",
     "extends": null
   },
   "dependencies": {
