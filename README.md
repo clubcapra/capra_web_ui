@@ -2,10 +2,6 @@
 
 Web based user interface for ROS based robots.
 
-## Hosted on github pages
-
-<https://www.clubcapra.com/capra_web_ui/>
-
 ## Table of contents
 
 - [Hosted on github pages](#hosted-on-github-pages)
