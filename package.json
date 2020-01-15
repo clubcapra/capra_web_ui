@@ -12,13 +12,13 @@
   "main": "src/electron/main.js",
   "scripts": {
     "start": "concurrently -k -s first -n react,electron npm:start:react npm:start:electron",
-    "start:react": "react-scripts start",
+    "start:react": "react-app-rewired start",
     "start:electron": "wait-on http://localhost:3000 && electron .",
     "build": "npm run build:react",
-    "build:react": "react-scripts build",
-    "build:electron": "npm run build:react &&  electron-builder",
-    "test": "react-scripts test --transformIgnorePatterns \"/node_modules/(?!@club_capra/roslib-ts-client).+\\.js$\"",
-    "eject": "react-scripts eject",
+    "build:react": "react-app-rewired build",
+    "build:electron": "npm run build:react && electron-builder",
+    "test": "react-app-rewired test",
+    "eject": "react-app-rewired eject",
     "lint": "eslint --ext js,ts,tsx src",
     "typecheck": "tsc --noEmit"
   },
@@ -26,7 +26,6 @@
     "appId": "com.clubcapra.capra_web_ui",
     "files": [
       "build/**/*",
-      "node_modules/**/*",
       "src/electron/**/*.js"
     ],
     "linux": {
@@ -35,9 +34,12 @@
       ]
     },
     "directories": {
-      "buildResources": "./src/assets"
+      "buildResources": "./src/assets/build"
     },
-    "artifactName": "capra_web_ui-setup.${ext}",
+    "extraResources": [
+      "src/assets/images/*"
+    ],
+    "artifactName": "capra_web_ui_setup.${ext}",
     "extends": null
   },
   "dependencies": {
@@ -79,6 +81,7 @@
     "eslint-plugin-react": "^7.17.0",
     "husky": "^4.0.10",
     "prettier": "^1.19.1",
+    "react-app-rewired": "^2.1.5",
     "react-scripts": "3.3.0",
     "wait-on": "^3.3.0"
   },
