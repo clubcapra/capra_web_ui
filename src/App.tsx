@@ -1,5 +1,5 @@
 import React, { FC, StrictMode } from 'react'
-import { BrowserRouter } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 import { defaultTheme } from 'globalStyles/themes/defaultTheme'
 import { ToastContainer } from 'react-toastify'
@@ -18,14 +18,14 @@ const App: FC = () => (
   <StrictMode>
     <Provider store={store}>
       <ToastContainer position={'bottom-right'} />
-      <BrowserRouter basename={process.env.PUBLIC_URL}>
+      <HashRouter basename={process.env.PUBLIC_URL}>
         <ThemeProvider theme={defaultTheme}>
           <>
             <GlobalStyles />
             <Layout />
           </>
         </ThemeProvider>
-      </BrowserRouter>
+      </HashRouter>
     </Provider>
   </StrictMode>
 )
