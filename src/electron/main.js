@@ -1,7 +1,9 @@
-const { app, BrowserWindow } = require('electron')
+const electron = require('electron')
+const { app, BrowserWindow, ipcMain } = electron
 const path = require('path')
 const url = require('url')
 const isDev = require('./isDev')
+const { channels } = require('./shared/constants')
 
 // WARNING!
 // DO NOT USE electron-devtools-installer
@@ -17,6 +19,9 @@ function createWindow() {
     height: 680,
     icon: path.join(__dirname, '../../public/logo512.png'),
     title: 'capra_web_ui',
+    webPreferences: {
+      nodeIntegration: true,
+    },
   })
 
   mainWindow.loadURL(
@@ -53,4 +58,11 @@ app.on('activate', () => {
   if (mainWindow === null) {
     createWindow()
   }
+})
+
+ipcMain.on(channels.APP_INFO, event => {
+  event.sender.send(channels.APP_INFO, {
+    appName: app.getName(),
+    appVersion: app.getVersion(),
+  })
 })
