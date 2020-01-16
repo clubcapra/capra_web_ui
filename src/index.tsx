@@ -8,9 +8,10 @@ import electron from 'electron'
 
 const { ipcRenderer } = electron
 ipcRenderer.send(channels.APP_INFO)
-ipcRenderer.on(channels.APP_INFO, (event: any, arg: any) => {
+ipcRenderer.on(channels.APP_INFO, (event, arg) => {
   ipcRenderer.removeAllListeners(channels.APP_INFO)
   const { appName, appVersion } = arg
+  // eslint-disable-next-line no-console
   console.log(appName, appVersion)
 })
 
