@@ -31,7 +31,7 @@ jobs:
     - name : install wine
       run: |
         sudo dpkg --add-architecture i386
-        wget https://dl.winehq.org/wine-builds/Release.key && sudo apt-key add Release.key
+        wget -nc https://dl.winehq.org/wine-builds/winehq.key
         sudo apt-key add winehq.key
         sudo apt-add-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/bionic main'
         sudo apt update
