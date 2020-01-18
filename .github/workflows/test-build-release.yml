@@ -73,6 +73,8 @@ jobs:
         run: |
           npm ci
           npm run build:electron
+        env:
+          CI: true
 
       # Windows
       - name: Get Release File Name & Upload URL - Windows
