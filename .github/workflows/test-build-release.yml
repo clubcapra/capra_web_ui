@@ -49,6 +49,7 @@ jobs:
           name: release_url
           path: release_url.txt
   build:
+    name: Build and upload asset
     strategy:
       matrix:
         platform: [ubuntu-latest, windows-latest]
