@@ -17,7 +17,6 @@
     "build": "concurrently npm:build:react npm:build:electron:ts",
     "build:react": "react-app-rewired build",
     "build:electron": "npm run build && electron-builder",
-    "build:electron:all": "npm run build && electron-builder -wl",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
     "lint": "eslint --ext js,ts,tsx src",
@@ -27,8 +26,7 @@
   "build": {
     "appId": "com.clubcapra.capra_web_ui",
     "files": [
-      "build/**/*",
-      "build/electron/main.js"
+      "build/**/*"
     ],
     "linux": {
       "target": [
