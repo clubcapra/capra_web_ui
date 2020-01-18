@@ -1,0 +1,105 @@
+name: Test/Release/Build
+
+on: [push]
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12]
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: npm lint, typecheck, test
+        run: |
+          npm ci
+          npm run lint
+          npm run typecheck
+          npm test
+        env:
+          CI: true
+
+  release:
+    name: Create Github Release
+    if: contains(github.ref, 'tags/v*')
+    needs: [test]
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: true
+          prerelease: false
+
+      - name: Output Release URL File
+        run: echo "${{ steps.create_release.outputs.upload_url }}" > release_url.txt
+      - name: Save Release URL File for publish
+        uses: actions/upload-artifact@v1
+        with:
+          name: release_url
+          path: release_url.txt
+  build:
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, windows-latest]
+        node-version: [12]
+
+    runs-on: ${{ matrix.platform }}
+
+    if: contains(github.ref, 'tags/v')
+    needs: [test, release]
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Load Release URL File from release job
+        uses: actions/download-artifact@v1
+        with:
+          name: release_url
+      - name: build
+        run: |
+          npm ci
+          npm run build:electron
+      - name: Get Release File Name & Upload URL
+        id: get_release_info
+        run: |
+          echo ::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v} # RepositoryName-v1.0.0
+          value=`cat release_url/release_url.txt`
+          echo ::set-output name=upload_url::$value
+        env:
+          TAG_REF_NAME: ${{ github.ref }}
+          REPOSITORY_NAME: ${{ github.repository }}
+      - name: upload windows asset
+        if: matrix.platform.windows-latest
+        id: upload-windows-asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+          asset_path: ./dist/capra_web_ui_setup.exe
+          asset_name: capra_web_ui_setup.exe
+          asset_content_type: application/vnd.microsoft.portable-executable
+      - name: upload linux asset
+        if: matrix.platform.ubuntu-latest
+        id: upload-linux-asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+          asset_path: ./dist/capra_web_ui_setup.deb
+          asset_name: capra_web_ui_setup.deb
+          asset_content_type: application/vnd.debian.binary-package
