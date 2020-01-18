@@ -73,15 +73,24 @@ jobs:
         run: |
           npm ci
           npm run build:electron
-      - name: Get Release File Name & Upload URL
-        id: get_release_info
+      - name: Get Release File Name & Upload URL - Linux
+        id: get_release_info_linux
+        env:
+          TAG_REF_NAME: ${{ github.ref }}
+          REPOSITORY_NAME: ${{ github.repository }}
         run: |
           echo ::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v} # RepositoryName-v1.0.0
           value=`cat release_url/release_url.txt`
           echo ::set-output name=upload_url::$value
+      - name: Get Release File Name & Upload URL - Windows
+        id: get_release_info_windows
         env:
           TAG_REF_NAME: ${{ github.ref }}
           REPOSITORY_NAME: ${{ github.repository }}
+        run: |
+          echo ::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v} # RepositoryName-v1.0.0
+          SET value=`type release_url/release_url.txt`
+          echo ::set-output name=upload_url::%value%
       - name: upload windows asset
         if: matrix.platform.windows-latest
         id: upload-windows-asset
