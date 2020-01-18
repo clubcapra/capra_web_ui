@@ -75,21 +75,34 @@ jobs:
           npm run build:electron
         env:
           CI: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Windows
-      - name: Get Release File Name & Upload URL - Windows
-        id: get_release_info_windows
-        if: matrix.platform.windows-latest
+      - name: Get Release File Name & Upload URL
+        id: get_release_info
+        if: matrix.os == 'ubuntu-latest'
         env:
           TAG_REF_NAME: ${{ github.ref }}
           REPOSITORY_NAME: ${{ github.repository }}
         run: |
-          echo ::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v} # RepositoryName-v1.0.0
-          SET value=`type release_url/release_url.txt`
-          echo ::set-output name=upload_url::%value%
-      - name: upload windows asset
-        if: matrix.platform.windows-latest
+          echo ::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v}
+          value=`cat release_url/release_url.txt`
+          echo ::set-output name=upload_url::$value:  
+
+#       - name: Get Release File Name & Upload URL - Windows
+#         id: get_release_info_windows
+#         if: matrix.os == 'windows-latest'
+#         env:
+#           TAG_REF_NAME: ${{ github.ref }}
+#           REPOSITORY_NAME: ${{ github.repository }}
+#         run: |
+#           echo ::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v} # RepositoryName-v1.0.0
+#           SET value=`type release_url/release_url.txt`
+#           echo ::set-output name=upload_url::%value%
+
+      - name: Upload Windows Asset
         id: upload-windows-asset
+        if: matrix.os == 'windows-latest'
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -99,20 +112,9 @@ jobs:
           asset_name: capra_web_ui_setup.exe
           asset_content_type: application/vnd.microsoft.portable-executable
           
-      # Ubuntu
-      - name: Get Release File Name & Upload URL - Ubuntu
-        id: get_release_info_linux
-        if: matrix.platform.ubuntu-latest
-        env:
-          TAG_REF_NAME: ${{ github.ref }}
-          REPOSITORY_NAME: ${{ github.repository }}
-        run: |
-          echo ::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v} # RepositoryName-v1.0.0
-          value=`cat release_url/release_url.txt`
-          echo ::set-output name=upload_url::$value:  
-      - name: upload linux asset
-        if: matrix.platform.ubuntu-latest
+      - name: Upload Ubuntu Asset
         id: upload-linux-asset
+        if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
