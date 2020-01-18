@@ -85,10 +85,11 @@ jobs:
         env:
           TAG_REF_NAME: ${{ github.ref }}
           REPOSITORY_NAME: ${{ github.repository }}
+        shell: pwsh
         run: |
-          echo ::set-output name=file_name::${$Env:REPOSITORY_NAME##*/}-${$Env:TAG_REF_NAME##*/v}
+          echo "::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v}"
           SET value=`type release_url/release_url.txt`
-          echo ::set-output name=upload_url::$Env:value
+          echo "::set-output name=upload_url::" + $Env:value
 
       - name: Upload Windows Asset
         id: upload-windows-asset
@@ -112,7 +113,7 @@ jobs:
         run: |
           echo ::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v}
           value=`cat release_url/release_url.txt`
-          echo ::set-output name=upload_url::$value:  
+          echo ::set-output name=upload_url::$value
       - name: Upload Ubuntu Asset
         id: upload-linux-asset
         if: matrix.os == 'ubuntu-latest'
