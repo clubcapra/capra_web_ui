@@ -73,17 +73,11 @@ jobs:
         run: |
           npm ci
           npm run build:electron
-      - name: Get Release File Name & Upload URL - Linux
-        id: get_release_info_linux
-        env:
-          TAG_REF_NAME: ${{ github.ref }}
-          REPOSITORY_NAME: ${{ github.repository }}
-        run: |
-          echo ::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v} # RepositoryName-v1.0.0
-          value=`cat release_url/release_url.txt`
-          echo ::set-output name=upload_url::$value
+
+      # Windows
       - name: Get Release File Name & Upload URL - Windows
         id: get_release_info_windows
+        if: matrix.platform.windows-latest
         env:
           TAG_REF_NAME: ${{ github.ref }}
           REPOSITORY_NAME: ${{ github.repository }}
@@ -102,6 +96,18 @@ jobs:
           asset_path: ./dist/capra_web_ui_setup.exe
           asset_name: capra_web_ui_setup.exe
           asset_content_type: application/vnd.microsoft.portable-executable
+          
+      # Ubuntu
+      - name: Get Release File Name & Upload URL - Ubuntu
+        id: get_release_info_linux
+        if: matrix.platform.ubuntu-latest
+        env:
+          TAG_REF_NAME: ${{ github.ref }}
+          REPOSITORY_NAME: ${{ github.repository }}
+        run: |
+          echo ::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v} # RepositoryName-v1.0.0
+          value=`cat release_url/release_url.txt`
+          echo ::set-output name=upload_url::$value:  
       - name: upload linux asset
         if: matrix.platform.ubuntu-latest
         id: upload-linux-asset
