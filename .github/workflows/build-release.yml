@@ -9,14 +9,12 @@ jobs:
   build:
     strategy:
       matrix:
-        platform: [windows-latest] # ubuntu-latest, macos-latest
+        platform: [ubuntu-latest] # ubuntu-latest, macos-latest
         
     runs-on: ${{ matrix.platform }}
 
     steps:
     - uses: actions/checkout@v1
-      with:
-        ref: master
     - uses: actions/setup-node@v1
       with:
         node-version: 12.x
@@ -41,7 +39,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ./dist/capra_web_ui-setup.exe
+        asset_path: ./dist/capra_web_ui_setup.exe
         asset_name: capra_web_ui_setup.exe
         asset_content_type: application/vnd.microsoft.portable-executable
 
