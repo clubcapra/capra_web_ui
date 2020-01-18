@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "outDir": "../../build/electron/",
+    "strict": true,
+    "esModuleInterop": true,
+    // "module": "commonjs",
+    // "moduleResolution": "node",
+    "removeComments": true,
+    "types": ["node", "electron"]
+  }
+}

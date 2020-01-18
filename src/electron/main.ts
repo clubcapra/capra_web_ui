@@ -1,9 +1,8 @@
-const electron = require('electron')
-const { app, BrowserWindow, ipcMain } = electron
-const path = require('path')
-const url = require('url')
-const isDev = require('./isDev')
-const { channels } = require('./shared/constants')
+import { app, BrowserWindow, ipcMain } from 'electron'
+import path from 'path'
+import url from 'url'
+import { isDev } from './isDev'
+import { channels } from './shared/constants'
 
 // WARNING!
 // DO NOT USE electron-devtools-installer
@@ -11,7 +10,7 @@ const { channels } = require('./shared/constants')
 // delete %AppData%/electron and %AppData%/[project name]
 // see https://stackoverflow.com/questions/57614066/electron-app-onready-never-being-called-and-electron-window-never-showing
 
-let mainWindow
+let mainWindow: Electron.BrowserWindow | null
 
 function createWindow() {
   mainWindow = new BrowserWindow({
