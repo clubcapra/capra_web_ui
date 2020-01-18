@@ -86,9 +86,9 @@ jobs:
           TAG_REF_NAME: ${{ github.ref }}
           REPOSITORY_NAME: ${{ github.repository }}
         run: |
-          echo ::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v} # RepositoryName-v1.0.0
+          echo ::set-output name=file_name::${$Env:REPOSITORY_NAME##*/}-${$Env:TAG_REF_NAME##*/v}
           SET value=`type release_url/release_url.txt`
-          echo ::set-output name=upload_url::%value%
+          echo ::set-output name=upload_url::$Env:value
 
       - name: Upload Windows Asset
         id: upload-windows-asset
