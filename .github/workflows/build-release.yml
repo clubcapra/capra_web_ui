@@ -31,9 +31,9 @@ jobs:
     - name: build
       run: |
         npm ci
-        npm run build:electron
-    - name: Upload Release Asset
-      id: upload-release-asset 
+        npm run build:electron:all
+    - name: upload windows asset
+      id: upload-windows-asset 
       uses: actions/upload-release-asset@v1.0.1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -42,4 +42,14 @@ jobs:
         asset_path: ./dist/capra_web_ui_setup.exe
         asset_name: capra_web_ui_setup.exe
         asset_content_type: application/vnd.microsoft.portable-executable
+    - name: upload linux asset
+      id: upload-linux-asset 
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        asset_path: ./dist/capra_web_ui_setup.deb
+        asset_name: capra_web_ui_setup.deb
+        asset_content_type: application/vnd.debian.binary-package
 
