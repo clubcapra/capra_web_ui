@@ -28,7 +28,7 @@ jobs:
     name: Create Github Release
     if: contains(github.ref, 'tags/v')
     needs: [test]
-    runs-on: [ubuntu-latest]
+    runs-on: ubuntu-latest
     steps:
       - name: Create Release
         id: create_release
@@ -52,10 +52,10 @@ jobs:
     name: Build and upload asset
     strategy:
       matrix:
-        platform: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest]
         node-version: [12]
 
-    runs-on: ${{ matrix.platform }}
+    runs-on: ${{ matrix.os }}
 
     if: contains(github.ref, 'tags/v')
     needs: [test, release]
