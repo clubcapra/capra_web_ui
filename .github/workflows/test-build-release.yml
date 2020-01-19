@@ -26,8 +26,8 @@ jobs:
 
   release:
     name: Create Github Release
-#     if: contains(github.ref, 'tags/v')
-#     needs: [test]
+    if: contains(github.ref, 'tags/v')
+    needs: [test]
     runs-on: ubuntu-latest
     steps:
       - name: Create Release
@@ -57,10 +57,9 @@ jobs:
 
     runs-on: ${{ matrix.os }}
 
-#     if: contains(github.ref, 'tags/v')
+    if: contains(github.ref, 'tags/v')
     
-#     needs: [test, release]
-    needs: [release]
+    needs: [test, release]
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
@@ -70,18 +69,18 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: release_url
-#       - name: Build
-#         run: |
-#           npm ci
-#           npm run build:electron
-#         env:
-#           CI: true
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build
+        run: |
+          npm ci
+          npm run build:electron
+        env:
+          CI: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Windows
-      - name: Get Release File Name & Upload URL - Windows
-        id: get_release_info_windows
+      - name: Get Release File Name & Upload URL
+        id: get_release_info
         if: matrix.os == 'windows-latest'
         env:
           TAG_REF_NAME: ${{ github.ref }}
@@ -93,36 +92,23 @@ jobs:
 
       - name: Upload Windows Asset
         id: upload-windows-asset
-        if: matrix.os == 'windows-latest'
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.get_release_info_windows.outputs.upload_url }}
+          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
           asset_path: ./dist/capra_web_ui_setup.exe
           asset_name: capra_web_ui_setup.exe
           asset_content_type: application/vnd.microsoft.portable-executable
           
-      # Ubuntu
-#       - name: Get Release File Name & Upload URL - Ubuntu
-#         id: get_release_info_ubuntu
-#         if: matrix.os == 'ubuntu-latest'
-#         env:
-#           TAG_REF_NAME: ${{ github.ref }}
-#           REPOSITORY_NAME: ${{ github.repository }}
-#         run: |
-          
-#           value=`cat release_url/release_url.txt`
-#           echo ::set-output name=upload_url::$value
-          
-#       - name: Upload Ubuntu Asset
-#         id: upload-linux-asset
-#         if: matrix.os == 'ubuntu-latest'
-#         uses: actions/upload-release-asset@v1.0.1
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#         with:
-#           upload_url: ${{ steps.get_release_info_ubuntu.outputs.upload_url }}
-#           asset_path: ./dist/capra_web_ui_setup.deb
-#           asset_name: capra_web_ui_setup.deb
-#           asset_content_type: application/vnd.debian.binary-package
+      - name: Upload Ubuntu Asset
+        id: upload-linux-asset
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+          asset_path: ./dist/capra_web_ui_setup.deb
+          asset_name: capra_web_ui_setup.deb
+          asset_content_type: application/vnd.debian.binary-package
