@@ -58,6 +58,8 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     if: contains(github.ref, 'tags/v')
+    
+#     needs: [test, release]
     needs: [test, release]
 
     steps:
@@ -69,14 +71,14 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: release_url
-      - name: Build
-        run: |
-          npm ci
-          npm run build:electron
-        env:
-          CI: true
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#       - name: Build
+#         run: |
+#           npm ci
+#           npm run build:electron
+#         env:
+#           CI: true
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Windows
       - name: Get Release File Name & Upload URL - Windows
@@ -86,9 +88,10 @@ jobs:
           TAG_REF_NAME: ${{ github.ref }}
           REPOSITORY_NAME: ${{ github.repository }}
         shell: pwsh
+        # echo "::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v}"
         run: |
-          echo "::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v}"
-          SET value=`type release_url/release_url.txt`
+          SET value=`cat release_url/release_url.txt`
+          cat release_url/release_url.txt
           echo $Env:value
           echo %value%
           echo value
@@ -113,8 +116,9 @@ jobs:
         env:
           TAG_REF_NAME: ${{ github.ref }}
           REPOSITORY_NAME: ${{ github.repository }}
+#         echo ::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v}
         run: |
-          echo ::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v}
+          
           value=`cat release_url/release_url.txt`
           echo ::set-output name=upload_url::$value
       - name: Upload Ubuntu Asset
