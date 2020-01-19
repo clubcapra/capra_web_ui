@@ -89,12 +89,12 @@ jobs:
         shell: pwsh
         # echo "::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v}"
         run: |
+          cat release_url/release_url.txt | $value
           SET value=`cat release_url/release_url.txt`
-          cat release_url/release_url.txt
-          echo $Env:value
-          echo %value%
-          echo value
-          echo "::set-output name=upload_url::$Env:value"
+          echo "$Env:value" $Env:value
+          echo $value
+          New-Variable url = "::set-output name=upload_url::" + $Env:value
+          echo url
 
       - name: Upload Windows Asset
         id: upload-windows-asset
