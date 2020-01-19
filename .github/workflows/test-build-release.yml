@@ -52,7 +52,7 @@ jobs:
     name: Build & Upload Assets
     strategy:
       matrix:
-        os: [windows-latest]
+        os: [windows-latest, ubuntu-latest]
         node-version: [12]
 
     runs-on: ${{ matrix.os }}
