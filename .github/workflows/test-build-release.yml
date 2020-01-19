@@ -89,6 +89,9 @@ jobs:
         run: |
           echo "::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v}"
           SET value=`type release_url/release_url.txt`
+          echo $Env:value
+          echo %value%
+          echo value
           echo "::set-output name=upload_url::$Env:value"
 
       - name: Upload Windows Asset
