@@ -27,7 +27,7 @@ jobs:
   release:
     name: Create Github Release
 #     if: contains(github.ref, 'tags/v')
-    needs: [test]
+#     needs: [test]
     runs-on: ubuntu-latest
     steps:
       - name: Create Release
@@ -59,8 +59,8 @@ jobs:
 
 #     if: contains(github.ref, 'tags/v')
     
-    needs: [test, release]
-
+#     needs: [test, release]
+    needs: [release]
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
@@ -86,15 +86,10 @@ jobs:
         env:
           TAG_REF_NAME: ${{ github.ref }}
           REPOSITORY_NAME: ${{ github.repository }}
-        shell: pwsh
-        # echo "::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v}"
+        shell: bash
         run: |
-          cat release_url/release_url.txt | $value
-          SET value=`cat release_url/release_url.txt`
-          echo "$Env:value" $Env:value
-          echo $value
-          New-Variable url = "::set-output name=upload_url::" + $Env:value
-          echo url
+          value=`cat release_url/release_url.txt`
+          echo ::set-output name=upload_url::$value
 
       - name: Upload Windows Asset
         id: upload-windows-asset
