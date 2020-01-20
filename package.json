@@ -40,7 +40,7 @@
     "extends": null
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^1.2.2",
+    "@reduxjs/toolkit": "^1.2.3",
     "@types/roslib": "1.0.0",
     "chart.js": "^2.9.3",
     "chartjs-plugin-streaming": "^1.8.0",
