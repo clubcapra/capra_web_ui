@@ -9,24 +9,24 @@
   "description": "User Interface for ROS based robots",
   "private": true,
   "homepage": "./",
-  "main": "src/electron/main.js",
+  "main": "build/electron/main.js",
   "scripts": {
     "start": "concurrently -k -s first -n react,electron npm:start:react npm:start:electron",
     "start:react": "react-app-rewired start",
-    "start:electron": "wait-on http://localhost:3000 && electron .",
-    "build": "npm run build:react",
+    "start:electron": "npm run build:electron:ts && wait-on http://localhost:3000 && electron .",
+    "build": "concurrently npm:build:react npm:build:electron:ts",
     "build:react": "react-app-rewired build",
-    "build:electron": "npm run build:react && electron-builder",
+    "build:electron": "npm run build && electron-builder",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
     "lint": "eslint --ext js,ts,tsx src",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build:electron:ts": "cd ./src/electron/ && tsc"
   },
   "build": {
     "appId": "com.clubcapra.capra_web_ui",
     "files": [
-      "build/**/*",
-      "src/electron/**/*.js"
+      "build/**/*"
     ],
     "linux": {
       "target": [
@@ -36,9 +36,6 @@
     "directories": {
       "buildResources": "./src/assets/build"
     },
-    "extraResources": [
-      "src/assets/images/*"
-    ],
     "artifactName": "capra_web_ui_setup.${ext}",
     "extends": null
   },
@@ -63,10 +60,10 @@
     "typescript": "3.7.5"
   },
   "devDependencies": {
-    "@types/chart.js": "^2.9.9",
+    "@types/chart.js": "^2.9.10",
     "@types/jest": "24.9.0",
     "@types/lodash": "^4.14.149",
-    "@types/node": "13.1.7",
+    "@types/node": "12.12.25",
     "@types/react": "16.9.17",
     "@types/react-dom": "16.9.4",
     "@types/react-redux": "^7.1.6",
