@@ -4,25 +4,26 @@ import {
   RightStatusBar,
   LeftStatusBar,
 } from './StatusBar.styles'
-import { fullIpAddress } from 'store/modules/ros/reducer'
 import { TimeDisplay } from 'components/StatusBar/TimeDisplay'
 import { useSelector } from 'utils/hooks/typedUseSelector'
 import { NetworkDisplay } from './NetworkInfo'
 import { FaTruckMonster, FaHandPaper } from 'react-icons/fa'
+import { useService } from '@xstate/react'
+import { rosService, fullAddressSelector } from 'state/ros'
 
 const RosConnectionStatus: FC = () => {
-  const robotIpAddress = useSelector(fullIpAddress)
-  const connected = useSelector(state => state.ros.connected)
-  const tryingToConnect = useSelector(state => state.ros.tryingToConnect)
+  const [state] = useService(rosService)
+
+  const fullAddress = fullAddressSelector(state.context)
 
   return (
-    <div>
-      {connected
-        ? `Connected to: ${robotIpAddress}`
-        : tryingToConnect
-        ? `Trying to connect to ${robotIpAddress}`
-        : 'Disconnected'}
-    </div>
+    <>
+      <div>
+        {state.matches('connected') && `Connected to ${fullAddress}`}
+        {state.matches('connecting') && `Trying to connect to ${fullAddress}`}
+        {state.matches('disconnected') && `Disconnected`}
+      </div>
+    </>
   )
 }
 

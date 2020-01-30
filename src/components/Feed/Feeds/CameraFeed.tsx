@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { ICameraFeed, CameraType } from 'store/modules/feed/@types'
 
-import { useSelector } from 'utils/hooks/typedUseSelector'
 import { FC, useEffect, useRef } from 'react'
-import { selectVideoUrl } from 'store/modules/ros/reducer'
 import { styled } from 'globalStyles/styled'
 import { NoFeed } from 'components/Feed/Feeds/NoFeed'
+import { useService } from '@xstate/react'
+import { rosService, videoUrlSelector } from 'state/ros'
 
 interface Props {
   feed: ICameraFeed
@@ -54,7 +54,8 @@ const Webcam: FC = () => {
 }
 
 const View: FC<Props> = ({ feed }) => {
-  const source = useSelector(selectVideoUrl(feed.camera))
+  const [state] = useService(rosService)
+  const source = videoUrlSelector(feed.camera)(state.context)
 
   switch (feed.camera.type) {
     case CameraType.MJPEG:
@@ -70,9 +71,9 @@ const View: FC<Props> = ({ feed }) => {
 }
 
 export const CameraFeed: FC<Props> = ({ feed }) => {
-  const connected = useSelector(
-    state => state.ros.connected || feed.camera.type === CameraType.WEBCAM
-  )
+  const [state] = useService(rosService)
+  const connected =
+    state.matches('connected') || feed.camera.type === CameraType.WEBCAM
 
   return (
     <CameraGrid>

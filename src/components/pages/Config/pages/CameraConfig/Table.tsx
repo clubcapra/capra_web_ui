@@ -8,7 +8,8 @@ import { StyledTable, StyledTableInput } from './Table.styles'
 import { Button } from 'components/common/Button'
 import { Modal } from 'components/common/Modal'
 import { useOpenClose } from 'utils/hooks/useOpenClose'
-import { selectVideoUrl } from 'store/modules/ros/reducer'
+import { useService } from '@xstate/react'
+import { rosService, videoUrlSelector } from 'state/ros'
 
 interface TableRowProps {
   feed: ICameraFeed
@@ -28,7 +29,12 @@ const TableRow: FC<TableRowProps> = ({ feed, updateCamera }) => {
   const removeCamera = () => dispatch(feedSlice.actions.removeFeed(id))
   const updateCameraId = updateCamera(id)
   const [isOpen, onOpen, onClose] = useOpenClose()
-  const snapshotSource = useSelector(selectVideoUrl(feed.camera, 'snapshot'))
+
+  const [state] = useService(rosService)
+  const snapshotSource = videoUrlSelector(
+    feed.camera,
+    'snapshot'
+  )(state.context)
 
   return (
     <tr>
