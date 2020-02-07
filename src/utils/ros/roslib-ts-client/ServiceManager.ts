@@ -1,23 +1,26 @@
 import { Ros, Service, ServiceRequest } from 'roslib'
-import { ServiceOptions } from './@types'
+import RosClient, { ServiceOptions } from './@types'
 import { getServiceSignature } from './getSignature'
 
-class ServiceManager {
+export class ServiceManager {
   private ros: Ros
   private services: Map<string, Service> = new Map()
+  private client: RosClient
 
-  constructor(ros: Ros) {
+  constructor(ros: Ros, client: RosClient) {
     this.ros = ros
+    this.client = client
   }
 
   callService(options: ServiceOptions, payload?: unknown): Promise<unknown> {
     const service = this.getService(options)
 
-    const request = new ServiceRequest(payload)
+    const request = new ServiceRequest(payload ?? '')
 
-    const ret = new Promise((resolve, reject) =>
+    const ret = new Promise((resolve, reject) => {
+      if (this.client.isLogEnabled) console.log(service, request)
       service.callService(request, resolve, reject)
-    )
+    })
 
     return ret
   }
@@ -30,7 +33,8 @@ class ServiceManager {
 
     const service = new Service({
       ros: this.ros,
-      ...options,
+      name: options.name,
+      serviceType: options.serviceType ?? '',
     })
 
     this.services.set(signature, service)

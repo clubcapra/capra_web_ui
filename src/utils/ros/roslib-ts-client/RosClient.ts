@@ -17,7 +17,7 @@ interface RosClientOptions {
 
 const defaultOptions: RosClientOptions = {
   shouldTryToReconnect: false,
-  enableLogging: false,
+  enableLogging: false, // TODO add a UI toggle
   enableSsl: false,
 }
 
@@ -36,14 +36,14 @@ export default class RosClient {
     port = '9090',
     options: RosClientOptions = defaultOptions
   ) {
-    const rosInstance = new Ros({})
-    this.ros = rosInstance
-    this.topicManager = new TopicManager(rosInstance)
-    this.serviceManager = new ServiceManager(rosInstance)
-
     this.robotIP = robotIP
     this.port = port
     this.options = options
+
+    const rosInstance = new Ros({})
+    this.ros = rosInstance
+    this.topicManager = new TopicManager(rosInstance, this)
+    this.serviceManager = new ServiceManager(rosInstance, this)
   }
 
   setOptions(options: RosClientOptions) {
@@ -133,7 +133,7 @@ export default class RosClient {
     }
   }
 
-  private get isLogEnabled() {
+  get isLogEnabled() {
     return process.env.NODE_ENV !== 'production' && this.options.enableLogging
   }
 }

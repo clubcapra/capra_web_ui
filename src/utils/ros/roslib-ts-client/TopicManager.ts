@@ -1,5 +1,5 @@
 import { Ros, Topic, Message } from 'roslib'
-import { TopicOptions } from './@types'
+import RosClient, { TopicOptions } from './@types'
 import RegisteredTopic from './RegisteredTopic'
 import { getTopicSignature } from './getSignature'
 
@@ -7,9 +7,11 @@ class TopicManager {
   private ros: Ros
   private registeredTopics: Map<string, RegisteredTopic> = new Map()
   private topics: Map<string, Topic> = new Map()
+  private client: RosClient
 
-  constructor(ros: Ros) {
+  constructor(ros: Ros, client: RosClient) {
     this.ros = ros
+    this.client = client
   }
 
   subscribe(options: TopicOptions, handler: Function) {
@@ -31,6 +33,7 @@ class TopicManager {
   }
 
   publish({ name, messageType }: TopicOptions, payload: unknown) {
+    if (this.client.isLogEnabled) console.log(name, payload)
     this.getTopic({ name, messageType }).publish(new Message(payload))
   }
 

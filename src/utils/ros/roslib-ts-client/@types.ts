@@ -19,5 +19,5 @@ export interface TopicWithData<T> {
 
 export interface ServiceOptions {
   name: string
-  serviceType: string
+  serviceType?: string
 }
