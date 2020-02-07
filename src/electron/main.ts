@@ -12,6 +12,8 @@ import { channels } from './shared/constants'
 
 let mainWindow: Electron.BrowserWindow | null
 
+app.allowRendererProcessReuse = true
+
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 900,
