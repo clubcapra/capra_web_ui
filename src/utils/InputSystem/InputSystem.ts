@@ -111,17 +111,6 @@ export class InputSystem {
 
       if (!gamepad || isInvalidGamepad(gamepad)) continue
 
-      // if (gamepad.timestamp && gamepad.timestamp === this.lastTimestamp[i])
-      //   continue
-
-      // make sure the gamepad actually changed, since the timestamp
-      // seems to change on every gamepad at the same time
-      // if (
-      //   _.isEqual(gamepad.axes, this.lastGamepad[i].axes) &&
-      //   _.isEqual(gamepad.buttons, this.lastGamepad[i].buttons)
-      // )
-      //   continue
-
       const gamepadState: GamepadState = {
         gamepad,
         prevGamepad: this.lastGamepad[i],
