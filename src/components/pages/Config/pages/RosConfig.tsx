@@ -50,9 +50,21 @@ const DataSection = () => {
   )
 }
 
+const DetectedGamepad = () => {
+  const gamepads = navigator.getGamepads()
+
+  return (
+    <>
+      <SectionTitle>Gamepads Detected</SectionTitle>
+      <ul>{gamepads.map(g => g && <li key={g?.id}>{g?.id}</li>)}</ul>
+    </>
+  )
+}
+
 export const RosConfig: FC = () => (
   <>
     <ConnectionSection />
     <DataSection />
+    <DetectedGamepad />
   </>
 )
