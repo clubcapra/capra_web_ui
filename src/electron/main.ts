@@ -61,7 +61,7 @@ app.on('activate', () => {
 
 ipcMain.on(channels.APP_INFO, event => {
   event.sender.send(channels.APP_INFO, {
-    appName: app.getName(),
+    appName: app.name,
     appVersion: app.getVersion(),
   })
 })

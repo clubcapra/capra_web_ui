@@ -9,5 +9,5 @@ export const getTopicSignature = ({ name, messageType }: TopicOptions) => {
 }
 
 export const getServiceSignature = ({ name, serviceType }: ServiceOptions) => {
-  return getSignature(name, serviceType)
+  return getSignature(name, serviceType ?? '')
 }
