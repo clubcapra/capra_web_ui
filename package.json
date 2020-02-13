@@ -59,9 +59,9 @@
     "ros3d": "^1.0.1",
     "roslib": "^1.1.0",
     "shortid": "^2.2.15",
-    "styled-components": "^5.1.0",
-    "xstate": "^4.7.7",
+    "xstate": "^4.7.8"
     "typescript": "3.8.3"
+    "styled-components": "^5.1.0",
   },
   "devDependencies": {
     "@types/chart.js": "^2.9.19",
