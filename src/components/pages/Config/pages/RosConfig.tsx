@@ -51,7 +51,7 @@ const DataSection = () => {
 }
 
 const DetectedGamepad = () => {
-  const gamepads = navigator.getGamepads()
+  const gamepads = [...navigator.getGamepads()]
 
   return (
     <>
