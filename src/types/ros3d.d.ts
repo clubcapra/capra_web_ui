@@ -142,7 +142,4 @@ declare module 'ros3d' {
       warnings?: boolean
     })
   }
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface, @typescript-eslint/class-name-casing
-  class COLLADA_LOADER_2 {}
 }
