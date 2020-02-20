@@ -22,6 +22,7 @@ function createWindow() {
     title: 'capra_web_ui',
     webPreferences: {
       nodeIntegration: true,
+      webSecurity: false, // Allow CORS for robot_description server
     },
   })
 

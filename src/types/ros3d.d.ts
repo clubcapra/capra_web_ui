@@ -5,7 +5,6 @@
 
 declare module 'ros3d' {
   import { Ros, TFClient } from 'roslib'
-
   /**
    * A URDF client can be used to load a URDF and its associated models into a 3D object from the ROS
    * parameter server.
@@ -36,7 +35,6 @@ declare module 'ros3d' {
       loader?: any
     })
   }
-
   /**
    * A Viewer can be used to render an interactive 3D scene to a HTML5 canvas.
    *
@@ -59,7 +57,6 @@ declare module 'ros3d' {
    */
   class Viewer {
     scene: any
-
     constructor(params: {
       divID: string
       width: number
@@ -79,22 +76,18 @@ declare module 'ros3d' {
       displayPanAndZoomFrame?: boolean
       lineTypePanAndZoomFrame?: string
     })
-
     /**
      *  Start the render loop
      */
     start(): void
-
     /**
      *  Stop the render loop
      */
     stop(): void
-
     /**
      * Renders the associated scene to the viewer.
      */
     draw(): void
-
     /**
      * Add the given THREE Object3D to the global scene in the viewer.
      *
@@ -102,7 +95,6 @@ declare module 'ros3d' {
      * @param selectable (optional) - if the object should be added to the selectable list
      */
     addObject(object: object, selectable?: boolean): void
-
     /**
      * Resize 3D viewer
      *
@@ -111,7 +103,6 @@ declare module 'ros3d' {
      */
     resize(width: number, height: number): void
   }
-
   /**
    * Create a grid object.
    *
@@ -131,7 +122,6 @@ declare module 'ros3d' {
       cellSize?: number
     })
   }
-
   /**
    * A MeshResource is an THREE object that will load from a external mesh file. Currently loads
    * Collada files.
@@ -152,6 +142,4 @@ declare module 'ros3d' {
       warnings?: boolean
     })
   }
-
-  type COLLADA_LOADER = any
 }
