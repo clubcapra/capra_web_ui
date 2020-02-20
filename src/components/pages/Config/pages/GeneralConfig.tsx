@@ -30,11 +30,14 @@ const ConnectionSection = () => {
   return (
     <>
       <SectionTitle>Connection</SectionTitle>
-      <div style={{ display: 'flex' }}>
-        <LabeledInput label="IP address" value={IP} onChange={updateIp} />
-        <LabeledInput label="Port" value={port} onChange={updatePort} />
-      </div>
       <Button onClick={connect}>Connect</Button>
+
+      <LabeledInput label="IP address" value={IP} onChange={updateIp} />
+      <LabeledInput
+        label="rosbrige_server port"
+        value={port}
+        onChange={updatePort}
+      />
     </>
   )
 }
@@ -61,7 +64,7 @@ const DetectedGamepad = () => {
   )
 }
 
-export const RosConfig: FC = () => (
+export const GeneralConfig: FC = () => (
   <>
     <ConnectionSection />
     <DataSection />

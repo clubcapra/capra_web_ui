@@ -9,8 +9,8 @@ export const ConfigMenu: FC = () => {
     <aside>
       <MenuList>
         <li>
-          <StyledNavLink to="/config/ros" activeClassName="is-active">
-            ROS
+          <StyledNavLink to="/config/general" activeClassName="is-active">
+            General
           </StyledNavLink>
         </li>
         <li>
