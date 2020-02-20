@@ -9,4 +9,6 @@ export interface RosState {
   tryingToConnect: boolean
   connectingToastId: ReactText
   errorToastId: ReactText
+  descriptionServerPort: string
+  baseLinkName: string
 }

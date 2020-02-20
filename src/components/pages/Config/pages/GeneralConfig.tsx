@@ -30,13 +30,45 @@ const ConnectionSection = () => {
   return (
     <>
       <SectionTitle>Connection</SectionTitle>
-      <Button onClick={connect}>Connect</Button>
 
       <LabeledInput label="IP address" value={IP} onChange={updateIp} />
       <LabeledInput
         label="rosbrige_server port"
         value={port}
         onChange={updatePort}
+      />
+      <Button onClick={connect}>Connect</Button>
+    </>
+  )
+}
+
+const UrdfDescriptionSection = () => {
+  const dispatch = useDispatch()
+
+  const descriptionPort = useSelector(state => state.ros.descriptionServerPort)
+  const baseLinkName = useSelector(state => state.ros.baseLinkName)
+
+  const updateDescriptionPort = (e: ChangeEvent<HTMLInputElement>): void => {
+    dispatch(rosSlice.actions.setDescriptionServerPort(e.target.value))
+  }
+
+  const updateBaseLinkName = (e: ChangeEvent<HTMLInputElement>): void => {
+    dispatch(rosSlice.actions.setBaseLinkName(e.target.value))
+  }
+
+  return (
+    <>
+      <SectionTitle>Urdf Description</SectionTitle>
+
+      <LabeledInput
+        label="description server port"
+        value={descriptionPort}
+        onChange={updateDescriptionPort}
+      />
+      <LabeledInput
+        label="base_link name"
+        value={baseLinkName}
+        onChange={updateBaseLinkName}
       />
     </>
   )
@@ -67,6 +99,7 @@ const DetectedGamepad = () => {
 export const GeneralConfig: FC = () => (
   <>
     <ConnectionSection />
+    <UrdfDescriptionSection />
     <DataSection />
     <DetectedGamepad />
   </>
