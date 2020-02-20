@@ -46,7 +46,7 @@ src is essentially the root folder everything else is configuration files that s
     - **gamepad**: wrapper to simplify using the gamepad api and also does the input handling
     - **math**: math stuff like Vecor2/Vector3
     - **ros**: RosClient is a wrapper for the roslibjs library to simplify usage
-    - **hooks**:  contains custom hooks to simplify development
+    - **hooks**: contains custom hooks to simplify development
   - **App.tsx**: main entry point of the react app
   - **index.tsx**: main entry point of the entire web app. This should rarely change.
 
@@ -94,14 +94,14 @@ It is highly recommended to use [Visual Studio Code](https://code.visualstudio.c
     {
       "autoFix": true,
       "language": "typescriptreact"
-    },
+    }
   ],
   "javascript.format.enable": false,
   "javascript.validate.enable": false,
   "javascript.updateImportsOnFileMove.enabled": "always",
   "typescript.updateImportsOnFileMove.enabled": "always",
   "javascript.preferences.importModuleSpecifier": "non-relative",
-  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.importModuleSpecifier": "non-relative"
 }
 ```
 
@@ -161,7 +161,7 @@ First you need to have a small web server running in the folder containing the r
 
 For example, for our markhor robot:
 
-``` bash
+```bash
 cd catkin_ws/src/markhor
 
 # launch a server with python on port 88
@@ -172,10 +172,18 @@ Note: the port for the robot_description is currently hardcoded to 88. It will b
 
 After that you need to `rosrun` a robot_description
 
+Run each of these in a separate terminal
+
+`rosrun tf2_web_republisher tf2_web_republisher`
+
+`roslaunch web_video_server web_video_server.launch`
+
+`roslaunch rosbridge_server rosbridge_websocket.launch`
+
+or
+
 ```bash
-rosrun tf2_web_republisher tf2_web_republisher
-roslaunch web_video_server web_video_server.launch
-roslaunch rosbridge_server rosbridge_websocket.launch
+rosrun tf2_web_republisher tf2_web_republisher & roslaunch web_video_server web_video_server.launch & roslaunch rosbridge_server rosbridge_websocket.launch
 ```
 
 <!-- TODO point to launch file -->
