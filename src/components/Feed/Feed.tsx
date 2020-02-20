@@ -21,7 +21,7 @@ export const Feed: FC<FeedProps> = ({ id, defaultFeed }) => {
   const allFeeds = useSelector(selectAllFeeds)
 
   const feed = useMemo(() => {
-    if (mappedFeed) {
+    if (mappedFeed && allFeeds[mappedFeed.feedId]) {
       return allFeeds[mappedFeed.feedId]
     }
     if (defaultFeed && allFeeds[defaultFeed]) {
