@@ -5,6 +5,7 @@ import { useSelector } from 'utils/hooks/typedUseSelector'
 import { FC, useEffect, useRef } from 'react'
 import { selectVideoUrl } from 'store/modules/ros/reducer'
 import { styled } from 'globalStyles/styled'
+import { NoFeed } from 'components/Feed/Feeds/NoFeed'
 
 interface Props {
   feed: ICameraFeed
@@ -27,14 +28,6 @@ const StyledImg = styled.img`
   height: 100%;
 `
 
-const StyledNoVideo = styled.p`
-  display: grid;
-`
-
-const NoVideo: FC<{ text: string }> = ({ text }) => (
-  <StyledNoVideo>{text}</StyledNoVideo>
-)
-
 const Webcam: FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null)
 
@@ -56,7 +49,7 @@ const Webcam: FC = () => {
   return videoRef.current ? (
     <StyledVideo ref={videoRef} autoPlay />
   ) : (
-    <NoVideo text="webcam not supported" />
+    <NoFeed text="webcam not supported" />
   )
 }
 
@@ -72,7 +65,7 @@ const View: FC<Props> = ({ feed }) => {
     case CameraType.WEBCAM:
       return <Webcam />
     default:
-      return <NoVideo text="stream type not supported" />
+      return <NoFeed text="stream type not supported" />
   }
 }
 
@@ -83,7 +76,7 @@ export const CameraFeed: FC<Props> = ({ feed }) => {
 
   return (
     <CameraGrid>
-      {connected ? <View feed={feed} /> : <NoVideo text="no video" />}
+      {connected ? <View feed={feed} /> : <NoFeed text="no video" />}
     </CameraGrid>
   )
 }
