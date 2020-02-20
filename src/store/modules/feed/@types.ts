@@ -14,10 +14,7 @@ export interface FeedMapValue {
 
 export enum FeedTypeEnum {
   camera,
-  minimap2D,
-  minimap3D,
-  model,
-  joystick,
+  urdf,
 }
 
 export enum CameraType {
@@ -31,12 +28,7 @@ export interface FeedCollection {
   [feedId: string]: FeedType
 }
 
-export type FeedType =
-  | ICameraFeed
-  | IMinimap2DFeed
-  | IMinimap3DFeed
-  | IModelFeed
-  | IJoystickFeed
+export type FeedType = ICameraFeed | IUrdfFeed
 
 interface IFeed {
   type: FeedTypeEnum
@@ -55,20 +47,7 @@ export interface ICameraData {
   topic: string
 }
 
-export interface IMinimap2DFeed extends IFeed {
-  type: FeedTypeEnum.minimap2D
-}
-
-export interface IMinimap3DFeed extends IFeed {
-  type: FeedTypeEnum.minimap3D
-}
-
-export interface IModelFeed extends IFeed {
-  type: FeedTypeEnum.model
-  id: string
-}
-
-export interface IJoystickFeed extends IFeed {
-  type: FeedTypeEnum.joystick
+export interface IUrdfFeed extends IFeed {
+  type: FeedTypeEnum.urdf
   id: string
 }

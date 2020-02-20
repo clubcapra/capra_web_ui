@@ -4,7 +4,6 @@ Web based user interface for ROS based robots.
 
 ## Table of contents
 
-- [Hosted on github pages](#hosted-on-github-pages)
 - [Table of contents](#table-of-contents)
 - [Technologies used](#technologies-used)
 - [Folder structure](#folder-structure)
@@ -156,7 +155,27 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 - [rosbrige_suite](http://wiki.ros.org/rosbridge_suite)
 - [web_video_server](http://wiki.ros.org/web_video_server)
+- [tf2_web_republisher](https://wiki.ros.org/tf2_web_republisher)
 
-Use `takin_web_ui.launch` in <https://github.com/clubcapra/takin_bringup/tree/master/launch> to launch necessary ros dependencies.
+First you need to have a small web server running in the folder containing the robot_description
 
-TODO change the launch file
+For example, for our markhor robot:
+
+``` bash
+cd catkin_ws/src/markhor
+
+# launch a server with python on port 88
+python3 -m http.server 88
+```
+
+Note: the port for the robot_description is currently hardcoded to 88. It will be configurable in the future.
+
+After that you need to `rosrun` a robot_description
+
+```bash
+rosrun tf2_web_republisher tf2_web_republisher
+roslaunch web_video_server web_video_server.launch
+roslaunch rosbridge_server rosbridge_websocket.launch
+```
+
+<!-- TODO point to launch file -->
