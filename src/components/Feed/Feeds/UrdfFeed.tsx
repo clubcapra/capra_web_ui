@@ -62,6 +62,8 @@ function useUrdfViewerRef(): [
 const View: FC<Props> = ({ feed }) => {
   const [viewer, id, ref] = useUrdfViewerRef()
   const IP = useSelector(state => state.ros.IP)
+  const port = useSelector(state => state.ros.descriptionServerPort)
+  const baseLinkName = useSelector(state => state.ros.descriptionServerPort)
 
   useEffect(() => {
     if (!viewer) return
@@ -75,16 +77,16 @@ const View: FC<Props> = ({ feed }) => {
       angularThres: 0.01,
       transThres: 0.01,
       rate: 10.0,
-      fixedFrame: 'markhor_link_base', // TODO base_link should be configurable
+      fixedFrame: baseLinkName,
     })
 
     new ROS3D.UrdfClient({
       ros: ros,
       tfClient: tfClient,
-      path: `http://${IP}:88`, // TODO configurable robot model server port
+      path: `http://${IP}:${port}`,
       rootObject: viewer.scene,
     })
-  }, [IP, viewer])
+  }, [IP, baseLinkName, port, viewer])
 
   return <StyledViewer id={id} ref={ref} />
 }

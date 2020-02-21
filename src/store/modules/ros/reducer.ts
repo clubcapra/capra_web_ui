@@ -13,6 +13,8 @@ export const initialState: RosState = {
   tryingToConnect: false,
   connectingToastId: '',
   errorToastId: '',
+  descriptionServerPort: '88',
+  baseLinkName: 'markhor_link_base',
 }
 
 export const rosSlice = createSlice({
@@ -27,6 +29,12 @@ export const rosSlice = createSlice({
     },
     setVideoServerPort: (state, { payload }: PayloadAction<string>) => {
       state.videoServerPort = payload
+    },
+    setDescriptionServerPort: (state, { payload }: PayloadAction<string>) => {
+      state.descriptionServerPort = payload
+    },
+    setBaseLinkName: (state, { payload }: PayloadAction<string>) => {
+      state.baseLinkName = payload
     },
     setConnected: (state, { payload }: PayloadAction<boolean>) => {
       toast.dismiss(state.connectingToastId)
