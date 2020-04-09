@@ -1,6 +1,4 @@
 import React, { FC, ChangeEvent } from 'react'
-import { useDispatch } from 'react-redux'
-import { rosSlice } from 'store/modules/ros/reducer'
 import { LabeledInput } from 'components/common/LabeledInput'
 import { Button } from 'components/common/Button'
 import { SectionTitle } from 'components/pages/Config/styles'
@@ -75,7 +73,7 @@ const DetectedGamepad = () => {
   return (
     <>
       <SectionTitle>Gamepads Detected</SectionTitle>
-      <ul>{gamepads.map(g => g && <li key={g?.id}>{g?.id}</li>)}</ul>
+      <ul>{gamepads.map((g) => g && <li key={g?.id}>{g?.id}</li>)}</ul>
     </>
   )
 }
