@@ -1,59 +1,52 @@
 import React, { FC, ChangeEvent } from 'react'
-import { useSelector } from 'utils/hooks/typedUseSelector'
-import { useDispatch } from 'react-redux'
-import { rosSlice } from 'store/modules/ros/reducer'
-import { rosClient } from 'utils/ros/rosClient'
 import { LabeledInput } from 'components/common/LabeledInput'
 import { Button } from 'components/common/Button'
 import { SectionTitle } from 'components/pages/Config/styles'
-import { RESET_STATE } from 'store/rootReducer'
+import { useService } from '@xstate/react'
+import { rosService } from 'state/ros'
 
 const ConnectionSection = () => {
-  const dispatch = useDispatch()
-
-  const IP = useSelector(state => state.ros.IP)
-  const port = useSelector(state => state.ros.port)
+  const [state, send] = useService(rosService)
+  const { IP, port } = state.context
 
   const updateIp = (e: ChangeEvent<HTMLInputElement>): void => {
-    dispatch(rosSlice.actions.setIp(e.target.value))
+    send({ type: 'SET_IP', IP: e.target.value })
   }
 
   const updatePort = (e: ChangeEvent<HTMLInputElement>): void => {
-    dispatch(rosSlice.actions.setPort(e.target.value))
+    send({ type: 'SET_PORT', port: e.target.value })
   }
 
   const connect = () => {
-    rosClient.connect(IP, port)
-    dispatch(rosSlice.actions.tryToConnect())
+    send({ type: 'CONNECT' })
   }
 
   return (
     <>
       <SectionTitle>Connection</SectionTitle>
-
       <LabeledInput label="IP address" value={IP} onChange={updateIp} />
       <LabeledInput
         label="rosbrige_server port"
         value={port}
         onChange={updatePort}
       />
-      <Button onClick={connect}>Connect</Button>
+      <Button onClick={connect} disabled={state.matches('connecting')}>
+        Connect
+      </Button>
     </>
   )
 }
 
 const UrdfDescriptionSection = () => {
-  const dispatch = useDispatch()
-
-  const descriptionPort = useSelector(state => state.ros.descriptionServerPort)
-  const baseLinkName = useSelector(state => state.ros.baseLinkName)
+  const [state, send] = useService(rosService)
+  const { descriptionServerPort, baseLinkName } = state.context
 
   const updateDescriptionPort = (e: ChangeEvent<HTMLInputElement>): void => {
-    dispatch(rosSlice.actions.setDescriptionServerPort(e.target.value))
+    send({ type: 'SET_DESCRIPTION_SERVER_PORT', port: e.target.value })
   }
 
   const updateBaseLinkName = (e: ChangeEvent<HTMLInputElement>): void => {
-    dispatch(rosSlice.actions.setBaseLinkName(e.target.value))
+    send({ type: 'SET_BASE_LINK_NAME', name: e.target.value })
   }
 
   return (
@@ -62,9 +55,10 @@ const UrdfDescriptionSection = () => {
 
       <LabeledInput
         label="description server port"
-        value={descriptionPort}
+        value={descriptionServerPort}
         onChange={updateDescriptionPort}
       />
+
       <LabeledInput
         label="base_link name"
         value={baseLinkName}
@@ -74,24 +68,12 @@ const UrdfDescriptionSection = () => {
   )
 }
 
-const DataSection = () => {
-  const dispatch = useDispatch()
-
-  return (
-    <>
-      <SectionTitle>Data</SectionTitle>
-      <Button onClick={() => dispatch(RESET_STATE)}>Reset Default</Button>
-    </>
-  )
-}
-
 const DetectedGamepad = () => {
   const gamepads = [...navigator.getGamepads()]
-
   return (
     <>
       <SectionTitle>Gamepads Detected</SectionTitle>
-      <ul>{gamepads.map(g => g && <li key={g?.id}>{g?.id}</li>)}</ul>
+      <ul>{gamepads.map((g) => g && <li key={g?.id}>{g?.id}</li>)}</ul>
     </>
   )
 }
@@ -100,7 +82,6 @@ export const GeneralConfig: FC = () => (
   <>
     <ConnectionSection />
     <UrdfDescriptionSection />
-    <DataSection />
     <DetectedGamepad />
   </>
 )

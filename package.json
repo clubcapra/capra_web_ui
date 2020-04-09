@@ -43,6 +43,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.3.4",
     "@types/roslib": "1.0.0",
+    "@xstate/react": "^0.8.1",
     "chart.js": "^2.9.3",
     "chartjs-plugin-streaming": "^1.8.0",
     "date-fns": "^2.11.1",
@@ -58,8 +59,9 @@
     "ros3d": "^1.0.1",
     "roslib": "^1.1.0",
     "shortid": "^2.2.15",
-    "styled-components": "^5.1.0",
-    "typescript": "3.8.3"
+    "xstate": "^4.7.8",
+    "typescript": "3.8.3",
+    "styled-components": "^5.1.0"
   },
   "devDependencies": {
     "@types/chart.js": "^2.9.19",
@@ -70,6 +72,7 @@
     "@types/react-dom": "^16.9.6",
     "@types/react-redux": "^7.1.7",
     "@types/react-router-dom": "^5.1.3",
+    "@types/roslib": "1.0.0",
     "@types/shortid": "0.0.29",
     "@types/styled-components": "^5.0.1",
     "concurrently": "^5.1.0",

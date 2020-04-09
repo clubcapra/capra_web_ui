@@ -6,6 +6,7 @@ type ButtonType = 'danger' | 'success' | 'primary'
 interface Props {
   onClick: () => void
   btnType?: ButtonType
+  disabled?: boolean
 }
 
 interface StyledButtonProps {
@@ -68,11 +69,20 @@ const StyledButton = styled.button<StyledButtonProps>`
   &:focus {
     outline: 0;
   }
+
+  &:disabled {
+    cursor: wait;
+  }
 `
 
-export const Button: FC<Props> = ({ children, onClick, btnType: type }) => {
+export const Button: FC<Props> = ({
+  children,
+  onClick,
+  btnType: type,
+  disabled = false,
+}) => {
   return (
-    <StyledButton onClick={onClick} btnType={type}>
+    <StyledButton onClick={onClick} btnType={type} disabled={disabled}>
       {children}
     </StyledButton>
   )

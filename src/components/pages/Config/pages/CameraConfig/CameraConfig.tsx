@@ -1,21 +1,21 @@
 import React, { ChangeEvent, FC } from 'react'
 import { useDispatch } from 'react-redux'
 import { CameraType } from 'store/modules/feed/@types'
-import { useSelector } from 'utils/hooks/typedUseSelector'
 import { CameraConfigWrapper } from 'components/pages/Config/pages/CameraConfig/CameraConfig.styles'
 import { feedSlice } from 'store/modules/feed/reducer'
 import { LabeledInput } from 'components/common/LabeledInput'
-import { rosSlice } from 'store/modules/ros/reducer'
 import { Table } from './Table'
 import { Button } from 'components/common/Button'
 import { SectionTitle } from 'components/pages/Config/styles'
+import { useService } from '@xstate/react'
+import { rosService } from 'state/ros'
 
 const VideoServerPortConfig: FC = () => {
-  const dispatch = useDispatch()
-  const videoServerPort = useSelector(state => state.ros.videoServerPort)
+  const [state, send] = useService(rosService)
+  const { videoServerPort } = state.context
 
   const updateVideoServerPort = (e: ChangeEvent<HTMLInputElement>) =>
-    dispatch(rosSlice.actions.setVideoServerPort(e.target.value))
+    send({ type: 'SET_VIDEO_SERVER_PORT', port: e.currentTarget.value })
 
   return (
     <>

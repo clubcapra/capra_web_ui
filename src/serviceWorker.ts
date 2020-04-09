@@ -1,6 +1,3 @@
-import { store } from 'store/store'
-import { pwaSlice } from 'store/modules/pwa/reducer'
-
 // This optional code is used to register a service worker.
 // register() is not called by default.
 
@@ -83,7 +80,7 @@ function registerValidSW(swUrl: string, config?: Config): void {
               // content until all client tabs are closed.
               // See https://bit.ly/CRA-PWA.
 
-              store.dispatch(pwaSlice.actions.onNewContentLoaded())
+              // store.dispatch(pwaSlice.actions.onNewContentLoaded())
 
               // Execute callback
               if (config && config.onUpdate) {
@@ -94,7 +91,7 @@ function registerValidSW(swUrl: string, config?: Config): void {
               // It's the perfect time to display a
               // "Content is cached for offline use." message.
 
-              store.dispatch(pwaSlice.actions.onContentLoaded())
+              // store.dispatch(pwaSlice.actions.onContentLoaded())
 
               // Execute callback
               if (config && config.onSuccess) {
@@ -132,7 +129,7 @@ function checkValidServiceWorker(swUrl: string, config?: Config): void {
       }
     })
     .catch(() => {
-      store.dispatch(pwaSlice.actions.onOfflineModeDetected())
+      // store.dispatch(pwaSlice.actions.onOfflineModeDetected())
     })
 }
 

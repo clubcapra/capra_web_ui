@@ -1,7 +1,8 @@
 import { rosClient } from 'utils/ros/rosClient'
 import { useEffect } from 'react'
-import { useSelector } from 'utils/hooks/typedUseSelector'
 import { TopicOptions } from 'utils/ros/roslib-ts-client/@types'
+import { useService } from '@xstate/react'
+import { rosService } from 'state/ros'
 
 /**
  * Subscribes to a specified topic
@@ -13,12 +14,12 @@ export const useRosSubscribe = <R>(
   topic: TopicOptions<R>,
   callback: (message: { data: R }) => void
 ) => {
-  const connected = useSelector(state => state.ros.connected)
+  const [state] = useService(rosService)
 
   useEffect(() => {
-    if (connected) {
+    if (state.matches('connected')) {
       rosClient.subscribe(topic, callback)
       return rosClient.unsubscribe(topic)
     }
-  }, [callback, connected, topic])
+  }, [callback, state, topic])
 }

@@ -5,6 +5,7 @@ import { rosClient } from 'utils/ros/rosClient'
 import { StyledStopButton } from './EStopButton.styles'
 import { useRosSubscribe } from 'utils/hooks/useRosSubscribe'
 import { TopicOptions } from 'utils/ros/roslib-ts-client/@types'
+import { useOpenClose } from 'utils/hooks/useOpenClose'
 
 const topic: TopicOptions<boolean> = {
   name: 'takin_estop_status',
@@ -34,15 +35,11 @@ const StopButton: FC<StopButtonProps> = ({ onClick }) => {
 }
 
 export const EStopButton: FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, openModal, closeModal] = useOpenClose()
 
   const stopRobot = () => {
     rosClient.callService({ name: 'takin_estop_disable', serviceType: '' }, '')
-    setIsModalOpen(true)
-  }
-
-  const closeModal = () => {
-    setIsModalOpen(false)
+    openModal()
   }
 
   const restartRobot = () => {

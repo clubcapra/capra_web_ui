@@ -1,22 +1,17 @@
 import RosClient from './roslib-ts-client/RosClient'
-import { store } from 'store/store'
-import { rosSlice, fullIpAddress } from 'store/modules/ros/reducer'
+import { rosService } from 'state/ros'
 
-const rosState = store.getState().ros
-export const rosClient = new RosClient(rosState.IP, rosState.port)
+const { IP, port } = rosService.state.context
+export const rosClient = new RosClient(IP, port)
 
 rosClient.setListeners({
   onConnection: () => {
-    store.dispatch(rosSlice.actions.setConnected(true))
+    rosService.send({ type: 'SUCCESS' })
   },
   onClose: () => {
-    store.dispatch(rosSlice.actions.setConnected(false))
+    rosService.send({ type: 'DISCONNECT' })
   },
   onError: () => {
-    store.dispatch(
-      rosSlice.actions.setError(
-        `Failed to connect to: ${fullIpAddress(store.getState())}`
-      )
-    )
+    rosService.send({ type: 'FAIL' })
   },
 })
