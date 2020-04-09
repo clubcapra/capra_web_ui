@@ -1,8 +1,8 @@
 import React, { FC } from 'react'
 import { Feed } from 'components/Feed/Feed'
-import { useArmControl } from 'utils/hooks/useArmControl'
+import { controlService } from 'state/control'
 
 export const Arm: FC = () => {
-  useArmControl()
+  controlService.send({ type: 'CONTROL_ARM' })
   return <Feed id="arm_main" defaultFeed="camera_3d_rgb" />
 }

@@ -5,11 +5,11 @@ import {
   LeftStatusBar,
 } from './StatusBar.styles'
 import { TimeDisplay } from 'components/StatusBar/TimeDisplay'
-import { useSelector } from 'utils/hooks/typedUseSelector'
 import { NetworkDisplay } from './NetworkInfo'
 import { FaTruckMonster, FaHandPaper } from 'react-icons/fa'
 import { useService } from '@xstate/react'
 import { rosService, fullAddressSelector } from 'state/ros'
+import { controlService } from 'state/control'
 
 const RosConnectionStatus: FC = () => {
   const [state] = useService(rosService)
@@ -28,8 +28,10 @@ const RosConnectionStatus: FC = () => {
 }
 
 const ControlStatus = () => {
-  const isArmControlled = useSelector((state) => state.gamepad.isArmControlled)
-  return <div>{isArmControlled ? <FaHandPaper /> : <FaTruckMonster />}</div>
+  const [state] = useService(controlService)
+  return (
+    <div>{state.matches('arm') ? <FaHandPaper /> : <FaTruckMonster />}</div>
+  )
 }
 
 export const StatusBar: FC = () => (

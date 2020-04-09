@@ -1,11 +1,9 @@
 import { combineReducers, AnyAction } from 'redux'
 import { feedSlice } from 'store/modules/feed/reducer'
-import { gamepadSlice } from 'store/modules/gamepad/reducer'
 import { clearStoreCache } from 'store/localStorage'
 
 const appReducer = combineReducers({
   feed: feedSlice.reducer,
-  gamepad: gamepadSlice.reducer,
 })
 
 export const RESET_STATE = { type: 'RESET_STATE' }

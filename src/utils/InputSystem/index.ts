@@ -1,12 +1,11 @@
 import { InputSystem } from 'utils/InputSystem/InputSystem'
-import { store } from 'store/store'
-import { gamepadSlice } from 'store/modules/gamepad/reducer'
 import { buttons, sticks } from 'utils/InputSystem/mappings'
 import { rosClient } from 'utils/ros/rosClient'
 import { Action } from 'utils/InputSystem/@types'
 import { TopicOptions } from 'utils/ros/roslib-ts-client/@types'
 import { ITwistMsg, IJoyMsg } from 'utils/ros/rosMsgs.types'
 import { Vector3 } from 'utils/math/types'
+import { controlService } from 'state/control'
 
 export const cmdVelTopic: TopicOptions = {
   name: '/cmd_vel',
@@ -104,7 +103,7 @@ const defaultActions: Action[] = [
     name: 'toggleArmControl',
     bindings: [{ type: 'gamepadBtn', button: buttons.dpad.right }],
     perform: () => {
-      store.dispatch(gamepadSlice.actions.toggleIsArmControlled())
+      controlService.send({ type: 'TOGGLE' })
     },
   },
   {
@@ -119,7 +118,7 @@ const defaultActions: Action[] = [
     bindings: [{ type: 'gamepad' }],
     perform: (ctx) => {
       if (ctx.type !== 'gamepad') return
-      if (store.getState().gamepad.isArmControlled) return
+      if (controlService.state.matches('arm')) return
 
       const { gamepad } = ctx.gamepadState
       const { axes } = gamepad
@@ -140,7 +139,7 @@ const defaultActions: Action[] = [
     bindings: [{ type: 'spacemouse' }],
     perform: (ctx) => {
       if (ctx.type !== 'spacemouse') return
-      if (!store.getState().gamepad.isArmControlled) return
+      if (controlService.state.matches('robot')) return
 
       const joy = mapGamepadToJoy(ctx.gamepadState.gamepad)
       rosClient.publish(joyTopic, joy)
