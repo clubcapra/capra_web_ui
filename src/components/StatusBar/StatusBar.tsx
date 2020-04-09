@@ -13,7 +13,6 @@ import { controlService } from 'state/control'
 
 const RosConnectionStatus: FC = () => {
   const [state] = useService(rosService)
-
   const fullAddress = fullAddressSelector(state.context)
 
   return (

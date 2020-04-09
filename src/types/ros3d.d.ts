@@ -1,6 +1,5 @@
 // Type definitions for ros3d
-// Project: [LIBRARY URL]
-// Definitions by: Charles Giguere <[AUTHOR URL]>
+// Definitions by: Charles Giguere <https://github.com/IceSentry>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
 declare module 'ros3d' {
@@ -24,15 +23,16 @@ declare module 'ros3d' {
    *   * tfPrefix (optional) - the TF prefix to used for multi-robots
    *   * loader (optional) - the Collada loader to use (e.g., an instance of ROS3D.COLLADA_LOADER)
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   class UrdfClient {
     constructor(options: {
       ros: Ros
       param?: string
       tfClient: TFClient
       path?: string
-      rootObject?: any
+      rootObject?: unknown
       tfPrefix?: string
-      loader?: any
+      loader?: unknown
     })
   }
   /**
@@ -55,8 +55,9 @@ declare module 'ros3d' {
    *  *                           panning/zooming. Only has effect when
    *  *                           displayPanAndZoomFrame is set to true.
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   class Viewer {
-    scene: any
+    scene: unknown
     constructor(params: {
       divID: string
       width: number
@@ -114,6 +115,7 @@ declare module 'ros3d' {
    *  * lineWidth (optional) - the width of the lines in the grid
    *  * cellSize (optional) - The length, in meters, of the side of each cell
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   class Grid {
     constructor(options?: {
       num_cells?: number
@@ -134,6 +136,7 @@ declare module 'ros3d' {
    *  * material (optional) - the material to use for the object
    *  * warnings (optional) - if warnings should be printed
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   class MeshResource {
     constructor(options: {
       path?: string
