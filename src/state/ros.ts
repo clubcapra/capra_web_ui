@@ -9,6 +9,8 @@ interface RosContext {
   videoServerPort: string
   connectingToastId: string
   errorToastId: string
+  descriptionServerPort: string
+  baseLinkName: string
 }
 
 interface RosStateSchema {
@@ -19,7 +21,6 @@ interface RosStateSchema {
   }
 }
 
-// The events that the machine handles
 type RosEvent =
   | { type: 'DISCONNECT' }
   | { type: 'CONNECT' }
@@ -36,6 +37,14 @@ type RosEvent =
   | {
       type: 'SET_VIDEO_SERVER_PORT'
       port: string
+    }
+  | {
+      type: 'SET_DESCRIPTION_SERVER_PORT'
+      port: string
+    }
+  | {
+      type: 'SET_BASE_LINK_NAME'
+      name: string
     }
 
 const formatFullAddress = (IP: string, port: string): string => `${IP}:${port}/`
@@ -60,6 +69,12 @@ const setters = {
   SET_VIDEO_SERVER_PORT: {
     actions: 'updateVideoServerPort',
   },
+  SET_DESCRIPTION_SERVER_PORT: {
+    actions: 'updateDescriptionServerPort',
+  },
+  SET_BASE_LINK_NAME: {
+    actions: 'updateBaseLinkName',
+  },
 }
 
 export const rosMachine = Machine<RosContext, RosStateSchema, RosEvent>(
@@ -72,6 +87,8 @@ export const rosMachine = Machine<RosContext, RosStateSchema, RosEvent>(
       videoServerPort: '8080',
       connectingToastId: '',
       errorToastId: '',
+      descriptionServerPort: '88',
+      baseLinkName: 'markhor_link_base',
     },
     states: {
       connected: {
@@ -139,6 +156,19 @@ export const rosMachine = Machine<RosContext, RosStateSchema, RosEvent>(
         videoServerPort: (_, event) => {
           if (event.type !== 'SET_VIDEO_SERVER_PORT') throw new Error()
           else return event.port
+        },
+      }),
+
+      updateDescriptionServerPort: assign({
+        descriptionServerPort: (_, event) => {
+          if (event.type !== 'SET_DESCRIPTION_SERVER_PORT') throw new Error()
+          else return event.port
+        },
+      }),
+      updateBaseLinkName: assign({
+        descriptionServerPort: (_, event) => {
+          if (event.type !== 'SET_BASE_LINK_NAME') throw new Error()
+          else return event.name
         },
       }),
     },

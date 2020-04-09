@@ -1,5 +1,4 @@
 import React, { FC, useRef, useEffect, useLayoutEffect, useState } from 'react'
-import { useSelector } from 'utils/hooks/typedUseSelector'
 import { styled } from 'globalStyles/styled'
 import { NoFeed } from 'components/Feed/Feeds/NoFeed'
 import { IUrdfFeed } from 'store/modules/feed/@types'
@@ -8,6 +7,8 @@ import * as ROS3D from 'ros3d'
 import { TFClient } from 'roslib'
 import { useRefSize } from 'utils/hooks/useRefSize'
 import _ from 'lodash'
+import { rosService } from 'state/ros'
+import { useService } from '@xstate/react'
 
 interface Props {
   feed: IUrdfFeed
@@ -61,9 +62,9 @@ function useUrdfViewerRef(): [
 
 const View: FC<Props> = ({ feed }) => {
   const [viewer, id, ref] = useUrdfViewerRef()
-  const IP = useSelector(state => state.ros.IP)
-  const port = useSelector(state => state.ros.descriptionServerPort)
-  const baseLinkName = useSelector(state => state.ros.descriptionServerPort)
+
+  const [state] = useService(rosService)
+  const { IP, descriptionServerPort, baseLinkName } = state.context
 
   useEffect(() => {
     if (!viewer) return
@@ -83,17 +84,23 @@ const View: FC<Props> = ({ feed }) => {
     new ROS3D.UrdfClient({
       ros: ros,
       tfClient: tfClient,
-      path: `http://${IP}:${port}`,
+      path: `http://${IP}:${descriptionServerPort}`,
       rootObject: viewer.scene,
     })
-  }, [IP, baseLinkName, port, viewer])
+  }, [IP, baseLinkName, descriptionServerPort, viewer])
 
   return <StyledViewer id={id} ref={ref} />
 }
 
 export const UrdfFeed: FC<Props> = ({ feed }) => {
-  const connected = useSelector(state => state.ros.connected)
+  const [state] = useService(rosService)
   return (
-    <Grid>{connected ? <View feed={feed} /> : <NoFeed text="no urdf" />}</Grid>
+    <Grid>
+      {state.matches('connected') ? (
+        <View feed={feed} />
+      ) : (
+        <NoFeed text="not connected" />
+      )}
+    </Grid>
   )
 }
