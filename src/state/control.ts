@@ -26,14 +26,14 @@ export const controlMachine = Machine<
   states: {
     arm: {
       on: {
-        CONTROL_FLIPPER: { target: 'flipper' },
-        TOGGLE: { target: 'flipper' },
+        CONTROL_FLIPPER: 'flipper',
+        TOGGLE: 'flipper',
       },
     },
     flipper: {
       on: {
-        CONTROL_ARM: { target: 'arm' },
-        TOGGLE: { target: 'arm' },
+        CONTROL_ARM: 'arm',
+        TOGGLE: 'arm',
       },
     },
   },
