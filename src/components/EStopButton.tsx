@@ -19,7 +19,7 @@ interface StopButtonProps {
 const StopButton: FC<StopButtonProps> = ({ onClick }) => {
   const [text, setText] = useState('EMERGENCY STOP')
 
-  useRosSubscribe(topic, message => {
+  useRosSubscribe(topic, (message) => {
     if (message.data) {
       setText('EMERGENCY STOP')
     } else {

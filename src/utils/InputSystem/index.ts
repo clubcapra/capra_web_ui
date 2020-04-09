@@ -30,8 +30,10 @@ export const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
   const seconds = Math.round(d.getTime() / 1000)
 
   const deadzone = 0.09
-  const axes = gamepad.axes.map(x => (x < deadzone && x > -deadzone ? 0.0 : x))
-  const buttons = gamepad.buttons.map(x => Math.floor(x.value))
+  const axes = gamepad.axes.map((x) =>
+    x < deadzone && x > -deadzone ? 0.0 : x
+  )
+  const buttons = gamepad.buttons.map((x) => Math.floor(x.value))
 
   return {
     header: {
@@ -115,7 +117,7 @@ const defaultActions: Action[] = [
   {
     name: 'movement',
     bindings: [{ type: 'gamepad' }],
-    perform: ctx => {
+    perform: (ctx) => {
       if (ctx.type !== 'gamepad') return
       if (store.getState().gamepad.isArmControlled) return
 
@@ -136,7 +138,7 @@ const defaultActions: Action[] = [
   {
     name: 'spacemouse',
     bindings: [{ type: 'spacemouse' }],
-    perform: ctx => {
+    perform: (ctx) => {
       if (ctx.type !== 'spacemouse') return
       if (!store.getState().gamepad.isArmControlled) return
 

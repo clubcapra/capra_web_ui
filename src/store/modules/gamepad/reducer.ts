@@ -13,7 +13,7 @@ export const gamepadSlice = createSlice({
     setIsArmControlled: (state, { payload }: PayloadAction<boolean>) => {
       state.isArmControlled = payload
     },
-    toggleIsArmControlled: state => {
+    toggleIsArmControlled: (state) => {
       state.isArmControlled = !state.isArmControlled
     },
   },

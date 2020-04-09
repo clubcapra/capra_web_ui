@@ -14,8 +14,8 @@ export const GlobalStyles = createGlobalStyle<{ theme: Theme }>`
   html { height: 100%; }
 
   body {
-    background: ${props => props.theme.colors.background};
-    color: ${props => props.theme.colors.fontLight};
+    background: ${(props) => props.theme.colors.background};
+    color: ${(props) => props.theme.colors.fontLight};
     min-height: 100%;
   }
 

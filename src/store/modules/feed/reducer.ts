@@ -20,7 +20,7 @@ export const feedSlice = createSlice({
     removeFeed: (state, { payload }: PayloadAction<string>) => {
       delete state.feeds[payload]
 
-      Object.values(state.feedMap).some(m => {
+      Object.values(state.feedMap).some((m) => {
         if (m.feedId === payload) {
           delete state.feedMap[m.id]
           return true
@@ -53,5 +53,5 @@ export const selectFeedFromFeedMap = (id: string) => (state: GlobalState) =>
   state.feed.feedMap[id]
 export const selectAllCamera = (state: GlobalState) =>
   Object.values(state.feed.feeds)
-    .filter(feed => feed.type === FeedTypeEnum.camera)
+    .filter((feed) => feed.type === FeedTypeEnum.camera)
     .reverse() as ICameraFeed[]

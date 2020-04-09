@@ -20,6 +20,7 @@
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
     "lint": "eslint --ext js,ts,tsx src",
+    "fix": "eslint --fix --ext js,ts,tsx src",
     "typecheck": "tsc --noEmit",
     "build:electron:ts": "cd ./src/electron/ && tsc",
     "check": "concurrently npm:lint npm:typecheck"

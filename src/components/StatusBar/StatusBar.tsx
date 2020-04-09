@@ -28,7 +28,7 @@ const RosConnectionStatus: FC = () => {
 }
 
 const ControlStatus = () => {
-  const isArmControlled = useSelector(state => state.gamepad.isArmControlled)
+  const isArmControlled = useSelector((state) => state.gamepad.isArmControlled)
   return <div>{isArmControlled ? <FaHandPaper /> : <FaTruckMonster />}</div>
 }
 

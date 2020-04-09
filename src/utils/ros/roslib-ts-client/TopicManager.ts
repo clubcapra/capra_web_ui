@@ -38,7 +38,7 @@ class TopicManager {
   }
 
   unsubscribeAllTopics() {
-    this.registeredTopics.forEach(registeredTopic => {
+    this.registeredTopics.forEach((registeredTopic) => {
       if (registeredTopic.topic) {
         registeredTopic.topic.unsubscribe()
         registeredTopic.topic = null
@@ -47,7 +47,7 @@ class TopicManager {
   }
 
   reconnectAllDisconnectedHandler() {
-    this.registeredTopics.forEach(topic => {
+    this.registeredTopics.forEach((topic) => {
       if (topic.topic === null && topic.handlers.length > 0) {
         this.listen(topic.options)
         topic.topic = null
@@ -64,8 +64,8 @@ class TopicManager {
 
       registeredTopic.topic = topic
 
-      topic.subscribe(message => {
-        registeredTopic.handlers.forEach(h => h(message))
+      topic.subscribe((message) => {
+        registeredTopic.handlers.forEach((h) => h(message))
       })
     }
   }

@@ -119,7 +119,7 @@ export default class RosClient {
   }
 
   private onError(onError: (error: unknown) => void): (event: unknown) => void {
-    return error => {
+    return (error) => {
       this.connected = false
       if (this.isLogEnabled) {
         console.error('RosError', error)

@@ -75,7 +75,7 @@ export const Table: FC = () => {
       e: ChangeEvent<HTMLInputElement>
     ): void => {
       const { value } = e.target
-      const feed = allCameras.find(f => f.id === id)
+      const feed = allCameras.find((f) => f.id === id)
 
       if (!feed) return
 
@@ -108,7 +108,7 @@ export const Table: FC = () => {
         </tr>
       </thead>
       <tbody>
-        {allCameras.map(feed => (
+        {allCameras.map((feed) => (
           <TableRow key={feed.id} feed={feed} updateCamera={updateCamera} />
         ))}
       </tbody>

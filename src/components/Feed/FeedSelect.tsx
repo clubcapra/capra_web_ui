@@ -31,7 +31,7 @@ export const FeedSelect: FC<FeedSelectProps> = ({
       value={currentFeedId}
       hidden={!visible}
     >
-      {feedCollection.map(feed => (
+      {feedCollection.map((feed) => (
         <option key={feed.id} value={feed.id}>
           {getLabel(feed)}
         </option>

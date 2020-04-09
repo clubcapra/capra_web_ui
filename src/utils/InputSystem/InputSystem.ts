@@ -123,7 +123,7 @@ export class InputSystem {
         gamepadState,
       }
 
-      this.checkActionsBindings(b => {
+      this.checkActionsBindings((b) => {
         switch (b.type) {
           case 'gamepad': {
             if (gamepad.id.includes('SpaceMouse')) {

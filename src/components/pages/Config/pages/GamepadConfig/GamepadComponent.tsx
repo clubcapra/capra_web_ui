@@ -24,7 +24,7 @@ const data: ShortcutData[] = [
 export const GamepadComponent: React.FC = () => {
   return (
     <StyledGamepad>
-      {data.map(x => (
+      {data.map((x) => (
         <ShortcutBox key={x.text} from={x.from} to={x.to}>
           {x.text}
         </ShortcutBox>
