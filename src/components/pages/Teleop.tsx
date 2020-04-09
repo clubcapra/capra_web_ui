@@ -1,8 +1,8 @@
 import React, { FC } from 'react'
 import { Feed } from 'components/Feed/Feed'
-import { useArmControl } from 'utils/hooks/useArmControl'
+import { controlService } from 'state/control'
 
 export const Teleop: FC = () => {
-  useArmControl(false)
+  controlService.send({ type: 'CONTROL_FLIPPER' })
   return <Feed id="teleop_main" defaultFeed="camera_3d_rgb" />
 }
