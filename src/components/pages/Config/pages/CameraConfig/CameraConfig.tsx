@@ -15,7 +15,7 @@ const VideoServerPortConfig: FC = () => {
   const { videoServerPort } = state.context
 
   const updateVideoServerPort = (e: ChangeEvent<HTMLInputElement>) =>
-    send({ type: 'SET_VIDEO_SERVER_PORT', port: e.currentTarget.value })
+    send('SET_VIDEO_SERVER_PORT', { port: e.currentTarget.value })
 
   return (
     <>

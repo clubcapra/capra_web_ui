@@ -6,12 +6,12 @@ export const rosClient = new RosClient(IP, port)
 
 rosClient.setListeners({
   onConnection: () => {
-    rosService.send({ type: 'SUCCESS' })
+    rosService.send('SUCCESS')
   },
   onClose: () => {
-    rosService.send({ type: 'DISCONNECT' })
+    rosService.send('DISCONNECT')
   },
   onError: () => {
-    rosService.send({ type: 'FAIL' })
+    rosService.send('FAIL')
   },
 })

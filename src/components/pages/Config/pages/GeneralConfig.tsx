@@ -10,15 +10,15 @@ const ConnectionSection = () => {
   const { IP, port } = state.context
 
   const updateIp = (e: ChangeEvent<HTMLInputElement>): void => {
-    send({ type: 'SET_IP', IP: e.target.value })
+    send('SET_IP', { IP: e.target.value })
   }
 
   const updatePort = (e: ChangeEvent<HTMLInputElement>): void => {
-    send({ type: 'SET_PORT', port: e.target.value })
+    send('SET_PORT', { port: e.target.value })
   }
 
   const connect = () => {
-    send({ type: 'CONNECT' })
+    send('CONNECT')
   }
 
   return (
@@ -42,11 +42,11 @@ const UrdfDescriptionSection = () => {
   const { descriptionServerPort, baseLinkName } = state.context
 
   const updateDescriptionPort = (e: ChangeEvent<HTMLInputElement>): void => {
-    send({ type: 'SET_DESCRIPTION_SERVER_PORT', port: e.target.value })
+    send('SET_DESCRIPTION_SERVER_PORT', { port: e.target.value })
   }
 
   const updateBaseLinkName = (e: ChangeEvent<HTMLInputElement>): void => {
-    send({ type: 'SET_BASE_LINK_NAME', name: e.target.value })
+    send('SET_BASE_LINK_NAME', { name: e.target.value })
   }
 
   return (
