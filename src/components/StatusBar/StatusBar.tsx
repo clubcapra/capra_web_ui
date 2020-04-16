@@ -1,15 +1,14 @@
-import React, { FC } from 'react'
-import {
-  StyledStatusBarWrapper,
-  RightStatusBar,
-  LeftStatusBar,
-} from './StatusBar.styles'
-import { TimeDisplay } from 'components/StatusBar/TimeDisplay'
-import { NetworkDisplay } from './NetworkInfo'
-import { FaTruckMonster, FaHandPaper } from 'react-icons/fa'
 import { useService } from '@xstate/react'
-import { rosService, fullAddressSelector } from 'state/ros'
+import { TimeDisplay } from 'components/StatusBar/TimeDisplay'
+import React, { FC } from 'react'
 import { controlService } from 'state/control'
+import { fullAddressSelector, rosService } from 'state/ros'
+import { NetworkDisplay } from './NetworkInfo'
+import {
+  LeftStatusBar,
+  RightStatusBar,
+  StyledStatusBarWrapper,
+} from './StatusBar.styles'
 
 const RosConnectionStatus: FC = () => {
   const [state] = useService(rosService)
@@ -29,7 +28,11 @@ const RosConnectionStatus: FC = () => {
 const ControlStatus = () => {
   const [state] = useService(controlService)
   return (
-    <div>{state.matches('arm') ? <FaHandPaper /> : <FaTruckMonster />}</div>
+    <div>
+      {state.matches('arm') && 'ARM'}
+      {state.matches('flipper') && 'FLIPPER'}
+      {state.matches('nothing') && 'DISABLED'}
+    </div>
   )
 }
 

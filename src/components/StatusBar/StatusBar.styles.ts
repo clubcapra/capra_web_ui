@@ -11,11 +11,13 @@ export const StyledStatusBarWrapper = styled.div`
   font-size: 14px;
 `
 
+const padding = 6
+
 export const LeftStatusBar = styled.div`
   grid-area: l;
   display: flex;
   align-items: center;
-  padding: 0 4px;
+  padding: 0 ${padding}px;
 `
 
 export const RightStatusBar = styled.div`
@@ -25,6 +27,6 @@ export const RightStatusBar = styled.div`
   justify-content: flex-end;
 
   > * {
-    padding: 0 4px;
+    padding: 0 ${padding}px;
   }
 `
