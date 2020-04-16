@@ -27,7 +27,13 @@ const RosConnectionStatus: FC = () => {
 
 const ControlStatus = () => {
   const [state] = useService(controlService)
-  return <div>{state.value.toUpperCase}</div>
+  return (
+    <div>
+      {state.matches('arm') && 'ARM'}
+      {state.matches('flipper') && 'FLIPPER'}
+      {state.matches('nothing') && 'NOTHING'}
+    </div>
+  )
 }
 
 export const StatusBar: FC = () => (
