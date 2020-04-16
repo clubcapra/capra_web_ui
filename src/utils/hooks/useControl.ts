@@ -13,7 +13,7 @@ export const useControl = (control: 'arm' | 'flipper' | 'nothing') => {
         send('CONTROL_FLIPPER')
         break
       case 'nothing':
-        send('DISABLE')
+        send('CONTROL_NOTHING')
         break
     }
   }, [control, send])
