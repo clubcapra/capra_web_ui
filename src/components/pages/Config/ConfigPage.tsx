@@ -9,8 +9,10 @@ import { ConfigMenu } from './ConfigMenu'
 import { GeneralConfig } from 'components/pages/Config/pages/GeneralConfig'
 import { CameraConfig } from 'components/pages/Config/pages/CameraConfig/CameraConfig'
 import { GamepadConfig } from 'components/pages/Config/pages/GamepadConfig/GamepadConfig'
+import { useControl } from 'utils/hooks/useControl'
 
 export const ConfigPage: FC = () => {
+  useControl('nothing')
   return (
     <ConfigPageGrid>
       <MenuArea>

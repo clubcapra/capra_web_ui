@@ -33,6 +33,7 @@ class TopicManager {
   }
 
   publish({ name, messageType }: TopicOptions, payload: unknown) {
+    // eslint-disable-next-line no-console
     if (this.client.isLogEnabled) console.log(name, payload)
     this.getTopic({ name, messageType }).publish(new Message(payload))
   }

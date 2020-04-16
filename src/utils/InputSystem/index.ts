@@ -89,13 +89,15 @@ const defaultActions: Action[] = [
   {
     name: 'estop',
     bindings: [
-      // TODO make sure the spacebar in an input box doesn't trigger this
-      // { type: 'keyboard', code: 'Space', onKeyDown: true },
+      { type: 'keyboard', code: 'Space', onKeyDown: true },
       { type: 'gamepadBtn', button: buttons.XBOX },
     ],
-    perform: () => {
+    perform: (ctx) => {
       // TODO use redux to toggle the estop and the related UI elements
       // This only disables the drives, if you want to restart it you need to use the UI
+      if (controlService.state.matches('nothing') && ctx.type === 'keyboard') {
+        return
+      }
       rosClient.callService({ name: 'takin_estop_disable' })
     },
   },
@@ -103,7 +105,7 @@ const defaultActions: Action[] = [
     name: 'toggleArmControl',
     bindings: [{ type: 'gamepadBtn', button: buttons.dpad.right }],
     perform: () => {
-      controlService.send({ type: 'TOGGLE' })
+      controlService.send('TOGGLE')
     },
   },
   {
@@ -118,7 +120,7 @@ const defaultActions: Action[] = [
     bindings: [{ type: 'gamepad' }],
     perform: (ctx) => {
       if (ctx.type !== 'gamepad') return
-      if (controlService.state.matches('arm')) return
+      if (!controlService.state.matches('flipper')) return
 
       const { gamepad } = ctx.gamepadState
       const { axes } = gamepad
@@ -139,7 +141,7 @@ const defaultActions: Action[] = [
     bindings: [{ type: 'spacemouse' }],
     perform: (ctx) => {
       if (ctx.type !== 'spacemouse') return
-      if (controlService.state.matches('robot')) return
+      if (!controlService.state.matches('arm')) return
 
       const joy = mapGamepadToJoy(ctx.gamepadState.gamepad)
       rosClient.publish(joyTopic, joy)

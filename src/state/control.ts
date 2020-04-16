@@ -7,12 +7,14 @@ interface ControlStateSchema {
   states: {
     arm: {}
     flipper: {}
+    nothing: {}
   }
 }
 
 type ControlEvent =
   | { type: 'CONTROL_ARM' }
   | { type: 'CONTROL_FLIPPER' }
+  | { type: 'CONTROL_NOTHING' }
   | { type: 'TOGGLE' }
 
 export const controlMachine = Machine<
@@ -20,7 +22,7 @@ export const controlMachine = Machine<
   ControlStateSchema,
   ControlEvent
 >({
-  id: 'gamepad',
+  id: 'control',
   initial: 'flipper',
   context: {},
   states: {
@@ -28,12 +30,20 @@ export const controlMachine = Machine<
       on: {
         CONTROL_FLIPPER: 'flipper',
         TOGGLE: 'flipper',
+        CONTROL_NOTHING: 'nothing',
       },
     },
     flipper: {
       on: {
         CONTROL_ARM: 'arm',
         TOGGLE: 'arm',
+        CONTROL_NOTHING: 'nothing',
+      },
+    },
+    nothing: {
+      on: {
+        CONTROL_ARM: 'arm',
+        CONTROL_FLIPPER: 'flipper',
       },
     },
   },

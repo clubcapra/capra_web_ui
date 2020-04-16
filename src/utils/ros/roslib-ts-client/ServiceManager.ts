@@ -18,6 +18,7 @@ export class ServiceManager {
     const request = new ServiceRequest(payload ?? '')
 
     const ret = new Promise((resolve, reject) => {
+      // eslint-disable-next-line no-console
       if (this.client.isLogEnabled) console.log(service, request)
       service.callService(request, resolve, reject)
     })
