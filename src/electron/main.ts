@@ -3,7 +3,6 @@ import path from 'path'
 import url from 'url'
 import { isDev } from './isDev'
 import { channels } from './shared/constants'
-import { readFile } from 'fs'
 
 // WARNING!
 // DO NOT USE electron-devtools-installer
