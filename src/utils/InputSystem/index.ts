@@ -120,20 +120,20 @@ const defaultActions: Action[] = [
     bindings: [{ type: 'gamepad' }],
     perform: (ctx) => {
       if (ctx.type !== 'gamepad') return
-      if (controlService.state.matches('flipper')) {
-        const { gamepad } = ctx.gamepadState
-        const { axes } = gamepad
-        const gpButtons = gamepad.buttons
+      if (!controlService.state.matches('flipper')) return
 
-        const twist = mapToTwist(
-          axes[sticks.left.horizontal],
-          axes[sticks.left.vertical],
-          getBtnValue(gpButtons[buttons.RT]),
-          getBtnValue(gpButtons[buttons.LT])
-        )
+      const { gamepad } = ctx.gamepadState
+      const { axes } = gamepad
+      const gpButtons = gamepad.buttons
 
-        rosClient.publish(cmdVelTopic, twist)
-      }
+      const twist = mapToTwist(
+        axes[sticks.left.horizontal],
+        axes[sticks.left.vertical],
+        getBtnValue(gpButtons[buttons.RT]),
+        getBtnValue(gpButtons[buttons.LT])
+      )
+
+      rosClient.publish(cmdVelTopic, twist)
     },
   },
   {
@@ -141,10 +141,10 @@ const defaultActions: Action[] = [
     bindings: [{ type: 'spacemouse' }],
     perform: (ctx) => {
       if (ctx.type !== 'spacemouse') return
-      if (controlService.state.matches('arm')) {
-        const joy = mapGamepadToJoy(ctx.gamepadState.gamepad)
-        rosClient.publish(joyTopic, joy)
-      }
+      if (!controlService.state.matches('arm')) return
+
+      const joy = mapGamepadToJoy(ctx.gamepadState.gamepad)
+      rosClient.publish(joyTopic, joy)
     },
   },
 ]
