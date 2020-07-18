@@ -48,7 +48,7 @@
     "chart.js": "^2.9.3",
     "chartjs-plugin-streaming": "^1.8.0",
     "date-fns": "^2.12.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "polished": "^3.5.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
