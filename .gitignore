@@ -12,6 +12,7 @@
 # production
 /build
 /dist
+.cache
 
 # local env files
 .env.local

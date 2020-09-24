@@ -24,6 +24,7 @@ const typescriptConfigs = {
     ],
     '@typescript-eslint/interface-name-prefix': 0,
     '@typescript-eslint/camelcase': 0,
+    '@typescript-eslint/explicit-module-boundary-types': 0,
   },
 }
 
@@ -34,12 +35,7 @@ module.exports = {
     node: true,
   },
 
-  extends: [
-    'react-app',
-    'eslint:recommended',
-    'prettier',
-    'plugin:react/recommended',
-  ],
+  extends: ['eslint:recommended', 'prettier', 'plugin:react/recommended'],
 
   plugins: ['prettier', 'react'],
 
@@ -70,5 +66,11 @@ module.exports = {
   parserOptions: {
     parser: '@typescript-eslint/parser',
     project: './tsconfig.json',
+  },
+
+  settings: {
+    react: {
+      version: 'detect',
+    },
   },
 }
