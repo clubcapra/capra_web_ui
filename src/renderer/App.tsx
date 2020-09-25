@@ -3,7 +3,7 @@ import { HashRouter } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 import { Provider } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
-// import 'react-toastify/dist/ReactToastify.css'
+import 'react-toastify/dist/ReactToastify.css'
 
 import { defaultTheme } from '~globalStyles/themes/defaultTheme'
 import { Layout } from '~components/Layout'

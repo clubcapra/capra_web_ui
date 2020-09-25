@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import logo from '~assets/images/logo.png'
+import logo from '~renderer/assets/images/logo.png'
 import {
   HeaderGrid,
   LeftHeader,
