@@ -46,8 +46,11 @@ jobs:
         if: matrix.os == 'windows-latest'
         with:
           files: ./dist/capra_web_ui_setup.exe
+          draft: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # For some reason on windows this action needs this env
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Ubuntu
       - name: Ubuntu Release
@@ -55,5 +58,6 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         with:
           files: ./dist/capra_web_ui_setup.deb
+          draft: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
