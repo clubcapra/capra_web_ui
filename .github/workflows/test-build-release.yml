@@ -1,10 +1,9 @@
-name: Test/Release/Build
-
 on: [push]
+
+name: Test Build Release
 
 jobs:
   test:
-    name: Test
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -15,7 +14,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm lint, typecheck, test
+      - name: npm lint/typecheck/test
         run: |
           npm ci
           npm run lint
@@ -24,92 +23,37 @@ jobs:
         env:
           CI: true
 
-  release:
-    name: Create Github Release
-    if: contains(github.ref, 'tags/v')
-    needs: [test]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1.0.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: true
-          prerelease: false
-
-      - name: Output Release URL File
-        run: echo "${{ steps.create_release.outputs.upload_url }}" > release_url.txt
-      - name: Save Release URL File for publish
-        uses: actions/upload-artifact@v1
-        with:
-          name: release_url
-          path: release_url.txt
-  build:
-    name: Build & Upload Assets
+  build-release:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest]
         node-version: [12]
-
     runs-on: ${{ matrix.os }}
-
-    if: contains(github.ref, 'tags/v')
-    
-    needs: [test, release]
+    needs: [test]
+    if: startsWith(github.ref, 'refs/tags/')
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Load Release URL File from release job
-        uses: actions/download-artifact@v1
-        with:
-          name: release_url
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Build
         run: |
           npm ci
-          npm run build:electron
-        env:
-          CI: true
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          npm run build
 
-      - name: Get Release File Name & Upload URL
-        id: get_release_info
-        env:
-          TAG_REF_NAME: ${{ github.ref }}
-          REPOSITORY_NAME: ${{ github.repository }}
-        shell: bash
-        run: |
-          value=`cat release_url/release_url.txt`
-          echo ::set-output name=upload_url::$value
-
-      - name: Upload Windows Asset
-        id: upload-windows-asset
+      # WINDOWS
+      - name: Windows Release
+        uses: softprops/action-gh-release@v1
         if: matrix.os == 'windows-latest'
-        continue-on-error: true
-        uses: actions/upload-release-asset@v1.0.1
+        with:
+          files: ./dist/capra_web_ui_setup.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-          asset_path: ./dist/capra_web_ui_setup.exe
-          asset_name: capra_web_ui_setup.exe
-          asset_content_type: application/vnd.microsoft.portable-executable
-          
-      - name: Upload Ubuntu Asset
-        id: upload-linux-asset
+
+      # Ubuntu
+      - name: Ubuntu Release
+        uses: softprops/action-gh-release@v1
         if: matrix.os == 'ubuntu-latest'
-        continue-on-error: true
-        uses: actions/upload-release-asset@v1.0.1
+        with:
+          files: ./dist/capra_web_ui_setup.deb
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-          asset_path: ./dist/capra_web_ui_setup.deb
-          asset_name: capra_web_ui_setup.deb
-          asset_content_type: application/vnd.debian.binary-package
