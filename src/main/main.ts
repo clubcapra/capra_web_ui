@@ -1,8 +1,11 @@
-import { app, BrowserWindow, ipcMain } from 'electron'
+// import { app, BrowserWindow, ipcMain } from 'electron'
+import electron from 'electron'
 import path from 'path'
 import url from 'url'
 import { isDev } from './isDev'
 import { channels } from '../shared/constants'
+
+const { app, BrowserWindow, ipcMain } = electron
 
 // WARNING!
 // DO NOT USE electron-devtools-installer
@@ -10,14 +13,14 @@ import { channels } from '../shared/constants'
 // delete %AppData%/electron and %AppData%/[project name]
 // see https://stackoverflow.com/questions/57614066/electron-app-onready-never-being-called-and-electron-window-never-showing
 
-let mainWindow: Electron.BrowserWindow | null
+let mainWindow: Electron.BrowserWindow | null = null
 
 app.allowRendererProcessReuse = true
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 900,
-    height: 680,
+    width: 1280,
+    height: 720,
     title: 'capra_web_ui',
     webPreferences: {
       nodeIntegration: true,
@@ -27,7 +30,7 @@ function createWindow() {
 
   mainWindow.loadURL(
     isDev
-      ? 'http://localhost:3841'
+      ? 'http://localhost:8511'
       : url.format({
           pathname: path.join(__dirname, './index.html'),
           protocol: 'file:',
@@ -39,7 +42,7 @@ function createWindow() {
     // TODO add react + redux devtools
     mainWindow.webContents.openDevTools()
   } else {
-    // mainWindow.removeMenu()
+    mainWindow.removeMenu()
   }
 
   mainWindow.on('closed', () => (mainWindow = null))
