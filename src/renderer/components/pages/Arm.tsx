@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
-import { Feed } from '~components/Feed/Feed'
-import { useControl } from '~utils/hooks/useControl'
+import { Feed } from '@/renderer/components/Feed/Feed'
+import { useControl } from '@/renderer/utils/hooks/useControl'
 
 export const Arm: FC = () => {
   useControl('arm')

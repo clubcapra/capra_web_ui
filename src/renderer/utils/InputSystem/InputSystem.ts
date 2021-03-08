@@ -6,7 +6,7 @@ import {
   GamepadContext,
   GamepadBtnContext,
   SpaceMouseContext,
-} from '~utils/InputSystem/@types'
+} from '@/renderer/utils/InputSystem/@types'
 
 /* TODO
  * - button axis (RT, LT)

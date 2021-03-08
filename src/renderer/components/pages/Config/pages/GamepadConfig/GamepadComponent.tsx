@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { StyledGamepad } from '~components/pages/Config/pages/GamepadConfig/GamepadComponent.styles'
-import { ShortcutBox } from '~components/pages/Config/pages/GamepadConfig/ShortcutBox'
-import gamepad from '~assets/images/xbox-one-controller.png'
+import { StyledGamepad } from '@/renderer/components/pages/Config/pages/GamepadConfig/GamepadComponent.styles'
+import { ShortcutBox } from '@/renderer/components/pages/Config/pages/GamepadConfig/ShortcutBox'
+import gamepad from '@/renderer/assets/images/xbox-one-controller.png'
 
 interface ShortcutData {
   text: string

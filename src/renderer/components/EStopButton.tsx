@@ -1,11 +1,11 @@
 import React, { FC, useState } from 'react'
 import { Modal } from './common/Modal'
 import { Button } from './common/Button'
-import { rosClient } from '~utils/ros/rosClient'
+import { rosClient } from '@/renderer/utils/ros/rosClient'
 import { StyledStopButton } from './EStopButton.styles'
-import { useRosSubscribe } from '~utils/hooks/useRosSubscribe'
-import { TopicOptions } from '~utils/ros/roslib-ts-client/@types'
-import { useOpenClose } from '~utils/hooks/useOpenClose'
+import { useRosSubscribe } from '@/renderer/utils/hooks/useRosSubscribe'
+import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
+import { useOpenClose } from '@/renderer/utils/hooks/useOpenClose'
 
 const topic: TopicOptions<boolean> = {
   name: 'takin_estop_status',

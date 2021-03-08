@@ -1,4 +1,4 @@
-import { styled } from '~globalStyles/styled'
+import { styled } from '@/renderer/globalStyles/styled'
 
 export const GamepadConfigWrapper = styled.div`
   width: 100%;

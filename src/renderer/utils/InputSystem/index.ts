@@ -1,11 +1,11 @@
-import { InputSystem } from '~utils/InputSystem/InputSystem'
-import { buttons, sticks } from '~utils/InputSystem/mappings'
-import { rosClient } from '~utils/ros/rosClient'
-import { Action } from '~utils/InputSystem/@types'
-import { TopicOptions } from '~utils/ros/roslib-ts-client/@types'
-import { ITwistMsg, IJoyMsg } from '~utils/ros/rosMsgs.types'
-import { Vector3 } from '~utils/math/types'
-import { controlService } from '~state/control'
+import { InputSystem } from '@/renderer/utils/InputSystem/InputSystem'
+import { buttons, sticks } from '@/renderer/utils/InputSystem/mappings'
+import { rosClient } from '@/renderer/utils/ros/rosClient'
+import { Action } from '@/renderer/utils/InputSystem/@types'
+import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
+import { ITwistMsg, IJoyMsg } from '@/renderer/utils/ros/rosMsgs.types'
+import { Vector3 } from '@/renderer/utils/math/types'
+import { controlService } from '@/renderer/state/control'
 
 export const cmdVelTopic: TopicOptions = {
   name: '/cmd_vel',

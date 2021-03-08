@@ -6,8 +6,8 @@ import {
   FakeProfileHeader,
   FakeProfile,
   FakeAddProfile,
-} from '~components/pages/Config/pages/GamepadConfig/GamepadConfig.styles'
-import { GamepadComponent } from '~components/pages/Config/pages/GamepadConfig/GamepadComponent'
+} from '@/renderer/components/pages/Config/pages/GamepadConfig/GamepadConfig.styles'
+import { GamepadComponent } from '@/renderer/components/pages/Config/pages/GamepadConfig/GamepadComponent'
 
 const FakeProfileConfig: FC = () => (
   <FakeProfileList>

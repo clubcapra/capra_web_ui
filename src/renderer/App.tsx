@@ -5,11 +5,11 @@ import { Provider } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-import { defaultTheme } from '~globalStyles/themes/defaultTheme'
-import { Layout } from '~components/Layout'
-import { GlobalStyles } from '~App.styles'
-import { store } from '~store/store'
-import inputsys from '~utils/InputSystem'
+import { defaultTheme } from '@/renderer/globalStyles/themes/defaultTheme'
+import { Layout } from '@/renderer/components/Layout'
+import { GlobalStyles } from '@/renderer/App.styles'
+import { store } from '@/renderer/store/store'
+import inputsys from '@/renderer/utils/InputSystem'
 
 const App: FC = () => {
   useEffect(() => {

@@ -1,12 +1,12 @@
 import React, { FC } from 'react'
-import logo from '~assets/images/logo.png'
+import logo from '@/renderer/assets/images/logo.png'
 import {
   HeaderGrid,
   LeftHeader,
   StyledNavLink,
   RightHeader,
   StyledLogo,
-} from '~components/Header.styles'
+} from '@/renderer/components/Header.styles'
 
 interface NavLinkDefinition {
   to: string

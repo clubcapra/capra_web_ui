@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { styled, Theme } from '~globalStyles/styled'
+import { styled, Theme } from '@/renderer/globalStyles/styled'
 
 type ButtonType = 'danger' | 'success' | 'primary'
 

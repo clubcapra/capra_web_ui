@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { styled } from '~globalStyles/styled'
+import { styled } from '@/renderer/globalStyles/styled'
 
 const StyledNoFeed = styled.p``
 

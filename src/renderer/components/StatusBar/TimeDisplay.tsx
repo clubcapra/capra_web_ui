@@ -1,9 +1,8 @@
-// import { format } from 'date-fns'
-import format from 'date-fns/fp/format'
-import { useInterval } from '~utils/hooks/useInterval'
+import { format } from 'date-fns'
+import { useInterval } from '@/renderer/utils/hooks/useInterval'
 import React, { FC, useState } from 'react'
 
-const timeFormat = format('HH:mm:ss')
+const timeFormat = (date: Date) => format(date, 'HH:mm:ss')
 
 export const TimeDisplay: FC = () => {
   const [time, setTime] = useState(timeFormat(new Date()))

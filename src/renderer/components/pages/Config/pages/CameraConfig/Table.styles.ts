@@ -1,4 +1,4 @@
-import { styled } from '~globalStyles/styled'
+import { styled } from '@/renderer/globalStyles/styled'
 import { darken } from 'polished'
 
 export const StyledTable = styled.table`

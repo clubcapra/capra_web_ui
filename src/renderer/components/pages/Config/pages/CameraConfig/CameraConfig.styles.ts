@@ -1,4 +1,4 @@
-import { styled } from '~globalStyles/styled'
+import { styled } from '@/renderer/globalStyles/styled'
 
 export const CameraConfigWrapper = styled.div`
   width: 100%;

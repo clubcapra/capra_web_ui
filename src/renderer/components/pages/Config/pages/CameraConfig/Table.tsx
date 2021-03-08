@@ -1,19 +1,22 @@
 import React, { FC, useCallback, ChangeEvent } from 'react'
 import { useDispatch } from 'react-redux'
-import { selectAllCamera, feedSlice } from '~store/modules/feed/reducer'
+import {
+  selectAllCamera,
+  feedSlice,
+} from '@/renderer/store/modules/feed/reducer'
 import {
   ICameraData,
   CameraType,
   ICameraFeed,
-} from '~store/modules/feed/@types'
+} from '@/renderer/store/modules/feed/@types'
 import { FaTimes } from 'react-icons/fa'
-import { useSelector } from '~utils/hooks/typedUseSelector'
+import { useSelector } from '@/renderer/utils/hooks/typedUseSelector'
 import { StyledTable, StyledTableInput } from './Table.styles'
-import { Button } from '~components/common/Button'
-import { Modal } from '~components/common/Modal'
-import { useOpenClose } from '~utils/hooks/useOpenClose'
+import { Button } from '@/renderer/components/common/Button'
+import { Modal } from '@/renderer/components/common/Modal'
+import { useOpenClose } from '@/renderer/utils/hooks/useOpenClose'
 import { useService } from '@xstate/react'
-import { rosService, videoUrlSelector } from '~state/ros'
+import { rosService, videoUrlSelector } from '@/renderer/state/ros'
 
 interface TableRowProps {
   feed: ICameraFeed

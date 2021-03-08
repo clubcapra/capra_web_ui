@@ -1,8 +1,8 @@
 import { useService } from '@xstate/react'
-import { TimeDisplay } from '~components/StatusBar/TimeDisplay'
+import { TimeDisplay } from '@/renderer/components/StatusBar/TimeDisplay'
 import React, { FC } from 'react'
-import { controlService } from '~state/control'
-import { fullAddressSelector, rosService } from '~state/ros'
+import { controlService } from '@/renderer/state/control'
+import { fullAddressSelector, rosService } from '@/renderer/state/ros'
 import { NetworkDisplay } from './NetworkInfo'
 import {
   LeftStatusBar,
