@@ -1,7 +1,7 @@
-import { Ros } from 'roslib'
 import { TopicOptions, ServiceOptions } from './@types'
 import TopicManager from './TopicManager'
 import ServiceManager from './ServiceManager'
+import ROSLIB from 'roslib'
 
 interface Listeners {
   onConnection: () => void
@@ -22,7 +22,7 @@ const defaultOptions: RosClientOptions = {
 }
 
 export default class RosClient {
-  ros: Ros
+  ros: ROSLIB.Ros
   private topicManager: TopicManager
   private serviceManager: ServiceManager
   private robotIP?: string
@@ -40,7 +40,7 @@ export default class RosClient {
     this.port = port
     this.options = options
 
-    const rosInstance = new Ros({})
+    const rosInstance = new ROSLIB.Ros({})
     this.ros = rosInstance
     this.topicManager = new TopicManager(rosInstance, this)
     this.serviceManager = new ServiceManager(rosInstance, this)

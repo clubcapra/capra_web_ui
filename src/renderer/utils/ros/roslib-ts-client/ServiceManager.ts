@@ -1,6 +1,7 @@
-import { Ros, Service, ServiceRequest } from 'roslib'
 import RosClient, { ServiceOptions } from './@types'
 import { getServiceSignature } from './getSignature'
+import ROSLIB from 'roslib'
+import type { Ros, Service } from 'roslib'
 
 export class ServiceManager {
   private ros: Ros
@@ -15,7 +16,7 @@ export class ServiceManager {
   callService(options: ServiceOptions, payload?: unknown): Promise<unknown> {
     const service = this.getService(options)
 
-    const request = new ServiceRequest(payload ?? '')
+    const request = new ROSLIB.ServiceRequest(payload ?? '')
 
     const ret = new Promise((resolve, reject) => {
       // eslint-disable-next-line no-console
@@ -32,7 +33,7 @@ export class ServiceManager {
     if (this.services.has(signature))
       return this.services.get(signature) as Service
 
-    const service = new Service({
+    const service = new ROSLIB.Service({
       ros: this.ros,
       name: options.name,
       serviceType: options.serviceType ?? '',

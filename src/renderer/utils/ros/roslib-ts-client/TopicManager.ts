@@ -1,7 +1,8 @@
-import { Ros, Topic, Message } from 'roslib'
 import RosClient, { TopicOptions } from './@types'
 import RegisteredTopic from './RegisteredTopic'
 import { getTopicSignature } from './getSignature'
+import ROSLIB from 'roslib'
+import type { Ros, Topic } from 'roslib'
 
 class TopicManager {
   private ros: Ros
@@ -38,7 +39,8 @@ class TopicManager {
   publish({ name, messageType }: TopicOptions, payload: unknown) {
     // eslint-disable-next-line no-console
     if (this.client.isLogEnabled) console.log(name, payload)
-    this.getTopic({ name, messageType }).publish(new Message(payload))
+
+    this.getTopic({ name, messageType }).publish(new ROSLIB.Message(payload))
   }
 
   unsubscribeAllTopics() {
@@ -81,7 +83,7 @@ class TopicManager {
       return this.topics.get(signature) as Topic
     }
 
-    const topic = new Topic({
+    const topic = new ROSLIB.Topic({
       ros: this.ros,
       name,
       messageType,
