@@ -1,8 +1,8 @@
-import { rosClient } from '~utils/ros/rosClient'
+import { rosClient } from '@/renderer/utils/ros/rosClient'
 import { useEffect } from 'react'
-import { TopicOptions } from '~utils/ros/roslib-ts-client/@types'
+import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
 import { useService } from '@xstate/react'
-import { rosService } from '~state/ros'
+import { rosService } from '@/renderer/state/ros'
 
 /**
  * Subscribes to a specified topic

@@ -2,7 +2,7 @@ import React, { ChangeEvent, FC } from 'react'
 import {
   StyledInput,
   StyledLabel,
-} from '~components/common/LabeledInput.styles'
+} from '@/renderer/components/common/LabeledInput.styles'
 
 interface LabeledInputProps {
   value: string

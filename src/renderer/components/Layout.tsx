@@ -1,9 +1,9 @@
 import React, { FC } from 'react'
-import { EStopButton } from '~components/EStopButton'
-import { Header } from '~components/Header'
-import { StatusBar } from '~components/StatusBar/StatusBar'
-import { Router } from '~components/Router'
-import { styled } from '~globalStyles/styled'
+import { EStopButton } from '@/renderer/components/EStopButton'
+import { Header } from '@/renderer/components/Header'
+import { StatusBar } from '@/renderer/components/StatusBar/StatusBar'
+import { Router } from '@/renderer/components/Router'
+import { styled } from '@/renderer/globalStyles/styled'
 
 const GridLayout = styled.div`
   height: 100%;

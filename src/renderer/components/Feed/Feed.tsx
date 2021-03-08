@@ -1,13 +1,13 @@
 import React, { FC, useMemo } from 'react'
-import { useSelector } from '~utils/hooks/typedUseSelector'
-import { StyledFeedComponent } from '~components/Feed/Feed.styles'
+import { useSelector } from '@/renderer/utils/hooks/typedUseSelector'
+import { StyledFeedComponent } from '@/renderer/components/Feed/Feed.styles'
 import {
   selectAllFeeds,
   selectFeedFromFeedMap,
-} from '~store/modules/feed/reducer'
-import { FeedSelect } from '~components/Feed/FeedSelect'
-import { FeedView } from '~components/Feed/FeedView'
-import { useOpenClose } from '~utils/hooks/useOpenClose'
+} from '@/renderer/store/modules/feed/reducer'
+import { FeedSelect } from '@/renderer/components/Feed/FeedSelect'
+import { FeedView } from '@/renderer/components/Feed/FeedView'
+import { useOpenClose } from '@/renderer/utils/hooks/useOpenClose'
 
 interface FeedProps {
   id: string

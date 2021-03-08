@@ -1,4 +1,4 @@
-import { styled } from '~globalStyles/styled'
+import { styled } from '@/renderer/globalStyles/styled'
 
 export const SectionTitle = styled.h2`
   padding-top: 12px;

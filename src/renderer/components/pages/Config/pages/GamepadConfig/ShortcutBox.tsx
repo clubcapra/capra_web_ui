@@ -2,7 +2,7 @@ import * as React from 'react'
 import {
   StyledShortcutBox,
   StyledLinkBox,
-} from '~components/pages/Config/pages/GamepadConfig/ShortcutBox.styles'
+} from '@/renderer/components/pages/Config/pages/GamepadConfig/ShortcutBox.styles'
 
 interface Props {
   from: [number, number]

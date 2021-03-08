@@ -1,4 +1,4 @@
-import { styled } from '~globalStyles/styled'
+import { styled } from '@/renderer/globalStyles/styled'
 import { NavLink } from 'react-router-dom'
 import { darken } from 'polished'
 

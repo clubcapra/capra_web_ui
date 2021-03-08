@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import {
   MenuList,
   StyledNavLink,
-} from '~components/pages/Config/ConfigMenu.styles'
+} from '@/renderer/components/pages/Config/ConfigMenu.styles'
 
 export const ConfigMenu: FC = () => {
   return (

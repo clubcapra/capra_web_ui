@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useService } from '@xstate/react'
-import { controlService } from '~state/control'
+import { controlService } from '@/renderer/state/control'
 
 export const useControl = (control: 'arm' | 'flipper' | 'nothing') => {
   const [, send] = useService(controlService)

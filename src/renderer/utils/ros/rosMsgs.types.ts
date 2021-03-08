@@ -1,4 +1,4 @@
-import { Vector3 } from '~utils/math/types'
+import { Vector3 } from '@/renderer/utils/math/types'
 export interface IJoyMsg {
   header: {
     seq: number

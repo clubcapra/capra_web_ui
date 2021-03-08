@@ -1,14 +1,14 @@
 import React, { ChangeEvent, FC } from 'react'
 import { useDispatch } from 'react-redux'
-import { CameraType } from '~store/modules/feed/@types'
-import { CameraConfigWrapper } from '~components/pages/Config/pages/CameraConfig/CameraConfig.styles'
-import { feedSlice } from '~store/modules/feed/reducer'
-import { LabeledInput } from '~components/common/LabeledInput'
+import { CameraType } from '@/renderer/store/modules/feed/@types'
+import { CameraConfigWrapper } from '@/renderer/components/pages/Config/pages/CameraConfig/CameraConfig.styles'
+import { feedSlice } from '@/renderer/store/modules/feed/reducer'
+import { LabeledInput } from '@/renderer/components/common/LabeledInput'
 import { Table } from './Table'
-import { Button } from '~components/common/Button'
-import { SectionTitle } from '~components/pages/Config/styles'
+import { Button } from '@/renderer/components/common/Button'
+import { SectionTitle } from '@/renderer/components/pages/Config/styles'
 import { useService } from '@xstate/react'
-import { rosService } from '~state/ros'
+import { rosService } from '@/renderer/state/ros'
 
 const VideoServerPortConfig: FC = () => {
   const [state, send] = useService(rosService)

@@ -1,5 +1,5 @@
-import { GlobalState } from '~store/rootReducer'
-import { defaultState } from '~store/defaultState'
+import { GlobalState } from '@/renderer/store/rootReducer'
+import { defaultState } from '@/renderer/store/defaultState'
 
 const stateKey = 'state'
 

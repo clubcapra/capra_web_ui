@@ -3,7 +3,7 @@ import {
   StyledModal,
   StyledOverlay,
   StyledModalClose,
-} from '~components/common/Modal.styles'
+} from '@/renderer/components/common/Modal.styles'
 import { FaTimes } from 'react-icons/fa'
 
 interface Props {

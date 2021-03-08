@@ -3,13 +3,13 @@ import {
   ConfigPageGrid,
   MenuArea,
   ConfigRouterArea,
-} from '~components/pages/Config/ConfigPage.styles'
+} from '@/renderer/components/pages/Config/ConfigPage.styles'
 import { Route, Switch, Redirect } from 'react-router'
 import { ConfigMenu } from './ConfigMenu'
-import { GeneralConfig } from '~components/pages/Config/pages/GeneralConfig'
-import { CameraConfig } from '~components/pages/Config/pages/CameraConfig/CameraConfig'
-import { GamepadConfig } from '~components/pages/Config/pages/GamepadConfig/GamepadConfig'
-import { useControl } from '~utils/hooks/useControl'
+import { GeneralConfig } from '@/renderer/components/pages/Config/pages/GeneralConfig'
+import { CameraConfig } from '@/renderer/components/pages/Config/pages/CameraConfig/CameraConfig'
+import { GamepadConfig } from '@/renderer/components/pages/Config/pages/GamepadConfig/GamepadConfig'
+import { useControl } from '@/renderer/utils/hooks/useControl'
 
 export const ConfigPage: FC = () => {
   useControl('nothing')

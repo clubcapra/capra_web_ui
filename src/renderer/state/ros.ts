@@ -1,7 +1,7 @@
 import { Machine, assign, interpret } from 'xstate'
-import { rosClient } from '~utils/ros/rosClient'
+import { rosClient } from '@/renderer/utils/ros/rosClient'
 import { toast } from 'react-toastify'
-import { ICameraData } from '~store/modules/feed/@types'
+import { ICameraData } from '@/renderer/store/modules/feed/@types'
 
 interface RosContext {
   IP: string

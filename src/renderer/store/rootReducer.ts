@@ -1,6 +1,7 @@
 import { combineReducers, AnyAction } from 'redux'
-import { feedSlice } from '~store/modules/feed/reducer'
-import { clearStoreCache } from '~store/localStorage'
+import { feedSlice } from '@/renderer/store/modules/feed/reducer'
+import { clearStoreCache } from '@/renderer/store/localStorage'
+import { FeedState } from '@/renderer/store/modules/feed/@types'
 
 const appReducer = combineReducers({
   feed: feedSlice.reducer,
@@ -20,4 +21,4 @@ export const rootReducer = (
   return appReducer(state, action)
 }
 
-export type GlobalState = ReturnType<typeof appReducer>
+export type GlobalState = { feed: FeedState }

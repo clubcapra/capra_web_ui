@@ -1,11 +1,11 @@
 import * as React from 'react'
-import { ICameraFeed, CameraType } from '~store/modules/feed/@types'
+import { ICameraFeed, CameraType } from '@/renderer/store/modules/feed/@types'
 
 import { FC, useEffect, useRef } from 'react'
-import { styled } from '~globalStyles/styled'
-import { NoFeed } from '~components/Feed/Feeds/NoFeed'
+import { styled } from '@/renderer/globalStyles/styled'
+import { NoFeed } from '@/renderer/components/Feed/Feeds/NoFeed'
 import { useService } from '@xstate/react'
-import { rosService, videoUrlSelector } from '~state/ros'
+import { rosService, videoUrlSelector } from '@/renderer/state/ros'
 
 interface Props {
   feed: ICameraFeed

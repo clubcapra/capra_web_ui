@@ -1,9 +1,9 @@
 import React, { FC, ChangeEvent } from 'react'
-import { LabeledInput } from '~components/common/LabeledInput'
-import { Button } from '~components/common/Button'
-import { SectionTitle } from '~components/pages/Config/styles'
+import { LabeledInput } from '@/renderer/components/common/LabeledInput'
+import { Button } from '@/renderer/components/common/Button'
+import { SectionTitle } from '@/renderer/components/pages/Config/styles'
 import { useService } from '@xstate/react'
-import { rosService } from '~state/ros'
+import { rosService } from '@/renderer/state/ros'
 
 const ConnectionSection = () => {
   const [state, send] = useService(rosService)

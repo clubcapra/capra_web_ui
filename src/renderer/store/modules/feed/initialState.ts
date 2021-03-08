@@ -1,4 +1,8 @@
-import { FeedState, FeedTypeEnum, CameraType } from '~store/modules/feed/@types'
+import {
+  FeedState,
+  FeedTypeEnum,
+  CameraType,
+} from '@/renderer/store/modules/feed/@types'
 
 export const initialState: FeedState = {
   feedMap: {},
