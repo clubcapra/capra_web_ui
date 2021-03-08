@@ -1,0 +1,143 @@
+diff --git a/node_modules/roslib/src/util/workerSocket.js b/node_modules/roslib/src/util/workerSocket.js
+index d7d683f..c021210 100644
+--- a/node_modules/roslib/src/util/workerSocket.js
++++ b/node_modules/roslib/src/util/workerSocket.js
+@@ -1,44 +1,43 @@
+-var work = require('webworkify');
+-var workerSocketImpl = require('./workerSocketImpl');
++var workerSocketImpl = require('./workerSocketImpl')
+ 
+ function WorkerSocket(uri) {
+-  this.socket_ = work(workerSocketImpl);
++  this.socket_ = workerSocketImpl
+ 
+-  this.socket_.addEventListener('message', this.handleWorkerMessage_.bind(this));
++  this.socket_.addEventListener('message', this.handleWorkerMessage_.bind(this))
+ 
+   this.socket_.postMessage({
+     uri: uri,
+-  });
++  })
+ }
+ 
+-WorkerSocket.prototype.handleWorkerMessage_ = function(ev) {
+-  var data = ev.data;
++WorkerSocket.prototype.handleWorkerMessage_ = function (ev) {
++  var data = ev.data
+   if (data instanceof ArrayBuffer || typeof data === 'string') {
+     // binary or JSON message from rosbridge
+-    this.onmessage(ev);
++    this.onmessage(ev)
+   } else {
+     // control message from the wrapped WebSocket
+-    var type = data.type;
++    var type = data.type
+     if (type === 'close') {
+-      this.onclose(null);
++      this.onclose(null)
+     } else if (type === 'open') {
+-      this.onopen(null);
++      this.onopen(null)
+     } else if (type === 'error') {
+-      this.onerror(null);
++      this.onerror(null)
+     } else {
+-      throw 'Unknown message from workersocket';
++      throw 'Unknown message from workersocket'
+     }
+   }
+-};
++}
+ 
+-WorkerSocket.prototype.send = function(data) {
+-  this.socket_.postMessage(data);
+-};
++WorkerSocket.prototype.send = function (data) {
++  this.socket_.postMessage(data)
++}
+ 
+-WorkerSocket.prototype.close = function() {
++WorkerSocket.prototype.close = function () {
+   this.socket_.postMessage({
+     close: true
+-  });
+-};
++  })
++}
+ 
+-module.exports = WorkerSocket;
++module.exports = WorkerSocket
+diff --git a/node_modules/roslib/src/util/workerSocketImpl.js b/node_modules/roslib/src/util/workerSocketImpl.js
+index 07c49de..7c34062 100644
+--- a/node_modules/roslib/src/util/workerSocketImpl.js
++++ b/node_modules/roslib/src/util/workerSocketImpl.js
+@@ -1,48 +1,46 @@
+-var WebSocket = WebSocket || require('ws');
+-
+-module.exports = function(self) {
+-  var socket = null;
++module.exports = function (self) {
++  var socket = null
+ 
+   function handleSocketMessage(ev) {
+-    var data = ev.data;
++    var data = ev.data
+ 
+     if (data instanceof ArrayBuffer) {
+       // binary message, transfer for speed
+-      self.postMessage(data, [data]);
++      self.postMessage(data, [data])
+     } else {
+       // JSON message, copy string
+-      self.postMessage(data);
++      self.postMessage(data)
+     }
+   }
+ 
+   function handleSocketControl(ev) {
+-    self.postMessage({type: ev.type});
++    self.postMessage({ type: ev.type })
+   }
+ 
+-  self.addEventListener('message', function(ev) {
+-    var data = ev.data;
++  self.addEventListener('message', function (ev) {
++    var data = ev.data
+ 
+     if (typeof data === 'string') {
+       // JSON message from ROSLIB
+-      socket.send(data);
++      socket.send(data)
+     } else {
+       // control message
+       if (data.hasOwnProperty('close')) {
+-        socket.close();
+-        socket = null;
++        socket.close()
++        socket = null
+       } else if (data.hasOwnProperty('uri')) {
+-        var uri = data.uri;
++        var uri = data.uri
+ 
+-        socket = new WebSocket(uri);
+-        socket.binaryType = 'arraybuffer';
++        socket = new WebSocket(uri)
++        socket.binaryType = 'arraybuffer'
+ 
+-        socket.onmessage = handleSocketMessage;
+-        socket.onclose = handleSocketControl;
+-        socket.onopen = handleSocketControl;
+-        socket.onerror = handleSocketControl;
++        socket.onmessage = handleSocketMessage
++        socket.onclose = handleSocketControl
++        socket.onopen = handleSocketControl
++        socket.onerror = handleSocketControl
+       } else {
+-        throw 'Unknown message to WorkerSocket';
++        throw 'Unknown message to WorkerSocket'
+       }
+     }
+-  });
+-};
++  })
++}
