@@ -8,39 +8,31 @@
   },
   "description": "User Interface for ROS based robots",
   "private": true,
-  "homepage": "./",
-  "main": "build/main.js",
   "scripts": {
-    "start": "concurrently -k -s first -n renderer,main npm:start:renderer npm:start:main",
-    "start:renderer": "parcel src/renderer/index.html --out-dir build -p 8511",
-    "start:main": "npm run build:main && wait-on http://localhost:8511 && electron .",
-    "build": "npm run build:renderer && npm run build:main && npm run build:electron",
-    "build:main": "parcel build src/main/main.ts --out-dir build --target electron",
-    "build:renderer": "parcel build src/renderer/index.html --out-dir build --public-url ./",
-    "build:electron": "electron-builder --publish never",
+    "start": "electron-snowpack dev",
+    "build": "yarn build:snowpack && yarn build:electron",
+    "build:snowpack": "electron-snowpack build",
+    "build:electron": "electron-builder",
     "test": "jest",
     "lint": "eslint --ext js,ts,tsx src",
     "fix": "eslint --fix --ext js,ts,tsx src",
     "typecheck": "tsc --noEmit",
     "check": "concurrently npm:lint npm:typecheck",
-    "electron": "electron ."
+    "clean": "electron-snowpack clean",
     "postinstall": "patch-package"
   },
   "build": {
     "appId": "com.clubcapra.capra_web_ui",
-    "files": [
-      "build/**/*"
-    ],
     "linux": {
       "target": [
         "deb"
       ]
     },
     "directories": {
-      "buildResources": ".src/shared/build/resources/"
+      "buildResources": "./src/shared/build/resources/"
     },
     "artifactName": "capra_web_ui_setup.${ext}",
-    "extends": null
+    "extends": "electron-snowpack/config/electron-builder.js"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.5.0",
@@ -78,33 +70,19 @@
     "@types/styled-components": "^5.1.7",
     "@typescript-eslint/eslint-plugin": "^4.16.1",
     "@typescript-eslint/parser": "^4.16.1",
-    "babel-core": "^6.26.3",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
     "concurrently": "^6.0.0",
-    "electron": "^10.1.2",
-    "electron-builder": "^22.10.5",
+    "electron": "^12.0.0",
+    "electron-builder": "^22.9.1",
+    "electron-snowpack": "0.8.0",
     "eslint": "^7.21.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-react": "^7.22.0",
     "jest": "^26.6.3",
-    "parcel-bundler": "^1.12.4",
     "prettier": "^2.2.1",
+    "snowpack": "3.1.0-pre.11",
     "ts-jest": "^26.5.3",
     "typescript": "^4.2.3",
     "wait-on": "^5.2.1"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   }
 }
