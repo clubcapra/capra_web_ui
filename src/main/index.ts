@@ -1,9 +1,8 @@
-// import { app, BrowserWindow, ipcMain } from 'electron'
 import electron from 'electron'
 import path from 'path'
-import url from 'url'
 import { isDev } from './isDev'
 import { channels } from '../shared/constants'
+import url from 'url'
 
 const { app, BrowserWindow, ipcMain } = electron
 
@@ -24,28 +23,34 @@ function createWindow() {
     title: 'capra_web_ui',
     webPreferences: {
       nodeIntegration: true,
+      contextIsolation: false, // WARN this is really important if we want to use ipc
       webSecurity: false, // Allow CORS for robot_description server
     },
   })
 
-  mainWindow.loadURL(
-    isDev
-      ? 'http://localhost:8511'
-      : url.format({
-          pathname: path.join(__dirname, './index.html'),
-          protocol: 'file:',
-          slashes: true,
-        })
-  )
+  if (mainWindow) {
+    mainWindow.loadURL(
+      isDev
+        ? new URL(
+            'index.html',
+            `http://localhost:${process.env.DEV_PORT}/`
+          ).toString()
+        : url.format({
+            pathname: path.join(__dirname, 'index.html'),
+            protocol: 'file',
+            slashes: true,
+          })
+    )
 
-  if (isDev) {
-    // TODO add react + redux devtools
-    mainWindow.webContents.openDevTools()
-  } else {
-    mainWindow.removeMenu()
+    if (isDev) {
+      // TODO add react + redux devtools
+      mainWindow.webContents.openDevTools()
+    } else {
+      mainWindow.removeMenu()
+    }
+
+    mainWindow.on('closed', () => (mainWindow = null))
   }
-
-  mainWindow.on('closed', () => (mainWindow = null))
 }
 
 app.on('ready', () => {
