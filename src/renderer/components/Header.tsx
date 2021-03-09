@@ -1,5 +1,4 @@
 import React, { FC } from 'react'
-import logo from '@/renderer/assets/images/logo.png'
 import {
   HeaderGrid,
   LeftHeader,
@@ -7,6 +6,7 @@ import {
   RightHeader,
   StyledLogo,
 } from '@/renderer/components/Header.styles'
+// import { getAssetURL } from 'electron-snowpack'
 
 interface NavLinkDefinition {
   to: string
@@ -39,7 +39,7 @@ export const Header: FC = () => {
         ))}
       </LeftHeader>
       <RightHeader>
-        <StyledLogo src={logo} />
+        <StyledLogo src="assets/images/logo.png" />
       </RightHeader>
     </HeaderGrid>
   )
