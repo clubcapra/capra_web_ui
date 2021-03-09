@@ -142,33 +142,48 @@ export const rosMachine = Machine<RosContext, RosStateSchema, RosEvent>(
       },
       updateIP: assign({
         IP: (_, event) => {
-          if (event.type !== 'SET_IP') throw new Error()
-          else return event.IP
+          if (event.type !== 'SET_IP') {
+            throw new Error()
+          } else {
+            return event.IP
+          }
         },
       }),
       updatePort: assign({
         port: (_, event) => {
-          if (event.type !== 'SET_PORT') throw new Error()
-          else return event.port
+          if (event.type !== 'SET_PORT') {
+            throw new Error()
+          } else {
+            return event.port
+          }
         },
       }),
       updateVideoServerPort: assign({
         videoServerPort: (_, event) => {
-          if (event.type !== 'SET_VIDEO_SERVER_PORT') throw new Error()
-          else return event.port
+          if (event.type !== 'SET_VIDEO_SERVER_PORT') {
+            throw new Error()
+          } else {
+            return event.port
+          }
         },
       }),
 
       updateDescriptionServerPort: assign({
         descriptionServerPort: (_, event) => {
-          if (event.type !== 'SET_DESCRIPTION_SERVER_PORT') throw new Error()
-          else return event.port
+          if (event.type !== 'SET_DESCRIPTION_SERVER_PORT') {
+            throw new Error()
+          } else {
+            return event.port
+          }
         },
       }),
       updateBaseLinkName: assign({
         descriptionServerPort: (_, event) => {
-          if (event.type !== 'SET_BASE_LINK_NAME') throw new Error()
-          else return event.name
+          if (event.type !== 'SET_BASE_LINK_NAME') {
+            throw new Error()
+          } else {
+            return event.name
+          }
         },
       }),
     },

@@ -25,15 +25,15 @@ export default class RosClient {
   ros: ROSLIB.Ros
   private topicManager: TopicManager
   private serviceManager: ServiceManager
-  private robotIP?: string
-  private port?: string
+  private robotIP = 'localhost'
+  private port = '9090'
   private connected = false
   private options: RosClientOptions
   private listeners?: Listeners
 
   constructor(
-    robotIP = 'localhost',
-    port = '9090',
+    robotIP: string,
+    port: string,
     options: RosClientOptions = defaultOptions
   ) {
     this.robotIP = robotIP

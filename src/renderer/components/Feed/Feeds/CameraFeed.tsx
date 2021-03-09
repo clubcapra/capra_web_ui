@@ -36,8 +36,9 @@ const Webcam: FC = () => {
       navigator.getUserMedia(
         { video: true, audio: false },
         (mediaStream) => {
-          if (videoRef && videoRef.current)
+          if (videoRef && videoRef.current) {
             videoRef.current.srcObject = mediaStream
+          }
         },
         (error) => {
           console.error(error)

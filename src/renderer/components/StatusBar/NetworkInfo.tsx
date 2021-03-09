@@ -88,6 +88,8 @@ const NetworkInfo = () => {
 }
 
 export const NetworkDisplay = () => {
-  if (navigator) return <NetworkInfo />
+  if (navigator) {
+    return <NetworkInfo />
+  }
   return null
 }

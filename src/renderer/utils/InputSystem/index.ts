@@ -79,9 +79,11 @@ export const mapSpaceMouseToTwist = (spacemouse: Gamepad): ITwistMsg => {
 }
 
 const getBtnValue = (rawBtn: GamepadButton) => {
-  if (rawBtn !== undefined)
+  if (rawBtn !== undefined) {
     return typeof rawBtn == 'number' ? rawBtn : rawBtn.value
-  else return 0
+  } else {
+    return 0
+  }
 }
 
 const defaultActions: Action[] = [
@@ -97,7 +99,9 @@ const defaultActions: Action[] = [
       if (controlService.state.matches('nothing') && ctx.type === 'keyboard') {
         return
       }
-      rosClient.callService({ name: 'takin_estop_disable' })
+      rosClient
+        .callService({ name: 'takin_estop_disable' })
+        .catch(console.error)
     },
   },
   {
@@ -111,15 +115,19 @@ const defaultActions: Action[] = [
     name: 'headlights',
     bindings: [{ type: 'gamepadBtn', button: buttons.dpad.left }],
     perform: () => {
-      rosClient.callService({ name: '/headlights' })
+      rosClient.callService({ name: '/headlights' }).catch(console.error)
     },
   },
   {
     name: 'movement',
     bindings: [{ type: 'gamepad' }],
     perform: (ctx) => {
-      if (ctx.type !== 'gamepad') return
-      if (!controlService.state.matches('flipper')) return
+      if (ctx.type !== 'gamepad') {
+        return
+      }
+      if (!controlService.state.matches('flipper')) {
+        return
+      }
 
       const { gamepad } = ctx.gamepadState
       const { axes } = gamepad
@@ -139,8 +147,12 @@ const defaultActions: Action[] = [
     name: 'spacemouse',
     bindings: [{ type: 'spacemouse' }],
     perform: (ctx) => {
-      if (ctx.type !== 'spacemouse') return
-      if (!controlService.state.matches('arm')) return
+      if (ctx.type !== 'spacemouse') {
+        return
+      }
+      if (!controlService.state.matches('arm')) {
+        return
+      }
 
       const joy = mapGamepadToJoy(ctx.gamepadState.gamepad)
       rosClient.publish(joyTopic, joy)

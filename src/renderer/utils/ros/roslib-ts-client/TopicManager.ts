@@ -6,8 +6,8 @@ import type { Ros, Topic } from 'roslib'
 
 class TopicManager {
   private ros: Ros
-  private registeredTopics: Map<string, RegisteredTopic> = new Map()
-  private topics: Map<string, Topic> = new Map()
+  private registeredTopics = new Map<string, RegisteredTopic>()
+  private topics = new Map<string, Topic>()
   private client: RosClient
 
   constructor(ros: Ros, client: RosClient) {
@@ -37,8 +37,10 @@ class TopicManager {
   }
 
   publish({ name, messageType }: TopicOptions, payload: unknown) {
-    // eslint-disable-next-line no-console
-    if (this.client.isLogEnabled) console.log(name, payload)
+    if (this.client.isLogEnabled) {
+      // eslint-disable-next-line no-console
+      console.log(name, payload)
+    }
 
     this.getTopic({ name, messageType }).publish(new ROSLIB.Message(payload))
   }

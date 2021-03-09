@@ -36,7 +36,9 @@ export const feedSlice = createSlice({
     ) => {
       const feed = state.feeds[id]
 
-      if (feed.type !== FeedTypeEnum.camera) return
+      if (feed.type !== FeedTypeEnum.camera) {
+        return
+      }
       feed.camera = camera
     },
     updateFeedMap: (
