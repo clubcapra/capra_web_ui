@@ -41,7 +41,9 @@ function useUrdfViewerRef(): [
   const [isInit, setIsInit] = useState(false)
 
   useEffect(() => {
-    if (isInit) return
+    if (isInit) {
+      return
+    }
 
     const localViewer = new ROS3D.Viewer({
       divID: id,
@@ -67,7 +69,9 @@ const View: FC<Props> = () => {
   const { IP, descriptionServerPort, baseLinkName } = state.context
 
   useEffect(() => {
-    if (!viewer) return
+    if (!viewer) {
+      return
+    }
 
     const ros = rosClient.ros
 

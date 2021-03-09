@@ -5,12 +5,11 @@ const typescriptConfigs = {
 
   parser: '@typescript-eslint/parser',
 
-  plugins: ['@typescript-eslint'],
+  // plugins: ['@typescript-eslint'],
 
   extends: [
-    'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
   ],
 
   rules: {
@@ -35,9 +34,11 @@ module.exports = {
     node: true,
   },
 
-  extends: ['eslint:recommended', 'prettier', 'plugin:react/recommended'],
-
-  plugins: ['prettier', 'react'],
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:prettier/recommended',
+  ],
 
   rules: {
     'no-console': [
@@ -48,7 +49,6 @@ module.exports = {
     ],
     'no-debugger': 'off',
     'no-var': 'error',
-    'prettier/prettier': 'warn',
     'prefer-const': [
       'error',
       {
@@ -59,6 +59,7 @@ module.exports = {
     'linebreak-style': ['error', 'windows'],
     'react/self-closing-comp': 1,
     'react/prop-types': 0,
+    curly: 'error',
   },
 
   overrides: [typescriptConfigs],

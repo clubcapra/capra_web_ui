@@ -99,7 +99,9 @@ export class InputSystem {
     for (const action of this.actions) {
       for (const binding of action.bindings) {
         const [canPerform, context] = checkBinding(binding)
-        if (canPerform) action.perform(context)
+        if (canPerform) {
+          action.perform(context)
+        }
       }
     }
   }
@@ -109,7 +111,9 @@ export class InputSystem {
     for (let i = 0; i <= gamepads.length; i++) {
       const gamepad = gamepads[i]
 
-      if (!gamepad || isInvalidGamepad(gamepad)) continue
+      if (!gamepad || isInvalidGamepad(gamepad)) {
+        continue
+      }
 
       const gamepadState: GamepadState = {
         gamepad,
@@ -208,16 +212,24 @@ export class InputSystem {
   // TODO make keyDown the default
   private onKeyDown = (e: KeyboardEvent) => {
     this.checkActionsBindings((b: Binding): [boolean, Context] => {
-      if (b.type !== 'keyboard') return [false, emptyCtx]
-      if (b.onKeyDown && b.code === e.code) return [true, keyboardCtx]
+      if (b.type !== 'keyboard') {
+        return [false, emptyCtx]
+      }
+      if (b.onKeyDown && b.code === e.code) {
+        return [true, keyboardCtx]
+      }
       return [false, emptyCtx]
     })
   }
 
   private onKeyUp = (e: KeyboardEvent) => {
     this.checkActionsBindings((b: Binding): [boolean, Context] => {
-      if (b.type !== 'keyboard') return [false, emptyCtx]
-      if (!b.onKeyDown && b.code === e.code) return [true, keyboardCtx]
+      if (b.type !== 'keyboard') {
+        return [false, emptyCtx]
+      }
+      if (!b.onKeyDown && b.code === e.code) {
+        return [true, keyboardCtx]
+      }
       return [false, emptyCtx]
     })
   }

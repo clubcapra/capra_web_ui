@@ -84,7 +84,9 @@ export const Table: FC = () => {
       const { value } = e.target
       const feed = allCameras.find((f) => f.id === id)
 
-      if (!feed) return
+      if (!feed) {
+        return
+      }
 
       const newCam: ICameraData = { ...feed.camera }
       switch (field) {
@@ -93,8 +95,7 @@ export const Table: FC = () => {
           newCam[field] = value
           break
         case 'type':
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          newCam[field] = (CameraType as any)[value]
+          newCam[field] = CameraType[value as keyof typeof CameraType]
           break
       }
 

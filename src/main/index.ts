@@ -1,7 +1,7 @@
 import electron from 'electron'
 import path from 'path'
 import { isDev } from './isDev'
-import { channels } from '../shared/constants'
+import { APP_INFO, APP_INFO_ARG, APP_INFO_QUERY } from '../shared/constants'
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS,
@@ -21,10 +21,11 @@ app.allowRendererProcessReuse = true
 
 const getAssetURL = (asset: string) => {
   if (isDev) {
-    return new URL(
-      asset,
-      `http://localhost:${process.env.ELECTRON_SNOWPACK_PORT}/`
-    ).toString()
+    const port = process.env.ELECTRON_SNOWPACK_PORT
+    if (!port) {
+      throw Error('port is not a string')
+    }
+    return new URL(asset, `http://localhost:${port}/`).toString()
   } else {
     return new URL(`file:///${path.join(__dirname, asset)}`).href
   }
@@ -43,11 +44,11 @@ function createWindow() {
   })
 
   if (mainWindow) {
-    mainWindow.loadURL(getAssetURL('index.html'))
+    mainWindow.loadURL(getAssetURL('index.html')).catch(console.error)
 
     if (isDev) {
+      // This is to make sure the devtools only opens when extensions are loaded
       mainWindow.once('ready-to-show', () => {
-        mainWindow?.show()
         mainWindow?.webContents.openDevTools()
       })
     } else {
@@ -58,36 +59,42 @@ function createWindow() {
   }
 }
 
-app.on('ready', () => {
-  createWindow()
-})
-
-app.whenReady().then(async () => {
-  if (isDev) {
-    try {
-      await installExtension(REACT_DEVELOPER_TOOLS)
-      await installExtension(REDUX_DEVTOOLS)
-    } catch (err) {
-      console.error('An error occurred: ', err)
+app
+  .whenReady()
+  .then(async () => {
+    if (isDev) {
+      try {
+        await installExtension(REACT_DEVELOPER_TOOLS)
+        await installExtension(REDUX_DEVTOOLS)
+      } catch (err) {
+        console.error('An error occurred: ', err)
+      }
     }
-  }
-})
+  })
+  .then(() => {
+    createWindow()
+    app.on('activate', () => {
+      // On macOS it's common to re-create a window in the app when the
+      // dock icon is clicked and there are no other windows open.
+      if (BrowserWindow.getAllWindows().length === 0) {
+        createWindow()
+      }
+    })
+  })
+  .catch((err) => console.error(err))
 
+// Quit when all windows are closed, except on macOS. There, it's common
+// for applications and their menu bar to stay active until the user quits
+// explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
 })
 
-app.on('activate', () => {
-  if (mainWindow === null) {
-    createWindow()
-  }
-})
-
-ipcMain.on(channels.APP_INFO, (event) => {
-  event.sender.send(channels.APP_INFO, {
+ipcMain.on(APP_INFO_QUERY, (event) => {
+  event.reply(APP_INFO, {
     appName: app.name,
     appVersion: app.getVersion(),
-  })
+  } as APP_INFO_ARG)
 })

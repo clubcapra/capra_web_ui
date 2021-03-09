@@ -38,12 +38,16 @@ export const EStopButton: FC = () => {
   const [isModalOpen, openModal, closeModal] = useOpenClose()
 
   const stopRobot = () => {
-    rosClient.callService({ name: 'takin_estop_disable', serviceType: '' }, '')
+    rosClient
+      .callService({ name: 'takin_estop_disable', serviceType: '' }, '')
+      .catch(console.error)
     openModal()
   }
 
   const restartRobot = () => {
-    rosClient.callService({ name: 'takin_estop_enable', serviceType: '' }, '')
+    rosClient
+      .callService({ name: 'takin_estop_enable', serviceType: '' }, '')
+      .catch(console.error)
     closeModal()
   }
 

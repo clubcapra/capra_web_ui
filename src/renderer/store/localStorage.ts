@@ -9,7 +9,7 @@ export const loadState = (): GlobalState => {
     if (serializedState === null) {
       return defaultState
     }
-    return JSON.parse(serializedState)
+    return JSON.parse(serializedState) as GlobalState
   } catch (err) {
     return defaultState
   }

@@ -5,7 +5,7 @@ import type { Ros, Service } from 'roslib'
 
 export class ServiceManager {
   private ros: Ros
-  private services: Map<string, Service> = new Map()
+  private services = new Map<string, Service>()
   private client: RosClient
 
   constructor(ros: Ros, client: RosClient) {
@@ -19,8 +19,10 @@ export class ServiceManager {
     const request = new ROSLIB.ServiceRequest(payload ?? '')
 
     const ret = new Promise((resolve, reject) => {
-      // eslint-disable-next-line no-console
-      if (this.client.isLogEnabled) console.log(service, request)
+      if (this.client.isLogEnabled) {
+        // eslint-disable-next-line no-console
+        console.log(service, request)
+      }
       service.callService(request, resolve, reject)
     })
 
@@ -30,8 +32,9 @@ export class ServiceManager {
   private getService(options: ServiceOptions): Service {
     const signature = getServiceSignature(options)
 
-    if (this.services.has(signature))
+    if (this.services.has(signature)) {
       return this.services.get(signature) as Service
+    }
 
     const service = new ROSLIB.Service({
       ros: this.ros,
