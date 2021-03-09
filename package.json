@@ -13,7 +13,7 @@
     "build": "yarn build:snowpack && yarn build:electron",
     "build:snowpack": "electron-snowpack build",
     "build:electron": "electron-builder",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "lint": "eslint --ext js,ts,tsx src",
     "fix": "eslint --fix --ext js,ts,tsx src",
     "typecheck": "tsc --noEmit",
