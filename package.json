@@ -28,9 +28,6 @@
         "deb"
       ]
     },
-    "directories": {
-      "buildResources": "./src/shared/build/resources/"
-    },
     "artifactName": "capra_web_ui_setup.${ext}",
     "extends": "electron-snowpack/config/electron-builder.js"
   },
@@ -40,6 +37,7 @@
     "chart.js": "^2.9.4",
     "chartjs-plugin-streaming": "^1.8.0",
     "date-fns": "^2.19.0",
+    "dotenv": "^8.2.0",
     "lodash": "^4.17.21",
     "patch-package": "^6.4.6",
     "polished": "^4.1.1",

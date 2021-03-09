@@ -1,3 +1,5 @@
+// require('dotenv').config()
+
 module.exports = {
   extends: 'electron-snowpack/config/snowpack.js',
   mount: {
@@ -7,7 +9,7 @@ module.exports = {
     '@/': './src/',
   },
   devOptions: {
-    port: 7918,
+    port: Number.parseInt(process.env.ELECTRON_SNOWPACK_PORT, 10),
   },
   packageOptions: {
     knownEntrypoints: ['date-fns/fp/format'],
