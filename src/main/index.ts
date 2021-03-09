@@ -2,6 +2,10 @@ import electron from 'electron'
 import path from 'path'
 import { isDev } from './isDev'
 import { channels } from '../shared/constants'
+import installExtension, {
+  REACT_DEVELOPER_TOOLS,
+  REDUX_DEVTOOLS,
+} from 'electron-devtools-installer'
 
 const { app, BrowserWindow, ipcMain } = electron
 
@@ -42,10 +46,12 @@ function createWindow() {
     mainWindow.loadURL(getAssetURL('index.html'))
 
     if (isDev) {
-      // TODO add react + redux devtools
-      mainWindow.webContents.openDevTools()
+      mainWindow.once('ready-to-show', () => {
+        mainWindow?.show()
+        mainWindow?.webContents.openDevTools()
+      })
     } else {
-      // mainWindow.removeMenu()
+      mainWindow.removeMenu()
     }
 
     mainWindow.on('closed', () => (mainWindow = null))
@@ -54,6 +60,17 @@ function createWindow() {
 
 app.on('ready', () => {
   createWindow()
+})
+
+app.whenReady().then(async () => {
+  if (isDev) {
+    try {
+      await installExtension(REACT_DEVELOPER_TOOLS)
+      await installExtension(REDUX_DEVTOOLS)
+    } catch (err) {
+      console.error('An error occurred: ', err)
+    }
+  }
 })
 
 app.on('window-all-closed', () => {
