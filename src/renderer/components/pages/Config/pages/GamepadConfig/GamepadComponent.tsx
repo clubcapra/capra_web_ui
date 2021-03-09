@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { StyledGamepad } from '@/renderer/components/pages/Config/pages/GamepadConfig/GamepadComponent.styles'
 import { ShortcutBox } from '@/renderer/components/pages/Config/pages/GamepadConfig/ShortcutBox'
-import gamepad from '@/renderer/assets/images/xbox-one-controller.png'
 
 interface ShortcutData {
   text: string
@@ -29,7 +28,7 @@ export const GamepadComponent: React.FC = () => {
           {x.text}
         </ShortcutBox>
       ))}
-      <img src={gamepad} alt="xbox one gamepad" />
+      <img src="assets/images/xbox-one-controller.png" alt="xbox one gamepad" />
     </StyledGamepad>
   )
 }
