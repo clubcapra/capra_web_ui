@@ -2,7 +2,6 @@ import electron from 'electron'
 import path from 'path'
 import { isDev } from './isDev'
 import { channels } from '../shared/constants'
-import url from 'url'
 
 const { app, BrowserWindow, ipcMain } = electron
 
@@ -15,6 +14,17 @@ const { app, BrowserWindow, ipcMain } = electron
 let mainWindow: Electron.BrowserWindow | null = null
 
 app.allowRendererProcessReuse = true
+
+const getAssetURL = (asset: string) => {
+  if (isDev) {
+    return new URL(
+      asset,
+      `http://localhost:${process.env.ELECTRON_SNOWPACK_PORT}/`
+    ).toString()
+  } else {
+    return new URL(`file:///${path.join(__dirname, asset)}`).href
+  }
+}
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -29,18 +39,7 @@ function createWindow() {
   })
 
   if (mainWindow) {
-    mainWindow.loadURL(
-      isDev
-        ? new URL(
-            'index.html',
-            `http://localhost:${process.env.ELECTRON_SNOWPACK_PORT}/`
-          ).toString()
-        : url.format({
-            pathname: path.join(__dirname, 'index.html'),
-            protocol: 'file',
-            slashes: true,
-          })
-    )
+    mainWindow.loadURL(getAssetURL('index.html'))
 
     if (isDev) {
       // TODO add react + redux devtools
