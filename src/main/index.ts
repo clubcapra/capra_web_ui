@@ -33,7 +33,7 @@ function createWindow() {
       isDev
         ? new URL(
             'index.html',
-            `http://localhost:${process.env.DEV_PORT}/`
+            `http://localhost:${process.env.ELECTRON_SNOWPACK_PORT}/`
           ).toString()
         : url.format({
             pathname: path.join(__dirname, 'index.html'),
@@ -46,7 +46,7 @@ function createWindow() {
       // TODO add react + redux devtools
       mainWindow.webContents.openDevTools()
     } else {
-      mainWindow.removeMenu()
+      // mainWindow.removeMenu()
     }
 
     mainWindow.on('closed', () => (mainWindow = null))
