@@ -6,6 +6,7 @@ import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS,
 } from 'electron-devtools-installer'
+import { powerSaveBlocker } from 'electron'
 
 const { app, BrowserWindow, ipcMain } = electron
 
@@ -98,3 +99,7 @@ ipcMain.on(APP_INFO_QUERY, (event) => {
     appVersion: app.getVersion(),
   } as APP_INFO_ARG)
 })
+
+const id = powerSaveBlocker.start('prevent-display-sleep')
+// eslint-disable-next-line no-console
+console.log('prevent-display-sleep started: ', powerSaveBlocker.isStarted(id))
