@@ -3,8 +3,7 @@ import { HashRouter } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 import { Provider } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-
+import { TerminalOverlay } from '@/renderer/components/Terminal/TerminalOverlay'
 import { defaultTheme } from '@/renderer/globalStyles/themes/defaultTheme'
 import { Layout } from '@/renderer/components/Layout'
 import { GlobalStyles } from '@/renderer/App.styles'
@@ -26,6 +25,7 @@ const App: FC = () => {
             <>
               <GlobalStyles />
               <Layout />
+              <TerminalOverlay />
             </>
           </ThemeProvider>
         </HashRouter>

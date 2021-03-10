@@ -8,6 +8,7 @@ import { Vector3 } from '@/renderer/utils/math/types'
 import { controlService } from '@/renderer/state/control'
 import { feedSlice } from '@/renderer/store/modules/feed/reducer'
 import { store } from '@/renderer/store/store'
+import { terminalService } from '@/renderer/state/terminal'
 
 export const cmdVelTopic: TopicOptions = {
   name: 'markhor/diff_drive_controller/cmd_vel',
@@ -185,6 +186,13 @@ const defaultActions: Action[] = [
       }
       const joy = mapGamepadToJoy(ctx.gamepadState.gamepad)
       rosClient.publish(joyTopic, joy)
+    },
+  },
+  {
+    name: 'toggle_terminal',
+    bindings: [{ type: 'keyboard', code: 'Backquote', onKeyDown: true }],
+    perform: () => {
+      terminalService.send({ type: 'TOGGLE' })
     },
   },
 ]

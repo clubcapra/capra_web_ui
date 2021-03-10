@@ -7,6 +7,7 @@ import installExtension, {
   REDUX_DEVTOOLS,
 } from 'electron-devtools-installer'
 import { powerSaveBlocker } from 'electron'
+import { initTerminalClient } from './terminalClient'
 
 const { app, BrowserWindow, ipcMain } = electron
 
@@ -17,6 +18,8 @@ const { app, BrowserWindow, ipcMain } = electron
 // see https://stackoverflow.com/questions/57614066/electron-app-onready-never-being-called-and-electron-window-never-showing
 
 let mainWindow: Electron.BrowserWindow | null = null
+
+export const getMainWindow = (): Electron.BrowserWindow | null => mainWindow
 
 app.allowRendererProcessReuse = true
 
@@ -58,6 +61,7 @@ function createWindow() {
 
     mainWindow.on('closed', () => (mainWindow = null))
   }
+  initTerminalClient()
 }
 
 app
