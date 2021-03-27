@@ -3,6 +3,7 @@ import { FeedType, FeedTypeEnum } from '@/renderer/store/modules/feed/@types'
 import { CameraFeed } from '@/renderer/components/Feed/Feeds/CameraFeed'
 import { NoFeed } from '@/renderer/components/Feed/Feeds/NoFeed'
 import { UrdfFeed } from '@/renderer/components/Feed/Feeds/UrdfFeed'
+import { EmptyFeed } from '@/renderer/components/Feed/Feeds/EmptyFeed'
 
 interface FeedViewProps {
   feed: FeedType
@@ -14,6 +15,8 @@ export const FeedView: FC<FeedViewProps> = ({ feed }) => {
       return <CameraFeed feed={feed} />
     case FeedTypeEnum.urdf:
       return <UrdfFeed feed={feed} />
+    case FeedTypeEnum.empty:
+      return <EmptyFeed />
     default:
       return <NoFeed text="NOT SUPPORTED" />
   }

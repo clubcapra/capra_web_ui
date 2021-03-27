@@ -7,6 +7,10 @@ import {
 export const initialState: FeedState = {
   feedMap: {},
   feeds: {
+    empty: {
+      type: FeedTypeEnum.empty,
+      id: 'empty',
+    },
     camera_3d_rgb: {
       type: FeedTypeEnum.camera,
       id: 'camera_3d_rgb',
@@ -29,14 +33,14 @@ export const initialState: FeedState = {
       type: FeedTypeEnum.urdf,
       id: 'urdf_viewer',
     },
-    // webcam: {
-    //   type: FeedTypeEnum.camera,
-    //   id: 'webcam',
-    //   camera: {
-    //     name: 'webcam',
-    //     type: CameraType.WEBCAM,
-    //     topic: '',
-    //   },
-    // },
+    webcam: {
+      type: FeedTypeEnum.camera,
+      id: 'webcam',
+      camera: {
+        name: 'webcam',
+        type: CameraType.WEBCAM,
+        topic: '',
+      },
+    },
   },
 }

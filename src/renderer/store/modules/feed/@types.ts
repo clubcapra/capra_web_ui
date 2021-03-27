@@ -15,6 +15,7 @@ export interface FeedMapValue {
 export enum FeedTypeEnum {
   camera,
   urdf,
+  empty,
 }
 
 export enum CameraType {
@@ -28,7 +29,7 @@ export interface FeedCollection {
   [feedId: string]: FeedType
 }
 
-export type FeedType = ICameraFeed | IUrdfFeed
+export type FeedType = ICameraFeed | IUrdfFeed | IEmptyFeed
 
 interface IFeed {
   type: FeedTypeEnum
@@ -49,5 +50,10 @@ export interface ICameraData {
 
 export interface IUrdfFeed extends IFeed {
   type: FeedTypeEnum.urdf
+  id: string
+}
+
+export interface IEmptyFeed extends IFeed {
+  type: FeedTypeEnum.empty
   id: string
 }

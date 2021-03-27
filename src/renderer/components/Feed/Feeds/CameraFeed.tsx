@@ -18,36 +18,43 @@ const CameraGrid = styled.div`
   align-items: center;
   justify-items: center;
   background-color: black;
+  position: absolute;
 `
 
 const StyledVideo = styled.video`
   height: 100%;
+  overflow: hidden;
 `
 
 const StyledImg = styled.img`
   height: 100%;
 `
 
+const hasGetUserMedia = () => !!(navigator && navigator.getUserMedia)
+
 const Webcam: FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
-    if (navigator && navigator.getUserMedia) {
-      navigator.getUserMedia(
-        { video: true, audio: false },
-        (mediaStream) => {
-          if (videoRef && videoRef.current) {
-            videoRef.current.srcObject = mediaStream
-          }
-        },
-        (error) => {
-          console.error(error)
-        }
-      )
+    if (!hasGetUserMedia()) {
+      console.error('navigator.getUserMedia is not supported')
+      return
     }
+
+    navigator.getUserMedia(
+      { video: true, audio: false },
+      (mediaStream) => {
+        if (videoRef && videoRef.current) {
+          videoRef.current.srcObject = mediaStream
+        }
+      },
+      (error) => {
+        console.error('failed to get user media', error)
+      }
+    )
   }, [])
 
-  return videoRef.current ? (
+  return hasGetUserMedia() ? (
     <StyledVideo ref={videoRef} autoPlay />
   ) : (
     <NoFeed text="webcam not supported" />
