@@ -20,6 +20,7 @@ const StyledView = styled.div`
   grid-area: v;
   height: 100%;
   overflow-y: auto;
+  position: relative;
 `
 
 const StatusBarArea = styled.div`
