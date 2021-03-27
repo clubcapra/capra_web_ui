@@ -4,6 +4,7 @@ import { Button } from '@/renderer/components/common/Button'
 import { SectionTitle } from '@/renderer/components/pages/Config/styles'
 import { useService } from '@xstate/react'
 import { rosService } from '@/renderer/state/ros'
+import { clearStoreCache } from '@/renderer/store/localStorage'
 
 const ConnectionSection = () => {
   const [state, send] = useService(rosService)
@@ -80,6 +81,7 @@ const DetectedGamepad = () => {
 
 export const GeneralConfig: FC = () => (
   <>
+    <Button onClick={clearStoreCache}>Clear cache</Button>
     <ConnectionSection />
     <UrdfDescriptionSection />
     <DetectedGamepad />

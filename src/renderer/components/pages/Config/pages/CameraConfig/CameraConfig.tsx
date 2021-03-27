@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC } from 'react'
+import React, { ChangeEvent, FC, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { CameraType } from '@/renderer/store/modules/feed/@types'
 import { CameraConfigWrapper } from '@/renderer/components/pages/Config/pages/CameraConfig/CameraConfig.styles'
@@ -58,11 +58,34 @@ const CameraTableSection = () => (
   </>
 )
 
+const MediaDevicesInfoSection = () => {
+  const [devices, setDevices] = useState<MediaDeviceInfo[]>([])
+  useEffect(() => {
+    void (async () => {
+      setDevices(
+        (await navigator.mediaDevices.enumerateDevices()).filter(
+          (d) => d.kind === 'videoinput'
+        )
+      )
+    })()
+  })
+
+  return (
+    <>
+      <SectionTitle>Media Devices</SectionTitle>
+      {devices.map((device) => (
+        <div key={device.deviceId}>{`${device.label} ${device.deviceId}`}</div>
+      ))}
+    </>
+  )
+}
+
 export const CameraConfig: FC = () => {
   return (
     <CameraConfigWrapper>
       <VideoServerSection />
       <CameraTableSection />
+      <MediaDevicesInfoSection />
     </CameraConfigWrapper>
   )
 }

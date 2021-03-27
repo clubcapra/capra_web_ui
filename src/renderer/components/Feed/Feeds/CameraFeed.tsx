@@ -30,9 +30,9 @@ const StyledImg = styled.img`
   height: 100%;
 `
 
-const hasGetUserMedia = () => !!(navigator && navigator.getUserMedia)
+const hasGetUserMedia = () => !!navigator?.mediaDevices?.getUserMedia
 
-const Webcam: FC = () => {
+const Webcam: FC<{ deviceid: string }> = ({ deviceid }) => {
   const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
@@ -40,18 +40,19 @@ const Webcam: FC = () => {
       console.error('navigator.getUserMedia is not supported')
       return
     }
-
-    navigator.getUserMedia(
-      { video: true, audio: false },
-      (mediaStream) => {
+    void (async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { deviceId: deviceid },
+          audio: false,
+        })
         if (videoRef && videoRef.current) {
-          videoRef.current.srcObject = mediaStream
+          videoRef.current.srcObject = stream
         }
-      },
-      (error) => {
-        console.error('failed to get user media', error)
+      } catch (err) {
+        console.error('failed to get stream')
       }
-    )
+    })()
   }, [])
 
   return hasGetUserMedia() ? (
@@ -72,7 +73,7 @@ const View: FC<Props> = ({ feed }) => {
     case CameraType.VP8:
       return <StyledVideo src={source} autoPlay preload="none" />
     case CameraType.WEBCAM:
-      return <Webcam />
+      return <Webcam deviceid={feed.camera.topic} />
     default:
       return <NoFeed text="stream type not supported" />
   }

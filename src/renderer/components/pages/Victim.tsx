@@ -6,12 +6,12 @@ import { styled } from '@/renderer/globalStyles/styled'
 const Layout = styled.div`
   display: grid;
   height: 100%;
-  grid-template-columns: auto auto;
-  grid-template-rows: auto auto 100px;
+
+  grid-template-columns: auto auto 400px;
+  grid-template-rows: auto auto;
   grid-template-areas:
-    'feed1 feed2'
-    'feed3 feed4'
-    'feed5 feed5';
+    'feed1 feed2 feed5'
+    'feed3 feed4 feed5';
 
   > #victim_feed_1 {
     grid-area: feed1;

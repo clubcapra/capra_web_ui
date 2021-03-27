@@ -1,4 +1,4 @@
-import React, { FC, useCallback, ChangeEvent } from 'react'
+import React, { FC, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import {
   selectAllCamera,
@@ -22,7 +22,7 @@ interface TableRowProps {
   feed: ICameraFeed
   updateCamera: (
     id: string
-  ) => (field: keyof ICameraData) => (e: ChangeEvent<HTMLInputElement>) => void
+  ) => (field: keyof ICameraData, value: string) => void
 }
 
 const TableRow: FC<TableRowProps> = ({ feed, updateCamera }) => {
@@ -46,17 +46,28 @@ const TableRow: FC<TableRowProps> = ({ feed, updateCamera }) => {
   return (
     <tr>
       <td>
-        <StyledTableInput value={name} onChange={updateCameraId('name')} />
-      </td>
-      <td>
-        <StyledTableInput value={topic} onChange={updateCameraId('topic')} />
+        <StyledTableInput
+          value={name}
+          onChange={(e) => updateCameraId('name', e.target.value)}
+        />
       </td>
       <td>
         <StyledTableInput
-          value={type}
-          onChange={updateCameraId('type')}
-          disabled
+          value={topic}
+          onChange={(e) => updateCameraId('topic', e.target.value)}
         />
+      </td>
+      <td>
+        <select
+          value={type}
+          onChange={(e) => updateCameraId('type', e.target.value)}
+        >
+          {Object.keys(CameraType).map((cameraType) => (
+            <option key={cameraType} value={cameraType.toLowerCase()}>
+              {cameraType.toLowerCase()}
+            </option>
+          ))}
+        </select>
       </td>
       <td>
         <Button onClick={onOpen}>Test</Button>
@@ -78,10 +89,7 @@ export const Table: FC = () => {
   const allCameras = useSelector(selectAllCamera)
 
   const updateCamera = useCallback(
-    (id: string) => (field: keyof ICameraData) => (
-      e: ChangeEvent<HTMLInputElement>
-    ): void => {
-      const { value } = e.target
+    (id: string) => (field: keyof ICameraData, value: string): void => {
       const feed = allCameras.find((f) => f.id === id)
 
       if (!feed) {
@@ -95,7 +103,7 @@ export const Table: FC = () => {
           newCam[field] = value
           break
         case 'type':
-          newCam[field] = CameraType[value as keyof typeof CameraType]
+          newCam[field] = CameraType[value as keyof typeof CameraType] || value
           break
       }
 
