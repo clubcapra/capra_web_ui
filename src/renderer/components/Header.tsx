@@ -19,8 +19,8 @@ const navLinks: NavLinkDefinition[] = [
     label: 'Teleop',
   },
   {
-    to: '/arm',
-    label: 'Arm',
+    to: '/victim',
+    label: 'Victim',
   },
   {
     to: '/config',

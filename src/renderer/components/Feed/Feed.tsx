@@ -10,14 +10,14 @@ import { FeedView } from '@/renderer/components/Feed/FeedView'
 import { useOpenClose } from '@/renderer/utils/hooks/useOpenClose'
 
 interface FeedProps {
-  id: string
+  feed_id: string
   defaultFeed?: string
 }
 
-export const Feed: FC<FeedProps> = ({ id, defaultFeed }) => {
+export const Feed: FC<FeedProps> = ({ feed_id, defaultFeed }) => {
   const [isMouseOver, onOver, onLeave] = useOpenClose()
 
-  const mappedFeed = useSelector(selectFeedFromFeedMap(id))
+  const mappedFeed = useSelector(selectFeedFromFeedMap(feed_id))
   const allFeeds = useSelector(selectAllFeeds)
 
   const feed = useMemo(() => {
@@ -35,9 +35,10 @@ export const Feed: FC<FeedProps> = ({ id, defaultFeed }) => {
       onMouseEnter={onOver}
       onMouseLeave={onLeave}
       onMouseOver={onOver}
+      id={feed_id}
     >
       <FeedView feed={feed} />
-      <FeedSelect id={id} visible={isMouseOver} currentFeedId={feed.id} />
+      <FeedSelect id={feed_id} visible={isMouseOver} currentFeedId={feed.id} />
     </StyledFeedComponent>
   )
 }

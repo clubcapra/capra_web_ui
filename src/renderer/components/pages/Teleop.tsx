@@ -4,5 +4,5 @@ import { useControl } from '@/renderer/utils/hooks/useControl'
 
 export const Teleop: FC = () => {
   useControl('flipper')
-  return <Feed id="teleop_main" defaultFeed="camera_3d_rgb" />
+  return <Feed feed_id="teleop_main" defaultFeed="camera_3d_rgb" />
 }
