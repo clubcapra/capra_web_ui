@@ -11,12 +11,14 @@ import {
 } from '@/renderer/store/modules/feed/@types'
 import { FaTimes } from 'react-icons/fa'
 import { useSelector } from '@/renderer/utils/hooks/typedUseSelector'
-import { StyledTable, StyledTableInput } from './Table.styles'
+import { StyledTable } from './Table.styles'
 import { Button } from '@/renderer/components/common/Button'
 import { Modal } from '@/renderer/components/common/Modal'
 import { useOpenClose } from '@/renderer/utils/hooks/useOpenClose'
 import { useService } from '@xstate/react'
 import { rosService, videoUrlSelector } from '@/renderer/state/ros'
+import { Select } from '@/renderer/components/common/Select'
+import { Input } from '@/renderer/components/common/Input'
 
 interface TableRowProps {
   feed: ICameraFeed
@@ -46,28 +48,26 @@ const TableRow: FC<TableRowProps> = ({ feed, updateCamera }) => {
   return (
     <tr>
       <td>
-        <StyledTableInput
+        <Input
           value={name}
           onChange={(e) => updateCameraId('name', e.target.value)}
         />
       </td>
       <td>
-        <StyledTableInput
+        <Input
           value={topic}
           onChange={(e) => updateCameraId('topic', e.target.value)}
         />
       </td>
       <td>
-        <select
+        <Select
           value={type}
+          options={Object.keys(CameraType).map((o) => ({
+            key: o,
+            value: o.toLowerCase(),
+          }))}
           onChange={(e) => updateCameraId('type', e.target.value)}
-        >
-          {Object.keys(CameraType).map((cameraType) => (
-            <option key={cameraType} value={cameraType.toLowerCase()}>
-              {cameraType.toLowerCase()}
-            </option>
-          ))}
-        </select>
+        />
       </td>
       <td>
         <Button onClick={onOpen}>Test</Button>

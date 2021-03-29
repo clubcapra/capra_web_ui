@@ -25,4 +25,5 @@ export const defaultTheme = {
       big: '16px',
     },
   },
+  inputHeight: '32px',
 }

@@ -1,5 +1,4 @@
 import { styled } from '@/renderer/globalStyles/styled'
-import { darken } from 'polished'
 
 export const StyledTable = styled.table`
   width: 100%;
@@ -21,6 +20,14 @@ export const StyledTable = styled.table`
     &:last-child {
       cursor: pointer;
     }
+
+    input {
+      width: 100%;
+    }
+
+    select {
+      width: 100%;
+    }
   }
 
   thead th {
@@ -31,25 +38,5 @@ export const StyledTable = styled.table`
 
   tbody {
     border: 1px solid ${({ theme }) => theme.colors.border};
-  }
-`
-
-export const StyledTableInput = styled.input`
-  height: 32px;
-  width: 100%;
-  padding: 4px 8px;
-  background-color: ${({ theme }) => theme.colors.foreground};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  color: ${({ theme }) => theme.colors.fontLight};
-
-  &:active,
-  &:focus {
-    outline-color: ${({ theme }) => theme.colors.primary};
-  }
-
-  &:disabled {
-    background-color: ${({ theme }) => darken(0.1, theme.colors.foreground)};
-    color: ${({ theme }) => darken(0.2, theme.colors.fontLight)};
-    cursor: not-allowed;
   }
 `
