@@ -1,5 +1,3 @@
-// require('dotenv').config()
-
 module.exports = {
   extends: 'electron-snowpack/config/snowpack.js',
   mount: {
@@ -14,4 +12,5 @@ module.exports = {
   packageOptions: {
     knownEntrypoints: ['date-fns/fp/format'],
   },
+  plugins: ['@snowpack/plugin-react-refresh'],
 }

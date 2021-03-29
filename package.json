@@ -52,6 +52,7 @@
     "xstate": "^4.17.1"
   },
   "devDependencies": {
+    "@snowpack/plugin-react-refresh": "^2.4.1",
     "@types/chart.js": "^2.9.31",
     "@types/jest": "^26.0.22",
     "@types/lodash": "^4.14.168",
