@@ -41,16 +41,20 @@ const Webcam: FC<{ deviceid: string }> = ({ deviceid }) => {
       return
     }
     void (async () => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: { deviceId: deviceid },
-          audio: false,
-        })
-        if (videoRef && videoRef.current) {
-          videoRef.current.srcObject = stream
+      let streamStarted = false
+      while (!streamStarted) {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: { deviceId: deviceid },
+            audio: false,
+          })
+          if (videoRef && videoRef.current) {
+            videoRef.current.srcObject = stream
+            streamStarted = true
+          }
+        } catch (error) {
+          console.error('failed to get stream', error)
         }
-      } catch (err) {
-        console.error('failed to get stream')
       }
     })()
   }, [])
