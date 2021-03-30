@@ -56,6 +56,10 @@ export const initialState: FeedState = {
     co2_graph: {
       type: FeedTypeEnum.Graph,
       id: 'co2_graph',
+      topic: {
+        name: '/ppm',
+        messageType: 'std_msgs/String',
+      },
     },
   },
 }

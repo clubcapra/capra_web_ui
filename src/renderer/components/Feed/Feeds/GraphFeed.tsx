@@ -8,7 +8,6 @@ import {
   PointElement,
 } from 'chart.js'
 import { IGraphFeed } from '@/renderer/store/modules/feed/@types'
-import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
 import _ from 'lodash'
 import { useInterval } from '@/renderer/utils/hooks/useInterval'
 import { useRosSubscribe } from '@/renderer/utils/hooks/useRosSubscribe'
@@ -26,12 +25,7 @@ interface Props {
   feed: IGraphFeed
 }
 
-const co2Topic: TopicOptions<string> = {
-  name: '/ppm',
-  messageType: 'std_msgs/String',
-}
-
-export const GraphFeed: FC<Props> = () => {
+export const GraphFeed: FC<Props> = ({ feed }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [chart, setChart] = useState<Chart | null>(null)
 
@@ -45,7 +39,6 @@ export const GraphFeed: FC<Props> = () => {
               {
                 data: [],
                 borderColor: 'rgb(255, 0, 0)',
-                showLine: true,
                 pointRadius: 1,
               },
             ],
@@ -97,8 +90,10 @@ export const GraphFeed: FC<Props> = () => {
     [chart]
   )
 
-  useRosSubscribe(co2Topic, (message) => {
-    updateChart({ x: Date.now(), y: parseInt(message.data, 10) })
+  useRosSubscribe(feed.topic, (message) => {
+    if (typeof message.data === 'string') {
+      updateChart({ x: Date.now(), y: parseInt(message.data, 10) })
+    }
   })
 
   if (process.env.NODE_ENV === 'development') {

@@ -1,3 +1,5 @@
+import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
+
 export interface FeedState {
   feeds: FeedCollection
   feedMap: FeedMap
@@ -64,4 +66,5 @@ export interface IUrdfFeed extends IFeed {
 export interface IGraphFeed extends IFeed {
   type: FeedTypeEnum.Graph
   id: string
+  topic: TopicOptions
 }
