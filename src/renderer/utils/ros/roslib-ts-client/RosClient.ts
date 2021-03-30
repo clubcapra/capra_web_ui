@@ -74,11 +74,11 @@ export default class RosClient {
     this.ros.close()
   }
 
-  subscribe(
-    options: TopicOptions,
-    handler: (message: { data: unknown }) => void
+  subscribe<T>(
+    options: TopicOptions<T>,
+    handler: (message: { data: T }) => void
   ) {
-    this.topicManager.subscribe(options, handler)
+    this.topicManager.subscribe<T>(options, handler)
   }
 
   unsubscribe(options: TopicOptions) {
