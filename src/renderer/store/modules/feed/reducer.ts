@@ -13,7 +13,7 @@ export const feedSlice = createSlice({
       const id = shortid()
       state.feeds[id] = {
         id,
-        type: FeedTypeEnum.camera,
+        type: FeedTypeEnum.Camera,
         camera: payload,
       }
     },
@@ -36,7 +36,7 @@ export const feedSlice = createSlice({
     ) => {
       const feed = state.feeds[id]
 
-      if (feed.type !== FeedTypeEnum.camera) {
+      if (feed.type !== FeedTypeEnum.Camera) {
         return
       }
       feed.camera = camera
@@ -55,5 +55,5 @@ export const selectFeedFromFeedMap = (id: string) => (state: GlobalState) =>
   state.feed.feedMap[id]
 export const selectAllCamera = (state: GlobalState) =>
   Object.values(state.feed.feeds)
-    .filter((feed) => feed.type === FeedTypeEnum.camera)
+    .filter((feed) => feed.type === FeedTypeEnum.Camera)
     .reverse() as ICameraFeed[]

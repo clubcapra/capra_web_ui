@@ -8,11 +8,11 @@ export const initialState: FeedState = {
   feedMap: {},
   feeds: {
     empty: {
-      type: FeedTypeEnum.empty,
+      type: FeedTypeEnum.Empty,
       id: 'empty',
     },
     camera_3d_rgb: {
-      type: FeedTypeEnum.camera,
+      type: FeedTypeEnum.Camera,
       id: 'camera_3d_rgb',
       camera: {
         name: 'camera_3d_rgb',
@@ -21,7 +21,7 @@ export const initialState: FeedState = {
       },
     },
     camera_3d_depth: {
-      type: FeedTypeEnum.camera,
+      type: FeedTypeEnum.Camera,
       id: 'camera_3d_depth',
       camera: {
         name: 'camera_3d_depth',
@@ -29,18 +29,22 @@ export const initialState: FeedState = {
         topic: '/camera_3d/depth/image',
       },
     },
-    urdf_viewer: {
-      type: FeedTypeEnum.urdf,
-      id: 'urdf_viewer',
-    },
     webcam: {
-      type: FeedTypeEnum.camera,
+      type: FeedTypeEnum.Camera,
       id: 'webcam',
       camera: {
         name: 'webcam',
         type: CameraType.WEBCAM,
         topic: '',
       },
+    },
+    urdf_viewer: {
+      type: FeedTypeEnum.Urdf,
+      id: 'urdf_viewer',
+    },
+    co2_graph: {
+      type: FeedTypeEnum.Graph,
+      id: 'co2_graph',
     },
   },
 }
