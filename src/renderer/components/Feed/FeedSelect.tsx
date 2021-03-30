@@ -5,7 +5,14 @@ import {
   selectAllFeeds,
   feedSlice,
 } from '@/renderer/store/modules/feed/reducer'
-import { StyledFeedSelect } from '@/renderer/components/Feed/FeedSelect.styles'
+import { styled } from '@/renderer/globalStyles/styled'
+import { Select } from '@/renderer/components/common/Select'
+
+const StyledContainer = styled.div`
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+`
 
 interface FeedSelectProps {
   id: string
@@ -14,7 +21,7 @@ interface FeedSelectProps {
 }
 
 const getLabel = (feed: FeedType) =>
-  feed.type === FeedTypeEnum.camera ? feed.camera.name : feed.id
+  feed.type === FeedTypeEnum.Camera ? feed.camera.name : feed.id
 
 export const FeedSelect: FC<FeedSelectProps> = ({
   id,
@@ -29,16 +36,16 @@ export const FeedSelect: FC<FeedSelectProps> = ({
     dispatch(feedSlice.actions.updateFeedMap({ id, feedId: e.target.value }))
 
   return (
-    <StyledFeedSelect
-      onChange={selectFeed}
-      value={currentFeedId}
-      hidden={!visible}
-    >
-      {feedCollection.map((feed) => (
-        <option key={feed.id} value={feed.id}>
-          {getLabel(feed)}
-        </option>
-      ))}
-    </StyledFeedSelect>
+    <StyledContainer hidden={!visible}>
+      <Select
+        onChange={selectFeed}
+        value={currentFeedId}
+        options={feedCollection.map((feed) => ({
+          key: feed.id,
+          value: feed.id,
+          content: getLabel(feed),
+        }))}
+      />
+    </StyledContainer>
   )
 }
