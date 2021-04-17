@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { ICameraFeed, CameraType } from '@/renderer/store/modules/feed/@types'
-
 import { FC, useEffect, useRef } from 'react'
 import { styled } from '@/renderer/globalStyles/styled'
 import { NoFeed } from '@/renderer/components/Feed/Feeds/NoFeed'
@@ -57,7 +56,7 @@ const Webcam: FC<{ deviceid: string }> = ({ deviceid }) => {
         }
       }
     })()
-  }, [])
+  }, [deviceid])
 
   return hasGetUserMedia() ? (
     <StyledVideo ref={videoRef} autoPlay />
