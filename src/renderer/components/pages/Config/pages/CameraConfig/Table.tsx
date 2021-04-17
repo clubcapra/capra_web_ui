@@ -19,6 +19,7 @@ import { useService } from '@xstate/react'
 import { rosService, videoUrlSelector } from '@/renderer/state/ros'
 import { Select } from '@/renderer/components/common/Select'
 import { Input } from '@/renderer/components/common/Input'
+import { useEscape } from '@/renderer/utils/hooks/useEscape'
 
 interface TableRowProps {
   feed: ICameraFeed
@@ -34,10 +35,15 @@ const TableRow: FC<TableRowProps> = ({ feed, updateCamera }) => {
   } = feed
 
   const dispatch = useDispatch()
-
   const removeCamera = () => dispatch(feedSlice.actions.removeFeed(id))
   const updateCameraId = updateCamera(id)
-  const [isOpen, onOpen, onClose] = useOpenClose()
+  const [isOpen, open, close] = useOpenClose()
+
+  useEscape(() => {
+    if (isOpen) {
+      close()
+    }
+  })
 
   const [state] = useService(rosService)
   const snapshotSource = videoUrlSelector(
@@ -70,8 +76,8 @@ const TableRow: FC<TableRowProps> = ({ feed, updateCamera }) => {
         />
       </td>
       <td>
-        <Button onClick={onOpen}>Test</Button>
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Button onClick={open}>Test</Button>
+        <Modal isOpen={isOpen} onClose={close}>
           <img src={snapshotSource} alt="video server snapshot" />
         </Modal>
       </td>
