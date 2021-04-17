@@ -6,6 +6,8 @@ import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
 import { ITwistMsg, IJoyMsg } from '@/renderer/utils/ros/rosMsgs.types'
 import { Vector3 } from '@/renderer/utils/math/types'
 import { controlService } from '@/renderer/state/control'
+import { feedSlice } from '@/renderer/store/modules/feed/reducer'
+import { store } from '@/renderer/store/store'
 
 export const cmdVelTopic: TopicOptions = {
   name: '/cmd_vel',
@@ -113,6 +115,18 @@ const defaultActions: Action[] = [
     bindings: [{ type: 'gamepadBtn', button: buttons.dpad.right }],
     perform: () => {
       controlService.send('TOGGLE')
+    },
+  },
+  {
+    name: 'switchForwardDirection',
+    bindings: [
+      { type: 'gamepadBtn', button: buttons.back },
+      { type: 'keyboard', code: 'KeyT', onKeyDown: true },
+    ],
+    perform: () => {
+      // TODO use direction service when implemented
+      rosClient.callService({ name: 'switch_direction' }).catch(console.error)
+      store.dispatch(feedSlice.actions.switchDirection())
     },
   },
   {

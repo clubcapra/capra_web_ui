@@ -4,8 +4,19 @@ import {
   CameraType,
 } from '@/renderer/store/modules/feed/@types'
 
+export const feed_id = {
+  teleop: {
+    main: 'teleop_main',
+    bottom_left: 'teleop_bottom_left',
+    top_left: 'teleop_top_left',
+    top_right: 'teleop_top_right',
+  },
+}
+
 export const initialState: FeedState = {
   feedMap: {},
+  feed_front: feed_id.teleop.main,
+  feed_back: feed_id.teleop.bottom_left,
   feeds: {
     empty: {
       type: FeedTypeEnum.Empty,

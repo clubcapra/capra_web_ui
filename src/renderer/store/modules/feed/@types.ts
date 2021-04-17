@@ -1,6 +1,8 @@
 export interface FeedState {
   feeds: FeedCollection
   feedMap: FeedMap
+  feed_front: string
+  feed_back: string
 }
 
 export interface FeedMap {

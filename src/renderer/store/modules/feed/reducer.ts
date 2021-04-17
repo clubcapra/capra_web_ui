@@ -47,6 +47,11 @@ export const feedSlice = createSlice({
     ) => {
       state.feedMap[id] = { id, feedId }
     },
+    switchDirection: (state) => {
+      const feed_id_old = state.feedMap[state.feed_front]
+      state.feedMap[state.feed_front] = state.feedMap[state.feed_back]
+      state.feedMap[state.feed_back] = feed_id_old
+    },
   },
 })
 

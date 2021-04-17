@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 import { Feed } from '@/renderer/components/Feed/Feed'
 import { useControl } from '@/renderer/utils/hooks/useControl'
 import { styled } from '@/renderer/globalStyles/styled'
+import { feed_id } from '@/renderer/store/modules/feed/initialState'
 
 interface PipProps {
   left?: boolean
@@ -28,15 +29,15 @@ export const Teleop: FC = () => {
   useControl('flipper')
   return (
     <>
-      <Feed feed_id="teleop_main" defaultFeed="camera_3d_rgb" />
+      <Feed feed_id={feed_id.teleop.main} defaultFeed="camera_3d_rgb" />
       <StyledPIP left bottom>
-        <Feed feed_id="teleop_main_pip_1" defaultFeed="empty" />
+        <Feed feed_id={feed_id.teleop.bottom_left} defaultFeed="empty" />
       </StyledPIP>
       <StyledPIP left top>
-        <Feed feed_id="teleop_main_pip_2" defaultFeed="empty" />
+        <Feed feed_id={feed_id.teleop.top_left} defaultFeed="empty" />
       </StyledPIP>
       <StyledPIP right top>
-        <Feed feed_id="teleop_main_pip_3" defaultFeed="empty" />
+        <Feed feed_id={feed_id.teleop.top_right} defaultFeed="empty" />
       </StyledPIP>
     </>
   )
