@@ -6,7 +6,6 @@ import {
   RightHeader,
   StyledLogo,
 } from '@/renderer/components/Header.styles'
-// import { getAssetURL } from 'electron-snowpack'
 
 interface NavLinkDefinition {
   to: string
