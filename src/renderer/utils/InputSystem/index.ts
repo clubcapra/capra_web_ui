@@ -22,6 +22,11 @@ export const spaceMouseTopic: TopicOptions = {
   messageType: 'geometry_msgs/Twist',
 }
 
+export const gamepadTopic: TopicOptions = {
+  name: '/gamepad',
+  messageType: 'geometry_msgs/Twist',
+}
+
 let joySeqId = 0
 
 export const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
@@ -79,11 +84,10 @@ export const mapSpaceMouseToTwist = (spacemouse: Gamepad): ITwistMsg => {
 }
 
 const getBtnValue = (rawBtn: GamepadButton) => {
-  if (rawBtn !== undefined) {
-    return typeof rawBtn == 'number' ? rawBtn : rawBtn.value
-  } else {
+  if (!rawBtn) {
     return 0
   }
+  return typeof rawBtn == 'number' ? rawBtn : rawBtn.value
 }
 
 const defaultActions: Action[] = [
@@ -156,6 +160,17 @@ const defaultActions: Action[] = [
 
       const joy = mapGamepadToJoy(ctx.gamepadState.gamepad)
       rosClient.publish(joyTopic, joy)
+    },
+  },
+  {
+    name: 'gamepad',
+    bindings: [{ type: 'gamepad' }],
+    perform: (ctx) => {
+      if (ctx.type !== 'gamepad') {
+        return
+      }
+      const joy = mapGamepadToJoy(ctx.gamepadState.gamepad)
+      rosClient.publish(gamepadTopic, joy)
     },
   },
 ]
