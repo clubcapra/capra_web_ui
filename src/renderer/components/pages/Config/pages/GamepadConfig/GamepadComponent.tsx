@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { StyledGamepad } from '@/renderer/components/pages/Config/pages/GamepadConfig/GamepadComponent.styles'
 import { ShortcutBox } from '@/renderer/components/pages/Config/pages/GamepadConfig/ShortcutBox'
+import { styled } from '@/renderer/globalStyles/styled'
 
 interface ShortcutData {
   text: string
@@ -32,3 +32,23 @@ export const GamepadComponent: React.FC = () => {
     </StyledGamepad>
   )
 }
+
+const StyledGamepadContainer = styled.div``
+
+const StyledGamepad = styled.div`
+  padding-top: 128px;
+  margin: 0 auto;
+  position: relative;
+  display: table;
+  width: 800px;
+
+  img {
+    position: relative;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 500px;
+    height: 400px;
+    z-index: 1;
+  }
+`
