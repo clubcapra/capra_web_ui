@@ -19,6 +19,8 @@ const VideoServerPortConfig: FC = () => {
 
   return (
     <>
+      <h3>Notice</h3>
+      <p>This is the port used to connect to ros_video_server</p>
       <LabeledInput
         label="Port"
         value={videoServerPort}
@@ -53,6 +55,13 @@ const VideoServerSection = () => (
 const CameraTableSection = () => (
   <>
     <SectionTitle>Cameras</SectionTitle>
+    <h3>Notice</h3>
+    <p>
+      The webcam camera type is only for debug purposes. If you want to use it
+      you need to set the topic to the device id found in the Media Device Info
+      section
+    </p>
+    <br />
     <AddCamera />
     <Table />
   </>

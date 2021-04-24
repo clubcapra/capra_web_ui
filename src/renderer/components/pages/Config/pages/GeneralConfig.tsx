@@ -47,6 +47,7 @@ const NamespaceSection = () => {
   return (
     <>
       <SectionTitle>UI Ros Namespace</SectionTitle>
+      <p>This will be appended to any topic that publishes from the UI.</p>
       <LabeledInput
         label="Namespace"
         value={namespace}
