@@ -13,7 +13,7 @@ import { FaTimes } from 'react-icons/fa'
 import { useSelector } from '@/renderer/utils/hooks/typedUseSelector'
 import { StyledTable } from './Table.styles'
 import { Button } from '@/renderer/components/common/Button'
-import { Modal } from '@/renderer/components/common/Modal'
+import { Modal } from '@/renderer/components/common/Modal/Modal'
 import { useOpenClose } from '@/renderer/utils/hooks/useOpenClose'
 import { useService } from '@xstate/react'
 import { rosService, videoUrlSelector } from '@/renderer/state/ros'
@@ -77,7 +77,11 @@ const TableRow: FC<TableRowProps> = ({ feed, updateCamera }) => {
       </td>
       <td>
         <Button onClick={open}>Test</Button>
-        <Modal isOpen={isOpen} onClose={close}>
+        <Modal
+          isOpen={isOpen}
+          onClose={close}
+          title={`Preview snapshot for: ${name}`}
+        >
           <img src={snapshotSource} alt="video server snapshot" />
         </Modal>
       </td>

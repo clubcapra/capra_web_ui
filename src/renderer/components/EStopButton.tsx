@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react'
-import { Modal } from './common/Modal'
+import { Modal } from './common/Modal/Modal'
 import { Button } from './common/Button'
 import { rosClient } from '@/renderer/utils/ros/rosClient'
 import { StyledStopButton } from './EStopButton.styles'
@@ -54,18 +54,23 @@ export const EStopButton: FC = () => {
   return (
     <>
       <StopButton onClick={stopRobot} />
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <h2>Warning!</h2>
-        <p>Robot is currently stopped</p>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        title={'Warning!'}
+        footer={
+          <div style={{ display: 'flex' }}>
+            <Button onClick={restartRobot} btnType="success">
+              Yes
+            </Button>
+            <Button onClick={closeModal} btnType="danger">
+              No
+            </Button>
+          </div>
+        }
+      >
+        <p>Robot is currently stopped.</p>
         <p>Do you want to restart it?</p>
-        <div style={{ display: 'flex' }}>
-          <Button onClick={restartRobot} btnType="success">
-            Yes
-          </Button>
-          <Button onClick={closeModal} btnType="danger">
-            No
-          </Button>
-        </div>
       </Modal>
     </>
   )
