@@ -19,6 +19,11 @@ export const ConfigMenu: FC = () => {
           </StyledNavLink>
         </li>
         <li>
+          <StyledNavLink to="/config/graph" activeClassName="is-active">
+            Graph
+          </StyledNavLink>
+        </li>
+        <li>
           <StyledNavLink to="/config/gamepad" activeClassName="is-active">
             Gamepad
           </StyledNavLink>

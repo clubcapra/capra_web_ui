@@ -66,5 +66,10 @@ export interface IUrdfFeed extends IFeed {
 export interface IGraphFeed extends IFeed {
   type: FeedTypeEnum.Graph
   id: string
+  graph: IGraphData
+}
+
+export interface IGraphData {
   topic: TopicOptions
+  name: string
 }

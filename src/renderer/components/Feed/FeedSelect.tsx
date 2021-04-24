@@ -20,8 +20,16 @@ interface FeedSelectProps {
   currentFeedId: string
 }
 
-const getLabel = (feed: FeedType) =>
-  feed.type === FeedTypeEnum.Camera ? feed.camera.name : feed.id
+const getLabel = (feed: FeedType) => {
+  switch (feed.type) {
+    case FeedTypeEnum.Camera:
+      return feed.camera.name
+    case FeedTypeEnum.Graph:
+      return feed.graph.name
+    default:
+      return feed.id
+  }
+}
 
 export const FeedSelect: FC<FeedSelectProps> = ({
   id,

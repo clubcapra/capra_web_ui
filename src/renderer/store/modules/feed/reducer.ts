@@ -1,4 +1,4 @@
-import { ICameraData, ICameraFeed } from './@types'
+import { ICameraData, ICameraFeed, IGraphData, IGraphFeed } from './@types'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { FeedTypeEnum } from '@/renderer/store/modules/feed/@types'
 import { initialState } from '@/renderer/store/modules/feed/initialState'
@@ -15,6 +15,14 @@ export const feedSlice = createSlice({
         id,
         type: FeedTypeEnum.Camera,
         camera: payload,
+      }
+    },
+    addGraph: (state, { payload }: PayloadAction<IGraphData>) => {
+      const id = shortid()
+      state.feeds[id] = {
+        id,
+        type: FeedTypeEnum.Graph,
+        graph: payload,
       }
     },
     removeFeed: (state, { payload }: PayloadAction<string>) => {
@@ -35,11 +43,22 @@ export const feedSlice = createSlice({
       }: PayloadAction<{ camera: ICameraData; id: string }>
     ) => {
       const feed = state.feeds[id]
-
       if (feed.type !== FeedTypeEnum.Camera) {
         return
       }
       feed.camera = camera
+    },
+    updateGraph: (
+      state,
+      {
+        payload: { graph, id },
+      }: PayloadAction<{ graph: IGraphData; id: string }>
+    ) => {
+      const feed = state.feeds[id]
+      if (feed.type !== FeedTypeEnum.Graph) {
+        return
+      }
+      feed.graph = graph
     },
     updateFeedMap: (
       state,
@@ -56,9 +75,16 @@ export const feedSlice = createSlice({
 })
 
 export const selectAllFeeds = (state: GlobalState) => state.feed.feeds
+
 export const selectFeedFromFeedMap = (id: string) => (state: GlobalState) =>
   state.feed.feedMap[id]
+
 export const selectAllCamera = (state: GlobalState) =>
   Object.values(state.feed.feeds)
     .filter((feed) => feed.type === FeedTypeEnum.Camera)
     .reverse() as ICameraFeed[]
+
+export const selectAllGraph = (state: GlobalState) =>
+  Object.values(state.feed.feeds)
+    .filter((feed) => feed.type === FeedTypeEnum.Graph)
+    .reverse() as IGraphFeed[]
