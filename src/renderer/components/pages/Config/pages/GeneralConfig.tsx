@@ -5,22 +5,21 @@ import { SectionTitle } from '@/renderer/components/pages/Config/styles'
 import { useService } from '@xstate/react'
 import { rosService } from '@/renderer/state/ros'
 import { clearStoreCache } from '@/renderer/store/localStorage'
+import { useDispatch } from 'react-redux'
+import { rosSlice, selectNamespace } from '@/renderer/store/modules/ros/reducer'
+import { useSelector } from '@/renderer/utils/hooks/typedUseSelector'
 
 const ConnectionSection = () => {
   const [state, send] = useService(rosService)
   const { IP, port } = state.context
 
-  const updateIp = (e: ChangeEvent<HTMLInputElement>): void => {
+  const updateIp = (e: ChangeEvent<HTMLInputElement>): void =>
     send('SET_IP', { IP: e.target.value })
-  }
 
-  const updatePort = (e: ChangeEvent<HTMLInputElement>): void => {
+  const updatePort = (e: ChangeEvent<HTMLInputElement>): void =>
     send('SET_PORT', { port: e.target.value })
-  }
 
-  const connect = () => {
-    send('CONNECT')
-  }
+  const connect = () => send('CONNECT')
 
   return (
     <>
@@ -34,6 +33,25 @@ const ConnectionSection = () => {
       <Button onClick={connect} disabled={state.matches('connecting')}>
         Connect
       </Button>
+    </>
+  )
+}
+
+const NamespaceSection = () => {
+  const namespace = useSelector(selectNamespace)
+  const dispatch = useDispatch()
+
+  const updateNamespace = (e: ChangeEvent<HTMLInputElement>) =>
+    dispatch(rosSlice.actions.updateNamespace(e.target.value))
+
+  return (
+    <>
+      <SectionTitle>UI Ros Namespace</SectionTitle>
+      <LabeledInput
+        label="Namespace"
+        value={namespace}
+        onChange={updateNamespace}
+      />
     </>
   )
 }
@@ -83,6 +101,7 @@ export const GeneralConfig: FC = () => (
   <>
     <Button onClick={clearStoreCache}>Clear cache</Button>
     <ConnectionSection />
+    <NamespaceSection />
     <UrdfDescriptionSection />
     <DetectedGamepad />
   </>

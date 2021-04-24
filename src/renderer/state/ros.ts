@@ -167,7 +167,6 @@ export const rosMachine = Machine<RosContext, RosStateSchema, RosEvent>(
           }
         },
       }),
-
       updateDescriptionServerPort: assign({
         descriptionServerPort: (_, event) => {
           if (event.type !== 'SET_DESCRIPTION_SERVER_PORT') {
