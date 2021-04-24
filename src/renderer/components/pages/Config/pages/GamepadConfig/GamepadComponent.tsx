@@ -33,8 +33,6 @@ export const GamepadComponent: React.FC = () => {
   )
 }
 
-const StyledGamepadContainer = styled.div``
-
 const StyledGamepad = styled.div`
   padding-top: 128px;
   margin: 0 auto;
