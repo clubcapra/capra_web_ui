@@ -10,9 +10,9 @@ interface Listeners {
 }
 
 interface RosClientOptions {
-  shouldTryToReconnect: boolean
-  enableLogging: boolean
-  enableSsl: boolean
+  shouldTryToReconnect?: boolean
+  enableLogging?: boolean
+  enableSsl?: boolean
 }
 
 const defaultOptions: RosClientOptions = {

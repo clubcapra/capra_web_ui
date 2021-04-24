@@ -3,6 +3,7 @@ import RegisteredTopic from './RegisteredTopic'
 import { getTopicSignature } from './getSignature'
 import ROSLIB from 'roslib'
 import type { Ros, Topic } from 'roslib'
+import { store } from '@/renderer/store/store'
 
 class TopicManager {
   private ros: Ros
@@ -37,12 +38,19 @@ class TopicManager {
   }
 
   publish({ name, messageType }: TopicOptions, payload: unknown) {
+    const topicName = `${store.getState().ros.namespace}/${name}`.replace(
+      /([^:]\/)\/+/g,
+      '$1'
+    )
+    const topic = this.getTopic({
+      name: topicName,
+      messageType,
+    })
     if (this.client.isLogEnabled) {
       // eslint-disable-next-line no-console
-      console.log(name, payload)
+      console.log(topic.name, topicName, store.getState().ros.namespace, name)
     }
-
-    this.getTopic({ name, messageType }).publish(new ROSLIB.Message(payload))
+    topic.publish(new ROSLIB.Message(payload))
   }
 
   unsubscribeAllTopics() {
