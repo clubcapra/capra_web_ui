@@ -12,7 +12,7 @@
     "start": "electron-snowpack dev",
     "build": "npm run build:snowpack && npm run build:electron",
     "build:snowpack": "electron-snowpack build",
-    "build:electron": "electron-builder",
+    "build:electron": "electron-builder --publish never",
     "test": "jest",
     "lint": "eslint --ext js,ts,tsx src",
     "fix": "eslint --fix --ext js,ts,tsx src",
