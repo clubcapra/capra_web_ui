@@ -2,7 +2,7 @@ import RosClient from './roslib-ts-client/RosClient'
 import { rosService } from '@/renderer/state/ros'
 
 const { IP, port } = rosService.state.context
-export const rosClient = new RosClient(IP, port, { enableLogging: true })
+export const rosClient = new RosClient(IP, port)
 
 rosClient.setListeners({
   onConnection: () => {
