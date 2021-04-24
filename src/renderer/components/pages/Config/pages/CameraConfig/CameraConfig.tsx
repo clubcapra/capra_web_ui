@@ -1,7 +1,6 @@
 import React, { ChangeEvent, FC, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { CameraType } from '@/renderer/store/modules/feed/@types'
-import { CameraConfigWrapper } from '@/renderer/components/pages/Config/pages/CameraConfig/CameraConfig.styles'
 import { feedSlice } from '@/renderer/store/modules/feed/reducer'
 import { LabeledInput } from '@/renderer/components/common/LabeledInput'
 import { Table } from './Table'
@@ -9,6 +8,7 @@ import { Button } from '@/renderer/components/common/Button'
 import { SectionTitle } from '@/renderer/components/pages/Config/styles'
 import { useService } from '@xstate/react'
 import { rosService } from '@/renderer/state/ros'
+import { styled } from '@/renderer/globalStyles/styled'
 
 const VideoServerPortConfig: FC = () => {
   const [state, send] = useService(rosService)
@@ -79,6 +79,11 @@ const MediaDevicesInfoSection = () => {
     </>
   )
 }
+
+const CameraConfigWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+`
 
 export const CameraConfig: FC = () => {
   return (

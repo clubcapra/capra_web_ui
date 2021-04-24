@@ -90,7 +90,7 @@ export const GraphFeed: FC<Props> = ({ feed }) => {
     [chart]
   )
 
-  useRosSubscribe(feed.topic, (message) => {
+  useRosSubscribe(feed.graph.topic, (message) => {
     if (typeof message.data === 'string') {
       updateChart({ x: Date.now(), y: parseInt(message.data, 10) })
     }
