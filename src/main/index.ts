@@ -1,12 +1,20 @@
 import electron from 'electron'
 import path from 'path'
 import { isDev } from './isDev'
-import { APP_INFO, APP_INFO_ARG, APP_INFO_QUERY } from '../shared/constants'
+import {
+  APP_INFO,
+  APP_INFO_ARG,
+  APP_INFO_QUERY,
+  AUDIO_MSG,
+  AUDIO_MSG_TYPE,
+  AUDIO_START,
+} from '../shared/constants'
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS,
 } from 'electron-devtools-installer'
 import { powerSaveBlocker } from 'electron'
+import { spawn, exec } from 'child_process'
 
 const { app, BrowserWindow, ipcMain } = electron
 
@@ -98,6 +106,31 @@ ipcMain.on(APP_INFO_QUERY, (event) => {
     appName: app.name,
     appVersion: app.getVersion(),
   } as APP_INFO_ARG)
+})
+
+ipcMain.on(AUDIO_START, (event) => {
+  // WARN this should be configurable
+  const launch = 'roslaunch capra_audio audio_ui.launch'
+
+  if (process.platform === 'win32') {
+    const wsl = spawn('wsl')
+    // TODO launch roslaunch
+    wsl.stdout.on('data', (data: string) => {
+      // eslint-disable-next-line no-console
+      console.log(`stdout: ${data}`)
+    })
+    wsl.stderr.on('data', (data: string) => {
+      console.error(`stderr: ${data}`)
+    })
+  } else {
+    exec(launch, (error, stdout, stderr) => {
+      event.reply(AUDIO_MSG, {
+        error: error?.message,
+        stderr,
+        stdout,
+      } as AUDIO_MSG_TYPE)
+    })
+  }
 })
 
 const id = powerSaveBlocker.start('prevent-display-sleep')

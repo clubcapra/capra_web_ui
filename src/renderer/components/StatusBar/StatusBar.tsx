@@ -9,6 +9,7 @@ import {
   RightStatusBar,
   StyledStatusBarWrapper,
 } from './StatusBar.styles'
+import { AudioStart } from '@/renderer/components/StatusBar/AudioStart'
 
 const RosConnectionStatus: FC = () => {
   const [state] = useService(rosService)
@@ -40,6 +41,7 @@ export const StatusBar: FC = () => (
   <StyledStatusBarWrapper>
     <LeftStatusBar>
       <RosConnectionStatus />
+      <AudioStart />
     </LeftStatusBar>
     <RightStatusBar>
       <ControlStatus />
