@@ -52,12 +52,10 @@ const formatFullAddress = (IP: string, port: string): string => `${IP}:${port}/`
 export const fullAddressSelector = ({ IP, port }: RosContext) =>
   formatFullAddress(IP, port)
 
-export const videoUrlSelector = (
-  camera: ICameraData,
-  param: 'stream' | 'snapshot' = 'stream'
-) => (state: RosContext): string =>
-  `http://${state.IP}:${state.videoServerPort}/${param}` +
-  `?topic=${camera.topic}&type=${camera.type}`
+export const videoUrlSelector =
+  (camera: ICameraData, param: 'stream' | 'snapshot' = 'stream') =>
+  (state: RosContext): string =>
+    `http://${state.IP}:${state.videoServerPort}/${param}?topic=${camera.topic}&type=${camera.type}`
 
 const setters = {
   SET_IP: {

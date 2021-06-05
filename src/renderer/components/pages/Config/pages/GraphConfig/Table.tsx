@@ -64,46 +64,48 @@ export const Table: FC = () => {
   const allGraphs = useSelector(selectAllGraph)
 
   const updateTopic = useCallback(
-    (id: string) => (field: keyof TopicOptions, value: string): void => {
-      const feed = allGraphs.find((f) => f.id === id)
-      if (!feed) {
-        return
-      }
+    (id: string) =>
+      (field: keyof TopicOptions, value: string): void => {
+        const feed = allGraphs.find((f) => f.id === id)
+        if (!feed) {
+          return
+        }
 
-      const newGraph: IGraphData = { ...feed.graph }
-      switch (field) {
-        case 'name':
-          newGraph.topic[field] = value
-          break
-        case 'messageType':
-          newGraph.topic[field] = value
-          break
-      }
+        const newGraph: IGraphData = { ...feed.graph }
+        switch (field) {
+          case 'name':
+            newGraph.topic[field] = value
+            break
+          case 'messageType':
+            newGraph.topic[field] = value
+            break
+        }
 
-      dispatch(
-        feedSlice.actions.updateGraph({
-          graph: newGraph,
-          id,
-        })
-      )
-    },
+        dispatch(
+          feedSlice.actions.updateGraph({
+            graph: newGraph,
+            id,
+          })
+        )
+      },
     [allGraphs, dispatch]
   )
 
   const updateName = useCallback(
-    (id: string) => (value: string): void => {
-      const feed = allGraphs.find((f) => f.id === id)
-      if (!feed) {
-        return
-      }
-      const newGraph: IGraphData = { ...feed.graph, name: value }
-      dispatch(
-        feedSlice.actions.updateGraph({
-          graph: newGraph,
-          id,
-        })
-      )
-    },
+    (id: string) =>
+      (value: string): void => {
+        const feed = allGraphs.find((f) => f.id === id)
+        if (!feed) {
+          return
+        }
+        const newGraph: IGraphData = { ...feed.graph, name: value }
+        dispatch(
+          feedSlice.actions.updateGraph({
+            graph: newGraph,
+            id,
+          })
+        )
+      },
     [allGraphs, dispatch]
   )
 

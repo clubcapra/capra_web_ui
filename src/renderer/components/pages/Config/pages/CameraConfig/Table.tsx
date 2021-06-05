@@ -99,26 +99,28 @@ export const Table: FC = () => {
   const allCameras = useSelector(selectAllCamera)
 
   const updateCamera = useCallback(
-    (id: string) => (field: keyof ICameraData, value: string): void => {
-      const feed = allCameras.find((f) => f.id === id)
+    (id: string) =>
+      (field: keyof ICameraData, value: string): void => {
+        const feed = allCameras.find((f) => f.id === id)
 
-      if (!feed) {
-        return
-      }
+        if (!feed) {
+          return
+        }
 
-      const newCam: ICameraData = { ...feed.camera }
-      switch (field) {
-        case 'name':
-        case 'topic':
-          newCam[field] = value
-          break
-        case 'type':
-          newCam[field] = CameraType[value as keyof typeof CameraType] || value
-          break
-      }
+        const newCam: ICameraData = { ...feed.camera }
+        switch (field) {
+          case 'name':
+          case 'topic':
+            newCam[field] = value
+            break
+          case 'type':
+            newCam[field] =
+              CameraType[value as keyof typeof CameraType] || value
+            break
+        }
 
-      dispatch(feedSlice.actions.updateCamera({ camera: newCam, id }))
-    },
+        dispatch(feedSlice.actions.updateCamera({ camera: newCam, id }))
+      },
     [allCameras, dispatch]
   )
 
