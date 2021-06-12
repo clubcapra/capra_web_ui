@@ -38,10 +38,7 @@ class TopicManager {
   }
 
   publish({ name, messageType }: TopicOptions, payload: unknown) {
-    const topicName = `${store.getState().ros.namespace}/${name}`.replace(
-      /([^:]\/)\/+/g,
-      '$1'
-    )
+    const topicName = `/${name}`.replace(/([^:]\/)\/+/g, '$1')
     const topic = this.getTopic({
       name: topicName,
       messageType,

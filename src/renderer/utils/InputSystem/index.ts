@@ -10,7 +10,7 @@ import { feedSlice } from '@/renderer/store/modules/feed/reducer'
 import { store } from '@/renderer/store/store'
 
 export const cmdVelTopic: TopicOptions = {
-  name: '/cmd_vel',
+  name: 'markhor/diff_drive_controller/cmd_vel',
   messageType: 'geometry_msgs/Twist',
 }
 
