@@ -11,12 +11,13 @@ import {
 } from './StatusBar.styles'
 
 const RosConnectionStatus: FC = () => {
-  const [state] = useService(rosService)
+  const [state, send] = useService(rosService)
   const fullAddress = fullAddressSelector(state.context)
+  const connect = () => send('CONNECT')
 
   return (
     <>
-      <div>
+      <div onClick={connect}>
         {state.matches('connected') && `Connected to ${fullAddress}`}
         {state.matches('connecting') && `Trying to connect to ${fullAddress}`}
         {state.matches('disconnected') && `Disconnected`}
