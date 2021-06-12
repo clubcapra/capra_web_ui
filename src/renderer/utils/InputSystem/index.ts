@@ -50,8 +50,8 @@ export const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
       },
       frame_id: '',
     },
-    axes: axes,
-    buttons: buttons,
+    axes,
+    buttons,
   }
 }
 
@@ -173,7 +173,7 @@ const defaultActions: Action[] = [
       }
 
       const joy = mapGamepadToJoy(ctx.gamepadState.gamepad)
-      rosClient.publish(joyTopic, joy)
+      rosClient.publish(spaceMouseTopic, joy)
     },
   },
   {
@@ -184,7 +184,7 @@ const defaultActions: Action[] = [
         return
       }
       const joy = mapGamepadToJoy(ctx.gamepadState.gamepad)
-      rosClient.publish(gamepadTopic, joy)
+      rosClient.publish(joyTopic, joy)
     },
   },
 ]
