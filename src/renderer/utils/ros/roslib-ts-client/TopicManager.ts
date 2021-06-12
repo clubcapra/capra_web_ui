@@ -38,7 +38,7 @@ class TopicManager {
   }
 
   publish({ name, messageType }: TopicOptions, payload: unknown) {
-    const topicName = `/${name}`.replace(/([^:]\/)\/+/g, '$1')
+    const topicName = `/${name}`.replace(/\/\/+/g, '/')
     const topic = this.getTopic({
       name: topicName,
       messageType,
