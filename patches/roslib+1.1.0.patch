@@ -1,20 +1,21 @@
 diff --git a/node_modules/roslib/src/core/Ros.js b/node_modules/roslib/src/core/Ros.js
-index fa4ca73..596f41b 100644
+index fa4ca73..8e4a170 100644
 --- a/node_modules/roslib/src/core/Ros.js
 +++ b/node_modules/roslib/src/core/Ros.js
 @@ -3,7 +3,7 @@
   * @author Brandon Alexander - baalexander@gmail.com
   */
-
+ 
 -var WebSocket = require('ws');
 +// var WebSocket = require('ws');
  var WorkerSocket = require('../util/workerSocket');
  var socketAdapter = require('./SocketAdapter.js');
-
+ 
 @@ -62,6 +62,7 @@ Ros.prototype.__proto__ = EventEmitter2.prototype;
   * @param url - WebSocket URL or RTCDataChannel label for Rosbridge
   */
  Ros.prototype.connect = function(url) {
++  console.log('patched roslib log');
    if (this.transportLibrary === 'socket.io') {
      this.socket = assign(io(url, {'force new connection': true}), socketAdapter(this));
      this.socket.on('connect', this.socket.onopen);
@@ -26,20 +27,20 @@ index d7d683f..c021210 100644
 -var work = require('webworkify');
 -var workerSocketImpl = require('./workerSocketImpl');
 +var workerSocketImpl = require('./workerSocketImpl')
-
+ 
  function WorkerSocket(uri) {
 -  this.socket_ = work(workerSocketImpl);
 +  this.socket_ = workerSocketImpl
-
+ 
 -  this.socket_.addEventListener('message', this.handleWorkerMessage_.bind(this));
 +  this.socket_.addEventListener('message', this.handleWorkerMessage_.bind(this))
-
+ 
    this.socket_.postMessage({
      uri: uri,
 -  });
 +  })
  }
-
+ 
 -WorkerSocket.prototype.handleWorkerMessage_ = function(ev) {
 -  var data = ev.data;
 +WorkerSocket.prototype.handleWorkerMessage_ = function (ev) {
@@ -68,14 +69,14 @@ index d7d683f..c021210 100644
    }
 -};
 +}
-
+ 
 -WorkerSocket.prototype.send = function(data) {
 -  this.socket_.postMessage(data);
 -};
 +WorkerSocket.prototype.send = function (data) {
 +  this.socket_.postMessage(data)
 +}
-
+ 
 -WorkerSocket.prototype.close = function() {
 +WorkerSocket.prototype.close = function () {
    this.socket_.postMessage({
@@ -84,7 +85,7 @@ index d7d683f..c021210 100644
 -};
 +  })
 +}
-
+ 
 -module.exports = WorkerSocket;
 +module.exports = WorkerSocket
 diff --git a/node_modules/roslib/src/util/workerSocketImpl.js b/node_modules/roslib/src/util/workerSocketImpl.js
@@ -98,11 +99,11 @@ index 07c49de..7c34062 100644
 -  var socket = null;
 +module.exports = function (self) {
 +  var socket = null
-
+ 
    function handleSocketMessage(ev) {
 -    var data = ev.data;
 +    var data = ev.data
-
+ 
      if (data instanceof ArrayBuffer) {
        // binary message, transfer for speed
 -      self.postMessage(data, [data]);
@@ -113,17 +114,17 @@ index 07c49de..7c34062 100644
 +      self.postMessage(data)
      }
    }
-
+ 
    function handleSocketControl(ev) {
 -    self.postMessage({type: ev.type});
 +    self.postMessage({ type: ev.type })
    }
-
+ 
 -  self.addEventListener('message', function(ev) {
 -    var data = ev.data;
 +  self.addEventListener('message', function (ev) {
 +    var data = ev.data
-
+ 
      if (typeof data === 'string') {
        // JSON message from ROSLIB
 -      socket.send(data);
@@ -138,12 +139,12 @@ index 07c49de..7c34062 100644
        } else if (data.hasOwnProperty('uri')) {
 -        var uri = data.uri;
 +        var uri = data.uri
-
+ 
 -        socket = new WebSocket(uri);
 -        socket.binaryType = 'arraybuffer';
 +        socket = new WebSocket(uri)
 +        socket.binaryType = 'arraybuffer'
-
+ 
 -        socket.onmessage = handleSocketMessage;
 -        socket.onclose = handleSocketControl;
 -        socket.onopen = handleSocketControl;
