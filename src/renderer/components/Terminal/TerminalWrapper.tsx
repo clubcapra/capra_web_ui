@@ -28,10 +28,10 @@ term.loadAddon(fitAddon)
 
 export const TerminalWrapper: FC<Props> = ({ hidden }) => {
   const terminalRef = useRef<HTMLDivElement>(null)
-  // const [rosState] = useService(rosService)
+  const [rosState] = useService(rosService)
   const [terminalState] = useService(terminalService)
   const [isInit, setIsInit] = useState(false)
-  // const IP = rosState.context.IP
+  const IP = rosState.context.IP
 
   useEffect(() => {
     if (terminalRef?.current && !isInit && !hidden) {
@@ -39,7 +39,7 @@ export const TerminalWrapper: FC<Props> = ({ hidden }) => {
       fitAddon.fit()
 
       ipcRenderer.send(TERMINAL_MAIN, TERMINNAL_STARTED, {
-        host: 'localhost',
+        host: IP,
         port: 22,
         username: terminalState.context.username,
         password: terminalState.context.password,
@@ -62,7 +62,7 @@ export const TerminalWrapper: FC<Props> = ({ hidden }) => {
       setIsInit(true)
     }
   }, [
-    'localhost',
+    IP,
     hidden,
     isInit,
     terminalRef,
