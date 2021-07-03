@@ -187,7 +187,4 @@ export const rosMachine = Machine<RosContext, RosStateSchema, RosEvent>(
   }
 )
 
-export const rosService = interpret(rosMachine).onTransition((state) => {
-  console.log(state.value)
-})
-rosService.start()
+export const rosService = interpret(rosMachine).start()

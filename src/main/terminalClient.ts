@@ -46,6 +46,6 @@ const startTerminalClient = (opts: {
   //         )
   //     })
   //   })
-  //   .on('error', (err) => console.error('ERROR: Failed to connec\n', err))
+  //   .on('error', (err) => console.error('ERROR: Failed to connect\n', err))
   //   .connect(opts)
 }
