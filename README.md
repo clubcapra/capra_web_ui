@@ -2,9 +2,12 @@
 
 This is a UI application for manually controlling ROS-based robots in real-time. While it is designed for the use case of club capra, we try to make it as robot agnostic as possible. As long as your robots has the required dependencies it should be almost plug and play.
 
-- [Installation](#installation)
-- [Building](#building)
-- [ROS dependencies](#ros-dependencies)
+- [capra_web_ui](#capra_web_ui)
+  - [Installation](#installation)
+  - [Building](#building)
+    - [For Linux](#for-linux)
+    - [For Windows](#for-windows)
+  - [ROS dependencies](#ros-dependencies)
 
 ## Installation
 
@@ -12,7 +15,15 @@ We provide installers for Windows and Ubuntu that can be found in the release pa
 
 ## Building
 
-capra_web_ui is made with web technologies this means you need node.js installed on your machine to build it.
+capra_web_ui is made with web technologies this means you need node.js installed on your machine to build it. We assume the latest version of nodejs is installed.
+
+### For Linux
+
+We recommend using <https://github.com/nvm-sh/nvm>
+
+### For Windows
+
+We recommend using <https://github.com/coreybutler/nvm-windows>
 
 - Download and install all required dependencies to build or develop the app.
 
