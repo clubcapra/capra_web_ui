@@ -6,7 +6,7 @@ import { rosClient } from '@/renderer/utils/ros/rosClient'
 import { useRefSize } from '@/renderer/utils/hooks/useRefSize'
 import _ from 'lodash'
 import { rosService } from '@/renderer/state/ros'
-import { useService } from '@xstate/react'
+import { useActor } from '@xstate/react'
 import * as ROS3D from 'ros3d'
 import ROSLIB from 'roslib'
 
@@ -65,7 +65,7 @@ function useUrdfViewerRef(): [
 const View: FC<Props> = () => {
   const [viewer, id, ref] = useUrdfViewerRef()
 
-  const [state] = useService(rosService)
+  const [state] = useActor(rosService)
   const { IP, descriptionServerPort, baseLinkName } = state.context
 
   useEffect(() => {
@@ -97,7 +97,7 @@ const View: FC<Props> = () => {
 }
 
 export const UrdfFeed: FC<Props> = ({ feed }) => {
-  const [state] = useService(rosService)
+  const [state] = useActor(rosService)
   return (
     <Grid>
       {state.matches('connected') ? (

@@ -1,7 +1,7 @@
 import { rosClient } from '@/renderer/utils/ros/rosClient'
 import { useEffect } from 'react'
 import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
-import { useService } from '@xstate/react'
+import { useActor } from '@xstate/react'
 import { rosService } from '@/renderer/state/ros'
 
 /**
@@ -14,7 +14,7 @@ export const useRosSubscribe = <R>(
   topic: TopicOptions<R>,
   callback: (message: { data: R }) => void
 ): void => {
-  const [state] = useService(rosService)
+  const [state] = useActor(rosService)
 
   useEffect(() => {
     if (state.matches('connected')) {

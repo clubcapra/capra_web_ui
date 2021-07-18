@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
-import { useService } from '@xstate/react'
+import { useActor } from '@xstate/react'
 import { controlService } from '@/renderer/state/control'
 
 export const useControl = (control: 'arm' | 'flipper' | 'nothing') => {
-  const [, send] = useService(controlService)
+  const [, send] = useActor(controlService)
   useEffect(() => {
     switch (control) {
       case 'arm':

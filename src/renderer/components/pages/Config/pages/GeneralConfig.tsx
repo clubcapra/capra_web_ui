@@ -2,7 +2,7 @@ import React, { FC, ChangeEvent } from 'react'
 import { LabeledInput } from '@/renderer/components/common/LabeledInput'
 import { Button } from '@/renderer/components/common/Button'
 import { SectionTitle } from '@/renderer/components/pages/Config/styles'
-import { useService } from '@xstate/react'
+import { useActor } from '@xstate/react'
 import { rosService } from '@/renderer/state/ros'
 import { clearStoreCache } from '@/renderer/store/localStorage'
 import { useDispatch } from 'react-redux'
@@ -10,14 +10,16 @@ import { rosSlice, selectNamespace } from '@/renderer/store/modules/ros/reducer'
 import { useSelector } from '@/renderer/utils/hooks/typedUseSelector'
 
 const ConnectionSection = () => {
-  const [state, send] = useService(rosService)
+  const [state, send] = useActor(rosService)
   const { IP, port } = state.context
 
-  const updateIp = (e: ChangeEvent<HTMLInputElement>): void =>
+  const updateIp = (e: ChangeEvent<HTMLInputElement>) => {
     send('SET_IP', { IP: e.target.value })
+  }
 
-  const updatePort = (e: ChangeEvent<HTMLInputElement>): void =>
+  const updatePort = (e: ChangeEvent<HTMLInputElement>) => {
     send('SET_PORT', { port: e.target.value })
+  }
 
   const connect = () => send('CONNECT')
 
@@ -58,7 +60,7 @@ const NamespaceSection = () => {
 }
 
 const UrdfDescriptionSection = () => {
-  const [state, send] = useService(rosService)
+  const [state, send] = useActor(rosService)
   const { descriptionServerPort, baseLinkName } = state.context
 
   const updateDescriptionPort = (e: ChangeEvent<HTMLInputElement>): void => {

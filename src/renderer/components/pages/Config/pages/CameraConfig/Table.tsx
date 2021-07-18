@@ -15,7 +15,7 @@ import { StyledTable } from './Table.styles'
 import { Button } from '@/renderer/components/common/Button'
 import { Modal } from '@/renderer/components/common/Modal/Modal'
 import { useOpenClose } from '@/renderer/utils/hooks/useOpenClose'
-import { useService } from '@xstate/react'
+import { useActor } from '@xstate/react'
 import { rosService, videoUrlSelector } from '@/renderer/state/ros'
 import { Select } from '@/renderer/components/common/Select'
 import { Input } from '@/renderer/components/common/Input'
@@ -45,7 +45,7 @@ const TableRow: FC<TableRowProps> = ({ feed, updateCamera }) => {
     }
   })
 
-  const [state] = useService(rosService)
+  const [state] = useActor(rosService)
   const snapshotSource = videoUrlSelector(
     feed.camera,
     'snapshot'

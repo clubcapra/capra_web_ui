@@ -6,12 +6,12 @@ import { LabeledInput } from '@/renderer/components/common/LabeledInput'
 import { Table } from './Table'
 import { Button } from '@/renderer/components/common/Button'
 import { SectionTitle } from '@/renderer/components/pages/Config/styles'
-import { useService } from '@xstate/react'
+import { useActor } from '@xstate/react'
 import { rosService } from '@/renderer/state/ros'
 import { styled } from '@/renderer/globalStyles/styled'
 
 const VideoServerPortConfig: FC = () => {
-  const [state, send] = useService(rosService)
+  const [state, send] = useActor(rosService)
   const { videoServerPort } = state.context
 
   const updateVideoServerPort = (e: ChangeEvent<HTMLInputElement>) =>

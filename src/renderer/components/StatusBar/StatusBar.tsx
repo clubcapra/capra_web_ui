@@ -1,4 +1,4 @@
-import { useService } from '@xstate/react'
+import { useActor } from '@xstate/react'
 import { TimeDisplay } from '@/renderer/components/StatusBar/TimeDisplay'
 import React, { FC } from 'react'
 import { controlService } from '@/renderer/state/control'
@@ -11,9 +11,11 @@ import {
 } from './StatusBar.styles'
 
 const RosConnectionStatus: FC = () => {
-  const [state, send] = useService(rosService)
+  const [state, send] = useActor(rosService)
   const fullAddress = fullAddressSelector(state.context)
-  const connect = () => send('CONNECT')
+  const connect = () => {
+    send('CONNECT')
+  }
 
   return (
     <>
@@ -27,7 +29,7 @@ const RosConnectionStatus: FC = () => {
 }
 
 const ControlStatus = () => {
-  const [state] = useService(controlService)
+  const [state] = useActor(controlService)
   return (
     <div>
       {state.matches('arm') && 'ARM'}

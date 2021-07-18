@@ -3,7 +3,7 @@ import { ICameraFeed, CameraType } from '@/renderer/store/modules/feed/@types'
 import { FC, useEffect, useRef } from 'react'
 import { styled } from '@/renderer/globalStyles/styled'
 import { NoFeed } from '@/renderer/components/Feed/Feeds/NoFeed'
-import { useService } from '@xstate/react'
+import { useActor } from '@xstate/react'
 import { rosService, videoUrlSelector } from '@/renderer/state/ros'
 
 interface Props {
@@ -66,7 +66,7 @@ const Webcam: FC<{ deviceid: string }> = ({ deviceid }) => {
 }
 
 const View: FC<Props> = ({ feed }) => {
-  const [state] = useService(rosService)
+  const [state] = useActor(rosService)
   const source = videoUrlSelector(feed.camera)(state.context)
 
   switch (feed.camera.type) {
@@ -83,7 +83,7 @@ const View: FC<Props> = ({ feed }) => {
 }
 
 export const CameraFeed: FC<Props> = ({ feed }) => {
-  const [state] = useService(rosService)
+  const [state] = useActor(rosService)
   const connected =
     state.matches('connected') || feed.camera.type === CameraType.WEBCAM
 

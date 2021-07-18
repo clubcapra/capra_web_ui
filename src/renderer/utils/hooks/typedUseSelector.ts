@@ -1,6 +1,6 @@
 import {
-  useSelector as useReduxSelector,
   TypedUseSelectorHook,
+  useSelector as useReduxSelector,
 } from 'react-redux'
 import { GlobalState } from '@/renderer/store/rootReducer'
 
