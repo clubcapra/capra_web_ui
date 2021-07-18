@@ -17,17 +17,19 @@ interface LabeledInputProps {
   value: string
   label: string
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
+  type?: 'text' | 'number' | 'password'
 }
 
 export const LabeledInput: FC<LabeledInputProps> = ({
   value,
   onChange,
   label,
+  type,
 }) => {
   return (
     <StyledDiv>
       <StyledLabel>{label}</StyledLabel>
-      <Input value={value} onChange={onChange} />
+      <Input type={type || 'text'} value={value} onChange={onChange} />
     </StyledDiv>
   )
 }

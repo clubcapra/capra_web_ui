@@ -19,7 +19,7 @@ const StyledInput = styled.input`
 `
 
 interface Props {
-  type?: 'text' | 'number'
+  type?: 'text' | 'number' | 'password'
   value: string
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
 }
