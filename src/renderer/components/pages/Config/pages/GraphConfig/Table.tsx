@@ -7,19 +7,17 @@ import {
 import { IGraphData, IGraphFeed } from '@/renderer/store/modules/feed/@types'
 import { FaTimes } from 'react-icons/fa'
 import { useSelector } from '@/renderer/utils/hooks/typedUseSelector'
-import { StyledTable } from './Table.styles'
 import { Input } from '@/renderer/components/common/Input'
 import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
+import { styled } from '@/renderer/globalStyles/styled'
 
-interface TableRowProps {
+const TableRow: FC<{
   feed: IGraphFeed
   updateTopic: (
     id: string
   ) => (field: keyof TopicOptions, value: string) => void
   updateName: (id: string) => (value: string) => void
-}
-
-const TableRow: FC<TableRowProps> = ({ feed, updateTopic, updateName }) => {
+}> = ({ feed, updateTopic, updateName }) => {
   const {
     id,
     graph: {
@@ -132,3 +130,44 @@ export const Table: FC = () => {
     </StyledTable>
   )
 }
+
+const StyledTable = styled.table`
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+
+  th,
+  td {
+    text-align: left;
+
+    &:last-child {
+      width: 32px;
+    }
+  }
+
+  td {
+    padding: 8px 8px;
+
+    &:last-child {
+      cursor: pointer;
+    }
+
+    input {
+      width: 100%;
+    }
+
+    select {
+      width: 100%;
+    }
+  }
+
+  thead th {
+    padding: 4px 8px;
+    font-size: inherit;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  }
+
+  tbody {
+    border: 1px solid ${({ theme }) => theme.colors.border};
+  }
+`
