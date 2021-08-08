@@ -2,13 +2,14 @@ import React, { FC, useState } from 'react'
 import { Modal } from './common/Modal/Modal'
 import { Button } from './common/Button'
 import { rosClient } from '@/renderer/utils/ros/rosClient'
-import { StyledStopButton } from './EStopButton.styles'
 import { useRosSubscribe } from '@/renderer/utils/hooks/useRosSubscribe'
 import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
 import { useOpenClose } from '@/renderer/utils/hooks/useOpenClose'
+import { styled } from '@/renderer/globalStyles/styled'
+import { darken } from 'polished'
 
 const topic: TopicOptions<boolean> = {
-  name: 'takin_estop_status',
+  name: 'markhor/estop_status',
   messageType: 'std_msgs/Bool',
 }
 
@@ -39,14 +40,14 @@ export const EStopButton: FC = () => {
 
   const stopRobot = () => {
     rosClient
-      .callService({ name: 'takin_estop_disable', serviceType: '' }, '')
+      .callService({ name: 'markhor/estop_disable', serviceType: '' }, '')
       .catch(console.error)
     openModal()
   }
 
   const restartRobot = () => {
     rosClient
-      .callService({ name: 'takin_estop_enable', serviceType: '' }, '')
+      .callService({ name: 'markhor/estop_enable', serviceType: '' }, '')
       .catch(console.error)
     closeModal()
   }
@@ -75,3 +76,30 @@ export const EStopButton: FC = () => {
     </>
   )
 }
+
+const StyledStopButton = styled.div`
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  background-color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.fontLight};
+
+  &:hover {
+    box-shadow: inset 0 0 2px #000000;
+  }
+
+  &:active {
+    box-shadow: inset 0 0 6px #000000;
+    background-color: ${({ theme }) => darken(0.05, theme.colors.primary)};
+  }
+
+  span {
+    font-weight: bold;
+    font-size: 1.8em;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+  }
+`
