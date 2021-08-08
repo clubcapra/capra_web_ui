@@ -166,7 +166,7 @@ const defaultActions: Action[] = [
     },
   },
   {
-    name: 'headlights',
+    name: 'flipper_reset',
     bindings: [{ type: 'gamepadBtn', button: buttons.B }],
     perform: () => {
       rosClient
