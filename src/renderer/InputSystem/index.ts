@@ -158,9 +158,18 @@ const defaultActions: Action[] = [
   },
   {
     name: 'headlights',
-    bindings: [{ type: 'gamepadBtn', button: buttons.dpad.left }],
+    bindings: [{ type: 'gamepadBtn', button: buttons.Y }],
     perform: () => {
       rosClient.callService({ name: '/headlights' }).catch(console.error)
+    },
+  },
+  {
+    name: 'headlights',
+    bindings: [{ type: 'gamepadBtn', button: buttons.B }],
+    perform: () => {
+      rosClient
+        .callService({ name: 'markhor/flipper_reset' })
+        .catch(console.error)
     },
   },
   {
