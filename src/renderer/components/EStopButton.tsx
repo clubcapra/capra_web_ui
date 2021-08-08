@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react'
-import { Modal } from './common/Modal/Modal'
+import { Modal } from './common/Modal'
 import { Button } from './common/Button'
 import { rosClient } from '@/renderer/utils/ros/rosClient'
 import { useRosSubscribe } from '@/renderer/utils/hooks/useRosSubscribe'

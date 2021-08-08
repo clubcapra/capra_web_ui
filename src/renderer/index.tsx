@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './App'
+import { App } from './App'
 import { APP_INFO, APP_INFO_ARG, APP_INFO_QUERY } from '@/shared/constants'
 const { ipcRenderer } = window.require('electron')
 
