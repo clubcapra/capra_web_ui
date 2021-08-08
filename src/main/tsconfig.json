@@ -1,11 +1,9 @@
 {
   "compilerOptions": {
     "outDir": "../../build/electron/",
-    "target": "es5",
-    "strict": true,
-    "esModuleInterop": true,
-    "moduleResolution": "node",
-    "removeComments": true,
-    "types": ["node", "electron"]
+    "types": [
+      "node",
+      "electron"
+    ]
   }
 }
