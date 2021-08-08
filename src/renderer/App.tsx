@@ -9,7 +9,7 @@ import { defaultTheme } from '@/renderer/globalStyles/themes/defaultTheme'
 import { Layout } from '@/renderer/components/Layout'
 import { GlobalStyles } from '@/renderer/App.styles'
 import { store } from '@/renderer/store/store'
-import inputsys from '@/renderer/utils/InputSystem'
+import inputsys from '@/renderer/InputSystem'
 
 const App: FC = () => {
   useEffect(() => {

@@ -65,10 +65,16 @@ app
   .then(async () => {
     if (isDev) {
       try {
-        await installExtension(REACT_DEVELOPER_TOOLS)
-        await installExtension(REDUX_DEVTOOLS)
+        await installExtension(REACT_DEVELOPER_TOOLS, {
+          loadExtensionOptions: { allowFileAccess: true },
+          forceDownload: false,
+        })
+        await installExtension(REDUX_DEVTOOLS, {
+          loadExtensionOptions: { allowFileAccess: true },
+          forceDownload: false,
+        })
       } catch (err) {
-        console.error('An error occurred: ', err)
+        console.error('Error when installing devtools extension', err)
       }
     }
   })

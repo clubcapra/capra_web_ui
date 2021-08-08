@@ -1,9 +1,0 @@
-{
-  "compilerOptions": {
-    "outDir": "../../build/electron/",
-    "types": [
-      "node",
-      "electron"
-    ]
-  }
-}
