@@ -151,8 +151,10 @@ const defaultActions: Action[] = [
       { type: 'keyboard', code: 'KeyT', onKeyDown: true },
     ],
     perform: () => {
-      // TODO use direction service when implemented
-      rosClient.callService({ name: 'switch_direction' }).catch(console.error)
+      // TODO implement this client side by flipping the necessary axis direction see issue #82
+      rosClient
+        .callService({ name: 'markhor/switch_direction' })
+        .catch(console.error)
       store.dispatch(feedSlice.actions.switchDirection())
     },
   },
