@@ -4,17 +4,17 @@ import { ThemeProvider } from 'styled-components'
 import { Provider } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-
 import { defaultTheme } from '@/renderer/globalStyles/themes/defaultTheme'
 import { Layout } from '@/renderer/components/Layout'
-import { GlobalStyles } from '@/renderer/App.styles'
 import { store } from '@/renderer/store/store'
-import inputsys from '@/renderer/InputSystem'
+import inputSystem from '@/renderer/inputSystem'
+import { createGlobalStyle } from 'styled-components'
+import { Theme } from '@/renderer/globalStyles/styled'
 
-const App: FC = () => {
+export const App: FC = () => {
   useEffect(() => {
-    inputsys.start()
-    return () => inputsys.stop()
+    inputSystem.start()
+    return () => inputSystem.stop()
   }, [])
 
   return (
@@ -34,4 +34,22 @@ const App: FC = () => {
   )
 }
 
-export default App
+const GlobalStyles = createGlobalStyle<{ theme: Theme }>`
+  html { height: 100%; }
+
+  body {
+    background: ${(props) => props.theme.colors.background};
+    color: ${(props) => props.theme.colors.fontLight};
+    min-height: 100%;
+  }
+
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+
+  #root {
+    height: 100vh;
+  }
+`

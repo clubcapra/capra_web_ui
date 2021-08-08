@@ -12,7 +12,7 @@ import {
 import { FaTimes } from 'react-icons/fa'
 import { useSelector } from '@/renderer/utils/hooks/typedUseSelector'
 import { Button } from '@/renderer/components/common/Button'
-import { Modal } from '@/renderer/components/common/Modal/Modal'
+import { Modal } from '@/renderer/components/common/Modal'
 import { useOpenClose } from '@/renderer/utils/hooks/useOpenClose'
 import { useActor } from '@xstate/react'
 import { rosService, videoUrlSelector } from '@/renderer/state/ros'

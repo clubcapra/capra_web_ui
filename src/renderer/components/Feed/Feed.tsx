@@ -1,6 +1,5 @@
 import React, { FC, useMemo } from 'react'
 import { useSelector } from '@/renderer/utils/hooks/typedUseSelector'
-import { StyledFeedComponent } from '@/renderer/components/Feed/Feed.styles'
 import {
   selectAllFeeds,
   selectFeedFromFeedMap,
@@ -8,6 +7,7 @@ import {
 import { FeedSelect } from '@/renderer/components/Feed/FeedSelect'
 import { FeedView } from '@/renderer/components/Feed/FeedView'
 import { useOpenClose } from '@/renderer/utils/hooks/useOpenClose'
+import { styled } from '@/renderer/globalStyles/styled'
 
 interface FeedProps {
   feed_id: string
@@ -42,3 +42,16 @@ export const Feed: FC<FeedProps> = ({ feed_id, defaultFeed }) => {
     </StyledFeedComponent>
   )
 }
+
+const StyledFeedComponent = styled.div<{
+  width?: string
+  height?: string
+}>`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  padding: 1px;
+`

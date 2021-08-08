@@ -1,6 +1,40 @@
+import * as React from 'react'
+import { FaTimes } from 'react-icons/fa'
+import { ReactNode } from 'react'
 import { styled } from '@/renderer/globalStyles/styled'
 
-export const StyledModal = styled.div`
+interface Props {
+  isOpen: boolean
+  onClose: () => void
+  title: string
+  footer?: ReactNode
+}
+
+export const Modal: React.FC<Props> = ({
+  isOpen,
+  onClose,
+  title,
+  children,
+  footer,
+}) => {
+  return isOpen ? (
+    <>
+      <StyledOverlay />
+      <StyledModal>
+        <StyledModalHeader>
+          <StyledModalTitle>{title}</StyledModalTitle>
+          <StyledModalClose onClick={onClose}>
+            <FaTimes />
+          </StyledModalClose>
+        </StyledModalHeader>
+        <StyledModalContent>{children}</StyledModalContent>
+        {footer}
+      </StyledModal>
+    </>
+  ) : null
+}
+
+const StyledModal = styled.div`
   height: auto;
   width: auto;
   min-width: 500px;
@@ -13,19 +47,19 @@ export const StyledModal = styled.div`
   background-color: ${({ theme }) => theme.colors.background};
 `
 
-export const StyledModalHeader = styled.div`
+const StyledModalHeader = styled.div`
   display: flex;
   border-bottom: 1px solid ${({ theme }) => theme.colors.darkerBackground};
   background-color: ${({ theme }) => theme.colors.darkerBackground};
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.32), 0 2px 6px rgba(0, 0, 0, 0.21);
 `
 
-export const StyledModalTitle = styled.h3`
+const StyledModalTitle = styled.h3`
   padding: 5px;
   flex-grow: 9;
 `
 
-export const StyledModalClose = styled.div`
+const StyledModalClose = styled.div`
   flex-grow: 1;
   display: flex;
   align-items: center;
@@ -42,11 +76,11 @@ export const StyledModalClose = styled.div`
   }
 `
 
-export const StyledModalContent = styled.div`
+const StyledModalContent = styled.div`
   padding: 5px;
 `
 
-export const StyledOverlay = styled.div`
+const StyledOverlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;

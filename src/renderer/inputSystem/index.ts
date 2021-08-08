@@ -1,7 +1,7 @@
-import { InputSystem } from '@/renderer/InputSystem/InputSystem'
-import { buttons, sticks } from '@/renderer/InputSystem/mappings'
+import { InputSystem } from '@/renderer/inputSystem/InputSystem'
+import { buttons, sticks } from '@/renderer/inputSystem/mappings'
 import { rosClient } from '@/renderer/utils/ros/rosClient'
-import { Action } from '@/renderer/InputSystem/@types'
+import { Action } from '@/renderer/inputSystem/@types'
 import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
 import { ITwistMsg, IJoyMsg } from '@/renderer/utils/ros/rosMsgs.types'
 import { Vector3 } from '@/renderer/utils/math/types'
@@ -10,29 +10,24 @@ import { feedSlice } from '@/renderer/store/modules/feed/reducer'
 import { store } from '@/renderer/store/store'
 import { flipperService } from '@/renderer/state/flipper'
 
-export const cmdVelTopic: TopicOptions = {
+const cmdVelTopic: TopicOptions = {
   name: 'markhor/diff_drive_controller/cmd_vel',
   messageType: 'geometry_msgs/Twist',
 }
 
-export const joyTopic: TopicOptions = {
+const joyTopic: TopicOptions = {
   name: '/joy',
   messageType: 'sensor_msgs/Joy',
 }
 
-export const spaceMouseTopic: TopicOptions = {
+const spaceMouseTopic: TopicOptions = {
   name: '/spacenav/twist',
-  messageType: 'geometry_msgs/Twist',
-}
-
-export const gamepadTopic: TopicOptions = {
-  name: '/gamepad',
   messageType: 'geometry_msgs/Twist',
 }
 
 let joySeqId = 0
 
-export const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
+const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
   const d = new Date()
   const seconds = Math.round(d.getTime() / 1000)
 
@@ -56,7 +51,7 @@ export const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
   }
 }
 
-export const mapToTwist = (
+const mapToTwist = (
   horizontal: number,
   vertical: number,
   rt: number,
@@ -74,15 +69,6 @@ export const mapToTwist = (
   return {
     linear: new Vector3(y * rt, 0, 0),
     angular: new Vector3(0, 0, x * rt),
-  }
-}
-
-export const mapSpaceMouseToTwist = (spacemouse: Gamepad): ITwistMsg => {
-  const { axes } = spacemouse
-
-  return {
-    linear: new Vector3(axes[0], axes[1], axes[2]),
-    angular: new Vector3(axes[3], axes[4], axes[5]),
   }
 }
 
@@ -227,6 +213,6 @@ const defaultActions: Action[] = [
   },
 ]
 
-const inputsys = new InputSystem(defaultActions)
+const inputSystem = new InputSystem(defaultActions)
 
-export default inputsys
+export default inputSystem
