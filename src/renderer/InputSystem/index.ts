@@ -1,13 +1,14 @@
-import { InputSystem } from '@/renderer/utils/InputSystem/InputSystem'
-import { buttons, sticks } from '@/renderer/utils/InputSystem/mappings'
+import { InputSystem } from '@/renderer/InputSystem/InputSystem'
+import { buttons, sticks } from '@/renderer/InputSystem/mappings'
 import { rosClient } from '@/renderer/utils/ros/rosClient'
-import { Action } from '@/renderer/utils/InputSystem/@types'
+import { Action } from '@/renderer/InputSystem/@types'
 import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
 import { ITwistMsg, IJoyMsg } from '@/renderer/utils/ros/rosMsgs.types'
 import { Vector3 } from '@/renderer/utils/math/types'
 import { controlService } from '@/renderer/state/control'
 import { feedSlice } from '@/renderer/store/modules/feed/reducer'
 import { store } from '@/renderer/store/store'
+import { flipperService } from '@/renderer/state/flipper'
 
 export const cmdVelTopic: TopicOptions = {
   name: 'markhor/diff_drive_controller/cmd_vel',
@@ -106,7 +107,7 @@ const defaultActions: Action[] = [
         return
       }
       rosClient
-        .callService({ name: 'takin_estop_disable' })
+        .callService({ name: 'markhor/estop_disable' })
         .catch(console.error)
     },
   },
@@ -115,6 +116,32 @@ const defaultActions: Action[] = [
     bindings: [{ type: 'gamepadBtn', button: buttons.dpad.right }],
     perform: () => {
       controlService.send('TOGGLE')
+    },
+  },
+  {
+    name: 'flipperFront',
+    bindings: [
+      { type: 'gamepadBtn', button: buttons.dpad.up },
+      { type: 'keyboard', code: 'KeyI' },
+    ],
+    perform: () => {
+      flipperService.send('MODE_FRONT')
+      rosClient
+        .callService({ name: 'markhor/flipper_mode_front' })
+        .catch(console.error)
+    },
+  },
+  {
+    name: 'flipperBack',
+    bindings: [
+      { type: 'gamepadBtn', button: buttons.dpad.down },
+      { type: 'keyboard', code: 'KeyK' },
+    ],
+    perform: () => {
+      flipperService.send('MODE_BACK')
+      rosClient
+        .callService({ name: 'markhor/flipper_mode_back' })
+        .catch(console.error)
     },
   },
   {
