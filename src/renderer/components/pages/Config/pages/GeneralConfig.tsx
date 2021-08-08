@@ -14,11 +14,11 @@ const ConnectionSection = () => {
   const { IP, port } = state.context
 
   const updateIp = (e: ChangeEvent<HTMLInputElement>) => {
-    send('SET_IP', { IP: e.target.value })
+    send({ type: 'SET_IP', IP: e.target.value })
   }
 
   const updatePort = (e: ChangeEvent<HTMLInputElement>) => {
-    send('SET_PORT', { port: e.target.value })
+    send({ type: 'SET_PORT', port: e.target.value })
   }
 
   const connect = () => send('CONNECT')
