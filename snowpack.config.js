@@ -10,7 +10,7 @@ module.exports = {
     port: Number.parseInt(process.env.ELECTRON_SNOWPACK_PORT, 10),
   },
   packageOptions: {
-    knownEntrypoints: ['date-fns/fp/format'],
+    knownEntrypoints: ['date-fns/fp/format', 'react-is'],
   },
   // plugins: ['@snowpack/plugin-react-refresh'],
 }
