@@ -58,8 +58,14 @@ const mapToTwist = (
   lt: number
 ): ITwistMsg => {
   const deadzone = 0.15
-  const x = horizontal > deadzone ? -1 : horizontal < -deadzone ? 1 : 0
-  const y = vertical > deadzone ? 1 : vertical < -deadzone ? -1 : 0
+  // prettier-ignore
+  const x = horizontal > deadzone
+    ? -1
+    : horizontal < -deadzone ? 1 : 0
+  // prettier-ignore
+  const y = vertical > deadzone
+    ? 1
+    : vertical < -deadzone ? -1 : 0
 
   if (lt > 0.1) {
     // brake!
@@ -171,15 +177,15 @@ const defaultActions: Action[] = [
         return
       }
 
-      const { gamepad } = ctx.gamepadState
-      const { axes } = gamepad
-      const gpButtons = gamepad.buttons
+      const {
+        gamepad: { axes, buttons: btns },
+      } = ctx.gamepadState
 
       const twist = mapToTwist(
         axes[sticks.left.horizontal],
         axes[sticks.left.vertical],
-        getBtnValue(gpButtons[buttons.RT]),
-        getBtnValue(gpButtons[buttons.LT])
+        Math.pow(getBtnValue(btns[buttons.RT]), 2),
+        getBtnValue(btns[buttons.LT])
       )
 
       rosClient.publish(cmdVelTopic, twist)
