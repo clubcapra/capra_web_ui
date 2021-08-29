@@ -7,6 +7,7 @@ interface FlipperStateSchema {
   states: {
     front: Record<string, unknown>
     back: Record<string, unknown>
+    none: Record<string, unknown>
   }
 }
 
@@ -18,17 +19,23 @@ export const flipperMachine = Machine<
   FlipperEvent
 >({
   id: 'flipper',
-  initial: 'front',
+  initial: 'none',
   context: {},
   states: {
     front: {
       on: {
-        MODE_BACK: 'back',
+        MODE_BACK: 'none',
       },
     },
     back: {
       on: {
+        MODE_FRONT: 'none',
+      },
+    },
+    none: {
+      on: {
         MODE_FRONT: 'front',
+        MODE_BACK: 'back',
       },
     },
   },
