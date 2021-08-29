@@ -17,28 +17,43 @@ export const flipperMachine = Machine<
   FlipperContext,
   FlipperStateSchema,
   FlipperEvent
->({
-  id: 'flipper',
-  initial: 'none',
-  context: {},
-  states: {
-    front: {
-      on: {
-        MODE_BACK: 'none',
+>(
+  {
+    id: 'flipper',
+    initial: 'none',
+    context: {},
+    states: {
+      front: {
+        on: {
+          MODE_BACK: { target: 'none', actions: 'set_mode_none' },
+        },
       },
-    },
-    back: {
-      on: {
-        MODE_FRONT: 'none',
+      back: {
+        on: {
+          MODE_FRONT: { target: 'none', actions: 'set_mode_none' },
+        },
       },
-    },
-    none: {
-      on: {
-        MODE_FRONT: 'front',
-        MODE_BACK: 'back',
+      none: {
+        on: {
+          MODE_FRONT: { target: 'front', actions: 'set_mode_front' },
+          MODE_BACK: { target: 'back', actions: 'set_mode_back' },
+        },
       },
     },
   },
-})
+  {
+    actions: {
+      set_mode_none: () => {
+        console.log('set_mode_none')
+      },
+      set_mode_front: () => {
+        console.log('set_mode_front')
+      },
+      set_mode_back: () => {
+        console.log('set_mode_back')
+      },
+    },
+  }
+)
 
 export const flipperService = interpret(flipperMachine).start()
