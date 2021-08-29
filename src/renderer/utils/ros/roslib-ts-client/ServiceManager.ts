@@ -13,7 +13,7 @@ export class ServiceManager {
     this.client = client
   }
 
-  callService(options: ServiceOptions, payload?: unknown): Promise<unknown> {
+  callService<P>(options: ServiceOptions, payload?: P): Promise<unknown> {
     const service = this.getService(options)
 
     const request = new ROSLIB.ServiceRequest(payload ?? '')

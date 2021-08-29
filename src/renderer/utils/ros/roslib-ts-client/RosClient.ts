@@ -89,7 +89,7 @@ export default class RosClient {
     this.topicManager.publish(options, payload)
   }
 
-  callService(options: ServiceOptions, payload?: unknown) {
+  callService<P>(options: ServiceOptions, payload?: P) {
     return this.serviceManager.callService(options, payload)
   }
 

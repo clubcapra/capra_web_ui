@@ -118,9 +118,6 @@ const defaultActions: Action[] = [
     ],
     perform: () => {
       flipperService.send('MODE_FRONT')
-      rosClient
-        .callService({ name: 'markhor/flipper_mode_front' })
-        .catch(console.error)
     },
   },
   {
@@ -131,9 +128,6 @@ const defaultActions: Action[] = [
     ],
     perform: () => {
       flipperService.send('MODE_BACK')
-      rosClient
-        .callService({ name: 'markhor/flipper_mode_back' })
-        .catch(console.error)
     },
   },
   {

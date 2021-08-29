@@ -41,6 +41,7 @@ const FlipperMode = () => {
   return (
     <div>
       {state.matches('front') && 'FRONT'}
+      {state.matches('none') && 'NONE'}
       {state.matches('back') && 'BACK'}
     </div>
   )
