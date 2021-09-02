@@ -1,13 +1,6 @@
 import { rosClient } from '@/renderer/utils/ros/rosClient'
 import { Machine, interpret } from 'xstate'
 
-enum FlipperMode {
-  FRONT_ENABLE = 0,
-  FRONT_DISABLE = 1,
-  BACK_ENABLE = 2,
-  BACK_DISABLE = 3,
-}
-
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface FlipperContext {}
 
@@ -52,27 +45,32 @@ export const flipperMachine = Machine<
   {
     actions: {
       set_mode_none: () => {
-        void sendFlipperMode(FlipperMode.FRONT_DISABLE)
-        void sendFlipperMode(FlipperMode.BACK_DISABLE)
+        void sendFlipperMode('front_disable')
+        void sendFlipperMode('back_disable')
       },
       set_mode_front: () => {
-        void sendFlipperMode(FlipperMode.FRONT_ENABLE)
-        void sendFlipperMode(FlipperMode.BACK_DISABLE)
+        void sendFlipperMode('front_enable')
+        void sendFlipperMode('back_disable')
       },
       set_mode_back: () => {
-        void sendFlipperMode(FlipperMode.FRONT_DISABLE)
-        void sendFlipperMode(FlipperMode.BACK_ENABLE)
+        void sendFlipperMode('front_disable')
+        void sendFlipperMode('back_enable')
       },
     },
   }
 )
 
+type FlipperMode =
+  | 'front_enable'
+  | 'front_disable'
+  | 'back_enable'
+  | 'back_disable'
+
 async function sendFlipperMode(mode: FlipperMode) {
   try {
-    await rosClient.callService(
-      { name: '/markhor/markhor_base_flipper_node/flipper_mode' },
-      { mode }
-    )
+    await rosClient.callService({
+      name: `/markhor/markhor_base_flipper_node/flipper_mode_${mode}`,
+    })
   } catch (e) {
     console.error(e)
   }
