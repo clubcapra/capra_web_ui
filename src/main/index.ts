@@ -10,15 +10,7 @@ import { powerSaveBlocker } from 'electron'
 
 const { app, BrowserWindow, ipcMain } = electron
 
-// WARNING!
-// DO NOT USE electron-devtools-installer
-// if you did and the app doesn't show anymore,
-// delete %AppData%/electron and %AppData%/[project name]
-// see https://stackoverflow.com/questions/57614066/electron-app-onready-never-being-called-and-electron-window-never-showing
-
 let mainWindow: Electron.BrowserWindow | null = null
-
-app.allowRendererProcessReuse = true
 
 const getAssetURL = (asset: string) => {
   if (isDev) {
@@ -63,6 +55,11 @@ function createWindow() {
 app
   .whenReady()
   .then(async () => {
+    // WARNING!
+    // If you use electron-devtools-installer and the app doesn't show anymore,
+    // delete %AppData%/electron and %AppData%/[project name]
+    // see https://stackoverflow.com/questions/57614066/electron-app-onready-never-being-called-and-electron-window-never-showing
+
     if (isDev) {
       try {
         await installExtension(REACT_DEVELOPER_TOOLS, {
@@ -106,6 +103,8 @@ ipcMain.on(APP_INFO_QUERY, (event) => {
   } as APP_INFO_ARG)
 })
 
+// Since we don't every want the display to sleep while the robot is connected
+// we try to force it to never sleep
 const id = powerSaveBlocker.start('prevent-display-sleep')
 // eslint-disable-next-line no-console
 console.log('prevent-display-sleep started: ', powerSaveBlocker.isStarted(id))
