@@ -20,7 +20,7 @@ export const App: FC = () => {
   return (
     <StrictMode>
       <Provider store={store}>
-        <ToastContainer position={'bottom-right'} theme={'dark'} />
+        <ToastContainer position={'bottom-right'} theme={'dark'} icon={false} />
         <HashRouter basename={process.env.PUBLIC_URL}>
           <ThemeProvider theme={defaultTheme}>
             <>
@@ -51,5 +51,10 @@ const GlobalStyles = createGlobalStyle<{ theme: Theme }>`
 
   #root {
     height: 100vh;
+    --toastify-text-color-dark: ${(props) => props.theme.colors.fontLight};
+    --toastify-color-dark: ${(props) => props.theme.colors.background};
+    --toastify-color-success: ${(props) => props.theme.colors.success};
+    --toastify-color-warning: ${(props) => props.theme.colors.warning};
+    --toastify-color-error: ${(props) => props.theme.colors.danger};
   }
 `
