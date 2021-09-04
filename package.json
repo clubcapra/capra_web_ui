@@ -67,7 +67,7 @@
     "@typescript-eslint/parser": "^4.30.0",
     "electron": "^14.0.0",
     "electron-builder": "^22.11.7",
-    "electron-devtools-installer": "git://github.com/MarshallOfSound/electron-devtools-installer.git",
+    "electron-devtools-installer": "^3.2.0",
     "electron-snowpack": "^0.12.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
