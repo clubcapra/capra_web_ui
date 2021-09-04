@@ -1,7 +1,12 @@
 import { GlobalState } from '@/renderer/store/rootReducer'
 import { defaultState } from '@/renderer/store/defaultState'
+import shortid from 'shortid'
 
-const stateKey = 'state'
+// WARN
+// This is necessary since for some reason electron doesn't clear it's cache when installing.
+// This means that if we change how the data in the state is strutcured it will fail to load properly
+// The shortid() will generate a new id everytime the UI is launched so
+const stateKey = `state-${process.env.npm_package_version || shortid()}`
 
 export const loadState = (): GlobalState => {
   try {
@@ -9,6 +14,8 @@ export const loadState = (): GlobalState => {
     if (serializedState === null) {
       return defaultState
     }
+    // TODO instead of versioning try to validate the data
+    // if it fails validation simply return defaultState
     return JSON.parse(serializedState) as GlobalState
   } catch (err) {
     return defaultState
