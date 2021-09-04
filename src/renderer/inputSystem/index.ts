@@ -183,9 +183,9 @@ const defaultActions: Action[] = [
       } = ctx.gamepadState
 
       const twist = mapToTwist(
-        axes[sticks.left.horizontal],
-        axes[sticks.left.vertical],
-        Math.pow(getBtnValue(btns[buttonMappings.RT]), 2),
+        -axes[sticks.left.horizontal],
+        -axes[sticks.left.vertical],
+        getBtnValue(btns[buttonMappings.RT]) / 10,
         getBtnValue(btns[buttonMappings.LT])
       )
 
