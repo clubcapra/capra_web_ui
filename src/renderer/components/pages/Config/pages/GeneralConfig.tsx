@@ -22,19 +22,36 @@ const ConnectionSection = () => {
   }
 
   const connect = () => send('CONNECT')
+  const disconnect = () => send('DISCONNECT')
 
   return (
     <>
       <SectionTitle>Connection</SectionTitle>
-      <LabeledInput label="IP address" value={IP} onChange={updateIp} />
-      <LabeledInput
-        label="rosbrige_server port"
-        value={port}
-        onChange={updatePort}
-      />
-      <Button onClick={connect} disabled={state.matches('connecting')}>
-        Connect
-      </Button>
+      <div style={{ display: 'flex' }}>
+        <LabeledInput label="IP address" value={IP} onChange={updateIp} />
+        <LabeledInput
+          label="rosbrige_server port"
+          value={port}
+          onChange={updatePort}
+        />
+      </div>
+
+      <div style={{ display: 'flex' }}>
+        <Button
+          onClick={connect}
+          disabled={state.matches('connecting') || state.matches('connected')}
+        >
+          Connect
+        </Button>
+        <Button
+          onClick={disconnect}
+          disabled={
+            state.matches('connecting') || state.matches('disconnected')
+          }
+        >
+          Disconnect
+        </Button>
+      </div>
     </>
   )
 }

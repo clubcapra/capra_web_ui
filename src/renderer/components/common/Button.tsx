@@ -29,13 +29,13 @@ const getColor = (
 }
 
 const StyledButton = styled.button<StyledButtonProps>`
-  cursor: pointer;
+  /* cursor: pointer; */
   transition: all 0.1s ease;
   user-select: none;
 
   display: flex;
   flex: 1 1 28px;
-  flex-basis: 100%;
+  /* flex-basis: 100%; */
   min-width: 0;
   background-color: transparent;
   border-color: ${({ theme, btnType }) =>
@@ -71,7 +71,7 @@ const StyledButton = styled.button<StyledButtonProps>`
   }
 
   &:disabled {
-    cursor: wait;
+    cursor: not-allowed;
   }
 `
 

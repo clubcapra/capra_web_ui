@@ -116,6 +116,9 @@ export const rosMachine = Machine<RosContext, RosStateSchema, RosEvent>(
       rosClientConnect: ({ IP, port }) => {
         rosClient.connect(IP, port)
       },
+      rosClientDisconnect: () => {
+        rosClient.disconnect()
+      },
       toastSuccess: (ctx) => {
         toast.dismiss(ctx.connectingToastId)
         toast.info(`ROS: Connected to: ${fullAddressSelector(ctx)}`)
