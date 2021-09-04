@@ -80,7 +80,7 @@ export const rosMachine = Machine<RosContext, RosStateSchema, RosEvent>(
     id: 'ros',
     initial: 'disconnected',
     context: {
-      IP: 'localhost',
+      IP: '192.168.1.150',
       port: '9090',
       videoServerPort: '8080',
       connectingToastId: '',
