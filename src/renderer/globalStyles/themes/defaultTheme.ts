@@ -14,6 +14,7 @@ export const defaultTheme = {
     fontLight: 'white',
     success: 'limegreen',
     danger: 'red',
+    warning: 'yellow',
   },
   font: {
     primary: 'Arial',
