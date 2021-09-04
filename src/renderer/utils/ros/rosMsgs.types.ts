@@ -8,8 +8,8 @@ export interface IJoyMsg {
     }
     frame_id: string
   }
-  axes: number[]
-  buttons: number[]
+  axes: readonly number[]
+  buttons: readonly number[]
 }
 
 export interface ITwistMsg {

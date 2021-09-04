@@ -1,5 +1,8 @@
 import { InputSystem } from '@/renderer/inputSystem/InputSystem'
-import { buttons, sticks } from '@/renderer/inputSystem/mappings'
+import {
+  buttons as buttonMappings,
+  sticks,
+} from '@/renderer/inputSystem/mappings'
 import { rosClient } from '@/renderer/utils/ros/rosClient'
 import { Action } from '@/renderer/inputSystem/@types'
 import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
@@ -31,10 +34,14 @@ const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
   const d = new Date()
   const seconds = Math.round(d.getTime() / 1000)
 
+  const lt = getBtnValue(gamepad.buttons[buttonMappings.LT])
+  const rt = getBtnValue(gamepad.buttons[buttonMappings.RT])
+
+  let axes = gamepad.axes
+  axes = [-axes[0], -axes[1], lt, -axes[2], -axes[3], rt]
   const deadzone = 0.09
-  const axes = gamepad.axes.map((x) =>
-    x < deadzone && x > -deadzone ? 0.0 : x
-  )
+  axes = axes.map((x) => (x < deadzone && x > -deadzone ? 0.0 : x))
+
   const buttons = gamepad.buttons.map((x) => Math.floor(x.value))
 
   return {
@@ -90,7 +97,7 @@ const defaultActions: Action[] = [
     name: 'estop',
     bindings: [
       { type: 'keyboard', code: 'Space', onKeyDown: true },
-      { type: 'gamepadBtn', button: buttons.XBOX },
+      { type: 'gamepadBtn', button: buttonMappings.XBOX },
     ],
     perform: (ctx) => {
       // TODO use redux to toggle the estop and the related UI elements
@@ -105,7 +112,7 @@ const defaultActions: Action[] = [
   },
   {
     name: 'toggleArmControl',
-    bindings: [{ type: 'gamepadBtn', button: buttons.dpad.right }],
+    bindings: [{ type: 'gamepadBtn', button: buttonMappings.dpad.right }],
     perform: () => {
       controlService.send('TOGGLE')
     },
@@ -113,7 +120,7 @@ const defaultActions: Action[] = [
   {
     name: 'flipperFront',
     bindings: [
-      { type: 'gamepadBtn', button: buttons.dpad.up },
+      { type: 'gamepadBtn', button: buttonMappings.dpad.up },
       { type: 'keyboard', code: 'KeyI' },
     ],
     perform: () => {
@@ -123,7 +130,7 @@ const defaultActions: Action[] = [
   {
     name: 'flipperBack',
     bindings: [
-      { type: 'gamepadBtn', button: buttons.dpad.down },
+      { type: 'gamepadBtn', button: buttonMappings.dpad.down },
       { type: 'keyboard', code: 'KeyK' },
     ],
     perform: () => {
@@ -133,7 +140,7 @@ const defaultActions: Action[] = [
   {
     name: 'switchForwardDirection',
     bindings: [
-      { type: 'gamepadBtn', button: buttons.back },
+      { type: 'gamepadBtn', button: buttonMappings.back },
       { type: 'keyboard', code: 'KeyT', onKeyDown: true },
     ],
     perform: () => {
@@ -146,14 +153,14 @@ const defaultActions: Action[] = [
   },
   {
     name: 'headlights',
-    bindings: [{ type: 'gamepadBtn', button: buttons.Y }],
+    bindings: [{ type: 'gamepadBtn', button: buttonMappings.Y }],
     perform: () => {
       rosClient.callService({ name: '/headlights' }).catch(console.error)
     },
   },
   {
     name: 'flipper_reset',
-    bindings: [{ type: 'gamepadBtn', button: buttons.B }],
+    bindings: [{ type: 'gamepadBtn', button: buttonMappings.B }],
     perform: () => {
       rosClient
         .callService({ name: 'markhor/flipper_reset' })
@@ -178,8 +185,8 @@ const defaultActions: Action[] = [
       const twist = mapToTwist(
         axes[sticks.left.horizontal],
         axes[sticks.left.vertical],
-        Math.pow(getBtnValue(btns[buttons.RT]), 2),
-        getBtnValue(btns[buttons.LT])
+        Math.pow(getBtnValue(btns[buttonMappings.RT]), 2),
+        getBtnValue(btns[buttonMappings.LT])
       )
 
       rosClient.publish(cmdVelTopic, twist)
