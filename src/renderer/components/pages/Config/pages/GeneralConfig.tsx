@@ -6,19 +6,28 @@ import { useActor } from '@xstate/react'
 import { rosService } from '@/renderer/state/ros'
 import { clearStoreCache } from '@/renderer/store/localStorage'
 import { useDispatch } from 'react-redux'
-import { rosSlice, selectNamespace } from '@/renderer/store/modules/ros/reducer'
+import {
+  rosSlice,
+  selectBaseLinkName,
+  selectDescriptionServerPort,
+  selectIP,
+  selectNamespace,
+  selectPort,
+} from '@/renderer/store/modules/ros'
 import { useSelector } from '@/renderer/utils/hooks/typedUseSelector'
 
 const ConnectionSection = () => {
+  const IP = useSelector(selectIP)
+  const port = useSelector(selectPort)
+  const dispatch = useDispatch()
   const [state, send] = useActor(rosService)
-  const { IP, port } = state.context
 
   const updateIp = (e: ChangeEvent<HTMLInputElement>) => {
-    send({ type: 'SET_IP', IP: e.target.value })
+    dispatch(rosSlice.actions.updateIP(e.target.value))
   }
 
   const updatePort = (e: ChangeEvent<HTMLInputElement>) => {
-    send({ type: 'SET_PORT', port: e.target.value })
+    dispatch(rosSlice.actions.updatePort(e.target.value))
   }
 
   const connect = () => send('CONNECT')
@@ -66,7 +75,10 @@ const NamespaceSection = () => {
   return (
     <>
       <SectionTitle>UI Ros Namespace</SectionTitle>
-      <p>This will be appended to any topic that publishes from the UI.</p>
+      <p>
+        This will be appended to any topic that publishes from the UI. WARN This
+        is not currently used
+      </p>
       <LabeledInput
         label="Namespace"
         value={namespace}
@@ -77,15 +89,16 @@ const NamespaceSection = () => {
 }
 
 const UrdfDescriptionSection = () => {
-  const [state, send] = useActor(rosService)
-  const { descriptionServerPort, baseLinkName } = state.context
+  const dispatch = useDispatch()
+  const descriptionServerPort = useSelector(selectDescriptionServerPort)
+  const baseLinkName = useSelector(selectBaseLinkName)
 
   const updateDescriptionPort = (e: ChangeEvent<HTMLInputElement>): void => {
-    send('SET_DESCRIPTION_SERVER_PORT', { port: e.target.value })
+    dispatch(rosSlice.actions.updateDescriptionServerPort(e.target.value))
   }
 
   const updateBaseLinkName = (e: ChangeEvent<HTMLInputElement>): void => {
-    send('SET_BASE_LINK_NAME', { name: e.target.value })
+    dispatch(rosSlice.actions.updateBaseLinkName(e.target.value))
   }
 
   return (

@@ -1,10 +1,12 @@
-import * as React from 'react'
-import { ICameraFeed, CameraType } from '@/renderer/store/modules/feed/@types'
-import { FC, useEffect, useRef } from 'react'
-import { styled } from '@/renderer/globalStyles/styled'
 import { NoFeed } from '@/renderer/components/Feed/Feeds/NoFeed'
+import { styled } from '@/renderer/globalStyles/styled'
+import { rosService } from '@/renderer/state/ros'
+import { CameraType, ICameraFeed } from '@/renderer/store/modules/feed/@types'
+import { selectVideoUrl } from '@/renderer/store/modules/ros'
+import { useSelector } from '@/renderer/utils/hooks/typedUseSelector'
 import { useActor } from '@xstate/react'
-import { rosService, videoUrlSelector } from '@/renderer/state/ros'
+import * as React from 'react'
+import { FC, useEffect, useRef } from 'react'
 
 interface Props {
   feed: ICameraFeed
@@ -66,8 +68,7 @@ const Webcam: FC<{ deviceid: string }> = ({ deviceid }) => {
 }
 
 const View: FC<Props> = ({ feed }) => {
-  const [state] = useActor(rosService)
-  const source = videoUrlSelector(feed.camera)(state.context)
+  const source = useSelector(selectVideoUrl(feed.camera))
 
   switch (feed.camera.type) {
     case CameraType.MJPEG:

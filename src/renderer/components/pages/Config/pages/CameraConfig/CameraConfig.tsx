@@ -6,16 +6,16 @@ import { LabeledInput } from '@/renderer/components/common/LabeledInput'
 import { Table } from './Table'
 import { Button } from '@/renderer/components/common/Button'
 import { SectionTitle } from '@/renderer/components/pages/Config/styles'
-import { useActor } from '@xstate/react'
-import { rosService } from '@/renderer/state/ros'
 import { styled } from '@/renderer/globalStyles/styled'
+import { useSelector } from '@/renderer/utils/hooks/typedUseSelector'
+import { rosSlice, selectVideoServerPort } from '@/renderer/store/modules/ros'
 
 const VideoServerPortConfig: FC = () => {
-  const [state, send] = useActor(rosService)
-  const { videoServerPort } = state.context
+  const videoServerPort = useSelector(selectVideoServerPort)
+  const dispatch = useDispatch()
 
   const updateVideoServerPort = (e: ChangeEvent<HTMLInputElement>) =>
-    send({ type: 'SET_VIDEO_SERVER_PORT', port: e.currentTarget.value })
+    dispatch(rosSlice.actions.updateVideoServerPort(e.currentTarget.value))
 
   return (
     <>

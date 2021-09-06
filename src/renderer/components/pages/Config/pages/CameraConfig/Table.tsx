@@ -1,25 +1,24 @@
-import React, { FC, useCallback } from 'react'
-import { useDispatch } from 'react-redux'
+import { Button } from '@/renderer/components/common/Button'
+import { Input } from '@/renderer/components/common/Input'
+import { Modal } from '@/renderer/components/common/Modal'
+import { Select } from '@/renderer/components/common/Select'
+import { styled } from '@/renderer/globalStyles/styled'
 import {
-  selectAllCamera,
-  feedSlice,
-} from '@/renderer/store/modules/feed/reducer'
-import {
-  ICameraData,
   CameraType,
+  ICameraData,
   ICameraFeed,
 } from '@/renderer/store/modules/feed/@types'
-import { FaTimes } from 'react-icons/fa'
+import {
+  feedSlice,
+  selectAllCamera,
+} from '@/renderer/store/modules/feed/reducer'
+import { selectVideoUrl } from '@/renderer/store/modules/ros'
 import { useSelector } from '@/renderer/utils/hooks/typedUseSelector'
-import { Button } from '@/renderer/components/common/Button'
-import { Modal } from '@/renderer/components/common/Modal'
-import { useOpenClose } from '@/renderer/utils/hooks/useOpenClose'
-import { useActor } from '@xstate/react'
-import { rosService, videoUrlSelector } from '@/renderer/state/ros'
-import { Select } from '@/renderer/components/common/Select'
-import { Input } from '@/renderer/components/common/Input'
 import { useEscape } from '@/renderer/utils/hooks/useEscape'
-import { styled } from '@/renderer/globalStyles/styled'
+import { useOpenClose } from '@/renderer/utils/hooks/useOpenClose'
+import React, { FC, useCallback } from 'react'
+import { FaTimes } from 'react-icons/fa'
+import { useDispatch } from 'react-redux'
 
 interface TableRowProps {
   feed: ICameraFeed
@@ -37,6 +36,7 @@ const TableRow: FC<TableRowProps> = ({ feed, updateCamera }) => {
   const dispatch = useDispatch()
   const removeCamera = () => dispatch(feedSlice.actions.removeFeed(id))
   const updateCameraId = updateCamera(id)
+  const snapshotSource = useSelector(selectVideoUrl(feed.camera, 'snapshot'))
   const [isOpen, open, close] = useOpenClose()
 
   useEscape(() => {
@@ -44,12 +44,6 @@ const TableRow: FC<TableRowProps> = ({ feed, updateCamera }) => {
       close()
     }
   })
-
-  const [state] = useActor(rosService)
-  const snapshotSource = videoUrlSelector(
-    feed.camera,
-    'snapshot'
-  )(state.context)
 
   return (
     <tr>

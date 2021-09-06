@@ -2,14 +2,16 @@ import { useActor } from '@xstate/react'
 import { TimeDisplay } from '@/renderer/components/StatusBar/TimeDisplay'
 import React, { FC } from 'react'
 import { controlService } from '@/renderer/state/control'
-import { fullAddressSelector, rosService } from '@/renderer/state/ros'
+import { rosService } from '@/renderer/state/ros'
 import { NetworkDisplay } from './NetworkInfo'
 import { styled } from '@/renderer/globalStyles/styled'
 import { flipperService } from '@/renderer/state/flipper'
+import { useSelector } from '@/renderer/utils/hooks/typedUseSelector'
+import { selectFullAddress } from '@/renderer/store/modules/ros'
 
 const RosConnectionStatus: FC = () => {
   const [state, send] = useActor(rosService)
-  const fullAddress = fullAddressSelector(state.context)
+  const fullAddress = useSelector(selectFullAddress)
   const connect = () => {
     send('CONNECT')
   }

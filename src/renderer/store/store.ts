@@ -4,8 +4,7 @@ import {
   saveState,
 } from '@/renderer/store/localStorage'
 import { feedSlice } from '@/renderer/store/modules/feed/reducer'
-
-import { rosSlice } from '@/renderer/store/modules/ros/reducer'
+import { rosSlice } from '@/renderer/store/modules/ros'
 import { configureStore } from '@reduxjs/toolkit'
 import { throttle } from 'lodash'
 import { AnyAction, combineReducers } from 'redux'
