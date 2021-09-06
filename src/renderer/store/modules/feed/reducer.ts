@@ -3,7 +3,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { FeedTypeEnum } from '@/renderer/store/modules/feed/@types'
 import { initialState } from '@/renderer/store/modules/feed/initialState'
 import shortid from 'shortid'
-import { GlobalState } from '@/renderer/store/rootReducer'
+import { GlobalState } from '@/renderer/store/store'
 
 export const feedSlice = createSlice({
   name: 'feed',
