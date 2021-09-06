@@ -1,18 +1,13 @@
-import React, { FC, ChangeEvent } from 'react'
-import { FeedType, FeedTypeEnum } from '@/renderer/store/modules/feed/@types'
-import { useDispatch, useSelector } from 'react-redux'
-import {
-  selectAllFeeds,
-  feedSlice,
-} from '@/renderer/store/modules/feed/reducer'
-import { styled } from '@/renderer/globalStyles/styled'
 import { Select } from '@/renderer/components/common/Select'
-
-const StyledContainer = styled.div`
-  position: absolute;
-  bottom: 4px;
-  right: 4px;
-`
+import { styled } from '@/renderer/globalStyles/styled'
+import {
+  feedSlice,
+  FeedType,
+  FeedTypeEnum,
+  selectAllFeeds,
+} from '@/renderer/store/modules/feed'
+import React, { ChangeEvent, FC } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 interface FeedSelectProps {
   id: string
@@ -57,3 +52,9 @@ export const FeedSelect: FC<FeedSelectProps> = ({
     </StyledContainer>
   )
 }
+
+const StyledContainer = styled.div`
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+`

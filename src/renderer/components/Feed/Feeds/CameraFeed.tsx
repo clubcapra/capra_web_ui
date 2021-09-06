@@ -1,7 +1,7 @@
 import { NoFeed } from '@/renderer/components/Feed/Feeds/NoFeed'
 import { styled } from '@/renderer/globalStyles/styled'
 import { rosService } from '@/renderer/state/ros'
-import { CameraType, ICameraFeed } from '@/renderer/store/modules/feed/@types'
+import { CameraType, ICameraFeed } from '@/renderer/store/modules/feed'
 import { selectVideoUrl } from '@/renderer/store/modules/ros'
 import { useSelector } from '@/renderer/utils/hooks/typedUseSelector'
 import { useActor } from '@xstate/react'

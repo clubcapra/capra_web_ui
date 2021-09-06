@@ -3,6 +3,21 @@ import { Feed } from '@/renderer/components/Feed/Feed'
 import { useControl } from '@/renderer/utils/hooks/useControl'
 import { styled } from '@/renderer/globalStyles/styled'
 
+export const Victim: FC = () => {
+  useControl('flipper')
+
+  return (
+    <Layout>
+      <Feed feed_id="victim_feed_1" defaultFeed="camera_3d_rgb" />
+      <Feed feed_id="victim_feed_2" defaultFeed="camera_3d_rgb" />
+      <Feed feed_id="victim_feed_3" defaultFeed="camera_3d_rgb" />
+      <Feed feed_id="victim_feed_4" defaultFeed="camera_3d_rgb" />
+      <Feed feed_id="victim_feed_5" defaultFeed="camera_3d_rgb" />
+      <Feed feed_id="victim_feed_6" defaultFeed="camera_3d_rgb" />
+    </Layout>
+  )
+}
+
 const Layout = styled.div`
   display: grid;
   height: 100%;
@@ -39,18 +54,3 @@ const Layout = styled.div`
     grid-area: feed6;
   }
 `
-
-export const Victim: FC = () => {
-  useControl('flipper')
-
-  return (
-    <Layout>
-      <Feed feed_id="victim_feed_1" defaultFeed="camera_3d_rgb" />
-      <Feed feed_id="victim_feed_2" defaultFeed="camera_3d_rgb" />
-      <Feed feed_id="victim_feed_3" defaultFeed="camera_3d_rgb" />
-      <Feed feed_id="victim_feed_4" defaultFeed="camera_3d_rgb" />
-      <Feed feed_id="victim_feed_5" defaultFeed="camera_3d_rgb" />
-      <Feed feed_id="victim_feed_6" defaultFeed="camera_3d_rgb" />
-    </Layout>
-  )
-}

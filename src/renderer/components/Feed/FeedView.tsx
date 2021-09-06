@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { FeedType, FeedTypeEnum } from '@/renderer/store/modules/feed/@types'
+import { FeedType, FeedTypeEnum } from '@/renderer/store/modules/feed'
 import { CameraFeed } from '@/renderer/components/Feed/Feeds/CameraFeed'
 import { NoFeed } from '@/renderer/components/Feed/Feeds/NoFeed'
 import { UrdfFeed } from '@/renderer/components/Feed/Feeds/UrdfFeed'

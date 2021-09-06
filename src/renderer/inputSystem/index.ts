@@ -9,7 +9,7 @@ import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
 import { ITwistMsg, IJoyMsg } from '@/renderer/utils/ros/rosMsgs.types'
 import { Vector3 } from '@/renderer/utils/math/types'
 import { controlService } from '@/renderer/state/control'
-import { feedSlice } from '@/renderer/store/modules/feed/reducer'
+import { feedSlice } from '@/renderer/store/modules/feed'
 import { store } from '@/renderer/store/store'
 import { flipperService } from '@/renderer/state/flipper'
 

@@ -1,7 +1,7 @@
 import { NoFeed } from '@/renderer/components/Feed/Feeds/NoFeed'
 import { styled } from '@/renderer/globalStyles/styled'
 import { rosService } from '@/renderer/state/ros'
-import { IUrdfFeed } from '@/renderer/store/modules/feed/@types'
+import { IUrdfFeed } from '@/renderer/store/modules/feed'
 import {
   selectBaseLinkName,
   selectDescriptionServerPort,
