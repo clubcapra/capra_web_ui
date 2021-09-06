@@ -1,7 +1,7 @@
 import { GlobalState } from '@/renderer/store/store'
 import shortid from 'shortid'
 import { initialState as feedState } from '@/renderer/store/modules/feed/initialState'
-import { initialState as rosState } from '@/renderer/store/modules/ros/initialState'
+import { initialState as rosState } from '@/renderer/store/modules/ros'
 
 export const defaultState: GlobalState = {
   feed: feedState,

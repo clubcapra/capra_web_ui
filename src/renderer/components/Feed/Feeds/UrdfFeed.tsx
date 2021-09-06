@@ -1,12 +1,18 @@
-import React, { FC, useRef, useEffect, useLayoutEffect, useState } from 'react'
-import { styled } from '@/renderer/globalStyles/styled'
 import { NoFeed } from '@/renderer/components/Feed/Feeds/NoFeed'
-import { IUrdfFeed } from '@/renderer/store/modules/feed/@types'
-import { rosClient } from '@/renderer/utils/ros/rosClient'
-import { useRefSize } from '@/renderer/utils/hooks/useRefSize'
-import _ from 'lodash'
+import { styled } from '@/renderer/globalStyles/styled'
 import { rosService } from '@/renderer/state/ros'
+import { IUrdfFeed } from '@/renderer/store/modules/feed/@types'
+import {
+  selectBaseLinkName,
+  selectDescriptionServerPort,
+  selectIP,
+} from '@/renderer/store/modules/ros'
+import { useRefSize } from '@/renderer/utils/hooks/useRefSize'
+import { rosClient } from '@/renderer/utils/ros/rosClient'
 import { useActor } from '@xstate/react'
+import _ from 'lodash'
+import React, { FC, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useSelector } from 'react-redux'
 import * as ROS3D from 'ros3d'
 import ROSLIB from 'roslib'
 
@@ -65,8 +71,10 @@ function useUrdfViewerRef(): [
 const View: FC<Props> = () => {
   const [viewer, id, ref] = useUrdfViewerRef()
 
-  const [state] = useActor(rosService)
-  const { IP, descriptionServerPort, baseLinkName } = state.context
+  const descriptionServerPort = useSelector(selectDescriptionServerPort)
+  const baseLinkName = useSelector(selectBaseLinkName)
+
+  const IP = useSelector(selectIP)
 
   useEffect(() => {
     if (!viewer) {
