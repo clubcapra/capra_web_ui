@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { useDispatch } from 'react-redux'
-import { feedSlice } from '@/renderer/store/modules/feed/reducer'
+import { feedSlice } from '@/renderer/store/modules/feed'
 import { Table } from './Table'
 import { Button } from '@/renderer/components/common/Button'
 import { SectionTitle } from '@/renderer/components/pages/Config/styles'

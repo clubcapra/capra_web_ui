@@ -3,7 +3,7 @@ import {
   loadState,
   saveState,
 } from '@/renderer/store/localStorage'
-import { feedSlice } from '@/renderer/store/modules/feed/reducer'
+import { feedSlice } from '@/renderer/store/modules/feed'
 import { rosSlice } from '@/renderer/store/modules/ros'
 import { configureStore } from '@reduxjs/toolkit'
 import { throttle } from 'lodash'

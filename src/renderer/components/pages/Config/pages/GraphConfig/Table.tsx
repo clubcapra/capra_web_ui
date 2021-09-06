@@ -3,8 +3,9 @@ import { useDispatch } from 'react-redux'
 import {
   feedSlice,
   selectAllGraph,
-} from '@/renderer/store/modules/feed/reducer'
-import { IGraphData, IGraphFeed } from '@/renderer/store/modules/feed/@types'
+  IGraphData,
+  IGraphFeed,
+} from '@/renderer/store/modules/feed'
 import { FaTimes } from 'react-icons/fa'
 import { useSelector } from '@/renderer/utils/hooks/typedUseSelector'
 import { Input } from '@/renderer/components/common/Input'

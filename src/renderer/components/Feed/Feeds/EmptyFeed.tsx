@@ -1,5 +1,5 @@
-import React, { FC } from 'react'
 import { styled } from '@/renderer/globalStyles/styled'
+import React, { FC } from 'react'
 
 const StyledEmptyFeed = styled.div``
 

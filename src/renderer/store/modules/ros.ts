@@ -1,4 +1,4 @@
-import { ICameraData } from '@/renderer/store/modules/feed/@types'
+import { ICameraData } from '@/renderer/store/modules/feed'
 import { GlobalState } from '@/renderer/store/store'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 

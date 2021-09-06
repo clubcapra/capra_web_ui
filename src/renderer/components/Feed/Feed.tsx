@@ -3,7 +3,7 @@ import { useSelector } from '@/renderer/utils/hooks/typedUseSelector'
 import {
   selectAllFeeds,
   selectFeedFromFeedMap,
-} from '@/renderer/store/modules/feed/reducer'
+} from '@/renderer/store/modules/feed'
 import { FeedSelect } from '@/renderer/components/Feed/FeedSelect'
 import { FeedView } from '@/renderer/components/Feed/FeedView'
 import { useOpenClose } from '@/renderer/utils/hooks/useOpenClose'
@@ -43,10 +43,7 @@ export const Feed: FC<FeedProps> = ({ feed_id, defaultFeed }) => {
   )
 }
 
-const StyledFeedComponent = styled.div<{
-  width?: string
-  height?: string
-}>`
+const StyledFeedComponent = styled.div`
   position: relative;
   display: flex;
   justify-content: center;

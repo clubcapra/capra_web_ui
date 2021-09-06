@@ -7,11 +7,9 @@ import {
   CameraType,
   ICameraData,
   ICameraFeed,
-} from '@/renderer/store/modules/feed/@types'
-import {
   feedSlice,
   selectAllCamera,
-} from '@/renderer/store/modules/feed/reducer'
+} from '@/renderer/store/modules/feed'
 import { selectVideoUrl } from '@/renderer/store/modules/ros'
 import { useSelector } from '@/renderer/utils/hooks/typedUseSelector'
 import { useEscape } from '@/renderer/utils/hooks/useEscape'
