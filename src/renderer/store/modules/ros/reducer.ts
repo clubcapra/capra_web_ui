@@ -1,5 +1,5 @@
 import { initialState } from '@/renderer/store/modules/ros/initialState'
-import { GlobalState } from '@/renderer/store/rootReducer'
+import { GlobalState } from '@/renderer/store/store'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export const rosSlice = createSlice({

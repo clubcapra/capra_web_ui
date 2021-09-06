@@ -1,6 +1,12 @@
-import { GlobalState } from '@/renderer/store/rootReducer'
-import { defaultState } from '@/renderer/store/defaultState'
+import { GlobalState } from '@/renderer/store/store'
 import shortid from 'shortid'
+import { initialState as feedState } from '@/renderer/store/modules/feed/initialState'
+import { initialState as rosState } from '@/renderer/store/modules/ros/initialState'
+
+export const defaultState: GlobalState = {
+  feed: feedState,
+  ros: rosState,
+}
 
 // WARN
 // This is necessary since for some reason electron doesn't clear it's cache when installing.
@@ -34,5 +40,3 @@ export const saveState = (state: GlobalState) => {
 export const clearStoreCache = () => {
   localStorage.removeItem(stateKey)
 }
-
-export default { loadState, saveState }
