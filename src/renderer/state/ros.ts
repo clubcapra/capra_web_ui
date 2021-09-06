@@ -72,8 +72,9 @@ export const rosMachine = Machine<RosContext, RosStateSchema, RosEvent>(
         toast.dismiss(ctx.connectingToastId)
         toast.info(`ROS: Connected to: ${selectFullAddress(state)}`)
       },
-      toastFail: () => {
+      toastFail: (ctx) => {
         const state = store.getState()
+        toast.dismiss(ctx.connectingToastId)
         const id = toast.error(
           `ROS: Failed to connect to: ${selectFullAddress(state)}`
         )
