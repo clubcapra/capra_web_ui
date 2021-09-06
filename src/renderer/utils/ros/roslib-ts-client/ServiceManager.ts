@@ -18,15 +18,13 @@ export class ServiceManager {
 
     const request = new ROSLIB.ServiceRequest(payload ?? '')
 
-    const ret = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       if (this.client.isLogEnabled) {
         // eslint-disable-next-line no-console
         console.log(service, request)
       }
       service.callService(request, resolve, reject)
     })
-
-    return ret
   }
 
   private getService(options: ServiceOptions): Service {

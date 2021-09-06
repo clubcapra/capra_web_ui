@@ -23,11 +23,11 @@ const defaultOptions: RosClientOptions = {
 
 export default class RosClient {
   ros: ROSLIB.Ros
+  private connected = false
   private topicManager: TopicManager
   private serviceManager: ServiceManager
   private robotIP = 'localhost'
   private port = '9090'
-  private connected = false
   private options: RosClientOptions
   private listeners?: Listeners
 
@@ -86,11 +86,20 @@ export default class RosClient {
   }
 
   publish<R>(options: TopicOptions, payload: R) {
-    this.topicManager.publish(options, payload)
+    if (this.connected) {
+      this.topicManager.publish(options, payload)
+    } else {
+      console.warn('ROS: not connected')
+    }
   }
 
-  callService<P>(options: ServiceOptions, payload?: P) {
-    return this.serviceManager.callService(options, payload)
+  callService<P>(options: ServiceOptions, payload?: P): Promise<unknown> {
+    if (this.connected) {
+      return this.serviceManager.callService(options, payload)
+    } else {
+      console.warn('ROS: not connected')
+      return Promise.resolve()
+    }
   }
 
   setListeners({ onConnection, onClose, onError }: Listeners) {
