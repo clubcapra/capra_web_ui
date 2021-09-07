@@ -11,6 +11,7 @@ This is a UI application for manually controlling ROS-based robots in real-time.
   - [ROS dependencies](#ros-dependencies)
     - [Audio](#audio)
   - [Global state - redux and xstate](#global-state---redux-and-xstate)
+  - [Release](#release)
 
 ## Installation
 
@@ -85,3 +86,7 @@ Currently, the audio IO is handled by the [capra_audio](https://github.com/clubc
 ## Global state - redux and xstate
 
 For global state handle we use a mix of redux and xstate. While it's technically possible to use xstate context for the entirety of the global state. It's much easier to store global state in redux and only use xstate when the state is an actual state machine and not just pure data.
+
+## Release
+
+To create a new release, simply use `npm version [major | minor | patch]`. This will bump the version and create a git tag. You can then push the new commit and github actions will take care of everythin else. Just make sure to make the github release public once it's done.
