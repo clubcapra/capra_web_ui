@@ -12,6 +12,7 @@ import { controlService } from '@/renderer/state/control'
 import { feedSlice } from '@/renderer/store/modules/feed'
 import { store } from '@/renderer/store/store'
 import { flipperService } from '@/renderer/state/flipper'
+import { terminalService } from '@/renderer/state/terminal'
 
 const cmdVelTopic: TopicOptions = {
   name: 'markhor/diff_drive_controller/cmd_vel',
@@ -216,6 +217,13 @@ const defaultActions: Action[] = [
       }
       const joy = mapGamepadToJoy(ctx.gamepadState.gamepad)
       rosClient.publish(joyTopic, joy)
+    },
+  },
+  {
+    name: 'toggle_terminal',
+    bindings: [{ type: 'keyboard', code: 'Backquote', onKeyDown: true }],
+    perform: () => {
+      terminalService.send({ type: 'TOGGLE' })
     },
   },
 ]

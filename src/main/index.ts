@@ -7,6 +7,7 @@ import installExtension, {
   REDUX_DEVTOOLS,
 } from 'electron-devtools-installer'
 import { powerSaveBlocker } from 'electron'
+import { initTerminalClient } from './terminalClient'
 
 const { app, BrowserWindow, ipcMain } = electron
 
@@ -50,6 +51,7 @@ function createWindow() {
 
     mainWindow.on('closed', () => (mainWindow = null))
   }
+  initTerminalClient()
 }
 
 app

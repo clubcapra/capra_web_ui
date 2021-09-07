@@ -4,6 +4,7 @@ import { Button } from '@/renderer/components/common/Button'
 import { SectionTitle } from '@/renderer/components/pages/Config/styles'
 import { useActor } from '@xstate/react'
 import { rosService } from '@/renderer/state/ros'
+import { terminalService } from '@/renderer/state/terminal'
 import { clearStoreCache } from '@/renderer/store/localStorage'
 import { useDispatch } from 'react-redux'
 import {
@@ -120,6 +121,38 @@ const UrdfDescriptionSection = () => {
   )
 }
 
+const TerminalConnection = () => {
+  const [state] = useActor(terminalService)
+
+  const username = state.context.username
+  const password = state.context.password
+
+  const updateUsername = (e: ChangeEvent<HTMLInputElement>): void => {
+    terminalService.send({ type: 'SET_USERNAME', username: e.target.value })
+  }
+
+  const updatePassword = (e: ChangeEvent<HTMLInputElement>): void => {
+    terminalService.send({ type: 'SET_PASSWORD', password: e.target.value })
+  }
+
+  return (
+    <>
+      <SectionTitle>Terminal Connection Info</SectionTitle>
+      <LabeledInput
+        label="Username"
+        value={username}
+        onChange={updateUsername}
+      />
+      <LabeledInput
+        label="Password"
+        value={password}
+        type="password"
+        onChange={updatePassword}
+      />
+    </>
+  )
+}
+
 const DetectedGamepad = () => {
   const gamepads = [...navigator.getGamepads()]
   return (
@@ -135,6 +168,7 @@ export const GeneralConfig: FC = () => (
     <Button onClick={clearStoreCache}>Clear cache</Button>
     <ConnectionSection />
     <NamespaceSection />
+    <TerminalConnection />
     <UrdfDescriptionSection />
     <DetectedGamepad />
   </>
