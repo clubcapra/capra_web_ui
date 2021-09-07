@@ -89,4 +89,6 @@ For global state handle we use a mix of redux and xstate. While it's technically
 
 ## Release
 
-To create a new release, simply use `npm version [major | minor | patch]`. This will bump the version and create a git tag. You can then push the new commit and github actions will take care of everythin else. Just make sure to make the github release public once it's done.
+To create a new release, simply use `npm version [major | minor | patch]`. This will bump the version and create a git tag. You can then push the new commit and github actions will take care of everythin else. You can use `git push --follow-tags` to push the tags to github.
+
+Just make sure to make the github release public once it's done.
