@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { styled } from '@/renderer/globalStyles/styled'
-import shortid from 'shortid'
+import { nanoid } from 'nanoid'
 import { ReactNode } from 'react'
 import { FaXbox } from 'react-icons/fa'
 
@@ -69,7 +69,7 @@ let data: ShortcutData[] = [
 
 data = data.map((item) => {
   if (!item.key) {
-    item.key = shortid()
+    item.key = nanoid()
   }
   return item
 })

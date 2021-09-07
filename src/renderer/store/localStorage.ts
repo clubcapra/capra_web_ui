@@ -1,5 +1,5 @@
 import { GlobalState } from '@/renderer/store/store'
-import shortid from 'shortid'
+import { nanoid } from 'nanoid'
 import { initialState as feedState } from '@/renderer/store/modules/feed'
 import { initialState as rosState } from '@/renderer/store/modules/ros'
 
@@ -11,8 +11,8 @@ export const defaultState: GlobalState = {
 // WARN
 // This is necessary since for some reason electron doesn't clear it's cache when installing.
 // This means that if we change how the data in the state is strutcured it will fail to load properly
-// The shortid() will generate a new id everytime the UI is launched so
-const stateKey = `state-${process.env.npm_package_version || shortid()}`
+// The nanoid() will generate a new id everytime the UI is launched so
+const stateKey = `state-${process.env.npm_package_version || nanoid()}`
 
 export const loadState = (): GlobalState => {
   try {

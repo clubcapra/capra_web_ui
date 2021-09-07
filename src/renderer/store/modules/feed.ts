@@ -1,7 +1,7 @@
 import { GlobalState } from '@/renderer/store/store'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
-import shortid from 'shortid'
+import { nanoid } from 'nanoid'
 
 export interface FeedState {
   feeds: { [feedId: string]: FeedType }
@@ -135,7 +135,7 @@ export const feedSlice = createSlice({
   initialState,
   reducers: {
     addCamera: (state, { payload }: PayloadAction<ICameraData>) => {
-      const id = shortid()
+      const id = nanoid()
       state.feeds[id] = {
         id,
         type: FeedTypeEnum.Camera,
@@ -143,7 +143,7 @@ export const feedSlice = createSlice({
       }
     },
     addGraph: (state, { payload }: PayloadAction<IGraphData>) => {
-      const id = shortid()
+      const id = nanoid()
       state.feeds[id] = {
         id,
         type: FeedTypeEnum.Graph,
