@@ -7,7 +7,7 @@ import {
   IGraphFeed,
 } from '@/renderer/store/modules/feed'
 import { FaTimes } from 'react-icons/fa'
-import { useSelector } from '@/renderer/utils/hooks/typedUseSelector'
+import { useSelector } from '@/renderer/hooks/typedUseSelector'
 import { Input } from '@/renderer/components/common/Input'
 import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
 import { styled } from '@/renderer/globalStyles/styled'

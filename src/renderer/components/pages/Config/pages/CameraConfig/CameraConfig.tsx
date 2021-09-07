@@ -7,7 +7,7 @@ import { Table } from './Table'
 import { Button } from '@/renderer/components/common/Button'
 import { SectionTitle } from '@/renderer/components/pages/Config/styles'
 import { styled } from '@/renderer/globalStyles/styled'
-import { useSelector } from '@/renderer/utils/hooks/typedUseSelector'
+import { useSelector } from '@/renderer/hooks/typedUseSelector'
 import { rosSlice, selectVideoServerPort } from '@/renderer/store/modules/ros'
 
 const VideoServerPortConfig: FC = () => {

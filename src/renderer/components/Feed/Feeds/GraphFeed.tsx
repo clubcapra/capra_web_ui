@@ -1,6 +1,6 @@
 import { IGraphFeed } from '@/renderer/store/modules/feed'
-import { useInterval } from '@/renderer/utils/hooks/useInterval'
-import { useRosSubscribe } from '@/renderer/utils/hooks/useRosSubscribe'
+import { useInterval } from '@/renderer/hooks/useInterval'
+import { useRosSubscribe } from '@/renderer/hooks/useRosSubscribe'
 import {
   Chart,
   LinearScale,

@@ -1,4 +1,4 @@
-import { useKeyPress } from '@/renderer/utils/hooks/useKeyPressed'
+import { useKeyPress } from '@/renderer/hooks/useKeyPressed'
 import { useEffect } from 'react'
 
 export const useEscape = (callback: () => void) => {

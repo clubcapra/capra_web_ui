@@ -12,7 +12,7 @@ import {
   selectAllFeeds,
   selectFeedFromFeedMap,
 } from '@/renderer/store/modules/feed'
-import { useOpenClose } from '@/renderer/utils/hooks/useOpenClose'
+import { useOpenClose } from '@/renderer/hooks/useOpenClose'
 import React, { ChangeEvent, FC, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 

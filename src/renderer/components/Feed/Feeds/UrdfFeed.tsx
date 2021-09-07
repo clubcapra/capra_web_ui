@@ -7,7 +7,7 @@ import {
   selectDescriptionServerPort,
   selectIP,
 } from '@/renderer/store/modules/ros'
-import { useRefSize } from '@/renderer/utils/hooks/useRefSize'
+import { useRefSize } from '@/renderer/hooks/useRefSize'
 import { rosClient } from '@/renderer/utils/ros/rosClient'
 import { useActor } from '@xstate/react'
 import _ from 'lodash'

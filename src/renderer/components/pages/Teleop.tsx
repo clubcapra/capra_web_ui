@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { Feed } from '@/renderer/components/Feed/Feed'
-import { useControl } from '@/renderer/utils/hooks/useControl'
+import { useControl } from '@/renderer/hooks/useControl'
 import { styled } from '@/renderer/globalStyles/styled'
 import { feed_id } from '@/renderer/store/modules/feed'
 

@@ -4,7 +4,7 @@ import { ConfigMenu } from './ConfigMenu'
 import { GeneralConfig } from '@/renderer/components/pages/Config/pages/GeneralConfig'
 import { CameraConfig } from '@/renderer/components/pages/Config/pages/CameraConfig/CameraConfig'
 import { GamepadConfig } from '@/renderer/components/pages/Config/pages/GamepadConfig'
-import { useControl } from '@/renderer/utils/hooks/useControl'
+import { useControl } from '@/renderer/hooks/useControl'
 import { GraphConfig } from '@/renderer/components/pages/Config/pages/GraphConfig/GraphConfig'
 import { styled } from '@/renderer/globalStyles/styled'
 

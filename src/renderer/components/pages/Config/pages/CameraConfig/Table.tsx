@@ -11,9 +11,9 @@ import {
   selectAllCamera,
 } from '@/renderer/store/modules/feed'
 import { selectVideoUrl } from '@/renderer/store/modules/ros'
-import { useSelector } from '@/renderer/utils/hooks/typedUseSelector'
-import { useEscape } from '@/renderer/utils/hooks/useEscape'
-import { useOpenClose } from '@/renderer/utils/hooks/useOpenClose'
+import { useSelector } from '@/renderer/hooks/typedUseSelector'
+import { useEscape } from '@/renderer/hooks/useEscape'
+import { useOpenClose } from '@/renderer/hooks/useOpenClose'
 import React, { FC, useCallback } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { useDispatch } from 'react-redux'

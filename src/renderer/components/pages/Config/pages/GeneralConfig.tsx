@@ -14,7 +14,7 @@ import {
   selectNamespace,
   selectPort,
 } from '@/renderer/store/modules/ros'
-import { useSelector } from '@/renderer/utils/hooks/typedUseSelector'
+import { useSelector } from '@/renderer/hooks/typedUseSelector'
 
 const ConnectionSection = () => {
   const IP = useSelector(selectIP)
