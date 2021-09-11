@@ -28,7 +28,11 @@ const RosConnectionStatus: FC = () => {
   const [state, send] = useActor(rosService)
   const fullAddress = useSelector(selectFullAddress)
   const connect = () => {
-    send('CONNECT')
+    if (state.matches('disconnected')) {
+      send('CONNECT')
+    } else if (state.matches('connected')) {
+      send('DISCONNECT')
+    }
   }
 
   return (
