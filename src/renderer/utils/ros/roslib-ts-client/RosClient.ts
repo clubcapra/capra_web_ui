@@ -89,7 +89,7 @@ export default class RosClient {
     if (this.connected) {
       this.topicManager.publish(options, payload)
     } else {
-      console.warn('ROS: not connected')
+      // console.warn('ROS: not connected')
     }
   }
 

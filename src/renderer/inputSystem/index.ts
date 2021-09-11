@@ -58,21 +58,19 @@ const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
   }
 }
 
+const deadzone = (value: number): number => {
+  const deadzone = 0.15
+  return value > deadzone || value < -deadzone ? value : 0
+}
+
 const mapToTwist = (
   horizontal: number,
   vertical: number,
   rt: number,
   lt: number
 ): ITwistMsg => {
-  const deadzone = 0.15
-  // prettier-ignore
-  const x = horizontal > deadzone
-    ? -1
-    : horizontal < -deadzone ? 1 : 0
-  // prettier-ignore
-  const y = vertical > deadzone
-    ? 1
-    : vertical < -deadzone ? -1 : 0
+  const x = deadzone(horizontal)
+  const y = deadzone(vertical)
 
   if (lt > 0.1) {
     // brake!
@@ -86,9 +84,6 @@ const mapToTwist = (
 }
 
 const getBtnValue = (rawBtn: GamepadButton) => {
-  if (!rawBtn) {
-    return 0
-  }
   return typeof rawBtn == 'number' ? rawBtn : rawBtn.value
 }
 
@@ -185,7 +180,7 @@ const defaultActions: Action[] = [
       const twist = mapToTwist(
         -axes[sticks.left.horizontal],
         -axes[sticks.left.vertical],
-        getBtnValue(btns[buttonMappings.RT]) / 10,
+        getBtnValue(btns[buttonMappings.RT]),
         getBtnValue(btns[buttonMappings.LT])
       )
 
