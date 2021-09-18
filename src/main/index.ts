@@ -1,14 +1,12 @@
 import '@/main/audio'
 import { APP_INFO, APP_INFO_ARG, APP_INFO_QUERY } from '@/shared/constants'
-import electron, { powerSaveBlocker } from 'electron'
+import { powerSaveBlocker, app, BrowserWindow, ipcMain } from 'electron'
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS,
 } from 'electron-devtools-installer'
 import path from 'path'
 import { isDev } from './isDev'
-
-const { app, BrowserWindow, ipcMain } = electron
 
 let mainWindow: Electron.BrowserWindow | null = null
 
