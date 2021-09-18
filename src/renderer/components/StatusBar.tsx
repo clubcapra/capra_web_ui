@@ -1,20 +1,22 @@
 import { styled } from '@/renderer/globalStyles/styled'
+import { useSelector } from '@/renderer/hooks/typedUseSelector'
+import { useAudio } from '@/renderer/hooks/useAudio'
+import { useInterval } from '@/renderer/hooks/useInterval'
 import { controlService } from '@/renderer/state/control'
 import { flipperService } from '@/renderer/state/flipper'
 import { rosService } from '@/renderer/state/ros'
 import { selectFullAddress } from '@/renderer/store/modules/ros'
-import { useSelector } from '@/renderer/hooks/typedUseSelector'
-import { useInterval } from '@/renderer/hooks/useInterval'
 import { useActor } from '@xstate/react'
 import { format } from 'date-fns'
+import { lighten } from 'polished'
 import React, { FC, useState } from 'react'
 import { BiWifi, BiWifi0, BiWifi1, BiWifi2, BiWifiOff } from 'react-icons/bi'
-import { lighten } from 'polished'
 
 export const StatusBar: FC = () => (
   <StyledStatusBarWrapper>
     <LeftStatusBar>
       <RosConnectionStatus />
+      <AudioStart />
     </LeftStatusBar>
     <RightStatusBar>
       <ControlStatus />
@@ -127,6 +129,17 @@ const TimeDisplay: FC = () => {
   return <div>{time}</div>
 }
 
+const AudioStart = () => {
+  const [state] = useActor(rosService)
+  const [start] = useAudio()
+
+  return (
+    <StatusBarButton onClick={start} disabled={!state.matches('disconnected')}>
+      Start Audio
+    </StatusBarButton>
+  )
+}
+
 const StyledStatusBarWrapper = styled.div`
   display: grid;
   grid-template: 'l r';
@@ -167,5 +180,8 @@ const StatusBarButton = styled.button`
   color: ${(ctx) => ctx.theme.colors.fontLight};
   &:hover {
     background-color: ${(ctx) => lighten(0.005)(ctx.theme.colors.background)};
+  }
+  &:disabled {
+    cursor: not-allowed;
   }
 `

@@ -1,12 +1,12 @@
-import electron from 'electron'
-import path from 'path'
-import { isDev } from './isDev'
-import { APP_INFO, APP_INFO_ARG, APP_INFO_QUERY } from '../shared/constants'
+import '@/main/audio'
+import { APP_INFO, APP_INFO_ARG, APP_INFO_QUERY } from '@/shared/constants'
+import electron, { powerSaveBlocker } from 'electron'
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS,
 } from 'electron-devtools-installer'
-import { powerSaveBlocker } from 'electron'
+import path from 'path'
+import { isDev } from './isDev'
 
 const { app, BrowserWindow, ipcMain } = electron
 
