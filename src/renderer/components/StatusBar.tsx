@@ -9,6 +9,7 @@ import { useActor } from '@xstate/react'
 import { format } from 'date-fns'
 import React, { FC, useState } from 'react'
 import { BiWifi, BiWifi0, BiWifi1, BiWifi2, BiWifiOff } from 'react-icons/bi'
+import { lighten } from 'polished'
 
 export const StatusBar: FC = () => (
   <StyledStatusBarWrapper>
@@ -27,7 +28,7 @@ export const StatusBar: FC = () => (
 const RosConnectionStatus: FC = () => {
   const [state, send] = useActor(rosService)
   const fullAddress = useSelector(selectFullAddress)
-  const connect = () => {
+  const onClick = () => {
     if (state.matches('disconnected')) {
       send('CONNECT')
     } else if (state.matches('connected')) {
@@ -36,13 +37,11 @@ const RosConnectionStatus: FC = () => {
   }
 
   return (
-    <>
-      <div onClick={connect}>
-        {state.matches('connected') && `Connected to ${fullAddress}`}
-        {state.matches('connecting') && `Trying to connect to ${fullAddress}`}
-        {state.matches('disconnected') && `Disconnected`}
-      </div>
-    </>
+    <StatusBarButton onClick={onClick}>
+      {state.matches('connected') && `Connected to ${fullAddress}`}
+      {state.matches('connecting') && `Trying to connect to ${fullAddress}`}
+      {state.matches('disconnected') && `Disconnected`}
+    </StatusBarButton>
   )
 }
 
@@ -135,7 +134,9 @@ const LeftStatusBar = styled.div`
   grid-area: l;
   display: flex;
   align-items: center;
-  padding: 0 ${padding}px;
+  > * {
+    padding: 0 ${padding}px;
+  }
 `
 
 const RightStatusBar = styled.div`
@@ -143,8 +144,18 @@ const RightStatusBar = styled.div`
   display: flex;
   justify-items: center;
   justify-content: flex-end;
-
   > * {
     padding: 0 ${padding}px;
+  }
+`
+
+const StatusBarButton = styled.button`
+  font-family: inherit;
+  margin: 0;
+  border: 0;
+  background-color: transparent;
+  color: ${(ctx) => ctx.theme.colors.fontLight};
+  &:hover {
+    background-color: ${(ctx) => lighten(0.005)(ctx.theme.colors.background)};
   }
 `
