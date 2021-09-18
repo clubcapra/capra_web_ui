@@ -33,6 +33,8 @@ const RosConnectionStatus: FC = () => {
       send('CONNECT')
     } else if (state.matches('connected')) {
       send('DISCONNECT')
+    } else if (state.matches('connecting')) {
+      // TODO send close
     }
   }
 
@@ -73,37 +75,45 @@ const FlipperMode = () => {
 }
 
 const NetworkInfo = () => {
-  const [effectiveType, setEffectiveType] = useState('4g')
+  const [state, setState] = useState('offline')
 
   useInterval(() => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    setEffectiveType(navigator.connection.effectiveType)
-  }, 1000)
-
-  if (navigator) {
-    const NetworkIcon = () => {
-      switch (effectiveType) {
-        case 'slow-2g':
-          return <BiWifi0 />
-        case '2g':
-          return <BiWifi1 />
-        case '3g':
-          return <BiWifi2 />
-        case '4g':
-          return <BiWifi />
-        default:
-          return <BiWifiOff />
+    if (navigator) {
+      type NetworkInformation = {
+        downlink: number
+        rtt: number
+        effectiveType: string
+      }
+      const { downlink, rtt, effectiveType } =
+        navigator.connection as unknown as NetworkInformation
+      if (downlink == 0 && rtt == 0) {
+        setState('offline')
+      } else {
+        setState(effectiveType)
       }
     }
+  }, 500)
 
-    return (
-      <div>
-        <NetworkIcon />
-      </div>
-    )
+  const NetworkIcon = () => {
+    switch (state) {
+      case 'slow-2g':
+        return <BiWifi0 />
+      case '2g':
+        return <BiWifi1 />
+      case '3g':
+        return <BiWifi2 />
+      case '4g':
+        return <BiWifi />
+      default:
+        return <BiWifiOff />
+    }
   }
-  return null
+
+  return (
+    <div>
+      <NetworkIcon />
+    </div>
+  )
 }
 
 const timeFormat = (date: Date) => format(date, 'HH:mm:ss')
