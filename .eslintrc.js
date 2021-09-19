@@ -1,5 +1,3 @@
-const ifProduction = (a, b) => (process.env.NODE_ENV === 'production' ? a : b)
-
 const typescriptConfigs = {
   files: ['*.ts', '*.tsx'],
 
@@ -24,6 +22,7 @@ const typescriptConfigs = {
     '@typescript-eslint/interface-name-prefix': 0,
     '@typescript-eslint/camelcase': 0,
     '@typescript-eslint/explicit-module-boundary-types': 0,
+    '@typescript-eslint/restrict-template-expressions': 0,
   },
 }
 
@@ -41,12 +40,7 @@ module.exports = {
   ],
 
   rules: {
-    'no-console': [
-      ifProduction('error', 'warn'),
-      {
-        allow: ['warn', 'error'],
-      },
-    ],
+    'no-console': 'error',
     'no-debugger': 'off',
     'no-var': 'error',
     'prefer-const': [
