@@ -7,6 +7,7 @@ import { useSelector } from '@/renderer/hooks/typedUseSelector'
 import { useActor } from '@xstate/react'
 import * as React from 'react'
 import { FC, useEffect, useRef } from 'react'
+import { log } from '@/renderer/logger'
 
 interface Props {
   feed: ICameraFeed
@@ -38,7 +39,7 @@ const Webcam: FC<{ deviceid: string }> = ({ deviceid }) => {
 
   useEffect(() => {
     if (!hasGetUserMedia()) {
-      console.error('navigator.getUserMedia is not supported')
+      log.error('navigator.getUserMedia is not supported')
       return
     }
     void (async () => {
@@ -54,7 +55,7 @@ const Webcam: FC<{ deviceid: string }> = ({ deviceid }) => {
             streamStarted = true
           }
         } catch (error) {
-          console.error('failed to get stream', error)
+          log.error('failed to get stream', error)
         }
       }
     })()

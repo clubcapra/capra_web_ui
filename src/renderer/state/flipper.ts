@@ -1,3 +1,4 @@
+import { log } from '@/renderer/logger'
 import { rosClient } from '@/renderer/utils/ros/rosClient'
 import { Machine, interpret } from 'xstate'
 
@@ -72,7 +73,7 @@ async function sendFlipperMode(mode: FlipperMode) {
       name: `/markhor/flipper_mode_${mode}`,
     })
   } catch (e) {
-    console.error(e)
+    log.error(e)
   }
 }
 

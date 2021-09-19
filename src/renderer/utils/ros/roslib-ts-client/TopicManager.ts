@@ -3,6 +3,7 @@ import RegisteredTopic from './RegisteredTopic'
 import { getTopicSignature } from './getSignature'
 import ROSLIB from 'roslib'
 import type { Ros, Topic } from 'roslib'
+import { log } from '@/renderer/logger'
 
 class TopicManager {
   private ros: Ros
@@ -43,8 +44,7 @@ class TopicManager {
       messageType,
     })
     if (this.client.isLogEnabled) {
-      // eslint-disable-next-line no-console
-      console.log(topic.name, topicName)
+      log.info('TopciManager', topic.name, topicName)
     }
     topic.publish(new ROSLIB.Message(payload))
   }

@@ -2,6 +2,7 @@ import RosClient, { ServiceOptions } from './@types'
 import { getServiceSignature } from './getSignature'
 import ROSLIB from 'roslib'
 import type { Ros, Service } from 'roslib'
+import { log } from '@/renderer/logger'
 
 export class ServiceManager {
   private ros: Ros
@@ -20,8 +21,7 @@ export class ServiceManager {
 
     return new Promise((resolve, reject) => {
       if (this.client.isLogEnabled) {
-        // eslint-disable-next-line no-console
-        console.log(service, request)
+        log.info('ServiceManager:', service, request)
       }
       service.callService(request, resolve, reject)
     })

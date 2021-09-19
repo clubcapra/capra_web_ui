@@ -1,3 +1,4 @@
+import { log } from '@/renderer/logger'
 import {
   Action,
   Binding,
@@ -45,7 +46,7 @@ const isPressed = (rawBtn: GamepadButton): boolean =>
  *        { type: 'gamepadBtn', button: buttons.A },
  *      ],
  *      perform: (ctx) => {
- *        console.log('performed estop')
+ *        logger.info('performed estop')
  *      },
  *    },
  * ])
@@ -64,7 +65,7 @@ export class InputSystem {
 
     if (!navigator.getGamepads) {
       this.isBrowserSupported = false
-      console.warn('This browser does not support gamepads.')
+      log.warn('This browser does not support gamepads.')
       return
     }
 
@@ -236,12 +237,10 @@ export class InputSystem {
 
   private onGamepadConnected = (e: GamepadEvent) => {
     const { id, ...rest } = e.gamepad
-    // eslint-disable-next-line no-console
-    console.log(id, 'connected', rest)
+    log.info(id, 'connected', rest)
   }
   private onGamepadDisconnected = (e: GamepadEvent) => {
     const { id, ...rest } = e.gamepad
-    // eslint-disable-next-line no-console
-    console.log(id, 'disconnected', rest)
+    log.info(id, 'disconnected', rest)
   }
 }

@@ -7,6 +7,7 @@ import {
   selectPort,
 } from '@/renderer/store/modules/ros'
 import { store } from '@/renderer/store/store'
+import { log } from '@/renderer/logger'
 
 interface RosContext {
   connectingToastId: string
@@ -74,9 +75,9 @@ export const rosMachine = Machine<RosContext, RosStateSchema, RosEvent>(
       toastFail: (ctx) => {
         const state = store.getState()
         toast.dismiss(ctx.connectingToastId)
-        const id = toast.error(
-          `ROS: Failed to connect to: ${selectFullAddress(state)}`
-        )
+        const message = `ROS: Failed to connect to: ${selectFullAddress(state)}`
+        log.error(message)
+        const id = toast.error(message)
         assign({ errorToastId: id })
       },
       toastConnecting: (ctx) => {

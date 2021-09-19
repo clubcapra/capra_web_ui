@@ -7,6 +7,7 @@ import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
 import { useOpenClose } from '@/renderer/hooks/useOpenClose'
 import { styled } from '@/renderer/globalStyles/styled'
 import { darken } from 'polished'
+import { log } from '@/renderer/logger'
 
 const topic: TopicOptions<boolean> = {
   name: 'markhor/estop_status',
@@ -39,16 +40,18 @@ export const EStopButton: FC = () => {
   const [isModalOpen, openModal, closeModal] = useOpenClose()
 
   const stopRobot = () => {
+    log.info('ESTOP: stopping robot')
     rosClient
       .callService({ name: 'markhor/estop_disable', serviceType: '' }, '')
-      .catch(console.error)
+      .catch(log.error)
     openModal()
   }
 
   const restartRobot = () => {
+    log.info('ESTOP: restarting robot')
     rosClient
       .callService({ name: 'markhor/estop_enable', serviceType: '' }, '')
-      .catch(console.error)
+      .catch(log.error)
     closeModal()
   }
 

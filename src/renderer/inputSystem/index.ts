@@ -12,6 +12,7 @@ import { controlService } from '@/renderer/state/control'
 import { feedSlice } from '@/renderer/store/modules/feed'
 import { store } from '@/renderer/store/store'
 import { flipperService } from '@/renderer/state/flipper'
+import { log } from '@/renderer/logger'
 
 const cmdVelTopic: TopicOptions = {
   name: 'markhor/diff_drive_controller/cmd_vel',
@@ -100,9 +101,7 @@ const defaultActions: Action[] = [
       if (controlService.state.matches('nothing') && ctx.type === 'keyboard') {
         return
       }
-      rosClient
-        .callService({ name: 'markhor/estop_disable' })
-        .catch(console.error)
+      rosClient.callService({ name: 'markhor/estop_disable' }).catch(log.error)
     },
   },
   {
@@ -142,7 +141,7 @@ const defaultActions: Action[] = [
       // TODO implement this client side by flipping the necessary axis direction see issue #82
       rosClient
         .callService({ name: 'markhor/switch_direction' })
-        .catch(console.error)
+        .catch(log.error)
       store.dispatch(feedSlice.actions.switchDirection())
     },
   },
@@ -150,16 +149,14 @@ const defaultActions: Action[] = [
     name: 'headlights',
     bindings: [{ type: 'gamepadBtn', button: buttonMappings.Y }],
     perform: () => {
-      rosClient.callService({ name: '/headlights' }).catch(console.error)
+      rosClient.callService({ name: '/headlights' }).catch(log.error)
     },
   },
   {
     name: 'flipper_reset',
     bindings: [{ type: 'gamepadBtn', button: buttonMappings.B }],
     perform: () => {
-      rosClient
-        .callService({ name: 'markhor/flipper_reset' })
-        .catch(console.error)
+      rosClient.callService({ name: 'markhor/flipper_reset' }).catch(log.error)
     },
   },
   {
