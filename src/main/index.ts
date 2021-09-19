@@ -1,6 +1,7 @@
 import '@/main/audio'
+import { log } from '@/main/logger'
 import { APP_INFO, APP_INFO_ARG, APP_INFO_QUERY } from '@/shared/constants'
-import { powerSaveBlocker, app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow, ipcMain, powerSaveBlocker } from 'electron'
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS,
@@ -35,7 +36,13 @@ function createWindow() {
   })
 
   if (mainWindow) {
-    mainWindow.loadURL(getAssetURL('index.html')).catch(console.error)
+    log.info('Window created')
+    mainWindow
+      .loadURL(getAssetURL('index.html'))
+      .then(() => {
+        log.info('index.html loaded')
+      })
+      .catch(log.error)
 
     if (isDev) {
       // This is to make sure the devtools only opens when extensions are loaded
@@ -46,7 +53,10 @@ function createWindow() {
       mainWindow.removeMenu()
     }
 
-    mainWindow.on('closed', () => (mainWindow = null))
+    mainWindow.on('closed', () => {
+      log.info('window closed')
+      mainWindow = null
+    })
   }
 }
 
@@ -69,30 +79,17 @@ app
           forceDownload: false,
         })
       } catch (err) {
-        console.error('Error when installing devtools extension', err)
+        log.error('Error when installing devtools extension', err)
       }
     }
   })
   .then(() => {
     createWindow()
     app.on('activate', () => {
-      // On macOS it's common to re-create a window in the app when the
-      // dock icon is clicked and there are no other windows open.
-      if (BrowserWindow.getAllWindows().length === 0) {
-        createWindow()
-      }
+      log.info('window activated')
     })
   })
-  .catch((err) => console.error(err))
-
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
-})
+  .catch((err) => log.error(err))
 
 ipcMain.on(APP_INFO_QUERY, (event) => {
   event.reply(APP_INFO, {
@@ -101,8 +98,7 @@ ipcMain.on(APP_INFO_QUERY, (event) => {
   } as APP_INFO_ARG)
 })
 
-// Since we don't every want the display to sleep while the robot is connected
+// Since we don't ever want the display to sleep while the robot is connected
 // we try to force it to never sleep
 const id = powerSaveBlocker.start('prevent-display-sleep')
-// eslint-disable-next-line no-console
-console.log('prevent-display-sleep started: ', powerSaveBlocker.isStarted(id))
+log.info(`prevent-display-sleep started: ${powerSaveBlocker.isStarted(id)}`)
