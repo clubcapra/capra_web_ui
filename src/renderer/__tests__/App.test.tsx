@@ -6,6 +6,9 @@ const mockRequire = (arg: string) => {
           on: () => {
             return {}
           },
+          send: () => {
+            return {}
+          },
         },
       }
   }
