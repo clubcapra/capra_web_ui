@@ -2,6 +2,7 @@ import { GlobalState } from '@/renderer/store/store'
 import { nanoid } from 'nanoid'
 import { initialState as feedState } from '@/renderer/store/modules/feed'
 import { initialState as rosState } from '@/renderer/store/modules/ros'
+import { log } from '@/renderer/logger'
 
 export const defaultState: GlobalState = {
   feed: feedState,
@@ -33,7 +34,7 @@ export const saveState = (state: GlobalState) => {
     const serializedState = JSON.stringify(state)
     localStorage.setItem(stateKey, serializedState)
   } catch {
-    console.error('failed to persist state')
+    log.error('failed to persist state')
   }
 }
 

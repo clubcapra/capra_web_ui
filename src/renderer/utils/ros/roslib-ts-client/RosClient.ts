@@ -2,6 +2,7 @@ import { TopicOptions, ServiceOptions } from './@types'
 import TopicManager from './TopicManager'
 import ServiceManager from './ServiceManager'
 import ROSLIB from 'roslib'
+import { log } from '@/renderer/logger'
 
 interface Listeners {
   onConnection: () => void
@@ -58,10 +59,11 @@ export default class RosClient {
     const url = `${protocol}://${robotIP}:${port}`
 
     try {
+      log.info(`RosClient: Connecting to ${url}`)
       this.ros.connect(url)
     } catch (e) {
       if (this.isLogEnabled) {
-        console.error(`RosClient: ros failed to connect to ${url}`, e)
+        log.error(`RosClient: ros failed to connect to ${url} ${e}`)
       }
 
       if (this.listeners) {
@@ -78,26 +80,27 @@ export default class RosClient {
     options: TopicOptions<T>,
     handler: (message: { data: T }) => void
   ) {
+    log.info('RosClient: subscribing to ', options.name)
     this.topicManager.subscribe<T>(options, handler)
   }
 
   unsubscribe(options: TopicOptions) {
+    log.info('RosClient: unsubscribing to ', options.name)
     this.topicManager.unsubscribe(options)
   }
 
   publish<R>(options: TopicOptions, payload: R) {
     if (this.connected) {
       this.topicManager.publish(options, payload)
-    } else {
-      // console.warn('ROS: not connected')
     }
   }
 
   callService<P>(options: ServiceOptions, payload?: P): Promise<unknown> {
     if (this.connected) {
+      log.info('RosClient: calling service ', options.name)
       return this.serviceManager.callService(options, payload)
     } else {
-      console.warn('ROS: not connected')
+      log.warn('RosClient: ros is not connected')
       return Promise.resolve()
     }
   }
@@ -118,6 +121,7 @@ export default class RosClient {
     return () => {
       this.topicManager.reconnectAllDisconnectedHandler()
       this.connected = true
+      log.info('RosClient: ros connected to ', this.robotIP)
       onConnection()
     }
   }
@@ -126,6 +130,7 @@ export default class RosClient {
     return () => {
       this.topicManager.unsubscribeAllTopics()
       this.connected = false
+      log.info('RosClient: ros disconnected')
       onClose()
     }
   }
@@ -134,7 +139,7 @@ export default class RosClient {
     return (error) => {
       this.connected = false
       if (this.isLogEnabled) {
-        console.error('RosError', error)
+        log.error('RosClient: ros error', error)
       }
 
       onError(error)

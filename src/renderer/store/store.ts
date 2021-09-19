@@ -5,9 +5,8 @@ import {
 } from '@/renderer/store/localStorage'
 import { feedSlice } from '@/renderer/store/modules/feed'
 import { rosSlice } from '@/renderer/store/modules/ros'
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore, AnyAction, combineReducers } from '@reduxjs/toolkit'
 import { throttle } from 'lodash'
-import { AnyAction, combineReducers } from 'redux'
 
 const appReducer = combineReducers({
   feed: feedSlice.reducer,
