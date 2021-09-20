@@ -16,6 +16,7 @@ This is a UI application for manually controlling ROS-based robots in real-time.
 ## Installation
 
 We provide installers for Windows and Ubuntu that can be found in the release page. If a release is marked as pre-release it means the features haven't been tested with an actual robot.
+<https://github.com/clubcapra/capra_web_ui/releases>
 
 ## npm setup
 
