@@ -64,9 +64,11 @@ export class InputSystem {
   constructor(actions: Action[]) {
     this.actions = actions
 
-    if (!navigator.getGamepads && !isTest) {
+    if (!navigator.getGamepads) {
       this.isBrowserSupported = false
-      log.warn('This browser does not support gamepads.')
+      if (!isTest) {
+        log.warn('This browser does not support gamepads.')
+      }
       return
     }
 
