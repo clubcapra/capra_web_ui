@@ -14,7 +14,7 @@ jobs:
         with:
           node-version: '16'
       - name: install
-        run: npm run ci
+        run: npm ci
       - name: depcheck
         run: npm run depcheck
       - name: audit
