@@ -8,6 +8,7 @@ import {
   GamepadBtnContext,
   SpaceMouseContext,
 } from '@/renderer/inputSystem/@types'
+import { isTest } from '@/renderer/utils/isTest'
 
 /* TODO
  * - button axis (RT, LT)
@@ -63,7 +64,7 @@ export class InputSystem {
   constructor(actions: Action[]) {
     this.actions = actions
 
-    if (!navigator.getGamepads) {
+    if (!navigator.getGamepads && !isTest) {
       this.isBrowserSupported = false
       log.warn('This browser does not support gamepads.')
       return
