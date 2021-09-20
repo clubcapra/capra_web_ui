@@ -61,7 +61,9 @@ jobs:
         with:
           node-version: '16'
           cache: 'npm'
-      - name: Build
+      - name: install
+        run: npm ci
+      - name: build
         run: npm run build
 
       - name: Windows Release
@@ -69,7 +71,6 @@ jobs:
         if: ${{ runner.os == 'Windows' }}
         with:
           files: ./dist/capra_web_ui_setup.exe
-          draft: true
           prerelease: true
 
       - name: Ubuntu Release
@@ -77,6 +78,5 @@ jobs:
         if: ${{ runner.os == 'Linux' }}
         with:
           files: ./dist/capra_web_ui_setup.deb
-          draft: true
           prerelease: true
 
