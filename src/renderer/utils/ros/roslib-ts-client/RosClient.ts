@@ -41,7 +41,13 @@ export default class RosClient {
     this.port = port
     this.options = options
 
-    const rosInstance = new ROSLIB.Ros({})
+    const rosInstance = new ROSLIB.Ros({
+      transportLibrary: 'websocket',
+      // WARN this could potentially cause major issues
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      encoding: 'ascii',
+    })
     this.ros = rosInstance
     this.topicManager = new TopicManager(rosInstance, this)
     this.serviceManager = new ServiceManager(rosInstance, this)
