@@ -7,39 +7,50 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [15]
+        node-version: [16]
 
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm lint/typecheck/test
-        run: |
-          npm ci
-          npm run ci
+      - name: npm ci
+        run: npm ci
         env:
           CI: true
+      - name: lint
+        run: npm run lint
+      - name: typecheck
+        run: npm run typecheck
+      - name: depcheck
+        run: npm run depcheck
+      - name: audit
+        run: npm run audit
+      - name: test
+        run: npm run test
 
-  build-release:
+  build:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest]
-        node-version: [15]
+        node-version: [16]
     runs-on: ${{ matrix.os }}
     needs: [lint-depcheck-test]
     if: startsWith(github.ref, 'refs/tags/')
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
       - name: Build
-        run: |
-          npm ci
-          npm run build
+        run: npm run build
         env:
           CI: true
 
+  release:
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+        node-version: [16]
+    runs-on: ${{ matrix.os }}
+    needs: [build]
+    steps:
       # WINDOWS
       - name: Windows Release
         uses: softprops/action-gh-release@v1
@@ -62,3 +73,4 @@ jobs:
           prerelease: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
