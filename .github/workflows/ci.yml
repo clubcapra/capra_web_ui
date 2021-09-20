@@ -7,6 +7,10 @@ env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   CI: true
 
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
 jobs:
   ci:
     runs-on: ubuntu-latest
