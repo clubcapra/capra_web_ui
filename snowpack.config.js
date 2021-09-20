@@ -12,5 +12,4 @@ module.exports = {
   packageOptions: {
     knownEntrypoints: ['date-fns/fp/format', 'react-is'],
   },
-  // plugins: ['@snowpack/plugin-react-refresh'],
 }
