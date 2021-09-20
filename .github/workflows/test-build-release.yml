@@ -17,10 +17,7 @@ jobs:
       - name: npm lint/typecheck/test
         run: |
           npm ci
-          npm run lint
-          npm run typecheck
-          npm run depcheck
-          npm test
+          npm run ci
         env:
           CI: true
 

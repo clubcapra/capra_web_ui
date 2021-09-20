@@ -20,7 +20,8 @@
     "clean": "electron-snowpack clean",
     "postinstall": "patch-package",
     "depcheck": "depcheck",
-    "local_ci": "npm run lint && npm run typecheck && depcheck && npm test"
+    "ci": "npm run lint && npm run typecheck && depcheck && npm run audit && npm test",
+    "audit": "better-npm-audit audit"
   },
   "build": {
     "appId": "com.clubcapra.capra_web_ui",
@@ -35,6 +36,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.1",
     "@xstate/react": "^1.6.1",
+    "better-npm-audit": "^3.3.0",
     "chart.js": "^3.5.1",
     "chartjs-adapter-date-fns": "^2.0.0",
     "date-fns": "^2.24.0",
