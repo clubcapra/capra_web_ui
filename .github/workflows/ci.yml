@@ -1,8 +1,4 @@
-on:
-  pull_request:
-  push:
-    branches-ignore:
-      - 'dependabot/**'
+on: [push]
 
 name: CI
 
