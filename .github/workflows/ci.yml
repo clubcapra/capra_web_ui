@@ -26,12 +26,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/workflows/install
-      - name: lint
-        run: npm run lint
-      - name: typecheck
-        run: npm run typecheck
-      - name: test
-        run: npm run test
+      - name: ci
+        run: npm run ci
 
   dependencies:
     # Makes sure we don't have unnecessary dependencies or audit errors
@@ -40,10 +36,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/workflows/install
-      - name: depcheck
-        run: npm run depcheck
-      - name: audit
-        run: npm run audit
+      - name: dependencies
+        run: npm run dependencies
 
   build-release:
     # Builds the app and creates a new release

@@ -19,8 +19,10 @@
     "typecheck": "tsc --noEmit",
     "clean": "electron-snowpack clean",
     "postinstall": "patch-package",
+    "ci": "concurrently npm:lint npm:typecheck && npm test",
+    "dependencies": "concurrently npm:depcheck npm:audit",
+    "local_ci": "concurrently \"npm:ci\" \"npm:dependencies\"",
     "depcheck": "depcheck",
-    "ci": "npm run lint && npm run typecheck && depcheck && npm run audit && npm test",
     "audit": "better-npm-audit audit"
   },
   "build": {
@@ -39,6 +41,7 @@
     "better-npm-audit": "^3.3.0",
     "chart.js": "^3.5.1",
     "chartjs-adapter-date-fns": "^2.0.0",
+    "concurrently": "^6.2.1",
     "date-fns": "^2.24.0",
     "lodash": "^4.17.21",
     "nanoid": "^3.1.25",
