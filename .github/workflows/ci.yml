@@ -12,7 +12,16 @@ env:
   CI: true
 
 jobs:
+  install:
+    # Run the install step before anything else so we can reuse the cache in other jobs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/workflows/install
+
   ci:
+    # run various quality checks
+    needs: [install]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -25,6 +34,8 @@ jobs:
         run: npm run test
 
   dependencies:
+    # Makes sure we don't have unnecessary dependencies or audit errors
+    needs: [install]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -35,6 +46,7 @@ jobs:
         run: npm run audit
 
   build-release:
+    # Builds the app and creates a new release
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest]
