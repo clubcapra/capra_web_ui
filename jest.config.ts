@@ -10,5 +10,11 @@ const config: Config.InitialOptions = {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
   cacheDirectory: '.jest-cache',
+  globals: {
+    'ts-jest': {
+      isolatedModules: true,
+      tsconfig: 'tsconfig.jest.json',
+    },
+  },
 }
 export default config
