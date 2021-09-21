@@ -14,5 +14,6 @@ runs:
         key: npm-${{ hashFiles('package-lock.json') }}
         restore-keys: npm-
     - name: install
+      shell: bash
       run: npm ci
 
