@@ -15,7 +15,7 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/install
+      - uses: ./install
       - name: lint
         run: npm run lint
       - name: typecheck
@@ -26,7 +26,7 @@ jobs:
   dependencies:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/install
+      - uses: ./install
       - name: depcheck
         run: npm run depcheck
       - name: audit
@@ -40,7 +40,7 @@ jobs:
     needs: [ci]
     if: startsWith(github.ref, 'refs/tags/')
     steps:
-      - uses: actions/install
+      - uses: ./install
       - name: build
         run: npm run build
 
