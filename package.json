@@ -27,7 +27,11 @@
   },
   "build": {
     "appId": "com.clubcapra.capra_web_ui",
+    "win": {
+      "icon": "/public/assets/images/icon/512x512.png"
+    },
     "linux": {
+      "icon": "/public/assets/images/icon/512x512.png",
       "target": [
         "deb"
       ]
