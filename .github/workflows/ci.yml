@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: ./install
+      - uses: ./actions/workflows/install
       - name: depcheck
         run: npm run depcheck
       - name: audit
@@ -43,7 +43,7 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/')
     steps:
       - uses: actions/checkout@v2
-      - uses: ./install
+      - uses: ./actions/workflows/install
       - name: build
         run: npm run build
 
