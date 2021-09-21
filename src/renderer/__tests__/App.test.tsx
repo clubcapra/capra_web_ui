@@ -1,19 +1,4 @@
-const mockRequire = (arg: string) => {
-  switch (arg) {
-    case 'electron':
-      return {
-        ipcRenderer: {
-          on: () => {
-            return {}
-          },
-          send: () => {
-            return {}
-          },
-        },
-      }
-  }
-}
-window.require = mockRequire as NodeRequire
+window.require = require
 
 import React from 'react'
 import ReactDOM from 'react-dom'
