@@ -13,7 +13,12 @@ runs:
         path: ./node_modules
         key: modules-${{ hashFiles('package-lock.json') }}
     - name: install
-      if: steps.cache.outputs.cache-hit != 'true'
+      run: |
+        if echo ${{ steps.cache.outputs.cache-hit }} | grep -c "true"
+        then
+          echo "Cache hit - skipping dependency installation"
+        else
+          npm ci
+        fi
       shell: bash
-      run: npm ci
 
