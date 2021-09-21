@@ -19,7 +19,7 @@
     "typecheck": "tsc --noEmit",
     "clean": "electron-snowpack clean",
     "postinstall": "patch-package",
-    "depcheck": "depcheck",
+    "depcheck": "depcheck --ignores=\"ts-node,ts-jest,@jest/types\"",
     "audit": "better-npm-audit audit",
     "ci": "concurrently --kill-others-on-fail npm:lint npm:typecheck npm:test",
     "dependencies": "concurrently --kill-others-on-fail npm:depcheck npm:audit",
@@ -61,7 +61,6 @@
     "xstate": "^4.25.0"
   },
   "devDependencies": {
-    "@types/jest": "^27.0.1",
     "@types/lodash": "^4.14.173",
     "@types/react": "^17.0.21",
     "@types/react-dom": "^17.0.9",
