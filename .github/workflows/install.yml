@@ -9,6 +9,11 @@ runs:
       with:
         node-version: '16'
         cache: 'npm'
+    - uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: npm-${{ hashFiles('package-lock.json') }}
+        restore-keys: npm-
     - name: install
       run: npm ci
 
