@@ -28,13 +28,19 @@
   "build": {
     "appId": "com.clubcapra.capra_web_ui",
     "win": {
-      "icon": "/public/assets/images/icon/512x512.png"
+      "requestedExecutionLevel": "requireAdministrator",
+      "target": [
+        "msi"
+      ]
     },
     "linux": {
-      "icon": "/public/assets/images/icon/512x512.png",
       "target": [
         "deb"
       ]
+    },
+    "directories":{
+      "buildResources":"buildResources",
+      "output":"dist"
     },
     "artifactName": "capra_web_ui_setup.${ext}",
     "extends": "electron-snowpack/config/electron-builder.js"
