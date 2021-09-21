@@ -3,6 +3,7 @@ import { useInterval } from '@/renderer/hooks/useInterval'
 import { useRosSubscribe } from '@/renderer/hooks/useRosSubscribe'
 import {
   Chart,
+  ChartData,
   LinearScale,
   LineController,
   LineElement,
@@ -31,18 +32,19 @@ export const GraphFeed: FC<Props> = ({ feed }) => {
 
   useEffect(() => {
     if (canvasRef.current) {
+      const data: ChartData = {
+        datasets: [
+          {
+            data: [],
+            borderColor: 'rgb(255, 0, 0)',
+            pointRadius: 1,
+          },
+        ],
+      }
       setChart(
         new Chart(canvasRef.current, {
           type: 'line',
-          data: {
-            datasets: [
-              {
-                data: [],
-                borderColor: 'rgb(255, 0, 0)',
-                pointRadius: 1,
-              },
-            ],
-          },
+          data,
           options: {
             scales: {
               x: {
