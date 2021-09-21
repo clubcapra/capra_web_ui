@@ -1,9 +1,10 @@
 const typescriptConfigs = {
   files: ['*.ts', '*.tsx'],
 
-  parser: '@typescript-eslint/parser',
-
-  // plugins: ['@typescript-eslint'],
+  parserOptions: {
+    project: './tsconfig.json',
+    ecmaVersion: 2020,
+  },
 
   extends: [
     'plugin:@typescript-eslint/recommended',
@@ -56,13 +57,9 @@ module.exports = {
     curly: 'error',
   },
 
-  overrides: [typescriptConfigs],
+  parser: '@typescript-eslint/parser',
 
-  parserOptions: {
-    parser: '@typescript-eslint/parser',
-    project: './tsconfig.json',
-    ecmaVersion: 2020,
-  },
+  overrides: [typescriptConfigs],
 
   settings: {
     react: {

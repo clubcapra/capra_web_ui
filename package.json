@@ -19,11 +19,11 @@
     "typecheck": "tsc --noEmit",
     "clean": "electron-snowpack clean",
     "postinstall": "patch-package",
+    "depcheck": "depcheck",
+    "audit": "better-npm-audit audit",
     "ci": "concurrently --kill-others-on-fail npm:lint npm:typecheck npm:test",
     "dependencies": "concurrently --kill-others-on-fail npm:depcheck npm:audit",
-    "local_ci": "concurrently \"npm:ci\" \"npm:dependencies\"",
-    "depcheck": "depcheck",
-    "audit": "better-npm-audit audit"
+    "local_ci": "concurrently npm:ci npm:dependencies"
   },
   "build": {
     "appId": "com.clubcapra.capra_web_ui",
@@ -84,6 +84,7 @@
     "patch-package": "^6.4.7",
     "prettier": "^2.4.1",
     "ts-jest": "^27.0.5",
+    "ts-node": "^10.2.1",
     "typescript": "^4.4.3"
   }
 }

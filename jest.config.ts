@@ -1,5 +1,7 @@
-module.exports = {
-  preset: 'ts-jest',
+import type { Config } from '@jest/types'
+
+const config: Config.InitialOptions = {
+  preset: 'ts-jest/presets/default-esm',
   testEnvironment: 'jsdom',
   moduleNameMapper: {
     '\\.(css|less|scss)$': '<rootDir>/src/__mocks__/styleMock.ts',
@@ -7,4 +9,6 @@ module.exports = {
       '<rootDir>/src/__mocks__/fileMock.ts',
     '^@/(.*)$': '<rootDir>/src/$1',
   },
+  cacheDirectory: '.jest-cache',
 }
+export default config
