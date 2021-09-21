@@ -19,8 +19,8 @@
     "typecheck": "tsc --noEmit",
     "clean": "electron-snowpack clean",
     "postinstall": "patch-package",
-    "ci": "concurrently npm:lint npm:typecheck && npm test",
-    "dependencies": "concurrently npm:depcheck npm:audit",
+    "ci": "concurrently --kill-others-on-fail npm:lint npm:typecheck npm:test",
+    "dependencies": "concurrently --kill-others-on-fail npm:depcheck npm:audit",
     "local_ci": "concurrently \"npm:ci\" \"npm:dependencies\"",
     "depcheck": "depcheck",
     "audit": "better-npm-audit audit"
