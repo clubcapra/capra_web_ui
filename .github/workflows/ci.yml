@@ -26,6 +26,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/workflows/install
+      - uses: actions/cache@v2
+        with:
+          path: ./.jest-cache
+          key: jest-${{ hashFiles('package-lock.json') }}
       - name: ci
         run: npm run ci
 
