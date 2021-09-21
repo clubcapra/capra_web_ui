@@ -1,7 +1,6 @@
 on: [push]
 
 name: 'CI'
-description: 'Runs multiple quality checks and builds/release the app when commit is tagged with a version'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
