@@ -29,7 +29,6 @@ function createWindow() {
     height: 720,
     title: `Capra UI v${appVersion}`,
     webPreferences: {
-      nativeWindowOpen: true,
       nodeIntegration: true,
       // TODO https://www.electronjs.org/docs/tutorial/context-isolation
       contextIsolation: false, // WARN this is really important if we want to use ipc
