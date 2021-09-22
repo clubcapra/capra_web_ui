@@ -38,9 +38,9 @@
         "deb"
       ]
     },
-    "directories":{
-      "buildResources":"buildResources",
-      "output":"dist"
+    "directories": {
+      "buildResources": "buildResources",
+      "output": "dist"
     },
     "artifactName": "capra_web_ui_setup.${ext}",
     "extends": "electron-snowpack/config/electron-builder.js"
