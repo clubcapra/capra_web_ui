@@ -1,6 +1,11 @@
 import '@/main/audio'
 import { log } from '@/main/logger'
-import { APP_INFO, APP_INFO_ARG, APP_INFO_QUERY } from '@/shared/constants'
+import {
+  APP_INFO,
+  APP_INFO_ARG,
+  APP_INFO_QUERY,
+  AUDIO_STOP,
+} from '@/shared/constants'
 import { app, BrowserWindow, ipcMain, powerSaveBlocker } from 'electron'
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
@@ -58,6 +63,7 @@ function createWindow() {
 
   mainWindow.on('closed', () => {
     log.info('Main window closed')
+    ipcMain.emit(AUDIO_STOP)
   })
 }
 
