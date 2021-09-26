@@ -131,11 +131,23 @@ const TimeDisplay: FC = () => {
 
 const AudioStart = () => {
   const [state] = useActor(rosService)
-  const [start] = useAudio()
-
+  const [isStarted, setIsStarted] = useState(false)
+  const [start, stop] = useAudio()
+  const onClick = () => {
+    if (isStarted) {
+      stop()
+      setIsStarted(false)
+    } else {
+      start()
+      setIsStarted(true)
+    }
+  }
   return (
-    <StatusBarButton onClick={start} disabled={!state.matches('disconnected')}>
-      Start Audio
+    <StatusBarButton
+      onClick={onClick}
+      disabled={!state.matches('disconnected')}
+    >
+      {isStarted ? 'Audio Stop' : 'Audio Start'}
     </StatusBarButton>
   )
 }

@@ -1,4 +1,9 @@
-import { AUDIO_MSG, AUDIO_MSG_TYPE, AUDIO_START } from '@/shared/constants'
+import {
+  AUDIO_MSG,
+  AUDIO_MSG_TYPE,
+  AUDIO_START,
+  AUDIO_STOP,
+} from '@/shared/constants'
 import { useEffect } from 'react'
 import { toast } from 'react-toastify'
 const { ipcRenderer } = window.require('electron')
@@ -14,5 +19,8 @@ export const useAudio = () => {
   const start = () => {
     ipcRenderer.send(AUDIO_START)
   }
-  return [start]
+  const stop = () => {
+    ipcRenderer.send(AUDIO_STOP)
+  }
+  return [start, stop]
 }
