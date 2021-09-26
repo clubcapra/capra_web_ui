@@ -49,7 +49,7 @@ function createWindow() {
     log.info('opening devtools')
     mainWindow?.webContents.openDevTools()
   } else {
-    mainWindow.removeMenu()
+    // mainWindow.removeMenu()
   }
 
   mainWindow.once('ready-to-show', () => {

@@ -18,8 +18,12 @@ ipcMain.on(AUDIO_START, (event) => {
         stdout,
       }
       event.reply(AUDIO_MSG, reply)
-      log.info(stdout)
-      log.error(stderr)
+      if (stdout) {
+        log.info(stdout)
+      }
+      if (stderr) {
+        log.error(stderr)
+      }
     })
   } else if (process.platform === 'win32') {
     // TODO figure out a way to use wsl to launch capra_audio
