@@ -2,6 +2,7 @@ import { styled } from '@/renderer/globalStyles/styled'
 import { useSelector } from '@/renderer/hooks/typedUseSelector'
 import { useAudio } from '@/renderer/hooks/useAudio'
 import { useInterval } from '@/renderer/hooks/useInterval'
+import { useUpdateEffect } from '@/renderer/hooks/useUpdateEffect'
 import { controlService } from '@/renderer/state/control'
 import { flipperService } from '@/renderer/state/flipper'
 import { rosService } from '@/renderer/state/ros'
@@ -11,12 +12,14 @@ import { format } from 'date-fns'
 import { lighten } from 'polished'
 import React, { FC, useState } from 'react'
 import { BiWifi, BiWifi0, BiWifi1, BiWifi2, BiWifiOff } from 'react-icons/bi'
+import { toast } from 'react-toastify'
 
 export const StatusBar: FC = () => (
   <StyledStatusBarWrapper>
     <LeftStatusBar>
       <RosConnectionStatus />
       <AudioStart />
+      <Reverse />
     </LeftStatusBar>
     <RightStatusBar>
       <ControlStatus />
@@ -148,6 +151,30 @@ const AudioStart = () => {
       disabled={!state.matches('disconnected')}
     >
       {isStarted ? 'Audio Stop' : 'Audio Start'}
+    </StatusBarButton>
+  )
+}
+
+const Reverse = () => {
+  const [isReverse, setIsReverse] = useState(false)
+  const toggleReverse = () => {
+    setIsReverse(!isReverse)
+  }
+
+  useUpdateEffect(() => {
+    const id = toast.info(
+      `Reverse mode toggled, forward direction is ${
+        isReverse ? 'flipped' : 'forward'
+      }`
+    )
+    return () => {
+      toast.dismiss(id)
+    }
+  }, [isReverse])
+
+  return (
+    <StatusBarButton onClick={toggleReverse}>
+      {isReverse ? 'Reverse' : 'Forward'}
     </StatusBarButton>
   )
 }
