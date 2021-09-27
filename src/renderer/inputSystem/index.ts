@@ -119,7 +119,7 @@ const defaultActions: Action[] = [
     name: 'flipperFront',
     bindings: [
       { type: 'gamepadBtn', button: buttonMappings.dpad.up },
-      { type: 'keyboard', code: 'KeyI' },
+      // { type: 'keyboard', code: 'KeyI' },
     ],
     perform: () => {
       flipperService.send('MODE_FRONT')
@@ -129,7 +129,7 @@ const defaultActions: Action[] = [
     name: 'flipperBack',
     bindings: [
       { type: 'gamepadBtn', button: buttonMappings.dpad.down },
-      { type: 'keyboard', code: 'KeyK' },
+      // { type: 'keyboard', code: 'KeyK' },
     ],
     perform: () => {
       flipperService.send('MODE_BACK')
@@ -139,7 +139,7 @@ const defaultActions: Action[] = [
     name: 'switchForwardDirection',
     bindings: [
       { type: 'gamepadBtn', button: buttonMappings.back },
-      { type: 'keyboard', code: 'KeyT', onKeyDown: true },
+      // { type: 'keyboard', code: 'KeyT', onKeyDown: true },
     ],
     perform: () => {
       // TODO implement this client side by flipping the necessary axis direction see issue #82
