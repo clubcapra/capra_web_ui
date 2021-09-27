@@ -20,6 +20,10 @@ const navLinks: NavLinkDefinition[] = [
     to: '/config',
     label: 'Config',
   },
+  {
+    to: '/debug',
+    label: 'Debug',
+  },
 ]
 
 export const Header: FC = () => {

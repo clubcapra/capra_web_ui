@@ -5,7 +5,7 @@ import { selectIP, selectPort } from '@/renderer/store/modules/ros'
 
 const IP = selectIP(store.getState())
 const port = selectPort(store.getState())
-export const rosClient = new RosClient(IP, port)
+export const rosClient = new RosClient(IP, port, { enableLogging : true })
 
 rosClient.setListeners({
   onConnection: () => {

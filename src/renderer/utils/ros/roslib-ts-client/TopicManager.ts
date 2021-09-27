@@ -16,10 +16,7 @@ class TopicManager {
     this.client = client
   }
 
-  subscribe<T>(
-    options: TopicOptions<T>,
-    handler: (message: { data: T }) => void
-  ) {
+  subscribe<T>(options: TopicOptions<T>, handler: (message: T) => void) {
     const signature = getTopicSignature(options)
     const topic = this.registeredTopics.get(signature)
 
