@@ -49,6 +49,8 @@ const ConnectionSection = () => {
         <Button
           onClick={connect}
           disabled={state.matches('connecting') || state.matches('connected')}
+          btnType="success"
+          style={{ maxWidth: '185px' }}
         >
           Connect
         </Button>
@@ -57,6 +59,8 @@ const ConnectionSection = () => {
           disabled={
             state.matches('connecting') || state.matches('disconnected')
           }
+          btnType="danger"
+          style={{ maxWidth: '185px' }}
         >
           Disconnect
         </Button>

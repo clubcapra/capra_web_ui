@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { CSSProperties, FC } from 'react'
 import { styled, Theme } from '@/renderer/globalStyles/styled'
 
 type ButtonType = 'danger' | 'success' | 'primary'
@@ -7,6 +7,7 @@ interface Props {
   onClick: () => void
   btnType?: ButtonType
   disabled?: boolean
+  style?: CSSProperties
 }
 
 interface StyledButtonProps {
@@ -80,9 +81,15 @@ export const Button: FC<Props> = ({
   onClick,
   btnType: type,
   disabled = false,
+  style,
 }) => {
   return (
-    <StyledButton onClick={onClick} btnType={type} disabled={disabled}>
+    <StyledButton
+      onClick={onClick}
+      btnType={type}
+      disabled={disabled}
+      style={style}
+    >
       {children}
     </StyledButton>
   )
