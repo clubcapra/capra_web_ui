@@ -61,7 +61,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: ${{ runner.os == 'Windows' }}
         with:
-          files: ./dist/capra_web_ui_setup.exe
+          files: ./dist/capra_web_ui_setup.msi
           prerelease: true
 
       - name: Ubuntu Release
