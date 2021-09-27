@@ -16,7 +16,7 @@ import { useOpenClose } from '@/renderer/hooks/useOpenClose'
 import React, { FC, useCallback } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { useDispatch } from 'react-redux'
-import { useKeyPress } from '@/renderer/hooks/useKeyPressed'
+import { useKeyPress } from '@/renderer/hooks/useKeyPress'
 
 interface TableRowProps {
   feed: ICameraFeed
