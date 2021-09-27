@@ -1,4 +1,4 @@
-import { NoFeed } from '@/renderer/components/Feed/Feeds/NoFeed'
+import { TextFeed } from '@/renderer/components/Feed/Feeds/TextFeed'
 import { styled } from '@/renderer/globalStyles/styled'
 import { rosService } from '@/renderer/state/ros'
 import { CameraType, ICameraFeed } from '@/renderer/store/modules/feed'
@@ -77,7 +77,7 @@ const Webcam: FC<{ deviceid: string; flipped: boolean }> = ({
   return hasGetUserMedia() ? (
     <StyledVideo ref={videoRef} autoPlay flipped={flipped} />
   ) : (
-    <NoFeed text="webcam not supported" />
+    <TextFeed text="webcam not supported" />
   )
 }
 
@@ -108,7 +108,7 @@ const View: FC<Props> = ({ feed }) => {
         <Webcam deviceid={feed.camera.topic} flipped={feed.camera.flipped} />
       )
     default:
-      return <NoFeed text="stream type not supported" />
+      return <TextFeed text="stream type not supported" />
   }
 }
 
@@ -117,9 +117,16 @@ export const CameraFeed: FC<Props> = ({ feed }) => {
   const connected =
     state.matches('connected') || feed.camera.type === CameraType.WEBCAM
 
+  useEffect(() => {
+    log.debug('mounting camera', feed.camera.name)
+    return () => {
+      log.debug('unmounting camera', feed.camera.name)
+    }
+  }, [feed])
+
   return (
     <CameraGrid>
-      {connected ? <View feed={feed} /> : <NoFeed text="no video" />}
+      {connected ? <View feed={feed} /> : <TextFeed text="No video" />}
     </CameraGrid>
   )
 }

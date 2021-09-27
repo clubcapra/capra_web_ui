@@ -8,12 +8,12 @@ export const Victim: FC = () => {
 
   return (
     <Layout>
-      <Feed feed_id="victim_feed_1" defaultFeed="camera_3d_rgb" />
-      <Feed feed_id="victim_feed_2" defaultFeed="camera_3d_rgb" />
-      <Feed feed_id="victim_feed_3" defaultFeed="camera_3d_rgb" />
-      <Feed feed_id="victim_feed_4" defaultFeed="camera_3d_rgb" />
-      <Feed feed_id="victim_feed_5" defaultFeed="camera_3d_rgb" />
-      <Feed feed_id="victim_feed_6" defaultFeed="camera_3d_rgb" />
+      <Feed feed_id="victim_feed_1" defaultFeed="not_selected" />
+      <Feed feed_id="victim_feed_2" defaultFeed="not_selected" />
+      <Feed feed_id="victim_feed_3" defaultFeed="not_selected" />
+      <Feed feed_id="victim_feed_4" defaultFeed="not_selected" />
+      <Feed feed_id="victim_feed_5" defaultFeed="not_selected" />
+      <Feed feed_id="victim_feed_6" defaultFeed="not_selected" />
     </Layout>
   )
 }
@@ -21,13 +21,6 @@ export const Victim: FC = () => {
 const Layout = styled.div`
   display: grid;
   height: 100%;
-
-  /* grid-template-columns: auto auto;
-  grid-template-rows: auto auto 150px;
-  grid-template-areas:
-    'feed1 feed2'
-    'feed3 feed4'
-    'feed5 feed5'; */
 
   grid-template-columns: auto auto 400px;
   grid-template-rows: 50% 50%;

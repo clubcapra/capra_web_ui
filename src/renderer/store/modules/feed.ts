@@ -21,6 +21,7 @@ export enum FeedTypeEnum {
   Camera,
   Urdf,
   Graph,
+  NotSelected,
 }
 
 export enum CameraType {
@@ -30,7 +31,12 @@ export enum CameraType {
   WEBCAM = 'webcam',
 }
 
-export type FeedType = IEmptyFeed | ICameraFeed | IUrdfFeed | IGraphFeed
+export type FeedType =
+  | IEmptyFeed
+  | ICameraFeed
+  | IUrdfFeed
+  | IGraphFeed
+  | INotSelected
 
 interface BaseFeed {
   type: FeedTypeEnum
@@ -39,6 +45,10 @@ interface BaseFeed {
 
 export interface IEmptyFeed extends BaseFeed {
   type: FeedTypeEnum.Empty
+}
+
+export interface INotSelected extends BaseFeed {
+  type: FeedTypeEnum.NotSelected
 }
 
 export interface ICameraFeed extends BaseFeed {
@@ -86,23 +96,47 @@ export const initialState: FeedState = {
       type: FeedTypeEnum.Empty,
       id: 'empty',
     },
-    camera_3d_rgb: {
+    not_selected: {
+      type: FeedTypeEnum.NotSelected,
+      id: 'not_selected',
+    },
+    front_cam: {
       type: FeedTypeEnum.Camera,
-      id: 'camera_3d_rgb',
+      id: 'front_cam',
       camera: {
-        name: 'camera_3d_rgb',
+        name: 'front_cam',
         type: CameraType.MJPEG,
-        topic: '/camera_3d/rgb/image_raw',
+        topic: '/markhor/front/usb_cam/image_raw',
         flipped: true,
       },
     },
-    camera_3d_depth: {
+    back_cam: {
       type: FeedTypeEnum.Camera,
-      id: 'camera_3d_depth',
+      id: 'back_cam',
       camera: {
-        name: 'camera_3d_depth',
+        name: 'back_cam',
         type: CameraType.MJPEG,
-        topic: '/camera_3d/depth/image',
+        topic: '/markhor/back/usb_cam/image_raw',
+        flipped: true,
+      },
+    },
+    arm_cam: {
+      type: FeedTypeEnum.Camera,
+      id: 'arm_cam',
+      camera: {
+        name: 'arm_cam',
+        type: CameraType.MJPEG,
+        topic: '/markhor/arm/usb_cam/image_raw',
+        flipped: true,
+      },
+    },
+    tpv_cam: {
+      type: FeedTypeEnum.Camera,
+      id: 'tpv_cam',
+      camera: {
+        name: 'tpv_cam',
+        type: CameraType.MJPEG,
+        topic: '/markhor/tpv/usb_cam/image_raw',
         flipped: true,
       },
     },

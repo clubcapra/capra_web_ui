@@ -1,8 +1,7 @@
 import { Select } from '@/renderer/components/common/Select'
 import { CameraFeed } from '@/renderer/components/Feed/Feeds/CameraFeed'
-import { EmptyFeed } from '@/renderer/components/Feed/Feeds/EmptyFeed'
 import { GraphFeed } from '@/renderer/components/Feed/Feeds/GraphFeed'
-import { NoFeed } from '@/renderer/components/Feed/Feeds/NoFeed'
+import { TextFeed } from '@/renderer/components/Feed/Feeds/TextFeed'
 import { UrdfFeed } from '@/renderer/components/Feed/Feeds/UrdfFeed'
 import { styled } from '@/renderer/globalStyles/styled'
 import {
@@ -15,6 +14,7 @@ import {
 import { useOpenClose } from '@/renderer/hooks/useOpenClose'
 import React, { ChangeEvent, FC, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { EmptyFeed } from '@/renderer/components/Feed/Feeds/EmptyFeed'
 
 export const Feed: FC<{
   feed_id: string
@@ -54,6 +54,8 @@ const FeedView: FC<{
   switch (feed.type) {
     case FeedTypeEnum.Empty:
       return <EmptyFeed />
+    case FeedTypeEnum.NotSelected:
+      return <TextFeed text="Nothing Selected" />
     case FeedTypeEnum.Camera:
       return <CameraFeed feed={feed} />
     case FeedTypeEnum.Urdf:
@@ -61,7 +63,7 @@ const FeedView: FC<{
     case FeedTypeEnum.Graph:
       return <GraphFeed feed={feed} />
     default:
-      return <NoFeed text="NOT SUPPORTED" />
+      return <TextFeed text="NOT SUPPORTED" />
   }
 }
 

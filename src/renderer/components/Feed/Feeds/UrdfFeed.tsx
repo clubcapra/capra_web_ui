@@ -1,4 +1,4 @@
-import { NoFeed } from '@/renderer/components/Feed/Feeds/NoFeed'
+import { TextFeed } from '@/renderer/components/Feed/Feeds/TextFeed'
 import { styled } from '@/renderer/globalStyles/styled'
 import { rosService } from '@/renderer/state/ros'
 import { IUrdfFeed } from '@/renderer/store/modules/feed'
@@ -111,7 +111,7 @@ export const UrdfFeed: FC<Props> = ({ feed }) => {
       {state.matches('connected') ? (
         <View feed={feed} />
       ) : (
-        <NoFeed text="not connected" />
+        <TextFeed text="not connected" />
       )}
     </Grid>
   )

@@ -8,9 +8,9 @@ export const Teleop: FC = () => {
   useControl('flipper')
   return (
     <>
-      <Feed feed_id={feed_id.teleop.main} defaultFeed="camera_3d_rgb" />
+      <Feed feed_id={feed_id.teleop.main} defaultFeed="front_cam" />
       <StyledPIP left bottom>
-        <Feed feed_id={feed_id.teleop.bottom_left} defaultFeed="empty" />
+        <Feed feed_id={feed_id.teleop.bottom_left} defaultFeed="back_cam" />
       </StyledPIP>
       <StyledPIP left top>
         <Feed feed_id={feed_id.teleop.top_left} defaultFeed="empty" />
