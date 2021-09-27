@@ -33,7 +33,7 @@ import { format } from 'date-fns'
 // maybe support some kind of module specifier.
 // Unfortunately that info is not available in js so it would need to be customised in each file
 
-type Levels = 'error' | 'warn' | 'info' | 'trace' | 'debug'
+type Levels = 'error' | 'warn' | 'info' | 'debug'
 
 const timeFormat = (date: Date) => format(date, '[HH:mm:ss]')
 const logFormat = (level: Levels) =>
@@ -83,13 +83,11 @@ function logFn(level: Levels, args: any[]) {
 export const error = (...args: any[]) => logFn('error', args)
 export const warn = (...args: any[]) => logFn('warn', args)
 export const info = (...args: any[]) => logFn('info', args)
-export const trace = (...args: any[]) => logFn('trace', args)
 export const debug = (...args: any[]) => logFn('debug', args)
 
 export const log = {
   error,
   warn,
   info,
-  trace,
   debug,
 }

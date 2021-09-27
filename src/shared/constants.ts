@@ -13,7 +13,7 @@ export type AUDIO_MSG_TYPE = {
 
 export const LOG_MSG = 'log_msg'
 export type LOG_MSG_TYPE = {
-  level: 'error' | 'warn' | 'info' | 'trace' | 'debug'
+  level: 'error' | 'warn' | 'info' | 'debug'
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   message: string
 }

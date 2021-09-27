@@ -26,7 +26,10 @@ const getAssetURL = (asset: string) => {
   }
 }
 
-const appVersion = isDev ? process.env.npm_package_version : app.getVersion()
+let appVersion = isDev ? process.env.npm_package_version : app.getVersion()
+appVersion = `${appVersion} ${
+  isDev ? '' : path.join(app.getPath('appData'), app.name)
+}`
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -47,7 +50,7 @@ function createWindow() {
     .then(() => {
       log.info('index.html loaded')
     })
-    .catch(log.error)
+    .catch((error) => log.error(error))
 
   if (isDev) {
     // This is to make sure the devtools only opens when extensions are loaded
@@ -115,6 +118,6 @@ app.on('window-all-closed', () => {
 ipcMain.on(APP_INFO_QUERY, (event) => {
   event.reply(APP_INFO, {
     appName: app.name,
-    appVersion: appVersion,
+    appVersion,
   } as APP_INFO_ARG)
 })

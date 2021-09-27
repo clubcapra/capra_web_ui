@@ -1,8 +1,11 @@
+import { isDev } from '@/main/isDev'
 import { LOG_MSG, LOG_MSG_TYPE } from '@/shared/constants'
-import { ipcMain } from 'electron'
-import winston, { format, transports } from 'winston'
-import 'winston-daily-rotate-file'
-const { timestamp, combine, printf, colorize, label } = format
+import { app, ipcMain } from 'electron'
+import electronLog, { LogMessage, LogLevel } from 'electron-log'
+import path from 'path'
+import datefns from 'date-fns'
+import chalk from 'chalk'
+chalk.level = 3
 
 /**
  * This module uses winston to write logs to the console and to a file.
@@ -10,98 +13,65 @@ const { timestamp, combine, printf, colorize, label } = format
  * Logs from the renderer are received through the ipc
  */
 
-// TODO
-// This is custom enough that it might be better to just do the file logging ourselves
-// insted of pulling a big dependency like winston
-
 const padding = Math.max(
-  ...['error', 'warn', 'info'].map((level) => level.length)
+  ...['error', 'warn', 'info', 'debug'].map((level) => level.length)
 )
 
-const padEndLevel = format((info) => {
-  info.level = info.level.padEnd(padding).toUpperCase()
-  return info
-})
-
-const fileFormat = combine(
-  timestamp(),
-  padEndLevel(),
-  printf((info) => `${info.timestamp} ${info.level} ${info.message}`)
-)
-
-const consoleFormat = combine(
-  timestamp({ format: 'HH:mm:ss' }),
-  padEndLevel(),
-  colorize({ level: true }),
-  printf(
-    (info) => `[${info.label}] ${info.timestamp} ${info.level} ${info.message}`
-  )
-)
-
-const levels = {
-  levels: {
-    error: 0,
-    warn: 1,
-    info: 2,
-    trace: 3,
-    debug: 4,
-  },
-  colors: {
-    error: 'red',
-    warn: 'yellow',
-    info: 'green',
-    trace: 'gray',
-    debug: 'blue',
-  },
+function formatLevel(level: LogLevel) {
+  const levelString = level.toUpperCase().padEnd(padding)
+  switch (level) {
+    case 'error':
+      return chalk.red(levelString)
+    case 'warn':
+      return chalk.yellow(levelString)
+    case 'info':
+      return chalk.green(levelString)
+    case 'debug':
+      return chalk.blue(levelString)
+    default:
+      return levelString
+  }
 }
 
-winston.addColors(levels.colors)
-
-const fileTransportOptions = {
-  dirname: 'logs/%DATE%',
-  datePattern: 'YYYY-MM-DD',
+function consoleFormat(message: LogMessage) {
+  const date = datefns.format(message.date, 'HH:mm:ss')
+  return `${date} ${formatLevel(message.level)} ${message.data}`
 }
 
-const logger = winston.createLogger({
-  level: 'debug',
-  levels: levels.levels,
-  format: fileFormat,
-  transports: [
-    new transports.DailyRotateFile({
-      ...fileTransportOptions,
-      filename: 'main.log',
-    }),
-  ],
-})
-export const log = logger
+function fileFormat(message: LogMessage) {
+  return `${message.date.toISOString()} ${message.level
+    .toUpperCase()
+    .padEnd(padding)} ${message.data}`
+}
 
-const rendererLogger = winston.createLogger({
-  level: 'debug',
-  levels: levels.levels,
-  format: fileFormat,
-  transports: [
-    new transports.DailyRotateFile({
-      ...fileTransportOptions,
-      filename: 'renderer.log',
-    }),
-  ],
-})
-
-if (process.env.NODE_ENV !== 'production') {
-  logger.add(
-    new transports.Console({
-      format: combine(label({ label: 'main' }), consoleFormat),
-      eol: ' ',
-    })
-  )
-  rendererLogger.add(
-    new transports.Console({
-      format: combine(label({ label: 'renderer' }), consoleFormat),
-      eol: ' ',
-    })
+function resolvePath(filename: string) {
+  return path.join(
+    isDev ? process.cwd() : path.join(app.getPath('appData'), app.name),
+    'logs',
+    date,
+    filename
   )
 }
+
+const rendererElectronLog = electronLog.create('renderer')
+rendererElectronLog.transports.file.resolvePath = () =>
+  resolvePath('renderer.log')
+rendererElectronLog.transports.file.format = fileFormat
+rendererElectronLog.transports.console.format = consoleFormat
 
 ipcMain.on(LOG_MSG, (_event, data: LOG_MSG_TYPE) => {
-  rendererLogger.log(data.level, data.message)
+  rendererElectronLog[data.level](data.message)
 })
+
+const mainElectronLog = electronLog.create('main')
+const date = datefns.format(new Date(), 'yyyy-MM-dd')
+mainElectronLog.transports.file.resolvePath = () => resolvePath('main.log')
+mainElectronLog.transports.file.format = fileFormat
+mainElectronLog.transports.console.format = consoleFormat
+
+export const log = mainElectronLog
+
+log.error('this is an error')
+log.warn('this is a warn')
+log.info('this is an info')
+log.debug('this is a debug')
