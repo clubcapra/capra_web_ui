@@ -143,9 +143,9 @@ const defaultActions: Action[] = [
     ],
     perform: () => {
       // TODO implement this client side by flipping the necessary axis direction see issue #82
-      rosClient
-        .callService({ name: 'markhor/switch_direction' })
-        .catch(log.error)
+      // rosClient
+      //   .callService({ name: 'markhor/switch_direction' })
+      //   .catch(log.error)
       store.dispatch(feedSlice.actions.switchDirection())
       store.dispatch(inputSlice.actions.toggleReverse())
     },

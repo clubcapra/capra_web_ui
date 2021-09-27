@@ -2,32 +2,30 @@ import React, { FC, useState } from 'react'
 import { Modal } from './common/Modal'
 import { Button } from './common/Button'
 import { rosClient } from '@/renderer/utils/ros/rosClient'
-import { useRosSubscribe } from '@/renderer/hooks/useRosSubscribe'
-import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
 import { useOpenClose } from '@/renderer/hooks/useOpenClose'
 import { styled } from '@/renderer/globalStyles/styled'
 import { darken } from 'polished'
 import { log } from '@/renderer/logger'
 
-const topic: TopicOptions<boolean> = {
-  name: 'markhor/estop_status',
-  messageType: 'std_msgs/Bool',
-}
+// const topic: TopicOptions<boolean> = {
+//   name: 'markhor/estop_status',
+//   messageType: 'std_msgs/Bool',
+// }
 
 interface StopButtonProps {
   onClick: () => void
 }
 
 const StopButton: FC<StopButtonProps> = ({ onClick }) => {
-  const [text, setText] = useState('EMERGENCY STOP')
+  const [text] = useState('EMERGENCY STOP')
 
-  useRosSubscribe(topic, (message) => {
-    if (message.data) {
-      setText('EMERGENCY STOP')
-    } else {
-      setText('REARM')
-    }
-  })
+  // useRosSubscribe(topic, (message) => {
+  //   if (message.data) {
+  //     setText('EMERGENCY STOP')
+  //   } else {
+  //     setText('REARM')
+  //   }
+  // })
 
   return (
     <StyledStopButton onClick={onClick}>
