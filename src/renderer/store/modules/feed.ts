@@ -50,6 +50,7 @@ export interface ICameraData {
   name: string
   type: CameraType
   topic: string
+  flipped: boolean
 }
 
 export interface IUrdfFeed extends BaseFeed {
@@ -92,6 +93,7 @@ export const initialState: FeedState = {
         name: 'camera_3d_rgb',
         type: CameraType.MJPEG,
         topic: '/camera_3d/rgb/image_raw',
+        flipped: true,
       },
     },
     camera_3d_depth: {
@@ -101,6 +103,7 @@ export const initialState: FeedState = {
         name: 'camera_3d_depth',
         type: CameraType.MJPEG,
         topic: '/camera_3d/depth/image',
+        flipped: true,
       },
     },
     webcam: {
@@ -110,6 +113,7 @@ export const initialState: FeedState = {
         name: 'webcam',
         type: CameraType.WEBCAM,
         topic: '',
+        flipped: false,
       },
     },
     urdf_viewer: {

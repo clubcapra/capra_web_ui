@@ -22,25 +22,32 @@ const CameraGrid = styled.div`
   background-color: black;
   position: absolute;
 `
+type CameraProp = { flipped: boolean }
 
-const StyledVideo = styled.video`
-  object-fit: cover;
-  max-width: 100%;
-  max-height: 100%;
-  overflow: hidden;
-`
-
-const StyledImg = styled.img`
+const StyledVideo = styled.video<CameraProp>`
   object-fit: cover;
   max-width: 100%;
   max-height: 100%;
   height: 100%;
   overflow: hidden;
+  ${({ flipped }) => (flipped ? 'transform: scaleX(-1);' : '')}
+`
+
+const StyledImg = styled.img<CameraProp>`
+  object-fit: cover;
+  max-width: 100%;
+  max-height: 100%;
+  height: 100%;
+  overflow: hidden;
+  ${({ flipped }) => (flipped ? 'transform: scaleX(-1);' : '')}
 `
 
 const hasGetUserMedia = () => !!navigator?.mediaDevices?.getUserMedia
 
-const Webcam: FC<{ deviceid: string }> = ({ deviceid }) => {
+const Webcam: FC<{ deviceid: string; flipped: boolean }> = ({
+  deviceid,
+  flipped,
+}) => {
   const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
@@ -68,7 +75,7 @@ const Webcam: FC<{ deviceid: string }> = ({ deviceid }) => {
   }, [deviceid])
 
   return hasGetUserMedia() ? (
-    <StyledVideo ref={videoRef} autoPlay />
+    <StyledVideo ref={videoRef} autoPlay flipped={flipped} />
   ) : (
     <NoFeed text="webcam not supported" />
   )
@@ -80,11 +87,26 @@ const View: FC<Props> = ({ feed }) => {
   switch (feed.camera.type) {
     case CameraType.MJPEG:
     case CameraType.PNG:
-      return <StyledImg src={source} alt="camera stream" />
+      return (
+        <StyledImg
+          src={source}
+          flipped={feed.camera.flipped}
+          alt="camera stream"
+        />
+      )
     case CameraType.VP8:
-      return <StyledVideo src={source} autoPlay preload="none" />
+      return (
+        <StyledVideo
+          src={source}
+          flipped={feed.camera.flipped}
+          autoPlay
+          preload="none"
+        />
+      )
     case CameraType.WEBCAM:
-      return <Webcam deviceid={feed.camera.topic} />
+      return (
+        <Webcam deviceid={feed.camera.topic} flipped={feed.camera.flipped} />
+      )
     default:
       return <NoFeed text="stream type not supported" />
   }
