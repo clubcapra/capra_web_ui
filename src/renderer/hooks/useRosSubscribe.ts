@@ -20,7 +20,7 @@ export const useRosSubscribe = <R>(
     if (state.matches('connected')) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       rosClient.subscribe(topic, callback as any)
-      return rosClient.unsubscribe(topic)
+      return () => rosClient.unsubscribe(topic)
     }
   }, [callback, state, topic])
 }
