@@ -1,5 +1,4 @@
 import { IGraphFeed } from '@/renderer/store/modules/feed'
-import { useInterval } from '@/renderer/hooks/useInterval'
 import { useRosSubscribe } from '@/renderer/hooks/useRosSubscribe'
 import {
   Chart,
@@ -11,8 +10,8 @@ import {
   TimeScale,
 } from 'chart.js'
 import 'chartjs-adapter-date-fns'
-import _ from 'lodash'
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
+import { log } from '@/renderer/logger'
 
 Chart.register(
   LineController,
@@ -95,15 +94,16 @@ export const GraphFeed: FC<Props> = ({ feed }) => {
   useRosSubscribe(feed.graph.topic, (message) => {
     if (typeof message.data === 'string') {
       updateChart({ x: Date.now(), y: parseInt(message.data, 10) })
+    } else {
+      if (process.env.NODE_ENV === 'development') {
+        log.warn(
+          'graph message is not a string',
+          typeof message.data,
+          message.data
+        )
+      }
     }
   })
-
-  if (process.env.NODE_ENV === 'development') {
-    useInterval(() => {
-      const point = { x: Date.now(), y: _.random(0, 100) }
-      updateChart(point)
-    }, 500)
-  }
 
   return (
     <>

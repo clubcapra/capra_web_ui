@@ -122,7 +122,7 @@ export const initialState: FeedState = {
       graph: {
         name: 'co2_graph',
         topic: {
-          name: '/ppm',
+          name: '/capra/co2_ppm',
           messageType: 'std_msgs/String',
         },
       },
