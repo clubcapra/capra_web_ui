@@ -41,5 +41,7 @@ export const saveState = (state: GlobalState) => {
 }
 
 export const clearStoreCache = () => {
+  log.info(`Clearing cache key=${stateKey}`)
   localStorage.removeItem(stateKey)
+  location.reload()
 }
