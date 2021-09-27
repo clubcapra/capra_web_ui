@@ -79,7 +79,7 @@ export const GraphFeed: FC<Props> = ({ feed }) => {
       }
       setChart(null)
     }
-  }, [])
+  }, [chart])
 
   const updateChart = useCallback(
     (data) => {

@@ -26,9 +26,11 @@ export const useUpdateEffect = function useUpdateEffect(
 
     return () => {
       effectCleanup()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       if (!isMounted.current) {
         isInitialMount.current = true
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, dependencies)
 }

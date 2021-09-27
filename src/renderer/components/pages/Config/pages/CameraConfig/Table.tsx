@@ -12,11 +12,11 @@ import {
 } from '@/renderer/store/modules/feed'
 import { selectVideoUrl } from '@/renderer/store/modules/ros'
 import { useSelector } from '@/renderer/hooks/typedUseSelector'
-import { useEscape } from '@/renderer/hooks/useEscape'
 import { useOpenClose } from '@/renderer/hooks/useOpenClose'
 import React, { FC, useCallback } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { useDispatch } from 'react-redux'
+import { useKeyPress } from '@/renderer/hooks/useKeyPressed'
 
 interface TableRowProps {
   feed: ICameraFeed
@@ -37,7 +37,7 @@ const TableRow: FC<TableRowProps> = ({ feed, updateCamera }) => {
   const snapshotSource = useSelector(selectVideoUrl(feed.camera, 'snapshot'))
   const [isOpen, open, close] = useOpenClose()
 
-  useEscape(() => {
+  useKeyPress('Escape', () => {
     if (isOpen) {
       close()
     }
