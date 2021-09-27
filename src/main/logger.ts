@@ -8,9 +8,13 @@ import chalk from 'chalk'
 chalk.level = 3
 
 /**
- * This module uses winston to write logs to the console and to a file.
+ * This module uses eletron-log to write logs to the console and to a file.
  * It uses a separate file for logs coming from the main thread and the renderer thread.
- * Logs from the renderer are received through the ipc
+ * Logs from the renderer are received through the ipc which could cause performance issues
+ *
+ * logs are written to the following locations:
+ *    Linux: ~/.config/capra_web_ui/logs/{process type}.log
+ *    Windows: %USERPROFILE%\AppData\Roaming\capra_web_ui\logs\{process type}.log
  */
 
 const padding = Math.max(
@@ -33,25 +37,24 @@ function formatLevel(level: LogLevel) {
   }
 }
 
-function consoleFormat(message: LogMessage) {
+const consoleFormat = (message: LogMessage) => {
   const date = datefns.format(message.date, 'HH:mm:ss')
   return `${date} ${formatLevel(message.level)} ${message.data}`
 }
 
-function fileFormat(message: LogMessage) {
-  return `${message.date.toISOString()} ${message.level
+const fileFormat = (message: LogMessage) =>
+  `${message.date.toISOString()} ${message.level
     .toUpperCase()
     .padEnd(padding)} ${message.data}`
-}
 
-function resolvePath(filename: string) {
-  return path.join(
+const date = datefns.format(new Date(), 'yyyy-MM-dd')
+const resolvePath = (filename: string) =>
+  path.join(
     isDev ? process.cwd() : path.join(app.getPath('appData'), app.name),
     'logs',
     date,
     filename
   )
-}
 
 const rendererElectronLog = electronLog.create('renderer')
 rendererElectronLog.transports.file.resolvePath = () =>
@@ -64,14 +67,8 @@ ipcMain.on(LOG_MSG, (_event, data: LOG_MSG_TYPE) => {
 })
 
 const mainElectronLog = electronLog.create('main')
-const date = datefns.format(new Date(), 'yyyy-MM-dd')
 mainElectronLog.transports.file.resolvePath = () => resolvePath('main.log')
 mainElectronLog.transports.file.format = fileFormat
 mainElectronLog.transports.console.format = consoleFormat
 
 export const log = mainElectronLog
-
-log.error('this is an error')
-log.warn('this is a warn')
-log.info('this is an info')
-log.debug('this is a debug')
