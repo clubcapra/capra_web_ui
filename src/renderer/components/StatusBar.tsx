@@ -6,12 +6,15 @@ import { useUpdateEffect } from '@/renderer/hooks/useUpdateEffect'
 import { controlService } from '@/renderer/state/control'
 import { flipperService } from '@/renderer/state/flipper'
 import { rosService } from '@/renderer/state/ros'
+import { feedSlice } from '@/renderer/store/modules/feed'
+import { inputSlice, selectReverse } from '@/renderer/store/modules/input'
 import { selectFullAddress } from '@/renderer/store/modules/ros'
 import { useActor } from '@xstate/react'
 import { format } from 'date-fns'
 import { lighten } from 'polished'
 import React, { FC, useState } from 'react'
 import { BiWifi, BiWifi0, BiWifi1, BiWifi2, BiWifiOff } from 'react-icons/bi'
+import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 
 export const StatusBar: FC = () => (
@@ -156,25 +159,28 @@ const AudioStart = () => {
 }
 
 const Reverse = () => {
-  const [isReverse, setIsReverse] = useState(false)
+  const reverse = useSelector(selectReverse)
+  const dispatch = useDispatch()
   const toggleReverse = () => {
-    setIsReverse(!isReverse)
+    // Maybe this should be combined somewhere in redux
+    dispatch(feedSlice.actions.switchDirection())
+    dispatch(inputSlice.actions.toggleReverse())
   }
 
   useUpdateEffect(() => {
     const id = toast.info(
       `Reverse mode toggled, forward direction is ${
-        isReverse ? 'flipped' : 'forward'
+        reverse ? 'flipped' : 'forward'
       }`
     )
     return () => {
       toast.dismiss(id)
     }
-  }, [isReverse])
+  }, [reverse])
 
   return (
     <StatusBarButton onClick={toggleReverse}>
-      {isReverse ? 'Reverse' : 'Forward'}
+      {reverse ? 'Reverse' : 'Forward'}
     </StatusBarButton>
   )
 }

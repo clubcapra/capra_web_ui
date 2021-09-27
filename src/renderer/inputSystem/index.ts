@@ -13,6 +13,7 @@ import { feedSlice } from '@/renderer/store/modules/feed'
 import { store } from '@/renderer/store/store'
 import { flipperService } from '@/renderer/state/flipper'
 import { log } from '@/renderer/logger'
+import { inputSlice, selectReverse } from '@/renderer/store/modules/input'
 
 const cmdVelTopic: TopicOptions = {
   name: 'markhor/diff_drive_controller/cmd_vel',
@@ -70,8 +71,11 @@ const mapToTwist = (
   rt: number,
   lt: number
 ): ITwistMsg => {
-  const x = deadzone(horizontal)
-  const y = deadzone(vertical)
+  const isReverse = selectReverse(store.getState())
+  let x = deadzone(horizontal)
+  x = isReverse ? -x : x
+  let y = deadzone(vertical)
+  y = isReverse ? -y : y
 
   if (lt > 0.1) {
     // brake!
@@ -143,6 +147,7 @@ const defaultActions: Action[] = [
         .callService({ name: 'markhor/switch_direction' })
         .catch(log.error)
       store.dispatch(feedSlice.actions.switchDirection())
+      store.dispatch(inputSlice.actions.toggleReverse())
     },
   },
   {

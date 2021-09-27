@@ -4,6 +4,7 @@ import {
   saveState,
 } from '@/renderer/store/localStorage'
 import { feedSlice } from '@/renderer/store/modules/feed'
+import { inputSlice } from '@/renderer/store/modules/input'
 import { rosSlice } from '@/renderer/store/modules/ros'
 import { configureStore, AnyAction, combineReducers } from '@reduxjs/toolkit'
 import { throttle } from 'lodash'
@@ -11,6 +12,7 @@ import { throttle } from 'lodash'
 const appReducer = combineReducers({
   feed: feedSlice.reducer,
   ros: rosSlice.reducer,
+  input: inputSlice.reducer,
 })
 
 export type GlobalState = ReturnType<typeof appReducer>
