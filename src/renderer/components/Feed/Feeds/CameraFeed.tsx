@@ -24,12 +24,18 @@ const CameraGrid = styled.div`
 `
 
 const StyledVideo = styled.video`
-  height: 100%;
+  object-fit: cover;
+  max-width: 100%;
+  max-height: 100%;
   overflow: hidden;
 `
 
 const StyledImg = styled.img`
+  object-fit: cover;
+  max-width: 100%;
+  max-height: 100%;
   height: 100%;
+  overflow: hidden;
 `
 
 const hasGetUserMedia = () => !!navigator?.mediaDevices?.getUserMedia
