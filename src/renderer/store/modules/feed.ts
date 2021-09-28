@@ -100,6 +100,36 @@ export const initialState: FeedState = {
       type: FeedTypeEnum.NotSelected,
       id: 'not_selected',
     },
+    video0: {
+      type: FeedTypeEnum.Camera,
+      id: 'video0',
+      camera: {
+        name: 'video0',
+        type: CameraType.MJPEG,
+        topic: '/markhor/video0/usb_cam/image_raw',
+        flipped: true,
+      },
+    },
+    video1: {
+      type: FeedTypeEnum.Camera,
+      id: 'video1',
+      camera: {
+        name: 'video1',
+        type: CameraType.MJPEG,
+        topic: '/markhor/video1/usb_cam/image_raw',
+        flipped: true,
+      },
+    },
+    video2: {
+      type: FeedTypeEnum.Camera,
+      id: 'v',
+      camera: {
+        name: 'v',
+        type: CameraType.MJPEG,
+        topic: '/markhor/video2/usb_cam/image_raw',
+        flipped: true,
+      },
+    },
     front_cam: {
       type: FeedTypeEnum.Camera,
       id: 'front_cam',
