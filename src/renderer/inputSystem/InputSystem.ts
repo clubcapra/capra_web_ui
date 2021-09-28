@@ -195,9 +195,9 @@ export class InputSystem {
             }
             return [false, emptyCtx]
           }
-          case 'keyboard':
-          default:
+          case 'keyboard': {
             return [false, emptyCtx]
+          }
         }
       })
 

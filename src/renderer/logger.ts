@@ -70,7 +70,7 @@ function callsite() {
   // This number is equivalent to the number of functions called
   // to get to the actual console.log
   const callsite = callsites()[3]
-  return printCallsite
+  return printCallsite && callsite
     ? `\n${callsite.getFileName()}:${callsite.getLineNumber()}`
     : ''
 }
