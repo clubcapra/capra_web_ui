@@ -10,16 +10,14 @@ import { rosService } from '@/renderer/state/ros'
  *
  * This will automatically unsubscribe when the component is unmounted
  */
-export const useRosSubscribe = <R>(
+export function useRosSubscribe<R>(
   topic: TopicOptions<R>,
   callback: (message: { data: R }) => void
-): void => {
+): void {
   const [state] = useActor(rosService)
-
   useEffect(() => {
     if (state.matches('connected')) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      rosClient.subscribe(topic, callback as any)
+      rosClient.subscribe(topic, callback)
       return () => rosClient.unsubscribe(topic)
     }
   }, [callback, state, topic])
