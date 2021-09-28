@@ -1,8 +1,7 @@
 type InputType =
   | 'keyboard'
   | 'gamepad'
-  | 'gamepadBtnDown'
-  | 'gamepadBtnUp'
+  | 'gamepadBtn'
   | 'gamepadAxis'
   | 'spacemouse'
   | 'none'
@@ -21,17 +20,9 @@ interface GamepadBinding extends IBinding {
   type: 'gamepad'
 }
 
-export interface GamepadButtonBinding extends IBinding {
-  type: 'gamepadBtnDown' | 'gamepadBtnUp'
+interface GamepadBtnBinding extends IBinding {
+  type: 'gamepadBtn'
   button: number
-}
-
-interface GamepadBtnDownBinding extends GamepadButtonBinding {
-  type: 'gamepadBtnDown'
-}
-
-interface GamepadBtnUpBinding extends GamepadButtonBinding {
-  type: 'gamepadBtnUp'
 }
 
 interface GamepadAxisBinding extends IBinding {
@@ -46,8 +37,7 @@ interface SpacemouseBinding extends IBinding {
 export type Binding =
   | KeyboardBinding
   | GamepadBinding
-  | GamepadBtnDownBinding
-  | GamepadBtnUpBinding
+  | GamepadBtnBinding
   | GamepadAxisBinding
   | SpacemouseBinding
 
@@ -60,22 +50,13 @@ interface KeyboardContext extends IContext {
 }
 
 export interface GamepadContext extends IContext {
-  type:
-    | 'gamepad'
-    | 'gamepadBtnDown'
-    | 'gamepadBtnUp'
-    | 'gamepadAxis'
-    | 'spacemouse'
+  type: 'gamepad' | 'gamepadBtn' | 'gamepadAxis' | 'spacemouse'
   id: string
   gamepadState: GamepadState
 }
 
-export interface GamepadBtnDownContext extends GamepadContext {
-  type: 'gamepadBtnDown'
-}
-
-export interface GamepadBtnUpContext extends GamepadContext {
-  type: 'gamepadBtnUp'
+export interface GamepadBtnContext extends GamepadContext {
+  type: 'gamepadBtn'
 }
 
 export interface GamepadAxisContext extends GamepadContext {
@@ -96,7 +77,7 @@ export interface EmptyContext extends IContext {
 export type Context =
   | KeyboardContext
   | GamepadContext
-  | GamepadBtnDownContext
+  | GamepadBtnContext
   | GamepadAxisContext
   | SpaceMouseContext
   | EmptyContext
