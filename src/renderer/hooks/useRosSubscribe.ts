@@ -20,5 +20,5 @@ export function useRosSubscribe<R>(
       rosClient.subscribe(topic, callback)
       return () => rosClient.unsubscribe(topic)
     }
-  }, [callback, state, topic])
+  }, [topic, state, callback])
 }
