@@ -69,12 +69,13 @@ const ControlStatus = () => {
 const FlipperMode = () => {
   const [flipper] = useActor(flipperService)
   const [control] = useActor(controlService)
+  const isReverse = useSelector(selectReverse)
   if (control.matches('flipper')) {
     return (
       <div>
-        {flipper.matches('front') && 'FRONT'}
+        {flipper.matches('front') && (isReverse ? 'BACK' : 'FRONT')}
         {flipper.matches('none') && 'NONE'}
-        {flipper.matches('back') && 'BACK'}
+        {flipper.matches('back') && (isReverse ? 'FRONT' : 'BACK')}
       </div>
     )
   } else {
