@@ -5,8 +5,10 @@ import {
   Context,
   GamepadState,
   GamepadContext,
-  GamepadBtnContext,
+  GamepadBtnDownContext,
   SpaceMouseContext,
+  GamepadBtnUpContext,
+  GamepadButtonBinding,
 } from '@/renderer/inputSystem/@types'
 import { isTest } from '@/renderer/utils/isTest'
 
@@ -114,12 +116,11 @@ export class InputSystem {
     const gamepads = navigator.getGamepads()
     for (let i = 0; i <= gamepads.length; i++) {
       const gamepad = gamepads[i]
-
       if (!gamepad || isInvalidGamepad(gamepad)) {
         continue
       }
 
-      const gamepadState: GamepadState = {
+      const gamepadState = {
         gamepad,
         prevGamepad: this.lastGamepad[i],
         index: i,
@@ -131,8 +132,8 @@ export class InputSystem {
         gamepadState,
       }
 
-      this.checkActionsBindings((b) => {
-        switch (b.type) {
+      this.checkActionsBindings((binding) => {
+        switch (binding.type) {
           case 'gamepad': {
             if (gamepad.id.includes('SpaceMouse')) {
               return [false, emptyCtx]
@@ -143,32 +144,40 @@ export class InputSystem {
             return [false, emptyCtx]
           }
           case 'gamepadAxis': {
-            const value = gamepad.axes[b.axis]
-            if (value !== this.lastGamepad[i].axes[b.axis]) {
+            const value = gamepad.axes[binding.axis]
+            if (value !== this.lastGamepad[i].axes[binding.axis]) {
               const axisCtx: Context = {
                 ...gamepadCtx,
                 type: 'gamepadAxis',
-                value: gamepad.axes[b.axis],
+                value: gamepad.axes[binding.axis],
               }
               return [true, axisCtx]
             }
             return [false, emptyCtx]
           }
-          case 'gamepadBtn': {
-            const btn = gamepad.buttons[b.button]
-            const lastBtn = this.lastGamepad[i]?.buttons[b.button]
-            const currentlyPressed = btn !== undefined && isPressed(btn)
-            const pressedLastUpdate =
-              lastBtn !== undefined && isPressed(lastBtn)
-
-            //TODO handle onBtnUp/onBtnDown press
-            // currently this returns true once when the button is pressed.
-            // There are no events for when the button is held down or when it is released.
-
+          case 'gamepadBtnDown': {
+            const [currentlyPressed, pressedLastUpdate] = this.buttonState(
+              binding,
+              gamepadState
+            )
             if (currentlyPressed && !pressedLastUpdate) {
-              const btnCtx: GamepadBtnContext = {
+              const btnCtx: GamepadBtnDownContext = {
                 ...gamepadCtx,
-                type: 'gamepadBtn',
+                type: 'gamepadBtnDown',
+              }
+              return [true, btnCtx]
+            }
+            return [false, emptyCtx]
+          }
+          case 'gamepadBtnUp': {
+            const [currentlyPressed, pressedLastUpdate] = this.buttonState(
+              binding,
+              gamepadState
+            )
+            if (!currentlyPressed && pressedLastUpdate) {
+              const btnCtx: GamepadBtnUpContext = {
+                ...gamepadCtx,
+                type: 'gamepadBtnUp',
               }
               return [true, btnCtx]
             }
@@ -184,7 +193,6 @@ export class InputSystem {
               }
               return [true, spacemouseCtx]
             }
-
             return [false, emptyCtx]
           }
         }
@@ -245,5 +253,16 @@ export class InputSystem {
   private onGamepadDisconnected = (e: GamepadEvent) => {
     const { id, ...rest } = e.gamepad
     log.info(id, 'disconnected', rest)
+  }
+
+  private buttonState = (
+    binding: GamepadButtonBinding,
+    gamepadState: GamepadState
+  ) => {
+    const btn = gamepadState.gamepad.buttons[binding.button]
+    const lastBtn = gamepadState.prevGamepad.buttons[binding.button]
+    const currentlyPressed = btn !== undefined && isPressed(btn)
+    const pressedLastUpdate = lastBtn !== undefined && isPressed(lastBtn)
+    return [currentlyPressed, pressedLastUpdate]
   }
 }

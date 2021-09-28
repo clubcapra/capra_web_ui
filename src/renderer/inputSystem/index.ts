@@ -31,6 +31,7 @@ const spaceMouseTopic: TopicOptions = {
 }
 
 let joySeqId = 0
+let turboEnabled = false
 
 const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
   const d = new Date()
@@ -61,7 +62,7 @@ const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
 }
 
 const deadzone = (value: number): number => {
-  const deadzone = 0.15
+  const deadzone = 0.02
   return value > deadzone || value < -deadzone ? value : 0
 }
 
@@ -72,9 +73,9 @@ const mapToTwist = (
   lt: number
 ): ITwistMsg => {
   const isReverse = selectReverse(store.getState())
-  let x = deadzone(horizontal)
+  let x = horizontal
   x = isReverse ? -x : x
-  let y = deadzone(vertical)
+  let y = vertical
   y = isReverse ? -y : y
 
   if (lt > 0.1) {
@@ -82,9 +83,15 @@ const mapToTwist = (
     return { linear: Vector3.zero(), angular: Vector3.zero() }
   }
 
+  const linearSensitivity = turboEnabled ? 1 : 10
+  const angularSensitivity = turboEnabled ? 1 : 2
+
+  const linearX = deadzone((y * rt) / linearSensitivity)
+  const angularZ = deadzone((x * rt) / angularSensitivity)
+
   return {
-    linear: new Vector3(y * rt, 0, 0),
-    angular: new Vector3(0, 0, x * rt),
+    linear: new Vector3(linearX, 0, 0),
+    angular: new Vector3(0, 0, angularZ),
   }
 }
 
@@ -97,7 +104,7 @@ const defaultActions: Action[] = [
     name: 'estop',
     bindings: [
       { type: 'keyboard', code: 'Space', onKeyDown: true },
-      { type: 'gamepadBtn', button: buttonMappings.XBOX },
+      { type: 'gamepadBtnDown', button: buttonMappings.XBOX },
     ],
     perform: (ctx) => {
       // TODO use redux to toggle the estop and the related UI elements
@@ -110,7 +117,7 @@ const defaultActions: Action[] = [
   },
   {
     name: 'toggleArmControl',
-    bindings: [{ type: 'gamepadBtn', button: buttonMappings.dpad.right }],
+    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.dpad.right }],
     perform: () => {
       controlService.send('TOGGLE')
     },
@@ -118,7 +125,7 @@ const defaultActions: Action[] = [
   {
     name: 'flipperFront',
     bindings: [
-      { type: 'gamepadBtn', button: buttonMappings.dpad.up },
+      { type: 'gamepadBtnDown', button: buttonMappings.dpad.up },
       // { type: 'keyboard', code: 'KeyI' },
     ],
     perform: () => {
@@ -128,7 +135,7 @@ const defaultActions: Action[] = [
   {
     name: 'flipperBack',
     bindings: [
-      { type: 'gamepadBtn', button: buttonMappings.dpad.down },
+      { type: 'gamepadBtnDown', button: buttonMappings.dpad.down },
       // { type: 'keyboard', code: 'KeyK' },
     ],
     perform: () => {
@@ -138,7 +145,7 @@ const defaultActions: Action[] = [
   {
     name: 'switchForwardDirection',
     bindings: [
-      { type: 'gamepadBtn', button: buttonMappings.back },
+      { type: 'gamepadBtnDown', button: buttonMappings.back },
       // { type: 'keyboard', code: 'KeyT', onKeyDown: true },
     ],
     perform: () => {
@@ -152,14 +159,14 @@ const defaultActions: Action[] = [
   },
   {
     name: 'headlights',
-    bindings: [{ type: 'gamepadBtn', button: buttonMappings.Y }],
+    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.Y }],
     perform: () => {
       rosClient.callService({ name: '/headlights' }).catch(log.error)
     },
   },
   {
     name: 'flipper_reset',
-    bindings: [{ type: 'gamepadBtn', button: buttonMappings.B }],
+    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.B }],
     perform: () => {
       rosClient.callService({ name: 'markhor/flipper_reset' }).catch(log.error)
     },
@@ -185,7 +192,6 @@ const defaultActions: Action[] = [
         getBtnValue(btns[buttonMappings.RT]),
         getBtnValue(btns[buttonMappings.LT])
       )
-
       rosClient.publish(cmdVelTopic, twist)
     },
   },
@@ -213,6 +219,20 @@ const defaultActions: Action[] = [
       }
       const joy = mapGamepadToJoy(ctx.gamepadState.gamepad)
       rosClient.publish(joyTopic, joy)
+    },
+  },
+  {
+    name: 'turbo_enable',
+    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.A }],
+    perform: () => {
+      turboEnabled = true
+    },
+  },
+  {
+    name: 'turbo_dsiable',
+    bindings: [{ type: 'gamepadBtnUp', button: buttonMappings.A }],
+    perform: () => {
+      turboEnabled = false
     },
   },
 ]
