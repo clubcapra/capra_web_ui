@@ -25,7 +25,10 @@ export const loadState = (): GlobalState => {
     }
     // TODO instead of versioning try to validate the data
     // if it fails validation simply return defaultState
-    return JSON.parse(serializedState) as GlobalState
+
+    const globalState = JSON.parse(serializedState) as GlobalState
+    globalState.input.reverse = false
+    return globalState
   } catch (err) {
     return defaultState
   }
