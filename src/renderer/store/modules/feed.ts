@@ -74,7 +74,7 @@ export interface IGraphFeed extends BaseFeed {
 }
 
 export interface IGraphData {
-  topic: TopicOptions
+  topic: TopicOptions<string>
   name: string
 }
 

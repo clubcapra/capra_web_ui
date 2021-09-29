@@ -9,10 +9,18 @@ import { rosService } from '@/renderer/state/ros'
  * The callback will be called everytime a topic receives new data
  *
  * This will automatically unsubscribe when the component is unmounted
+ *
+ * It is recommended to wrap the callback parameter in a useCallback hook
+ * otherwise it might subscribe and unsubscribe more than necessary.
+ *  ```js
+ *  useRosSubscribe(topic, useCallback((message) => {
+ *    console.log(message)
+ *  }, []))
+ *  ```
  */
-export function useRosSubscribe<R>(
-  topic: TopicOptions<R>,
-  callback: (message: { data: R }) => void
+export function useRosSubscribe<T>(
+  topic: TopicOptions<T>,
+  callback: (message: { data: T }) => void
 ): void {
   const [state] = useActor(rosService)
   useEffect(() => {
