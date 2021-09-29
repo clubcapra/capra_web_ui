@@ -1,5 +1,5 @@
 import { TextFeed } from '@/renderer/components/Feed/Feeds/TextFeed'
-import { styled } from '@/renderer/globalStyles/styled'
+import { styled, css } from '@/renderer/globalStyles/styled'
 import { rosService } from '@/renderer/state/ros'
 import { CameraType, ICameraFeed } from '@/renderer/store/modules/feed'
 import { selectVideoUrl } from '@/renderer/store/modules/ros'
@@ -24,24 +24,26 @@ const CameraGrid = styled.div`
 `
 type CameraProp = { flipped: boolean; rotated: boolean }
 
-const StyledVideo = styled.video<CameraProp>`
-  object-fit: cover;
-  max-width: 100%;
-  max-height: 100%;
+const autoScale = css`
   height: 100%;
+  width: 100%;
+  object-fit: contain;
   overflow: hidden;
+`
+
+const transform = css<CameraProp>`
   transform: ${({ flipped, rotated }) =>
     `${flipped ? 'scaleX(-1)' : ''} ${rotated ? 'rotate(180deg)' : ''}`};
 `
 
+const StyledVideo = styled.video<CameraProp>`
+  ${autoScale}
+  ${transform}
+`
+
 const StyledImg = styled.img<CameraProp>`
-  object-fit: cover;
-  max-width: 100%;
-  max-height: 100%;
-  height: 100%;
-  overflow: hidden;
-  transform: ${({ flipped, rotated }) =>
-    `${flipped ? 'scaleX(-1)' : ''} ${rotated ? 'rotate(180deg)' : ''}`};
+  ${autoScale}
+  ${transform}
 `
 
 const hasGetUserMedia = () => !!navigator?.mediaDevices?.getUserMedia
