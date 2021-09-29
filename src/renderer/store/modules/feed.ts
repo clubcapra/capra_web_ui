@@ -122,9 +122,9 @@ export const initialState: FeedState = {
     },
     video2: {
       type: FeedTypeEnum.Camera,
-      id: 'v',
+      id: 'video2',
       camera: {
-        name: 'v',
+        name: 'video2',
         type: CameraType.MJPEG,
         topic: '/markhor/video2/usb_cam/image_raw',
         flipped: true,
