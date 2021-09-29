@@ -85,11 +85,11 @@ const mapToTwist = (
     return { linear: Vector3.zero(), angular: Vector3.zero() }
   }
 
-  const linearSensitivity = turboEnabled ? 1 : 10
-  const angularSensitivity = turboEnabled ? 1 : 2
+  const linearSensitivity = turboEnabled ? 1 : 0.2
+  const angularSensitivity = turboEnabled ? 1 : 0.7
 
-  let linearX = deadzone(y * rt) / linearSensitivity
-  let angularZ = deadzone(x * rt) / angularSensitivity
+  let linearX = deadzone(y * rt) * linearSensitivity
+  let angularZ = deadzone(x * rt) * angularSensitivity
 
   if (dpadLeft > 0.0) {
     linearX = 0
