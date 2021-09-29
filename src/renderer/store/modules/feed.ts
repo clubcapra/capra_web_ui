@@ -61,6 +61,7 @@ export interface ICameraData {
   type: CameraType
   topic: string
   flipped: boolean
+  rotated: boolean
 }
 
 export interface IUrdfFeed extends BaseFeed {
@@ -108,6 +109,7 @@ export const initialState: FeedState = {
         type: CameraType.MJPEG,
         topic: '/markhor/video0/usb_cam/image_raw',
         flipped: true,
+        rotated: false,
       },
     },
     video1: {
@@ -118,6 +120,7 @@ export const initialState: FeedState = {
         type: CameraType.MJPEG,
         topic: '/markhor/video1/usb_cam/image_raw',
         flipped: true,
+        rotated: false,
       },
     },
     video2: {
@@ -128,6 +131,18 @@ export const initialState: FeedState = {
         type: CameraType.MJPEG,
         topic: '/markhor/video2/usb_cam/image_raw',
         flipped: true,
+        rotated: true,
+      },
+    },
+    video3: {
+      type: FeedTypeEnum.Camera,
+      id: 'video3',
+      camera: {
+        name: 'video3',
+        type: CameraType.MJPEG,
+        topic: '/markhor/video3/usb_cam/image_raw',
+        flipped: true,
+        rotated: false,
       },
     },
     front_cam: {
@@ -138,6 +153,7 @@ export const initialState: FeedState = {
         type: CameraType.MJPEG,
         topic: '/markhor/front/usb_cam/image_raw',
         flipped: true,
+        rotated: false,
       },
     },
     back_cam: {
@@ -148,6 +164,7 @@ export const initialState: FeedState = {
         type: CameraType.MJPEG,
         topic: '/markhor/back/usb_cam/image_raw',
         flipped: true,
+        rotated: false,
       },
     },
     arm_cam: {
@@ -158,6 +175,7 @@ export const initialState: FeedState = {
         type: CameraType.MJPEG,
         topic: '/markhor/arm/usb_cam/image_raw',
         flipped: true,
+        rotated: false,
       },
     },
     tpv_cam: {
@@ -168,6 +186,7 @@ export const initialState: FeedState = {
         type: CameraType.MJPEG,
         topic: '/markhor/tpv/usb_cam/image_raw',
         flipped: true,
+        rotated: false,
       },
     },
     webcam: {
@@ -178,6 +197,7 @@ export const initialState: FeedState = {
         type: CameraType.WEBCAM,
         topic: '',
         flipped: false,
+        rotated: false,
       },
     },
     urdf_viewer: {

@@ -35,16 +35,22 @@ const TableRow: FC<{
   return (
     <tr>
       <td>
-        <Input value={name} onChange={(e) => updateNameId(e.target.value)} />
+        <Input
+          type="text"
+          value={name}
+          onChange={(e) => updateNameId(e.target.value)}
+        />
       </td>
       <td>
         <Input
+          type="text"
           value={topicName}
           onChange={(e) => updateTopicId('name', e.target.value)}
         />
       </td>
       <td>
         <Input
+          type="text"
           value={messageType}
           onChange={(e) => updateTopicId('messageType', e.target.value)}
         />

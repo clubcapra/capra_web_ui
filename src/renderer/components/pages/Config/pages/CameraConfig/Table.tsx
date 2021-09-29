@@ -14,7 +14,7 @@ import { selectVideoUrl } from '@/renderer/store/modules/ros'
 import { useSelector } from '@/renderer/hooks/typedUseSelector'
 import { useOpenClose } from '@/renderer/hooks/useOpenClose'
 import React, { FC, useCallback } from 'react'
-import { FaTimes } from 'react-icons/fa'
+import { CgTrash } from 'react-icons/cg'
 import { useDispatch } from 'react-redux'
 import { useKeyPress } from '@/renderer/hooks/useKeyPress'
 
@@ -22,13 +22,13 @@ interface TableRowProps {
   feed: ICameraFeed
   updateCamera: (
     id: string
-  ) => (field: keyof ICameraData, value: string) => void
+  ) => (field: keyof ICameraData, value: string | boolean) => void
 }
 
 const TableRow: FC<TableRowProps> = ({ feed, updateCamera }) => {
   const {
     id,
-    camera: { name, topic, type },
+    camera: { name, topic, type, flipped, rotated },
   } = feed
 
   const dispatch = useDispatch()
@@ -47,12 +47,14 @@ const TableRow: FC<TableRowProps> = ({ feed, updateCamera }) => {
     <tr>
       <td>
         <Input
+          type="text"
           value={name}
           onChange={(e) => updateCameraId('name', e.target.value)}
         />
       </td>
       <td>
         <Input
+          type="text"
           value={topic}
           onChange={(e) => updateCameraId('topic', e.target.value)}
         />
@@ -78,8 +80,22 @@ const TableRow: FC<TableRowProps> = ({ feed, updateCamera }) => {
         </Modal>
       </td>
       <td>
+        <Input
+          type="checkbox"
+          value={flipped}
+          onChange={(e) => updateCameraId('flipped', e.target.checked)}
+        />
+      </td>
+      <td>
+        <Input
+          type="checkbox"
+          value={rotated}
+          onChange={(e) => updateCameraId('rotated', e.target.checked)}
+        />
+      </td>
+      <td>
         <div onClick={removeCamera}>
-          <FaTimes />
+          <CgTrash color="red" />
         </div>
       </td>
     </tr>
@@ -92,7 +108,7 @@ export const Table: FC = () => {
 
   const updateCamera = useCallback(
     (id: string) =>
-      (field: keyof ICameraData, value: string): void => {
+      (field: keyof ICameraData, value: string | boolean): void => {
         const feed = allCameras.find((f) => f.id === id)
 
         if (!feed) {
@@ -103,11 +119,15 @@ export const Table: FC = () => {
         switch (field) {
           case 'name':
           case 'topic':
-            newCam[field] = value
+            newCam[field] = value as string
             break
           case 'type':
             newCam[field] =
               CameraType[value as keyof typeof CameraType] || value
+            break
+          case 'flipped':
+          case 'rotated':
+            newCam[field] = value as boolean
             break
         }
 
@@ -124,6 +144,8 @@ export const Table: FC = () => {
           <th>Topic</th>
           <th>Type</th>
           <th>Snapshot</th>
+          <th title="Flips the image horizontally (mirror)">Flipped</th>
+          <th title="Rotated the image by 180 degrees">Rotated</th>
           <th />
         </tr>
       </thead>

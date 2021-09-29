@@ -40,6 +40,7 @@ const AddCamera = () => {
         topic: '',
         type: CameraType.MJPEG,
         flipped: true, // TODO add UI toggle for this
+        rotated: false,
       })
     )
 

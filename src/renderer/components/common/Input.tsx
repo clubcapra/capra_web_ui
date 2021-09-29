@@ -18,12 +18,48 @@ const StyledInput = styled.input`
   }
 `
 
-interface Props {
-  type?: 'text' | 'number' | 'password'
-  value: string
+interface InputOnChange {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
-export const Input: FC<Props> = ({ type, value, onChange }) => {
-  return <StyledInput type={type || 'text'} value={value} onChange={onChange} />
+interface Text extends InputOnChange {
+  type: 'text'
+  value: string
+}
+
+interface Password extends InputOnChange {
+  type: 'password'
+  value: string
+}
+
+interface NumberInput extends InputOnChange {
+  type: 'number'
+  value: string | number
+}
+
+interface Checkbox extends InputOnChange {
+  type: 'checkbox'
+  value: boolean
+}
+
+type InputPropsType = Checkbox | Text | Password | NumberInput
+
+export const Input: FC<InputPropsType> = (props) => {
+  if (props.type === 'checkbox') {
+    return (
+      <StyledInput
+        type={props.type}
+        checked={props.value}
+        onChange={props.onChange}
+      />
+    )
+  } else {
+    return (
+      <StyledInput
+        type={props.type}
+        value={props.value}
+        onChange={props.onChange}
+      />
+    )
+  }
 }
