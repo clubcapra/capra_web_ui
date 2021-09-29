@@ -41,7 +41,7 @@ const StyledImg = styled.img<CameraProp>`
   height: 100%;
   overflow: hidden;
   transform: ${({ flipped, rotated }) =>
-    `${flipped ? 'scaleX(-1)' : ''} ${rotated ? 'rotated(180deg)' : ''}`};
+    `${flipped ? 'scaleX(-1)' : ''} ${rotated ? 'rotate(180deg)' : ''}`};
 `
 
 const hasGetUserMedia = () => !!navigator?.mediaDevices?.getUserMedia
