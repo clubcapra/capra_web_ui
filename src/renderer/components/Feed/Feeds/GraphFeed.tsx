@@ -10,7 +10,7 @@ import {
   TimeScale,
 } from 'chart.js'
 import 'chartjs-adapter-date-fns'
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 import { log } from '@/renderer/logger'
 import { styled } from '@/renderer/globalStyles/styled'
 
@@ -73,24 +73,15 @@ function initChart(canvas: any) {
 export const GraphFeed: FC<Props> = ({ feed }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [chart, setChart] = useState<Chart | null>(null)
-  // const [chartData, setChartData] = useState<Chart | null>(null)
-
-  // const initChartRef = useCallback(() => {
-  //   if (canvasRef.current) {
-  //     setChartData(initChart(canvasRef.current))
-  //   }
-  // }, [canvasRef])
-
-  // useEffect(() => {
-  //   initChartRef()
-  // }, [initChartRef])
 
   useEffect(() => {
+    // console.log('on mount')
     if (canvasRef.current) {
-      setChart(initChart(canvasRef.current))
+      const chartInstance = initChart(canvasRef.current)
+      setChart(chartInstance)
     }
     return () => {
-      console.log('removing chart', chart)
+      // console.log('removing chart', chart)
       if (chart) {
         chart.destroy()
         setChart(null)
@@ -99,28 +90,18 @@ export const GraphFeed: FC<Props> = ({ feed }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const updateChart = (data: any) => {
-    console.log('updating chart', chart)
     if (chart) {
+      // console.log('updating chart', data)
       chart.data.datasets[0].data.push(data)
       chart.update()
     }
   }
-  // const updateChartRef = useCallback(
-  //   (data) => {
-  //     if (chartData) {
-  //       chartData.data?.datasets[0].data.push(data)
-  //       chartData.update()
-  //     }
-  //   },
-  //   [chartData]
-  // )
 
   useRosSubscribe(feed.graph.topic, (message) => {
-    console.log(message)
     if (typeof message.data === 'string') {
       updateChart({ x: Date.now(), y: parseInt(message.data, 10) })
-      // updateChartRef({ x: Date.now(), y: parseInt(message.data, 10) })
     } else {
       if (process.env.NODE_ENV === 'development') {
         log.warn(

@@ -24,6 +24,10 @@ class TopicManager {
     const topic = this.registeredTopics.get(signature)
 
     if (topic) {
+      log.info(
+        'RosClient: topic already registered, adding new handler',
+        topic.options.name
+      )
       topic.handlers.push(handler)
       return
     }
@@ -35,6 +39,8 @@ class TopicManager {
 
   unsubscribe(options: TopicOptions) {
     this.getTopic(options).unsubscribe()
+    const signature = getTopicSignature(options)
+    this.registeredTopics.delete(signature)
   }
 
   publish({ name, messageType }: TopicOptions, payload: unknown) {
