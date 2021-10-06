@@ -12,6 +12,11 @@ This is a UI application for manually controlling ROS-based robots in real-time.
     - [Audio](#audio)
   - [Global state - redux and xstate](#global-state---redux-and-xstate)
   - [Release](#release)
+  - [Usage Guide](#usage-guide)
+    - [Reverse mode](#reverse-mode)
+    - [Connecting](#connecting)
+    - [Config](#config)
+    - [Logging](#logging)
 
 ## Installation
 
@@ -82,7 +87,7 @@ roslaunch rosbridge_server rosbridge_websocket.launch
 
 ### Audio
 
-Currently, the audio IO is handled by the [capra_audio](https://github.com/clubcapra/capra_audio_common) node. The UI will simply launch the node as a child process. This only works on linux. Windows support should work with wsl but is not currently implemented.
+Currently, the audio IO is handled by the [capra_audio](https://github.com/clubcapra/capra_audio_common) node. The UI will simply launch the node as a child process. This only works on linux. Windows support should work with wsl but is not currently implemented. For audio to work, you also need to make sure that the capra_audio launch files are sourced in the terminal you are using to launch the UI.
 
 ## Global state - redux and xstate
 
@@ -93,3 +98,31 @@ For global state handle we use a mix of redux and xstate. While it's technically
 To create a new release, simply use `npm version [major | minor | patch]`. This will bump the version and create a git tag. You can then push the new commit and github actions will take care of everythin else. You can use `git push --follow-tags` to push the tags to github.
 
 Just make sure to make the github release public once it's done.
+
+## Usage Guide
+
+### Reverse mode
+
+Our markhor robot doesn't have a reverse mode. Instead we simply flip the input sent from the UI to the robot. To activate this revers mode, you can either press the back button of the gamepad or click the button identified either FORWARD or REVERSE to toggle the front direction. When changing the front direction it will also automatically update which camera is focused in the center of the screen. Essentially it will toggle between the camera at the bottom left and the one in the center. It is therefore recommended to configure those cameras with directly front facing and back facing view angles.
+
+### Connecting
+
+To connect to a robot, if you know that the IP is already configured properly, you click on the Disconnected button in the statusbar and it will immediately try to connect. Otherwise, go to the config tab, specify an appropriate IP address and press the connect button.
+
+### Config
+
+All configurations can be found in the config tab. It is separated in multiple sections.
+
+- General: Contains any general purpose configs
+- Camera: Configurations related to cameras. In this page you can add as many camera as you have. You can also modify things like the type of camera or the orientation. Every camera added here will be available in the dropdown of each feed.
+- Graph: This page is very similar to the camera page, but instead it's to add topics that constantly publish data to be shown in a graph. Like for the cameras, each graph added will be available in any feed.
+- Gamepad: Right now this only shows the current mapping of the gamepad. Eventually it will be possible to modify the bindings directly.
+
+### Logging
+
+Since the UI is built on top of electron, there's a sandbox between the web part of the app and the node part of the app. The logs from both parts are configured to log to a file that changes daily.
+
+Logs are written to the following locations:
+
+- Linux: `~/.config/capra_web_ui/logs/{DATE}/{process type}.log`
+- Windows: `%USERPROFILE%\AppData\Roaming\capra_web_ui\logs\{DATE}\{process type}.log`
