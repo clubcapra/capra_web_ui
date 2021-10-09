@@ -134,6 +134,37 @@ const DetectedGamepad = () => {
   )
 }
 
+const ToggleDebug = () => {
+  const toggleDebugTab = (): void => {
+    const debugTab = document.getElementById('Debug')
+
+    if (debugTab != null) {
+      if (debugTab.getAttribute('style')?.includes('none')) {
+        debugTab.setAttribute('style', 'display: grid')
+      } else {
+        debugTab.setAttribute('style', 'display:none')
+      }
+    }
+  }
+
+  return (
+    <>
+      <SectionTitle>Toggle tabs</SectionTitle>
+      <p>Debug</p>
+      {document
+        .getElementById('Debug')
+        ?.getAttribute('style')
+        ?.includes('none') ? (
+        <div>
+          <input type="checkbox" onChange={toggleDebugTab} />
+        </div>
+      ) : (
+        <input type="checkbox" onChange={toggleDebugTab} checked />
+      )}
+    </>
+  )
+}
+
 export const GeneralConfig: FC = () => (
   <>
     <Button onClick={clearStoreCache}>Clear cache</Button>
@@ -141,5 +172,6 @@ export const GeneralConfig: FC = () => (
     <NamespaceSection />
     <UrdfDescriptionSection />
     <DetectedGamepad />
+    <ToggleDebug />
   </>
 )

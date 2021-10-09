@@ -31,7 +31,17 @@ export const Header: FC = () => {
     <HeaderGrid>
       <LeftHeader navlinks={navLinks}>
         {navLinks.map(({ to, label }) => (
-          <StyledNavLink key={to} to={to} activeClassName="is-active">
+          <StyledNavLink
+            key={to}
+            to={to}
+            activeClassName="is-active"
+            id={label}
+            style={
+              label.includes('Debug')
+                ? { display: 'none' }
+                : { display: 'grid' }
+            }
+          >
             {label}
           </StyledNavLink>
         ))}
