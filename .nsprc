@@ -1,22 +1,14 @@
 {
-  "1609": {
-    "active": true,
-    "notes": "Caused by ros3d"
+  "1002401": {
+    "expiry": "2021-11-11",
+    "notes": "Caused by  @types/jest, eslint, electron-builder and snowpack."
   },
-  "1639": {
-    "active": true,
-    "notes": "Caused by ros3d"
+  "1002531": "Caused by roslib",
+  "1002615": {
+    "expiry": "2021-11-11",
+    "notes": "Caused by snowpack, jest and roslib. jest and snowpack might be able to fix this soon. We will completely ignore it once roslib is the only issue"
   },
-  "1650": {
-    "active": true,
-    "notes": "Caused by ros3d"
-  },
-  "1748": {
-    "active": true,
-    "notes": "Caused by ros3d"
-  },
-  "1769": {
-    "active": true,
-    "notes": "Caused by ros3d"
-  }
+  "1002923": "Caused by ros3d",
+  "1002943": "Caused by ros3d",
+  "1002974": "Caused by roslib"
 }
