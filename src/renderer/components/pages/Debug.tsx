@@ -1,13 +1,11 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useCallback, useEffect, useState } from 'react'
 import { styled } from '@/renderer/globalStyles/styled'
 import { SectionTitle } from '@/renderer/components/pages/Config/styles'
 import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
-import { useActor } from '@xstate/react'
-import { rosService } from '@/renderer/state/ros'
 import { rosClient } from '@/renderer/utils/ros/rosClient'
 import { ChangeEvent } from 'react'
 import { Select } from '@/renderer/components/common/Select'
-import { Button } from '../common/Button'
+import { useRosSubscribeNoData } from '@/renderer/hooks/useRosSubscribe'
 
 // Number of lines
 const maxLine = 200
@@ -39,33 +37,44 @@ const initialLine: Line = {
   level: Severity.ALL,
 }
 
-const DebugConsoleSection: FC = () => {
-  const [newMessage, setMessage] = useState(initialLine)
-  const [debugConsole, setConsole] = useState(Array<Line>())
-  const [allLines, setLines] = useState(Array<Line>())
-  const [topics, setTopics] = useState(Array<string>(nofilter))
-  const [selectedTopic, setSelectedTopic] = useState(nofilter)
-  const [selectedSeverity, setSelectedSeverity] = useState(Severity.ALL)
-  const [errorTopics, setErrorTopics] = useState(Array<string>())
+const SaveText: FC<{ text: Array<Line> }> = ({ text }) => {
+  const lines = new Array<string>()
+  text.map((line) => {
+    lines.push(line.msg)
+  })
+  const data = new Blob([lines.join('\n')], { type: 'text/plain' })
 
-  const [state] = useActor(rosService)
+  const downloadLink = URL.createObjectURL(data)
+  const fileName = 'log-' + new Date().toUTCString() + '.txt'
+  return (
+    <a href={downloadLink} download={fileName}>
+      Save as text
+    </a>
+  )
+}
 
-  // Save as text
-  const saveAsText = () => {
-    const lines = new Array<string>()
-    allLines.map((line) => {
-      lines.push(line.msg)
-    })
-    const data = new Blob([lines.join('\n')], { type: 'text/plain' })
-    const downloadLink = URL.createObjectURL(data)
+// Actions Area (Left).
+interface ActionsAreaProps {
+  topics: Array<string>
+  selectedTopic: string
+  setSelectedTopic: (topic: string) => void
+  selectedSeverity: number
+  setSelectedSeverity: (severity: number) => void
+  allLines: Array<Line>
+  setConsole: (debugConsole: Array<Line>) => void
+  errorTopics: Array<string>
+}
 
-    const element = document.createElement('a')
-    element.href = downloadLink
-    element.download = 'log-' + new Date(Date.now()).toUTCString() + '.txt'
-
-    element.click()
-  }
-
+const ActionsArea: FC<ActionsAreaProps> = ({
+  topics,
+  selectedTopic,
+  setSelectedTopic,
+  selectedSeverity,
+  setSelectedSeverity,
+  allLines,
+  setConsole,
+  errorTopics,
+}) => {
   // Filter
   const filterByTopic = (e: ChangeEvent<HTMLSelectElement>) => {
     const topic = topics[e.target.selectedIndex]
@@ -97,18 +106,79 @@ const DebugConsoleSection: FC = () => {
     setConsole(filteredLines)
   }
 
-  // Rosout subscription.
-  useEffect(() => {
-    if (state.matches('connected')) {
-      rosClient.subscribe(topic, (message) => {
-        setMessage(message)
-      })
-    }
+  return (
+    <ActionsWrapper>
+      Filter by topic :
+      <Select
+        onChange={filterByTopic}
+        value={selectedTopic}
+        options={topics.map((topic) => ({
+          key: topic.toString(),
+          value: topic.toString(),
+        }))}
+      />
+      <br />
+      Filter by severity :
+      <Select
+        onChange={filterBySeverity}
+        value={Severity[selectedSeverity]}
+        options={Object.keys(Severity)
+          .filter((k) => typeof Severity[k as never] === 'number')
+          .map((severity) => ({
+            key: severity,
+            value: severity.toString(),
+          }))}
+      />
+      <br />
+      <SaveText text={allLines} />
+      <br />
+      <br />
+      Topics that emitted an error :
+      {errorTopics.map((topic) => {
+        return <p key={topic}> {topic} </p>
+      })}
+    </ActionsWrapper>
+  )
+}
 
-    return () => {
-      rosClient.unsubscribe(topic)
-    }
-  }, [topic])
+// Console Area (Rigth).
+interface ConsoleAreaProps {
+  debugConsole: Array<Line>
+}
+const ConsoleArea: FC<ConsoleAreaProps> = ({ debugConsole }) => {
+  return (
+    <ConsoleWrapper>
+      <SectionTitle>Console</SectionTitle>
+      <DarkContainer>
+        {debugConsole.map((line) => {
+          return <p key={line.msg}> {line.msg}</p>
+        })}
+      </DarkContainer>
+    </ConsoleWrapper>
+  )
+}
+
+// Debug Tab.
+const DebugConsoleSection: FC = () => {
+  const [newMessage, setMessage] = useState(initialLine)
+  const [debugConsole, setConsole] = useState(Array<Line>())
+  const [allLines, setLines] = useState(Array<Line>())
+  const [topics, setTopics] = useState(Array<string>(nofilter))
+  const [selectedTopic, setSelectedTopic] = useState(nofilter)
+  const [selectedSeverity, setSelectedSeverity] = useState(Severity.ALL)
+  const [errorTopics, setErrorTopics] = useState(Array<string>())
+
+  // Rosout subscription.
+  useRosSubscribeNoData(
+    topic,
+    useCallback((message) => {
+      setMessage(message)
+
+      return () => {
+        rosClient.unsubscribe(topic)
+      }
+    }, [])
+  )
 
   // New message received.
   useEffect(() => {
@@ -159,49 +229,23 @@ const DebugConsoleSection: FC = () => {
     setTopics(topicList)
     setErrorTopics(errorList)
     setConsole(filteredLines)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newMessage])
 
   return (
     <>
-      <ActionsArea>
-        Filter by topic :
-        <Select
-          onChange={filterByTopic}
-          value={selectedTopic}
-          options={topics.map((topic) => ({
-            key: topic.toString(),
-            value: topic.toString(),
-          }))}
-        />
-        <br />
-        Filter by severity :
-        <Select
-          onChange={filterBySeverity}
-          value={Severity[selectedSeverity]}
-          options={Object.keys(Severity)
-            .filter((k) => typeof Severity[k as never] === 'number')
-            .map((severity) => ({
-              key: severity,
-              value: severity.toString(),
-            }))}
-        />
-        <br />
-        <Button onClick={saveAsText}>Save as text</Button>
-        <br />
-        Topics that emitted an error :
-        {errorTopics.map((topic) => {
-          return <p key={topic}> {topic} </p>
-        })}
-      </ActionsArea>
+      <ActionsArea
+        topics={topics}
+        selectedTopic={selectedTopic}
+        setSelectedTopic={setSelectedTopic}
+        selectedSeverity={selectedSeverity}
+        setSelectedSeverity={setSelectedSeverity}
+        allLines={allLines}
+        setConsole={setConsole}
+        errorTopics={errorTopics}
+      />
 
-      <ConsoleArea>
-        <SectionTitle>Console</SectionTitle>
-        <DarkContainer>
-          {debugConsole.map((line) => {
-            return <p key={line.msg}> {line.msg}</p>
-          })}
-        </DarkContainer>
-      </ConsoleArea>
+      <ConsoleArea debugConsole={debugConsole} />
     </>
   )
 }
@@ -220,7 +264,7 @@ const DebugConfigWrapper = styled.div`
   max-height: 100%;
 `
 
-const ActionsArea = styled.div`
+const ActionsWrapper = styled.div`
   grid-area: m;
   background-color: ${({ theme }) => theme.colors.darkerBackground}
   margin: 0;
@@ -228,7 +272,7 @@ const ActionsArea = styled.div`
   padding: 2%;
 `
 
-const ConsoleArea = styled.div`
+const ConsoleWrapper = styled.div`
   grid-area: r;
   padding: 1%;
   overflow: auto;

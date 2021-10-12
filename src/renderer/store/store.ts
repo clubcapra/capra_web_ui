@@ -6,6 +6,7 @@ import {
 import { feedSlice } from '@/renderer/store/modules/feed'
 import { inputSlice } from '@/renderer/store/modules/input'
 import { rosSlice } from '@/renderer/store/modules/ros'
+import { debugTabSlice } from '@/renderer/store/modules/debugTab'
 import { configureStore, AnyAction, combineReducers } from '@reduxjs/toolkit'
 import { throttle } from 'lodash'
 
@@ -13,6 +14,7 @@ const appReducer = combineReducers({
   feed: feedSlice.reducer,
   ros: rosSlice.reducer,
   input: inputSlice.reducer,
+  debugTab: debugTabSlice.reducer,
 })
 
 export type GlobalState = ReturnType<typeof appReducer>

@@ -1,6 +1,8 @@
 import React, { FC } from 'react'
 import { styled } from '@/renderer/globalStyles/styled'
 import { NavLink } from 'react-router-dom'
+import { selectVisible } from '@/renderer/store/modules/debugTab'
+import { useSelector } from 'react-redux'
 
 interface NavLinkDefinition {
   to: string
@@ -27,24 +29,23 @@ const navLinks: NavLinkDefinition[] = [
 ]
 
 export const Header: FC = () => {
+  const visible = useSelector(selectVisible)
+
   return (
     <HeaderGrid>
       <LeftHeader navlinks={navLinks}>
-        {navLinks.map(({ to, label }) => (
-          <StyledNavLink
-            key={to}
-            to={to}
-            activeClassName="is-active"
-            id={label}
-            style={
-              label.includes('Debug')
-                ? { display: 'none' }
-                : { display: 'grid' }
-            }
-          >
-            {label}
-          </StyledNavLink>
-        ))}
+        {navLinks.map(({ to, label }) =>
+          label == 'Debug' && !visible ? null : (
+            <StyledNavLink
+              key={to}
+              to={to}
+              activeClassName="is-active"
+              id={label}
+            >
+              {label}
+            </StyledNavLink>
+          )
+        )}
       </LeftHeader>
       <RightHeader>
         <StyledLogo src="assets/images/logo.png" />

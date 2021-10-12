@@ -30,3 +30,16 @@ export function useRosSubscribe<T>(
     }
   }, [topic, state, callback])
 }
+
+export function useRosSubscribeNoData<T>(
+  topic: TopicOptions<T>,
+  callback: (message: T) => void
+): void {
+  const [state] = useActor(rosService)
+  useEffect(() => {
+    if (state.matches('connected')) {
+      rosClient.subscribeNoData(topic, callback)
+      return () => rosClient.unsubscribe(topic)
+    }
+  }, [topic, state, callback])
+}
