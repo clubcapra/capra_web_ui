@@ -2,14 +2,11 @@ import React, { FC, useCallback, useEffect, useState } from 'react'
 import { styled } from '@/renderer/globalStyles/styled'
 import { SectionTitle } from '@/renderer/components/pages/Config/styles'
 import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
-import { rosClient } from '@/renderer/utils/ros/rosClient'
 import { ChangeEvent } from 'react'
 import { Select } from '@/renderer/components/common/Select'
 import { useRosSubscribeNoData } from '@/renderer/hooks/useRosSubscribe'
 
-// Number of lines
 const maxLine = 200
-// Topic subscribed to
 const topic: TopicOptions<Line> = {
   name: '/rosout',
   messageType: 'rosgraph_msgs/Log',
@@ -45,7 +42,7 @@ const SaveText: FC<{ text: Array<Line> }> = ({ text }) => {
   const data = new Blob([lines.join('\n')], { type: 'text/plain' })
 
   const downloadLink = URL.createObjectURL(data)
-  const fileName = 'log-' + new Date().toUTCString() + '.txt'
+  const fileName = `log-${new Date().toUTCString()}.txt`
   return (
     <a href={downloadLink} download={fileName}>
       Save as text
@@ -53,7 +50,6 @@ const SaveText: FC<{ text: Array<Line> }> = ({ text }) => {
   )
 }
 
-// Actions Area (Left).
 interface ActionsAreaProps {
   topics: Array<string>
   selectedTopic: string
@@ -75,7 +71,6 @@ const ActionsArea: FC<ActionsAreaProps> = ({
   setConsole,
   errorTopics,
 }) => {
-  // Filter
   const filterByTopic = (e: ChangeEvent<HTMLSelectElement>) => {
     const topic = topics[e.target.selectedIndex]
     setSelectedTopic(topic)
@@ -141,7 +136,6 @@ const ActionsArea: FC<ActionsAreaProps> = ({
   )
 }
 
-// Console Area (Rigth).
 interface ConsoleAreaProps {
   debugConsole: Array<Line>
 }
@@ -155,98 +149,6 @@ const ConsoleArea: FC<ConsoleAreaProps> = ({ debugConsole }) => {
         })}
       </DarkContainer>
     </ConsoleWrapper>
-  )
-}
-
-// Debug Tab.
-const DebugConsoleSection: FC = () => {
-  const [newMessage, setMessage] = useState(initialLine)
-  const [debugConsole, setConsole] = useState(Array<Line>())
-  const [allLines, setLines] = useState(Array<Line>())
-  const [topics, setTopics] = useState(Array<string>(nofilter))
-  const [selectedTopic, setSelectedTopic] = useState(nofilter)
-  const [selectedSeverity, setSelectedSeverity] = useState(Severity.ALL)
-  const [errorTopics, setErrorTopics] = useState(Array<string>())
-
-  // Rosout subscription.
-  useRosSubscribeNoData(
-    topic,
-    useCallback((message) => {
-      setMessage(message)
-
-      return () => {
-        rosClient.unsubscribe(topic)
-      }
-    }, [])
-  )
-
-  // New message received.
-  useEffect(() => {
-    const lines = [...allLines]
-    const filteredLines = [...debugConsole]
-    const topicList = [...topics]
-    const errorList = [...errorTopics]
-    const message = newMessage
-
-    message.topics.map((topic) => {
-      // Populate topic dropdown.
-      if (!topicList.includes(topic)) {
-        topicList.push(topic)
-      }
-
-      // Populate error topic list.
-      if (
-        (message.level == Severity.ERROR || message.level == Severity.FATAL) &&
-        !errorList.includes(topic)
-      ) {
-        errorList.push(topic)
-      }
-    })
-
-    // Filter lines.
-    const line: Line = {
-      msg: message.msg,
-      topics: message.topics,
-      level: message.level,
-    }
-    lines.push(line)
-    if (
-      (message.topics.includes(selectedTopic) || selectedTopic == nofilter) &&
-      (message.level == selectedSeverity || selectedSeverity == Severity.ALL)
-    ) {
-      filteredLines.push(line)
-    }
-
-    // Console shows only 200 lines.
-    if (lines.length > maxLine) {
-      lines.splice(0, lines.length - maxLine)
-    }
-    if (filteredLines.length > maxLine) {
-      filteredLines.splice(0, lines.length - maxLine)
-    }
-
-    setLines(lines)
-    setTopics(topicList)
-    setErrorTopics(errorList)
-    setConsole(filteredLines)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newMessage])
-
-  return (
-    <>
-      <ActionsArea
-        topics={topics}
-        selectedTopic={selectedTopic}
-        setSelectedTopic={setSelectedTopic}
-        selectedSeverity={selectedSeverity}
-        setSelectedSeverity={setSelectedSeverity}
-        allLines={allLines}
-        setConsole={setConsole}
-        errorTopics={errorTopics}
-      />
-
-      <ConsoleArea debugConsole={debugConsole} />
-    </>
   )
 }
 
@@ -279,9 +181,83 @@ const ConsoleWrapper = styled.div`
 `
 
 export const Debug: FC = () => {
+  const [newMessage, setMessage] = useState(initialLine)
+  const [debugConsole, setConsole] = useState(Array<Line>())
+  const [allLines, setLines] = useState(Array<Line>())
+  const [topics, setTopics] = useState(Array<string>(nofilter))
+  const [selectedTopic, setSelectedTopic] = useState(nofilter)
+  const [selectedSeverity, setSelectedSeverity] = useState(Severity.ALL)
+  const [errorTopics, setErrorTopics] = useState(Array<string>())
+
+  useRosSubscribeNoData(
+    topic,
+    useCallback((message) => {
+      setMessage(message)
+    }, [])
+  )
+
+  // New message received.
+  useEffect(() => {
+    const lines = [...allLines]
+    const filteredLines = [...debugConsole]
+    const topicList = [...topics]
+    const errorList = [...errorTopics]
+    const message = newMessage
+
+    message.topics.map((topic) => {
+      if (!topicList.includes(topic)) {
+        topicList.push(topic)
+      }
+
+      if (
+        (message.level == Severity.ERROR || message.level == Severity.FATAL) &&
+        !errorList.includes(topic)
+      ) {
+        errorList.push(topic)
+      }
+    })
+
+    const line: Line = {
+      msg: message.msg,
+      topics: message.topics,
+      level: message.level,
+    }
+    lines.push(line)
+    if (
+      (message.topics.includes(selectedTopic) || selectedTopic == nofilter) &&
+      (message.level == selectedSeverity || selectedSeverity == Severity.ALL)
+    ) {
+      filteredLines.push(line)
+    }
+
+    if (lines.length > maxLine) {
+      lines.splice(0, lines.length - maxLine)
+    }
+    if (filteredLines.length > maxLine) {
+      filteredLines.splice(0, lines.length - maxLine)
+    }
+
+    setLines(lines)
+    setTopics(topicList)
+    setErrorTopics(errorList)
+    setConsole(filteredLines)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newMessage])
+
   return (
     <DebugConfigWrapper>
-      <DebugConsoleSection />
+      <ActionsArea
+        topics={topics}
+        selectedTopic={selectedTopic}
+        setSelectedTopic={setSelectedTopic}
+        selectedSeverity={selectedSeverity}
+        setSelectedSeverity={setSelectedSeverity}
+        allLines={allLines}
+        setConsole={setConsole}
+        errorTopics={errorTopics}
+      />
+
+      <ConsoleArea debugConsole={debugConsole} />
     </DebugConfigWrapper>
   )
 }

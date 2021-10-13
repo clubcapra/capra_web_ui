@@ -16,28 +16,7 @@ class TopicManager {
     this.client = client
   }
 
-  subscribe<T>(
-    options: TopicOptions<T>,
-    handler: (message: { data: T }) => void
-  ) {
-    const signature = getTopicSignature(options)
-    const topic = this.registeredTopics.get(signature)
-
-    if (topic) {
-      log.info(
-        'RosClient: topic already registered, adding new handler',
-        topic.options.name
-      )
-      topic.handlers.push(handler)
-      return
-    }
-
-    this.registeredTopics.set(signature, new RegisteredTopic(options, handler))
-
-    this.listen(options)
-  }
-
-  subscribeNoData<T>(options: TopicOptions<T>, handler: (message: T) => void) {
+  subscribe<T>(options: TopicOptions<T>, handler: (message: T) => void) {
     const signature = getTopicSignature(options)
     const topic = this.registeredTopics.get(signature)
 

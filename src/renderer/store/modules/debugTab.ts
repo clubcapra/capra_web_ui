@@ -19,5 +19,5 @@ export const debugTabSlice = createSlice({
   },
 })
 
-export const selectVisible = (state: GlobalState): boolean =>
+export const selectDebugTabVisible = (state: GlobalState): boolean =>
   state.debugTab.visible

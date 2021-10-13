@@ -6,7 +6,10 @@ import { useActor } from '@xstate/react'
 import { rosService } from '@/renderer/state/ros'
 import { clearStoreCache } from '@/renderer/store/localStorage'
 import { useDispatch } from 'react-redux'
-import { debugTabSlice, selectVisible } from '@/renderer/store/modules/debugTab'
+import {
+  debugTabSlice,
+  selectDebugTabVisible,
+} from '@/renderer/store/modules/debugTab'
 import {
   rosSlice,
   selectBaseLinkName,
@@ -136,7 +139,7 @@ const DetectedGamepad = () => {
 }
 
 const ToggleDebug = () => {
-  const visible = useSelector(selectVisible)
+  const visible = useSelector(selectDebugTabVisible)
   const dispatch = useDispatch()
   const toggleDebugTab = (): void => {
     dispatch(debugTabSlice.actions.toggleVisible())
@@ -146,13 +149,7 @@ const ToggleDebug = () => {
     <>
       <SectionTitle>Toggle tabs</SectionTitle>
       <p>Debug</p>
-      {visible ? (
-        <div>
-          <input type="checkbox" onChange={toggleDebugTab} checked />
-        </div>
-      ) : (
-        <input type="checkbox" onChange={toggleDebugTab} />
-      )}
+      <input type="checkbox" onChange={toggleDebugTab} checked={visible} />
     </>
   )
 }
