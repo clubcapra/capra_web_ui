@@ -7,6 +7,10 @@ import { rosService } from '@/renderer/state/ros'
 import { clearStoreCache } from '@/renderer/store/localStorage'
 import { useDispatch } from 'react-redux'
 import {
+  debugTabSlice,
+  selectDebugTabVisible,
+} from '@/renderer/store/modules/debugTab'
+import {
   rosSlice,
   selectBaseLinkName,
   selectDescriptionServerPort,
@@ -134,6 +138,22 @@ const DetectedGamepad = () => {
   )
 }
 
+const ToggleDebug = () => {
+  const visible = useSelector(selectDebugTabVisible)
+  const dispatch = useDispatch()
+  const toggleDebugTab = (): void => {
+    dispatch(debugTabSlice.actions.toggleVisible())
+  }
+
+  return (
+    <>
+      <SectionTitle>Toggle tabs</SectionTitle>
+      <p>Debug</p>
+      <input type="checkbox" onChange={toggleDebugTab} checked={visible} />
+    </>
+  )
+}
+
 export const GeneralConfig: FC = () => (
   <>
     <Button onClick={clearStoreCache}>Clear cache</Button>
@@ -141,5 +161,6 @@ export const GeneralConfig: FC = () => (
     <NamespaceSection />
     <UrdfDescriptionSection />
     <DetectedGamepad />
+    <ToggleDebug />
   </>
 )

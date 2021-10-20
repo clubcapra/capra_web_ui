@@ -87,6 +87,11 @@ export default class RosClient {
     handler: (message: { data: T }) => void
   ) {
     log.info('RosClient: subscribing to ', options.name)
+    this.topicManager.subscribe<{ data: T }>(options, handler)
+  }
+
+  subscribeNoData<T>(options: TopicOptions<T>, handler: (message: T) => void) {
+    log.info('RosClient: subscribing to ', options.name)
     this.topicManager.subscribe<T>(options, handler)
   }
 

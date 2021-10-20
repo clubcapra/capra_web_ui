@@ -1,36 +1,54 @@
 import React, { FC } from 'react'
 import { styled } from '@/renderer/globalStyles/styled'
 import { NavLink } from 'react-router-dom'
+import { selectDebugTabVisible } from '@/renderer/store/modules/debugTab'
+import { useSelector } from 'react-redux'
 
 interface NavLinkDefinition {
   to: string
   label: string
+  visible: boolean
 }
 
-const navLinks: NavLinkDefinition[] = [
-  {
-    to: '/teleop',
-    label: 'Teleop',
-  },
-  {
-    to: '/victim',
-    label: 'Victim',
-  },
-  {
-    to: '/config',
-    label: 'Config',
-  },
-]
-
 export const Header: FC = () => {
+  const debugVisible = useSelector(selectDebugTabVisible)
+  const navLinks: NavLinkDefinition[] = [
+    {
+      to: '/teleop',
+      label: 'Teleop',
+      visible: true,
+    },
+    {
+      to: '/victim',
+      label: 'Victim',
+      visible: true,
+    },
+    {
+      to: '/config',
+      label: 'Config',
+      visible: true,
+    },
+    {
+      to: '/debug',
+      label: 'Debug',
+      visible: debugVisible,
+    },
+  ]
   return (
     <HeaderGrid>
       <LeftHeader navlinks={navLinks}>
-        {navLinks.map(({ to, label }) => (
-          <StyledNavLink key={to} to={to} activeClassName="is-active">
-            {label}
-          </StyledNavLink>
-        ))}
+        {navLinks
+          .filter((link) => link.visible)
+          .map(({ to, label }) => (
+            <StyledNavLink
+              key={to}
+              to={to}
+              activeClassName="is-active"
+              id={label}
+            >
+              {label}
+            </StyledNavLink>
+          ))}
       </LeftHeader>
       <RightHeader>
         <StyledLogo src="assets/images/logo.png" />
