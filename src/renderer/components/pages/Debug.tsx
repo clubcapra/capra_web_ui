@@ -168,7 +168,7 @@ const DebugConfigWrapper = styled.div`
 
 const ActionsWrapper = styled.div`
   grid-area: m;
-  background-color: ${({ theme }) => theme.colors.darkerBackground}
+  background-color: ${({ theme }) => theme.colors.darkerBackground};
   margin: 0;
   min-height: 100%;
   padding: 2%;
