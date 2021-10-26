@@ -7,6 +7,7 @@ import { GamepadConfig } from '@/renderer/components/pages/Config/pages/GamepadC
 import { useControl } from '@/renderer/hooks/useControl'
 import { GraphConfig } from '@/renderer/components/pages/Config/pages/GraphConfig/GraphConfig'
 import { styled } from '@/renderer/globalStyles/styled'
+import { LaunchConfig } from './pages/LaunchConfig/LaunchConfig'
 
 export const ConfigPage: FC = () => {
   useControl('nothing')
@@ -22,6 +23,7 @@ export const ConfigPage: FC = () => {
           <Route path="/config/camera" component={CameraConfig} />
           <Route path="/config/graph" component={GraphConfig} />
           <Route path="/config/gamepad" component={GamepadConfig} />
+          <Route path="/config/launch" component={LaunchConfig} />
         </Switch>
       </ConfigRouterArea>
     </ConfigPageGrid>
