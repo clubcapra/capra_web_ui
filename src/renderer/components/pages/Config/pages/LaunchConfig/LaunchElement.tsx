@@ -10,9 +10,24 @@ interface LaunchElementProps {
 
 export const LaunchElement: FC<LaunchElementProps>= (props: LaunchElementProps) => {
 
+    var stylingObject = {
+        div: {
+          display: "flex",
+          marginTop: 5
+        },
+        h3: {
+            flexGrow : 1,
+            width: "75%"
+        }
+      }
+
     return (
         <>
-            <p>{props.name}</p> <Button onClick={() => props.onClick(props.launchFile)} btnType={props.isLaunched ? "danger" : "success"}>{props.isLaunched ? "Kill" : "Launch"}</Button>
+            <div style={stylingObject.div}>
+                <h3 style={stylingObject.h3}>{props.name}</h3> 
+                <Button onClick={() => props.onClick(props.launchFile)} btnType={props.isLaunched ? "danger" : "success"}>{props.isLaunched ? "Kill" : "Launch"}</Button>
+            </div>
+            
         </>
     )
 }
