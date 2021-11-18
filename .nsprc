@@ -1,14 +1,18 @@
 {
-  "1002401": {
-    "expiry": "2021-11-11",
-    "notes": "Caused by  @types/jest, eslint, electron-builder and snowpack."
+  "1004893": {
+    "expiry": "2022-01-31",
+    "notes": "Caused by snowpack, switcthing to Vite should fix this"
   },
-  "1002531": "Caused by roslib",
-  "1002615": {
-    "expiry": "2021-11-11",
+  "1004946": {
+    "expiry": "2022-01-31",
+    "notes": "Caused by snowpack, electron-builder, @types/jest and eslint. Hopefully these libraries will receive an update in a few month"
+  },
+  "1005067": "Caused by roslib",
+  "1005146": {
+    "expiry": "2022-01-31",
     "notes": "Caused by snowpack, jest and roslib. jest and snowpack might be able to fix this soon. We will completely ignore it once roslib is the only issue"
   },
-  "1002923": "Caused by ros3d",
-  "1002943": "Caused by ros3d",
-  "1002974": "Caused by roslib"
+  "1005439": "Caused by roslib",
+  "1005459": "Caused by ros3d",
+  "1005490": "Caused by roslib"
 }
