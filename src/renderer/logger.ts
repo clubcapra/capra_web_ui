@@ -77,6 +77,7 @@ function callsite() {
 
 function logFn(level: Levels, args: any[]) {
   sendLog(level, args)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   console[level](logFormat(level), ...args, callsite())
 }
 
