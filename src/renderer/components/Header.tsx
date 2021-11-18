@@ -40,12 +40,7 @@ export const Header: FC = () => {
         {navLinks
           .filter((link) => link.visible)
           .map(({ to, label }) => (
-            <StyledNavLink
-              key={to}
-              to={to}
-              activeClassName="is-active"
-              id={label}
-            >
+            <StyledNavLink key={to} to={to} id={label}>
               {label}
             </StyledNavLink>
           ))}
@@ -88,7 +83,7 @@ const StyledNavLink = styled(NavLink)`
     font-weight: bold;
   }
 
-  &.is-active {
+  &.active {
     background-color: ${({ theme }) => theme.colors.darkerBackground};
     color: ${({ theme }) => theme.colors.fontLight};
     border-bottom: 2px solid ${({ theme }) => theme.colors.primary};
