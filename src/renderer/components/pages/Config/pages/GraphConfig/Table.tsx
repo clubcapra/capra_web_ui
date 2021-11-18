@@ -76,15 +76,7 @@ export const Table: FC = () => {
           return
         }
 
-        const newGraph: IGraphData = { ...feed.graph }
-        switch (field) {
-          case 'name':
-            newGraph.topic[field] = value
-            break
-          case 'messageType':
-            newGraph.topic[field] = value
-            break
-        }
+        const newGraph: IGraphData = { ...feed.graph, topic: { ...feed.graph.topic, [field]: value } }
 
         dispatch(
           feedSlice.actions.updateGraph({
