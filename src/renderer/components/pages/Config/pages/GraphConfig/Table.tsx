@@ -76,7 +76,10 @@ export const Table: FC = () => {
           return
         }
 
-        const newGraph: IGraphData = { ...feed.graph, topic: { ...feed.graph.topic, [field]: value } }
+        const newGraph: IGraphData = {
+          ...feed.graph,
+          topic: { ...feed.graph.topic, [field]: value },
+        }
 
         dispatch(
           feedSlice.actions.updateGraph({
