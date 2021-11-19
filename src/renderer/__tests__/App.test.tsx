@@ -1,4 +1,10 @@
-window.require = require
+import { preload } from '@/main/preload'
+jest.mock('@/main/preload')
+
+window.preloadApi = {
+  ...preload,
+  app_info: { appName: '', appVersion: process.env.npm_package_version || '' },
+}
 
 import React from 'react'
 import ReactDOM from 'react-dom'

@@ -1,11 +1,6 @@
 import '@/main/audio'
 import { log } from '@/main/logger'
-import {
-  APP_INFO,
-  APP_INFO_ARG,
-  APP_INFO_QUERY,
-  AUDIO_STOP,
-} from '@/shared/constants'
+import { APP_INFO_QUERY, APP_INFO_TYPE, AUDIO_STOP } from '@/shared/constants'
 import { app, BrowserWindow, ipcMain, powerSaveBlocker } from 'electron'
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
@@ -26,10 +21,7 @@ const getAssetURL = (asset: string) => {
   }
 }
 
-let appVersion = isDev ? process.env.npm_package_version : app.getVersion()
-appVersion = `${appVersion} ${
-  isDev ? '' : path.join(app.getPath('appData'), app.name)
-}`
+const appVersion = isDev ? process.env.npm_package_version : app.getVersion()
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -37,13 +29,18 @@ function createWindow() {
     height: 720,
     title: `Capra UI v${appVersion}`,
     webPreferences: {
-      nodeIntegration: true,
-      // TODO https://www.electronjs.org/docs/tutorial/context-isolation
-      contextIsolation: false, // WARN this is really important if we want to use ipc
-      webSecurity: false, // Allow CORS for robot_description server
+      preload: path.join(__dirname, 'preload.js'),
+      webSecurity: false, // TODO figure out CORS policy for robot_description server
     },
   })
   log.info('Window created')
+
+  ipcMain.on(APP_INFO_QUERY, (event) => {
+    event.returnValue = {
+      appName: app.name,
+      appVersion: appVersion,
+    } as APP_INFO_TYPE
+  })
 
   mainWindow
     .loadURL(getAssetURL('index.html'))
@@ -53,16 +50,16 @@ function createWindow() {
     .catch((error) => log.error(error))
 
   if (isDev) {
-    // This is to make sure the devtools only opens when extensions are loaded
-    log.info('opening devtools')
-    mainWindow?.webContents.openDevTools()
+    mainWindow.on('ready-to-show', () => {
+      log.info('ready to show')
+
+      // This is to make sure the devtools only opens when extensions are loaded
+      log.info('opening devtools')
+      mainWindow?.webContents.openDevTools()
+    })
   } else {
     // mainWindow.removeMenu()
   }
-
-  mainWindow.once('ready-to-show', () => {
-    log.info('ready to show')
-  })
 
   mainWindow.on('closed', () => {
     log.info('Main window closed')
@@ -113,11 +110,4 @@ app
 app.on('window-all-closed', () => {
   log.info('All window closed, quitting...')
   app.quit()
-})
-
-ipcMain.on(APP_INFO_QUERY, (event) => {
-  event.reply(APP_INFO, {
-    appName: app.name,
-    appVersion,
-  } as APP_INFO_ARG)
 })

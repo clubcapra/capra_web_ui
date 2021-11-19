@@ -4,8 +4,6 @@
 // This file is configuring the console so it's easier to allow it here
 /* eslint-disable no-console */
 
-import { LOG_MSG, LOG_MSG_TYPE } from '@/shared/constants'
-const { ipcRenderer } = window.require('electron')
 import { format } from 'date-fns'
 
 /**
@@ -39,18 +37,6 @@ const timeFormat = (date: Date) => format(date, '[HH:mm:ss]')
 const logFormat = (level: Levels) =>
   `${timeFormat(new Date())} ${level.toUpperCase()} %s`
 
-/**
- *  Sends the log to the main thread to be written to a file
- */
-function sendLog(level: Levels, args: any[]) {
-  const data: LOG_MSG_TYPE = {
-    level,
-    // winston doesn't support multi args so it's easier to do this here
-    message: args.join(' '),
-  }
-  ipcRenderer.send(LOG_MSG, data)
-}
-
 function callsites() {
   const _prepareStackTrace = Error.prepareStackTrace
   Error.prepareStackTrace = (_, stack) => stack
@@ -64,7 +50,8 @@ function callsites() {
 }
 
 const printCallsite =
-  process.env.ELECTRON_PRINT_CALLSITE && process.env.NODE_ENV !== 'production'
+  window.preloadApi.PRINT_CALLSITE && window.preloadApi.isDev
+
 function callsite() {
   // WARN
   // This number is equivalent to the number of functions called
@@ -76,7 +63,7 @@ function callsite() {
 }
 
 function logFn(level: Levels, args: any[]) {
-  sendLog(level, args)
+  window.preloadApi.log({ level, message: args.join(' ') })
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   console[level](logFormat(level), ...args, callsite())
 }

@@ -10,7 +10,6 @@ import {
   GamepadBtnUpContext,
   GamepadButtonBinding,
 } from '@/renderer/inputSystem/@types'
-import { isTest } from '@/renderer/utils/isTest'
 
 /* TODO
  * - button axis (RT, LT)
@@ -68,7 +67,7 @@ export class InputSystem {
 
     if (!navigator.getGamepads) {
       this.isBrowserSupported = false
-      if (!isTest) {
+      if (!window.preloadApi.isTest) {
         log.warn('This browser does not support gamepads.')
       }
       return
