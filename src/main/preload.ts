@@ -1,12 +1,10 @@
 import {
+  APP_INFO_QUERY,
+  APP_INFO_TYPE,
   AUDIO_MSG,
   AUDIO_MSG_TYPE,
   AUDIO_START,
   AUDIO_STOP,
-} from '@/main/audio'
-import {
-  APP_INFO_QUERY,
-  APP_INFO_TYPE,
   LOG_MSG,
   LOG_MSG_TYPE,
 } from '@/shared/constants'
