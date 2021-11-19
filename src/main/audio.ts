@@ -1,12 +1,15 @@
 import { log } from '@/main/logger'
-import {
-  AUDIO_MSG,
-  AUDIO_MSG_TYPE,
-  AUDIO_START,
-  AUDIO_STOP,
-} from '@/shared/constants'
 import { ipcMain, IpcMainEvent } from 'electron'
 import { execa, ExecaChildProcess } from 'execa'
+
+export const AUDIO_START = 'audio_start'
+export const AUDIO_STOP = 'audio_stop'
+export const AUDIO_MSG = 'audio_msg'
+export type AUDIO_MSG_TYPE = {
+  error: string | undefined
+  stderr: string
+  stdout: string
+}
 
 // This is a pretty hacky solution to have 2 way audio
 // Essentially we don't use electron and let ros handle it.
