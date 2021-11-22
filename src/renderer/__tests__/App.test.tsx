@@ -1,4 +1,4 @@
-import { preload } from '@/main/preload'
+import { preload } from '@/main/preload/api'
 jest.mock('@/main/preload')
 
 window.preloadApi = {
