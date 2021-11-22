@@ -1,10 +1,10 @@
 import { isDev } from '@/main/isDev'
-import { LOG_MSG, LOG_MSG_TYPE } from '@/shared/constants'
 import { app, ipcMain } from 'electron'
 import electronLog, { LogMessage, LogLevel } from 'electron-log'
 import path from 'path'
 import datefns from 'date-fns'
 import chalk from 'chalk'
+import { LOG_MSG, LOG_MSG_TYPE } from '@/main/preload'
 chalk.level = 3
 
 /**

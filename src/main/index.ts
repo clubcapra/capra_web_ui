@@ -1,6 +1,6 @@
 import '@/main/audio'
 import { log } from '@/main/logger'
-import { APP_INFO_QUERY, APP_INFO_TYPE, AUDIO_STOP } from '@/shared/constants'
+import { APP_INFO_QUERY, APP_INFO_TYPE, AUDIO_STOP } from '@/main/preload'
 import { app, BrowserWindow, ipcMain, powerSaveBlocker } from 'electron'
 import installExtension, {
   REACT_DEVELOPER_TOOLS,

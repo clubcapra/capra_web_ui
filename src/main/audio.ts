@@ -4,7 +4,7 @@ import {
   AUDIO_MSG_TYPE,
   AUDIO_START,
   AUDIO_STOP,
-} from '@/shared/constants'
+} from '@/main/preload'
 import { ipcMain, IpcMainEvent } from 'electron'
 import { execa, ExecaChildProcess } from 'execa'
 
