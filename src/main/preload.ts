@@ -17,25 +17,26 @@ export type AUDIO_MSG_TYPE = {
   stdout: string
 }
 
-export const preload = {
-  PUBLIC_URL: process.env.PUBLIC_URL,
-  PRINT_CALLSITE: !!process.env.ELECTRON_PRINT_CALLSITE,
-  isTest: process.env.JEST_WORKER_ID !== undefined,
-  isDev: process.env.NODE_ENV !== 'production',
-  /**
-   * Send the log message to the main thread
-   */
-  log: (data: LOG_MSG_TYPE) => {
-    ipcRenderer.send(LOG_MSG, data)
-  },
-  app_info: ipcRenderer.sendSync(APP_INFO_QUERY) as APP_INFO_TYPE,
-  audio: {
-    start: () => ipcRenderer.send(AUDIO_START),
-    stop: () => ipcRenderer.send(AUDIO_STOP),
-    receive: (cb: (args: AUDIO_MSG_TYPE) => void) => {
-      ipcRenderer.on(AUDIO_MSG, (_event, args) => cb(args as AUDIO_MSG_TYPE))
+if (ipcRenderer && contextBridge) {
+  const preload = {
+    PUBLIC_URL: process.env.PUBLIC_URL,
+    PRINT_CALLSITE: !!process.env.ELECTRON_PRINT_CALLSITE,
+    isTest: process.env.JEST_WORKER_ID !== undefined,
+    isDev: process.env.NODE_ENV !== 'production',
+    /**
+     * Send the log message to the main thread
+     */
+    log: (data: LOG_MSG_TYPE) => {
+      ipcRenderer.send(LOG_MSG, data)
     },
-  },
+    app_info: ipcRenderer.sendSync(APP_INFO_QUERY) as APP_INFO_TYPE,
+    audio: {
+      start: () => ipcRenderer.send(AUDIO_START),
+      stop: () => ipcRenderer.send(AUDIO_STOP),
+      receive: (cb: (args: AUDIO_MSG_TYPE) => void) => {
+        ipcRenderer.on(AUDIO_MSG, (_event, args) => cb(args as AUDIO_MSG_TYPE))
+      },
+    },
+  }
+  contextBridge.exposeInMainWorld('preloadApi', preload)
 }
-
-contextBridge.exposeInMainWorld('preloadApi', preload)
