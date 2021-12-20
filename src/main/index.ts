@@ -29,7 +29,7 @@ function createWindow() {
     height: 720,
     title: `Capra UI v${appVersion}`,
     webPreferences: {
-      preload: path.join(__dirname, 'preload/index.js'),
+      preload: path.join(__dirname, 'preload.js'),
       webSecurity: false, // TODO figure out CORS policy for robot_description server
     },
   })
