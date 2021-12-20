@@ -23,6 +23,6 @@ if (contextBridge) {
   // It's possible the issue is mostly in the import order.
   // I think it happens because the exported constant are imported in multiple context where they shouldn't be
   // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-unsafe-assignment
-  const preload = require('@/main/preload/api')
+  const { preload } = require('@/main/preload/api')
   contextBridge.exposeInMainWorld('preloadApi', preload)
 }
