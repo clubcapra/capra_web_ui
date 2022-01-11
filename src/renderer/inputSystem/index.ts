@@ -1,7 +1,5 @@
 import { InputSystem } from '@/renderer/inputSystem/InputSystem'
-import {
-  buttons as buttonMappings,
-} from '@/renderer/inputSystem/mappings'
+import { buttons as buttonMappings } from '@/renderer/inputSystem/mappings'
 import { rosClient } from '@/renderer/utils/ros/rosClient'
 import { Action } from '@/renderer/inputSystem/@types'
 import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
@@ -41,7 +39,7 @@ const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
   const buttons = gamepad.buttons.map((x) => Math.floor(x.value))
 
   //TODO add turbo support
-  
+
   return {
     header: {
       seq: joySeqId++,
@@ -55,7 +53,6 @@ const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
     buttons,
   }
 }
-
 
 const getBtnValue = (rawBtn: GamepadButton) =>
   typeof rawBtn == 'number' ? rawBtn : rawBtn.value
