@@ -66,8 +66,6 @@
     "ros3d": "^1.0.1",
     "roslib": "^1.1.0",
     "styled-components": "^5.3.3",
-    "three": "^0.136.0",
-    "vm2": "^3.9.5",
     "xstate": "^4.26.0"
   },
   "devDependencies": {
