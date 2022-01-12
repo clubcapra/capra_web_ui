@@ -42,7 +42,6 @@ export default class RosClient {
     this.options = options
 
     const rosInstance = new ROSLIB.Ros({
-      transportLibrary: 'websocket',
       // WARN this could potentially cause major issues
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore

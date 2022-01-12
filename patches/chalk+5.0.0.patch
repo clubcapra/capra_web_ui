@@ -1,0 +1,13 @@
+diff --git a/node_modules/chalk/source/index.js b/node_modules/chalk/source/index.js
+index 302024b..c54321b 100644
+--- a/node_modules/chalk/source/index.js
++++ b/node_modules/chalk/source/index.js
+@@ -1,5 +1,6 @@
+-import ansiStyles from '#ansi-styles';
+-import supportsColor from '#supports-color';
++import ansiStyles from './vendor/ansi-styles';
++import supportsColor from './vendor/supports-color';
++
+ import { // eslint-disable-line import/order
+ 	stringReplaceAll,
+ 	stringEncaseCRLFWithFirstIndex,
