@@ -21,7 +21,7 @@
     "postinstall": "patch-package",
     "depcheck": "depcheck --ignores=\"ts-node,ts-jest,@jest/types,@types/jest\"",
     "ci": "concurrently --kill-others-on-fail npm:lint npm:typecheck npm:test",
-    "dependencies": "concurrently --kill-others-on-fail npm:depcheck",
+    "dependencies": "depcheck",
     "local_ci": "concurrently npm:ci npm:dependencies"
   },
   "build": {
