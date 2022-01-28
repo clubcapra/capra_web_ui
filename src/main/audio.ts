@@ -4,9 +4,9 @@ import {
   AUDIO_MSG_TYPE,
   AUDIO_START,
   AUDIO_STOP,
-} from '@/shared/constants'
+} from '@/main/preload'
 import { ipcMain, IpcMainEvent } from 'electron'
-import execa, { ExecaChildProcess } from 'execa'
+import { execa, ExecaChildProcess } from 'execa'
 
 // This is a pretty hacky solution to have 2 way audio
 // Essentially we don't use electron and let ros handle it.

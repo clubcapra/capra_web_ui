@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { Route, Switch, Redirect } from 'react-router'
+import { Route, Routes, Navigate } from 'react-router'
 import { ConfigMenu } from './ConfigMenu'
 import { GeneralConfig } from '@/renderer/components/pages/Config/pages/GeneralConfig'
 import { CameraConfig } from '@/renderer/components/pages/Config/pages/CameraConfig/CameraConfig'
@@ -17,14 +17,13 @@ export const ConfigPage: FC = () => {
         <ConfigMenu />
       </MenuArea>
       <ConfigRouterArea>
-        <Redirect to="/config/general" />
-        <Switch>
-          <Route path="/config/general" component={GeneralConfig} />
-          <Route path="/config/camera" component={CameraConfig} />
-          <Route path="/config/graph" component={GraphConfig} />
-          <Route path="/config/gamepad" component={GamepadConfig} />
-          <Route path="/config/launch" component={LaunchConfig} />
-        </Switch>
+        <Routes>
+          <Route path="/*" element={<Navigate to="/config/general" />} />
+          <Route path="/general" element={<GeneralConfig />} />
+          <Route path="/camera" element={<CameraConfig />} />
+          <Route path="/graph" element={<GraphConfig />} />
+          <Route path="/gamepad" element={<GamepadConfig />} />
+        </Routes>
       </ConfigRouterArea>
     </ConfigPageGrid>
   )

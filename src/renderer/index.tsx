@@ -1,15 +1,16 @@
 import { log } from '@/renderer/logger'
-import { APP_INFO, APP_INFO_ARG, APP_INFO_QUERY } from '@/shared/constants'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { App } from './App'
-const { ipcRenderer } = window.require('electron')
 
-ReactDOM.render(<App />, document.getElementById('root'))
+if (!window.preloadApi.app_info) {
+  // eslint-disable-next-line no-console
+  console.error('PreloadApi failed to initialize properly', window.preloadApi)
+} else {
+  ReactDOM.render(<App />, document.getElementById('root'))
 
-ipcRenderer.send(APP_INFO_QUERY)
-ipcRenderer.on(APP_INFO, (_event, arg: APP_INFO_ARG) => {
-  ipcRenderer.removeAllListeners(APP_INFO)
-  const { appName, appVersion } = arg
-  log.info(appName, appVersion)
-})
+  log.info(
+    'App finished loading... appVersion: ',
+    window.preloadApi.app_info.appVersion
+  )
+}

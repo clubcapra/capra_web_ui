@@ -21,7 +21,7 @@ export const App: FC = () => {
     <StrictMode>
       <Provider store={store}>
         <ToastContainer position={'bottom-right'} theme={'dark'} icon={false} />
-        <HashRouter basename={process.env.PUBLIC_URL}>
+        <HashRouter>
           <ThemeProvider theme={defaultTheme}>
             <>
               <GlobalStyles />

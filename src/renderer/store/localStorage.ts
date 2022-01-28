@@ -19,7 +19,7 @@ export const defaultState: GlobalState = {
 // This is necessary since for some reason electron doesn't clear it's cache when installing.
 // This means that if we change how the data in the state is strutcured it will fail to load properly
 // The nanoid() will generate a new id everytime the UI is launched so
-const stateKey = `state-${process.env.npm_package_version || nanoid()}`
+const stateKey = `state-${window.preloadApi.app_info.appVersion || nanoid()}`
 
 export const loadState = (): GlobalState => {
   try {

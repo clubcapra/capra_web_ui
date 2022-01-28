@@ -1,24 +1,15 @@
 import { InputSystem } from '@/renderer/inputSystem/InputSystem'
-import {
-  buttons as buttonMappings,
-  sticks,
-} from '@/renderer/inputSystem/mappings'
+import { buttons as buttonMappings } from '@/renderer/inputSystem/mappings'
 import { rosClient } from '@/renderer/utils/ros/rosClient'
 import { Action } from '@/renderer/inputSystem/@types'
 import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
-import { ITwistMsg, IJoyMsg } from '@/renderer/utils/ros/rosMsgs.types'
-import { Vector3 } from '@/renderer/utils/math/types'
+import { IJoyMsg } from '@/renderer/utils/ros/rosMsgs.types'
 import { controlService } from '@/renderer/state/control'
 import { feedSlice } from '@/renderer/store/modules/feed'
 import { store } from '@/renderer/store/store'
 import { flipperService } from '@/renderer/state/flipper'
 import { log } from '@/renderer/logger'
-import { inputSlice, selectReverse } from '@/renderer/store/modules/input'
-
-const cmdVelTopic: TopicOptions = {
-  name: 'markhor/diff_drive_controller/cmd_vel',
-  messageType: 'geometry_msgs/Twist',
-}
+import { inputSlice } from '@/renderer/store/modules/input'
 
 const joyTopic: TopicOptions = {
   name: '/joy',
@@ -47,6 +38,8 @@ const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
 
   const buttons = gamepad.buttons.map((x) => Math.floor(x.value))
 
+  //TODO add turbo support
+
   return {
     header: {
       seq: joySeqId++,
@@ -58,51 +51,6 @@ const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
     },
     axes,
     buttons,
-  }
-}
-
-const deadzone = (value: number): number => {
-  const deadzone = 0.05
-  return value > deadzone || value < -deadzone ? value : 0
-}
-
-const mapToTwist = (
-  horizontal: number,
-  vertical: number,
-  rt: number,
-  lt: number,
-  dpadLeft: number,
-  dpadRight: number
-): ITwistMsg => {
-  const isReverse = selectReverse(store.getState())
-  let x = horizontal
-  x = isReverse ? -x : x
-  let y = vertical
-  y = isReverse ? -y : y
-
-  if (lt > 0.1) {
-    // brake!
-    return { linear: Vector3.zero(), angular: Vector3.zero() }
-  }
-
-  const linearSensitivity = turboEnabled ? 1 : 0.2
-  const angularSensitivity = turboEnabled ? 1 : 0.7
-
-  let linearX = deadzone(y * rt) * linearSensitivity
-  let angularZ = deadzone(x * rt) * angularSensitivity
-
-  if (dpadLeft > 0.0) {
-    linearX = 0
-    angularZ = isReverse ? -rt : rt
-  }
-  if (dpadRight > 0.0) {
-    linearX = 0
-    angularZ = isReverse ? rt : -rt
-  }
-
-  return {
-    linear: new Vector3(linearX, 0, 0),
-    angular: new Vector3(0, 0, angularZ),
   }
 }
 
@@ -179,32 +127,6 @@ const defaultActions: Action[] = [
     bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.B }],
     perform: () => {
       rosClient.callService({ name: 'markhor/flipper_reset' }).catch(log.error)
-    },
-  },
-  {
-    name: 'movement',
-    bindings: [{ type: 'gamepad' }],
-    perform: (ctx) => {
-      if (ctx.type !== 'gamepad') {
-        return
-      }
-      if (!controlService.state.matches('flipper')) {
-        return
-      }
-
-      const {
-        gamepad: { axes, buttons: btns },
-      } = ctx.gamepadState
-
-      const twist = mapToTwist(
-        -axes[sticks.left.horizontal],
-        -axes[sticks.left.vertical],
-        getBtnValue(btns[buttonMappings.RT]),
-        getBtnValue(btns[buttonMappings.LT]),
-        getBtnValue(btns[buttonMappings.dpad.left]),
-        getBtnValue(btns[buttonMappings.dpad.right])
-      )
-      rosClient.publish(cmdVelTopic, twist)
     },
   },
   {

@@ -8,24 +8,16 @@ export const ConfigMenu: FC = () => {
     <aside>
       <MenuList>
         <li>
-          <StyledNavLink to="/config/general" activeClassName="is-active">
-            General
-          </StyledNavLink>
+          <StyledNavLink to="/config/general">General</StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/config/camera" activeClassName="is-active">
-            Camera
-          </StyledNavLink>
+          <StyledNavLink to="/config/camera">Camera</StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/config/graph" activeClassName="is-active">
-            Graph
-          </StyledNavLink>
+          <StyledNavLink to="/config/graph">Graph</StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/config/gamepad" activeClassName="is-active">
-            Gamepad
-          </StyledNavLink>
+          <StyledNavLink to="/config/gamepad">Gamepad</StyledNavLink>
         </li>
         <li>
           <StyledNavLink to="/config/launch" activeClassName="is-active">
@@ -58,7 +50,7 @@ const StyledNavLink = styled(NavLink)`
     background-color: ${({ theme }) => darken(0.05, theme.colors.background)};
   }
 
-  &.is-active {
+  &.active {
     background-color: ${({ theme }) => theme.colors.background};
   }
 `
