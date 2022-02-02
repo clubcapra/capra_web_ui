@@ -23,6 +23,7 @@ export const ConfigPage: FC = () => {
           <Route path="/camera" element={<CameraConfig />} />
           <Route path="/graph" element={<GraphConfig />} />
           <Route path="/gamepad" element={<GamepadConfig />} />
+          <Route path="/launch" element={<LaunchConfig />} />
         </Routes>
       </ConfigRouterArea>
     </ConfigPageGrid>
