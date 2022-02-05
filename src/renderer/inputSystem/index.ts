@@ -126,7 +126,9 @@ const defaultActions: Action[] = [
     name: 'flipper_reset',
     bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.B }],
     perform: () => {
-      rosClient.callService({ name: 'markhor/flipper_reset' }).catch(log.error)
+      rosClient
+        .callService({ name: 'markhor/flippers/flipper_reset' })
+        .catch(log.error)
     },
   },
   {
