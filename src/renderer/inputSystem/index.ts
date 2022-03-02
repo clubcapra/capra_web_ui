@@ -33,14 +33,7 @@ const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
 
   let axes = gamepad.axes
   const isReverse = selectReverse(store.getState())
-  axes = [
-    isReverse ? axes[0] : -axes[0],
-    isReverse ? axes[1] : -axes[1],
-    lt,
-    -axes[2],
-    -axes[3],
-    rt,
-  ]
+  axes = [-axes[0], isReverse ? axes[1] : -axes[1], lt, -axes[2], -axes[3], rt]
   const deadzone = 0.15
   axes = axes.map((x) => (x < deadzone && x > -deadzone ? 0.0 : x))
   const buttons = gamepad.buttons.map((x) => Math.floor(x.value))
