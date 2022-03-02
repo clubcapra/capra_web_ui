@@ -11,8 +11,8 @@ export interface LaunchFilesState {
 export const initialState: LaunchFilesState[] = [
   {
     name: 'Flippers',
-    packageName: 'markhor_bringup',
-    fileName: 'markhor_flippers',
+    packageName: 'capra_tutorial',
+    fileName: 'yes.launch',
     isLaunched: false,
   },
   {
@@ -32,7 +32,15 @@ export const launchFilesSlice = createSlice({
         (element) => element.fileName === action.payload
       )
       if (element) {
-        element.isLaunched = !element.isLaunched
+        element.isLaunched = true
+      }
+    },
+    killFile: (state, action: PayloadAction<string>) => {
+      const element = state.find(
+        (element) => element.fileName === action.payload
+      )
+      if (element) {
+        element.isLaunched = false
       }
     },
   },

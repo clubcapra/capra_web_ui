@@ -5,7 +5,7 @@ interface LaunchElementProps {
   name: string
   launchFile: string
   packageName: string
-  onClick: Function
+  onClick: (fileName: string, packageName: string) => void
   isLaunched?: boolean
 }
 
