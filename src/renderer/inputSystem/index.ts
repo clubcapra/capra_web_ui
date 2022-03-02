@@ -9,7 +9,7 @@ import { feedSlice } from '@/renderer/store/modules/feed'
 import { store } from '@/renderer/store/store'
 import { flipperService } from '@/renderer/state/flipper'
 import { log } from '@/renderer/logger'
-import { inputSlice } from '@/renderer/store/modules/input'
+import { inputSlice, selectReverse } from '@/renderer/store/modules/input'
 
 const joyTopic: TopicOptions = {
   name: '/joy',
@@ -32,12 +32,18 @@ const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
   const rt = getBtnValue(gamepad.buttons[buttonMappings.RT])
 
   let axes = gamepad.axes
-  axes = [-axes[0], -axes[1], lt, -axes[2], -axes[3], rt]
-  const deadzone = 0.09
+  const isReverse = selectReverse(store.getState())
+  axes = [
+    isReverse ? axes[0] : -axes[0],
+    isReverse ? axes[1] : -axes[1],
+    lt,
+    -axes[2],
+    -axes[3],
+    rt,
+  ]
+  const deadzone = 0.15
   axes = axes.map((x) => (x < deadzone && x > -deadzone ? 0.0 : x))
-
   const buttons = gamepad.buttons.map((x) => Math.floor(x.value))
-
   //TODO add turbo support
 
   return {
