@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 import { EStopButton } from '@/renderer/components/EStopButton'
 import { Header } from '@/renderer/components/Header'
 import { StatusBar } from '@/renderer/components/StatusBar'
+import { FlippersBar } from '@/renderer/components/FlippersBar'
 import { Router } from '@/renderer/components/Router'
 import { styled } from '@/renderer/globalStyles/styled'
 
@@ -11,6 +12,7 @@ const GridLayout = styled.div`
   grid-template-areas:
     'h e'
     'v e'
+    'f e'
     's e';
   grid-template-columns: 1fr 70px;
   grid-template-rows: auto 1fr 20px;
@@ -21,6 +23,10 @@ const StyledView = styled.div`
   height: 100%;
   overflow-y: auto;
   position: relative;
+`
+
+const FlippersBarArea = styled.div`
+  grid-area: f;
 `
 
 const StatusBarArea = styled.div`
@@ -44,6 +50,9 @@ export const Layout: FC = () => {
       <StyledView>
         <Router />
       </StyledView>
+      <FlippersBarArea>
+        <FlippersBar />
+      </FlippersBarArea>
       <StatusBarArea>
         <StatusBar />
       </StatusBarArea>
