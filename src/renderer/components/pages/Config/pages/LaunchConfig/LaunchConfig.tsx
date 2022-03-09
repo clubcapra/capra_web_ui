@@ -1,17 +1,14 @@
 import { Button } from '@/renderer/components/common/Button'
-import { feedSlice } from '@/renderer/store/modules/feed'
 import {
   launchFilesSlice,
   selectAllLaunchFiles,
 } from '@/renderer/store/modules/launchFiles'
 import { rosClient } from '@/renderer/utils/ros/rosClient'
-import React, { FC, useCallback, useMemo } from 'react'
+import React, { FC, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import ROSLIB, { Message } from 'roslib'
 import { LaunchElement } from './LaunchElement'
 import { toast } from 'react-toastify'
-import { useRosSubscribe } from '@/renderer/hooks/useRosSubscribe'
-import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
+import { log } from '@/renderer/logger'
 
 interface LaunchMsg {
   fileName: string
@@ -19,11 +16,33 @@ interface LaunchMsg {
   isLaunched: boolean
 }
 
+interface LaunchedFiles {
+  packages: string[]
+  fileNames: string[]
+}
+
 export const LaunchConfig: FC = () => {
   const dispatch = useDispatch()
 
   const onClick = (fileName: string, packageName: string) => {
-    launchHanlderTopic.publish({ data: packageName + ' ' + fileName })
+    rosClient
+      .callService(
+        {
+          name: '/launchHandler/launchFile',
+        },
+        { package: packageName, fileName }
+      )
+      .then((res: unknown) => {
+        const messageData = res as LaunchMsg
+        if (messageData.isLaunched) {
+          dispatch(launchFilesSlice.actions.launchFile(messageData.fileName))
+          toast.success(messageData.message)
+        } else {
+          dispatch(launchFilesSlice.actions.killFile(messageData.fileName))
+          toast.error(messageData.message)
+        }
+      })
+      .catch(log.error)
   }
 
   const onClickAll = () => {
@@ -32,30 +51,31 @@ export const LaunchConfig: FC = () => {
     })
   }
 
-  const confirmationTopic: TopicOptions = useMemo(
-    () => ({
-      name: '/launchConfirmation',
-      messageType: 'std_msgs/String',
-    }),
-    []
-  )
-
-  useRosSubscribe(
-    confirmationTopic,
-    useCallback((message) => {
-      const messageData = JSON.parse(message.data as string) as LaunchMsg
-      console.log(messageData)
-      if (messageData.isLaunched) {
-        dispatch(launchFilesSlice.actions.launchFile(messageData.fileName))
-        toast.success(messageData.message)
-      } else {
-        dispatch(launchFilesSlice.actions.killFile(messageData.fileName))
-        toast.error(messageData.message)
-      }
-    }, [])
-  )
-
   const allLaunchFiles = useSelector(selectAllLaunchFiles)
+
+  useEffect(() => {
+    rosClient
+      .callService({
+        name: '/launchHandler/getAllLaunchedFiles',
+      })
+      .then((res: unknown) => {
+        const launchedFiles = res as LaunchedFiles
+        for (const element of allLaunchFiles) {
+          if (
+            !element.isLaunched &&
+            launchedFiles.fileNames.includes(element.fileName)
+          ) {
+            dispatch(launchFilesSlice.actions.launchFile(element.fileName))
+          } else if (
+            element.isLaunched &&
+            !launchedFiles.fileNames.includes(element.fileName)
+          ) {
+            dispatch(launchFilesSlice.actions.killFile(element.fileName))
+          }
+        }
+      })
+      .catch(log.error)
+  }, [allLaunchFiles, dispatch])
 
   return (
     <>
@@ -75,23 +95,3 @@ export const LaunchConfig: FC = () => {
     </>
   )
 }
-
-const launchHanlderTopic = new ROSLIB.Topic({
-  ros: rosClient.ros,
-  name: '/launchHandler',
-  messageType: 'std_msgs/String',
-})
-
-/*const subscriberCallBack = (msg: Message) => {
-  console.log(msg)
-  if ((msg as LaunchMsg).isLaunched) {
-    toast.success((msg as LaunchMsg).message)
-  } else {
-    toast.error((msg as LaunchMsg).message)
-  }
-}*/
-
-launchHanlderTopic.advertise()
-/*launchConfirmationTopic.subscribe((launched: Message) =>
-  subscriberCallBack(launched)
-)*/
