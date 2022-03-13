@@ -235,7 +235,7 @@ export const initialState: FeedState = {
       flippers: {
         name: 'flippers_fl',
         topic: {
-          name: '/capra/flipper_fl_position_controller/command',
+          name: 'markhor/flipper_fl_position_controller/target',
           messageType: 'std_msgs/String',
         },
       }
@@ -247,7 +247,7 @@ export const initialState: FeedState = {
       flippers: {
         name: 'flippers_fr',
         topic: {
-          name: '/capra/flipper_fr_position_controller/command',
+          name: '/markhor/flipper_fr_position_controller/target',
           messageType: 'std_msgs/String',
         },
       }
@@ -259,7 +259,7 @@ export const initialState: FeedState = {
       flippers: {
         name: 'flippers_rl',
         topic: {
-          name: '/capra/flipper_rl_position_controller/command',
+          name: '/markhor/flipper_fl_position_controller/target',
           messageType: 'std_msgs/String',
         },
       }
@@ -271,7 +271,7 @@ export const initialState: FeedState = {
       flippers: {
         name: 'flippers_rr',
         topic: {
-          name: '/capra/flipper_rr_position_controller/command',
+          name: '/markhor/flipper_rr_position_controller/target',
           messageType: 'std_msgs/String',
         },
       }
