@@ -1,6 +1,6 @@
 import { IFlippersFeed } from '@/renderer/store/modules/feed'
 import { useRosSubscribe } from '@/renderer/hooks/useRosSubscribe'
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
+import React, { FC, useCallback, useEffect, useState } from 'react'
 import { styled } from '@/renderer/globalStyles/styled'
 
 interface Props {

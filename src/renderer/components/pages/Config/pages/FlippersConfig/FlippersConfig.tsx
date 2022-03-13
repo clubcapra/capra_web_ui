@@ -1,8 +1,5 @@
 import React, { FC } from 'react'
-import { useDispatch } from 'react-redux'
-import { feedSlice } from '@/renderer/store/modules/feed'
 import { Table } from '../FlippersConfig/Table'
-import { Button } from '@/renderer/components/common/Button'
 import { SectionTitle } from '@/renderer/components/pages/Config/styles'
 import { styled } from '@/renderer/globalStyles/styled'
 

@@ -235,7 +235,7 @@ export const initialState: FeedState = {
       flippers: {
         name: 'flippers_fl',
         topic: {
-          name: 'markhor/flipper_fl_position_controller/target',
+          name: '/markhor/flippers/flipper_fl_position_target',
           messageType: 'std_msgs/String',
         },
       }
@@ -247,7 +247,7 @@ export const initialState: FeedState = {
       flippers: {
         name: 'flippers_fr',
         topic: {
-          name: '/markhor/flipper_fr_position_controller/target',
+          name: '/markhor/flippers/flipper_fr_position_target',
           messageType: 'std_msgs/String',
         },
       }
@@ -259,7 +259,7 @@ export const initialState: FeedState = {
       flippers: {
         name: 'flippers_rl',
         topic: {
-          name: '/markhor/flipper_fl_position_controller/target',
+          name: '/markhor/flippers/flipper_rl_position_target',
           messageType: 'std_msgs/String',
         },
       }
@@ -271,7 +271,7 @@ export const initialState: FeedState = {
       flippers: {
         name: 'flippers_rr',
         topic: {
-          name: '/markhor/flipper_rr_position_controller/target',
+          name: '/markhor/flippers/flipper_rr_position_target',
           messageType: 'std_msgs/String',
         },
       }
