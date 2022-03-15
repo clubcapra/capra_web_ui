@@ -34,11 +34,6 @@ export const LaunchElement: FC<LaunchElementProps> = (
         >
           {props.isLaunched ? 'Kill' : 'Launch'}
         </Button>
-        {props.isLaunched ? (
-          <ClipLoader size={30} speedMultiplier={0.5} color={'green'} />
-        ) : (
-          ''
-        )}
       </div>
     </>
   )

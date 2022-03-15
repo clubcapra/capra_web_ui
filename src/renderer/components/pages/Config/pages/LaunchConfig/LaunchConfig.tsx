@@ -4,12 +4,13 @@ import {
   selectAllLaunchFiles,
 } from '@/renderer/store/modules/launchFiles'
 import { rosClient } from '@/renderer/utils/ros/rosClient'
-import React, { FC, useCallback, useEffect } from 'react'
+import React, { FC, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { LaunchElement } from './LaunchElement'
 import { toast } from 'react-toastify'
 import { log } from '@/renderer/logger'
 import { FaSync } from 'react-icons/fa'
+import { LoadingOverlay } from '@/renderer/components/common/LoadingOverlay'
 
 interface LaunchMsg {
   fileName: string
@@ -25,9 +26,11 @@ interface LaunchedFiles {
 export const LaunchConfig: FC = () => {
   const dispatch = useDispatch()
   const allLaunchFiles = useSelector(selectAllLaunchFiles)
+  const [isLoading, setIsLoading] = useState(false)
 
   const onClick = useCallback(
     (fileName: string, packageName: string) => {
+      setIsLoading(true)
       rosClient
         .callService(
           {
@@ -37,6 +40,7 @@ export const LaunchConfig: FC = () => {
         )
         .then((res: unknown) => {
           const messageData = res as LaunchMsg
+          setIsLoading(false)
           if (messageData.isLaunched) {
             dispatch(launchFilesSlice.actions.launchFile(messageData.fileName))
             toast.success(messageData.message)
@@ -67,9 +71,7 @@ export const LaunchConfig: FC = () => {
   }, [allLaunchFiles, onClick])
 
   const onClickRefresh = () => {
-    if (rosClient.isConnected) {
-      refreshLaunchedFiles()
-    }
+    refreshLaunchedFiles()
   }
 
   const refreshLaunchedFiles = useCallback(() => {
@@ -108,25 +110,41 @@ export const LaunchConfig: FC = () => {
     }
   }, [allLaunchFiles, dispatch, onClickKillAll, refreshLaunchedFiles])
 
+  const stylingObject = {
+    div: {
+      display: 'flex',
+      marginTop: 5,
+    },
+  }
+
   return (
     <>
-      <Button onClick={onClickLaunchAll}>Launch All</Button>
-      <Button onClick={onClickKillAll}>Kill All</Button>
-      <Button onClick={onClickRefresh}>
-        <FaSync />
-      </Button>
-      <div>
-        {allLaunchFiles.map((element) => (
-          <LaunchElement
-            key={element.name}
-            name={element.name}
-            launchFile={element.fileName}
-            packageName={element.packageName}
-            onClick={onClick}
-            isLaunched={element.isLaunched}
-          />
-        ))}
-      </div>
+      {rosClient.isConnected ? (
+        <>
+          <div style={stylingObject.div}>
+            <Button onClick={onClickLaunchAll}>Launch All</Button>
+            <Button onClick={onClickKillAll}>Kill All</Button>
+            <Button onClick={onClickRefresh}>
+              <FaSync />
+            </Button>
+          </div>
+          <div>
+            {allLaunchFiles.map((element) => (
+              <LaunchElement
+                key={element.name}
+                name={element.name}
+                launchFile={element.fileName}
+                packageName={element.packageName}
+                onClick={onClick}
+                isLaunched={element.isLaunched}
+              />
+            ))}
+          </div>
+          {isLoading ? <LoadingOverlay>File is launching</LoadingOverlay> : ''}
+        </>
+      ) : (
+        <div>No connection to ROS</div>
+      )}
     </>
   )
 }
