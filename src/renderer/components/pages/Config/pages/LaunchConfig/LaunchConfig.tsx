@@ -4,11 +4,12 @@ import {
   selectAllLaunchFiles,
 } from '@/renderer/store/modules/launchFiles'
 import { rosClient } from '@/renderer/utils/ros/rosClient'
-import React, { FC, useEffect } from 'react'
+import React, { FC, useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { LaunchElement } from './LaunchElement'
 import { toast } from 'react-toastify'
 import { log } from '@/renderer/logger'
+import { FaSync } from 'react-icons/fa'
 
 interface LaunchMsg {
   fileName: string
@@ -23,37 +24,55 @@ interface LaunchedFiles {
 
 export const LaunchConfig: FC = () => {
   const dispatch = useDispatch()
+  const allLaunchFiles = useSelector(selectAllLaunchFiles)
 
-  const onClick = (fileName: string, packageName: string) => {
-    rosClient
-      .callService(
-        {
-          name: '/launchHandler/launchFile',
-        },
-        { package: packageName, fileName }
-      )
-      .then((res: unknown) => {
-        const messageData = res as LaunchMsg
-        if (messageData.isLaunched) {
-          dispatch(launchFilesSlice.actions.launchFile(messageData.fileName))
-          toast.success(messageData.message)
-        } else {
-          dispatch(launchFilesSlice.actions.killFile(messageData.fileName))
-          toast.error(messageData.message)
-        }
-      })
-      .catch(log.error)
-  }
+  const onClick = useCallback(
+    (fileName: string, packageName: string) => {
+      rosClient
+        .callService(
+          {
+            name: '/launchHandler/launchFile',
+          },
+          { package: packageName, fileName }
+        )
+        .then((res: unknown) => {
+          const messageData = res as LaunchMsg
+          if (messageData.isLaunched) {
+            dispatch(launchFilesSlice.actions.launchFile(messageData.fileName))
+            toast.success(messageData.message)
+          } else {
+            dispatch(launchFilesSlice.actions.killFile(messageData.fileName))
+            toast.error(messageData.message)
+          }
+        })
+        .catch(log.error)
+    },
+    [dispatch]
+  )
 
-  const onClickAll = () => {
+  const onClickLaunchAll = () => {
     allLaunchFiles.forEach((element) => {
-      onClick(element.fileName, element.packageName)
+      if (!element.isLaunched) {
+        onClick(element.fileName, element.packageName)
+      }
     })
   }
 
-  const allLaunchFiles = useSelector(selectAllLaunchFiles)
+  const onClickKillAll = useCallback(() => {
+    allLaunchFiles.forEach((element) => {
+      if (element.isLaunched) {
+        onClick(element.fileName, element.packageName)
+      }
+    })
+  }, [allLaunchFiles, onClick])
 
-  useEffect(() => {
+  const onClickRefresh = () => {
+    if (rosClient.isConnected) {
+      refreshLaunchedFiles()
+    }
+  }
+
+  const refreshLaunchedFiles = useCallback(() => {
     rosClient
       .callService({
         name: '/launchHandler/getAllLaunchedFiles',
@@ -77,9 +96,25 @@ export const LaunchConfig: FC = () => {
       .catch(log.error)
   }, [allLaunchFiles, dispatch])
 
+  useEffect(() => {
+    if (rosClient.isConnected) {
+      refreshLaunchedFiles()
+    } else {
+      allLaunchFiles.forEach((element) => {
+        if (element.isLaunched) {
+          dispatch(launchFilesSlice.actions.killFile(element.fileName))
+        }
+      })
+    }
+  }, [allLaunchFiles, dispatch, onClickKillAll, refreshLaunchedFiles])
+
   return (
     <>
-      <Button onClick={onClickAll}>Launch All</Button>
+      <Button onClick={onClickLaunchAll}>Launch All</Button>
+      <Button onClick={onClickKillAll}>Kill All</Button>
+      <Button onClick={onClickRefresh}>
+        <FaSync />
+      </Button>
       <div>
         {allLaunchFiles.map((element) => (
           <LaunchElement

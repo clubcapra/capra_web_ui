@@ -1,5 +1,6 @@
 import { Button } from '@/renderer/components/common/Button'
 import React, { FC, useState } from 'react'
+import ClipLoader from 'react-spinners/ClipLoader'
 
 interface LaunchElementProps {
   name: string
@@ -33,6 +34,11 @@ export const LaunchElement: FC<LaunchElementProps> = (
         >
           {props.isLaunched ? 'Kill' : 'Launch'}
         </Button>
+        {props.isLaunched ? (
+          <ClipLoader size={30} speedMultiplier={0.5} color={'green'} />
+        ) : (
+          ''
+        )}
       </div>
     </>
   )
