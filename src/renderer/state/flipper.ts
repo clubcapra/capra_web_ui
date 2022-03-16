@@ -8,7 +8,11 @@ interface FlipperContext {}
 interface FlipperStateSchema {
   states: {
     front: Record<string, unknown>
+    frontLeft: Record<string, unknown>
+    frontRight: Record<string, unknown>
     back: Record<string, unknown>
+    backLeft: Record<string, unknown>
+    backRight: Record<string, unknown>
     none: Record<string, unknown>
   }
 }
@@ -27,12 +31,38 @@ export const flipperMachine = Machine<
     states: {
       front: {
         on: {
+          MODE_FRONT: { target: 'frontLeft', actions: 'set_mode_frontLeft' },
           MODE_BACK: { target: 'none', actions: 'set_mode_none' },
+        },
+      },
+      frontLeft: {
+        on: {
+          MODE_FRONT: { target: 'frontRight', actions: 'set_mode_frontRight' },
+          MODE_BACK: { target: 'front', actions: 'set_mode_front' },
+        },
+      },
+      frontRight: {
+        on: {
+          MODE_FRONT: { target: 'backRight', actions: 'set_mode_backRight' },
+          MODE_BACK: { target: 'frontLeft', actions: 'set_mode_frontLeft' },
         },
       },
       back: {
         on: {
           MODE_FRONT: { target: 'none', actions: 'set_mode_none' },
+          MODE_BACK: { target: 'backLeft', actions: 'set_mode_backLeft' },
+        },
+      },
+      backLeft: {
+        on: {
+          MODE_FRONT: { target: 'back', actions: 'set_mode_back' },
+          MODE_BACK: { target: 'backRight', actions: 'set_mode_backRight' },
+        },
+      },
+      backRight: {
+        on: {
+          MODE_FRONT: { target: 'backLeft', actions: 'set_mode_backLeft' },
+          MODE_BACK: { target: 'frontRight', actions: 'set_mode_frontRight' },
         },
       },
       none: {
@@ -44,6 +74,7 @@ export const flipperMachine = Machine<
     },
   },
   {
+    //TODO ADD INDIVIDUAL FLIPPER ACTIONS
     actions: {
       set_mode_none: () => {
         void sendFlipperMode('front_disable')
@@ -70,7 +101,7 @@ type FlipperMode =
 async function sendFlipperMode(mode: FlipperMode) {
   try {
     await rosClient.callService({
-      name: `/markhor/flippers/flipper_mode_${mode}`,
+      name: `/markhor/flipper_mode_${mode}`,
     })
   } catch (e) {
     log.error(e)
