@@ -100,6 +100,20 @@ const defaultActions: Action[] = [
     },
   },
   {
+    name: 'flipperRight',
+    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.dpad.right }],
+    perform: () => {
+      flipperService.send('MODE_RIGHT')
+    },
+  },
+  {
+    name: 'flipperLeft',
+    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.dpad.left }],
+    perform: () => {
+      flipperService.send('MODE_LEFT')
+    },
+  },
+  {
     name: 'switchForwardDirection',
     bindings: [
       { type: 'gamepadBtnDown', button: buttonMappings.back },

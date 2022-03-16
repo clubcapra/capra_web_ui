@@ -17,7 +17,11 @@ interface FlipperStateSchema {
   }
 }
 
-type FlipperEvent = { type: 'MODE_FRONT' } | { type: 'MODE_BACK' }
+type FlipperEvent =
+  | { type: 'MODE_FRONT' }
+  | { type: 'MODE_BACK' }
+  | { type: 'MODE_LEFT' }
+  | { type: 'MODE_RIGHT' }
 
 export const flipperMachine = Machine<
   FlipperContext,
@@ -31,38 +35,40 @@ export const flipperMachine = Machine<
     states: {
       front: {
         on: {
-          MODE_FRONT: { target: 'frontLeft', actions: 'set_mode_frontLeft' },
+          MODE_LEFT: { target: 'frontLeft', actions: 'set_mode_frontLeft' },
+          MODE_RIGHT: { target: 'frontRight', actions: 'set_mode_frontRight' },
           MODE_BACK: { target: 'none', actions: 'set_mode_none' },
         },
       },
       frontLeft: {
         on: {
-          MODE_FRONT: { target: 'frontRight', actions: 'set_mode_frontRight' },
-          MODE_BACK: { target: 'front', actions: 'set_mode_front' },
+          MODE_RIGHT: { target: 'front', actions: 'set_mode_front' },
+          MODE_BACK: { target: 'none', actions: 'set_mode_none' },
         },
       },
       frontRight: {
         on: {
-          MODE_FRONT: { target: 'backRight', actions: 'set_mode_backRight' },
-          MODE_BACK: { target: 'frontLeft', actions: 'set_mode_frontLeft' },
+          MODE_LEFT: { target: 'front', actions: 'set_mode_front' },
+          MODE_BACK: { target: 'none', actions: 'set_mode_none' },
         },
       },
       back: {
         on: {
           MODE_FRONT: { target: 'none', actions: 'set_mode_none' },
-          MODE_BACK: { target: 'backLeft', actions: 'set_mode_backLeft' },
+          MODE_LEFT: { target: 'backLeft', actions: 'set_mode_backLeft' },
+          MODE_RIGHT: { target: 'backRight', actions: 'set_mode_backRight' },
         },
       },
       backLeft: {
         on: {
-          MODE_FRONT: { target: 'back', actions: 'set_mode_back' },
-          MODE_BACK: { target: 'backRight', actions: 'set_mode_backRight' },
+          MODE_FRONT: { target: 'none', actions: 'set_mode_none' },
+          MODE_RIGHT: { target: 'back', actions: 'set_mode_back' },
         },
       },
       backRight: {
         on: {
-          MODE_FRONT: { target: 'backLeft', actions: 'set_mode_backLeft' },
-          MODE_BACK: { target: 'frontRight', actions: 'set_mode_frontRight' },
+          MODE_FRONT: { target: 'none', actions: 'set_mode_none' },
+          MODE_LEFT: { target: 'back', actions: 'set_mode_back' },
         },
       },
       none: {
