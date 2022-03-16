@@ -80,19 +80,36 @@ export const flipperMachine = Machine<
     },
   },
   {
-    //TODO ADD INDIVIDUAL FLIPPER ACTIONS
     actions: {
       set_mode_none: () => {
         void sendFlipperMode('front_disable')
         void sendFlipperMode('back_disable')
+        void sendFlipperMode('fl_disable')
+        void sendFlipperMode('fr_disable')
+        void sendFlipperMode('bl_disable')
+        void sendFlipperMode('br_disable')
       },
       set_mode_front: () => {
         void sendFlipperMode('front_enable')
-        void sendFlipperMode('back_disable')
+        void sendFlipperMode('fl_disable')
+        void sendFlipperMode('fr_disable')
+      },
+      set_mode_frontLeft: () => {
+        void sendFlipperMode('fl_enable')
+      },
+      set_mode_frontRight: () => {
+        void sendFlipperMode('fr_enable')
+      },
+      set_mode_backLeft: () => {
+        void sendFlipperMode('bl_enable')
+      },
+      set_mode_backRight: () => {
+        void sendFlipperMode('br_enable')
       },
       set_mode_back: () => {
-        void sendFlipperMode('front_disable')
         void sendFlipperMode('back_enable')
+        void sendFlipperMode('bl_disable')
+        void sendFlipperMode('br_disable')
       },
     },
   }
@@ -103,6 +120,14 @@ type FlipperMode =
   | 'front_disable'
   | 'back_enable'
   | 'back_disable'
+  | 'fl_enable'
+  | 'fr_enable'
+  | 'bl_enable'
+  | 'br_enable'
+  | 'fl_disable'
+  | 'fr_disable'
+  | 'bl_disable'
+  | 'br_disable'
 
 async function sendFlipperMode(mode: FlipperMode) {
   try {
