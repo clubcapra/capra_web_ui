@@ -11,6 +11,8 @@ import { toast } from 'react-toastify'
 import { log } from '@/renderer/logger'
 import { FaSync } from 'react-icons/fa'
 import { LoadingOverlay } from '@/renderer/components/common/LoadingOverlay'
+import { useActor } from '@xstate/react'
+import { rosService } from '@/renderer/state/ros'
 
 interface LaunchMsg {
   fileName: string
@@ -27,6 +29,7 @@ export const LaunchConfig: FC = () => {
   const dispatch = useDispatch()
   const allLaunchFiles = useSelector(selectAllLaunchFiles)
   const [isLoading, setIsLoading] = useState(false)
+  const [connectionState] = useActor(rosService)
 
   const onClick = useCallback(
     (fileName: string, packageName: string) => {
@@ -49,7 +52,10 @@ export const LaunchConfig: FC = () => {
             toast.error(messageData.message)
           }
         })
-        .catch(log.error)
+        .catch((e: string) => {
+          setIsLoading(false)
+          toast.error(e)
+        })
     },
     [dispatch]
   )
@@ -99,7 +105,7 @@ export const LaunchConfig: FC = () => {
   }, [allLaunchFiles, dispatch])
 
   useEffect(() => {
-    if (rosClient.isConnected) {
+    if (connectionState.matches('connected')) {
       refreshLaunchedFiles()
     } else {
       allLaunchFiles.forEach((element) => {
@@ -108,7 +114,13 @@ export const LaunchConfig: FC = () => {
         }
       })
     }
-  }, [allLaunchFiles, dispatch, onClickKillAll, refreshLaunchedFiles])
+  }, [
+    allLaunchFiles,
+    connectionState,
+    dispatch,
+    onClickKillAll,
+    refreshLaunchedFiles,
+  ])
 
   const stylingObject = {
     div: {
@@ -119,7 +131,7 @@ export const LaunchConfig: FC = () => {
 
   return (
     <>
-      {rosClient.isConnected ? (
+      {connectionState.matches('connected') ? (
         <>
           <div style={stylingObject.div}>
             <Button onClick={onClickLaunchAll}>Launch All</Button>

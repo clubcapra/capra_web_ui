@@ -164,8 +164,4 @@ export default class RosClient {
   get isLogEnabled() {
     return window.preloadApi.isDev && this.options.enableLogging
   }
-
-  get isConnected() {
-    return this.connected
-  }
 }

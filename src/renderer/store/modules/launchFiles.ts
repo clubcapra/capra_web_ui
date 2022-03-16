@@ -10,15 +10,39 @@ export interface LaunchFilesState {
 
 export const initialState: LaunchFilesState[] = [
   {
+    name: 'Base',
+    packageName: 'markhor_bringup',
+    fileName: 'markhor_base.launch',
+    isLaunched: false,
+  },
+  {
     name: 'Flippers',
-    packageName: 'capra_tutorial',
-    fileName: 'yes.launch',
+    packageName: 'markhor_flippers',
+    fileName: 'flippers.launch',
     isLaunched: false,
   },
   {
     name: 'Tracks',
+    packageName: 'markhor_tracks',
+    fileName: 'tracks.launch',
+    isLaunched: false,
+  },
+  {
+    name: 'EStop',
+    packageName: 'capra_estop',
+    fileName: 'estop.launch',
+    isLaunched: false,
+  },
+  {
+    name: 'Teleop',
     packageName: 'markhor_bringup',
-    fileName: 'markhor_base',
+    fileName: 'teleop_twist_joy.launch',
+    isLaunched: false,
+  },
+  {
+    name: 'Astra Camera',
+    packageName: 'astra_camera',
+    fileName: 'multi_embedded.launch',
     isLaunched: false,
   },
 ]
