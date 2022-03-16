@@ -74,6 +74,14 @@ const FlipperMode = () => {
     return (
       <div>
         {flipper.matches('front') && (isReverse ? 'BACK' : 'FRONT')}
+        {flipper.matches('frontLeft') &&
+          (isReverse ? 'BACK LEFT' : 'FRONT LEFT')}
+        {flipper.matches('frontRight') &&
+          (isReverse ? 'BACK RIGHT' : 'FRONT RIGHT')}
+        {flipper.matches('backLeft') &&
+          (isReverse ? 'FRONT LEFT' : 'BACK LEFT')}
+        {flipper.matches('backRight') &&
+          (isReverse ? 'FRONT RIGHT' : 'BACK RIGHT')}
         {flipper.matches('none') && 'NONE'}
         {flipper.matches('back') && (isReverse ? 'FRONT' : 'BACK')}
       </div>
