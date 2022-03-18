@@ -124,7 +124,7 @@ type FlipperMode =
 async function sendFlipperMode(mode: FlipperMode) {
   try {
     await rosClient.callService({
-      name: `/markhor/flipper_mode_${mode}`,
+      name: `/markhor/flippers/flipper_mode_${mode}`,
     })
   } catch (e) {
     log.error(e)
