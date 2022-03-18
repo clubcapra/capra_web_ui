@@ -88,11 +88,21 @@ export const flipperMachine = Machine<
       },
       set_mode_front: () => {
         void sendFlipperMode('front_enable')
-        void sendFlipperMode('back_disable')
+      },
+      set_mode_frontLeft: () => {
+        void sendFlipperMode('fr_disable')
+      },
+      set_mode_frontRight: () => {
+        void sendFlipperMode('fl_disable')
       },
       set_mode_back: () => {
-        void sendFlipperMode('front_disable')
         void sendFlipperMode('back_enable')
+      },
+      set_mode_backLeft: () => {
+        void sendFlipperMode('br_disable')
+      },
+      set_mode_backRight: () => {
+        void sendFlipperMode('bl_disable')
       },
     },
   }
@@ -103,6 +113,14 @@ type FlipperMode =
   | 'front_disable'
   | 'back_enable'
   | 'back_disable'
+  | 'fr_enable'
+  | 'fr_disable'
+  | 'fl_enable'
+  | 'fl_disable'
+  | 'br_enable'
+  | 'br_disable'
+  | 'bl_enable'
+  | 'bl_disable'
 
 async function sendFlipperMode(mode: FlipperMode) {
   try {

@@ -103,6 +103,7 @@ const defaultActions: Action[] = [
     name: 'flipperRight',
     bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.dpad.right }],
     perform: () => {
+      //TODO add check for arm control if in none flipper mode
       flipperService.send('MODE_RIGHT')
     },
   },
