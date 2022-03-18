@@ -80,7 +80,6 @@ export const flipperMachine = Machine<
     },
   },
   {
-    //TODO ADD INDIVIDUAL FLIPPER ACTIONS
     actions: {
       set_mode_none: () => {
         void sendFlipperMode('front_disable')
