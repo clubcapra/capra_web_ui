@@ -60,13 +60,13 @@ export const LaunchConfig: FC = () => {
     [dispatch]
   )
 
-  const onClickLaunchAll = () => {
+  const onClickLaunchAll = useCallback(() => {
     allLaunchFiles.forEach((element) => {
       if (!element.isLaunched) {
         onClick(element.fileName, element.packageName)
       }
     })
-  }
+  }, [allLaunchFiles, onClick])
 
   const onClickKillAll = useCallback(() => {
     allLaunchFiles.forEach((element) => {
