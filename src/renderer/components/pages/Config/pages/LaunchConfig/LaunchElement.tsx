@@ -1,6 +1,5 @@
 import { Button } from '@/renderer/components/common/Button'
-import React, { FC, useState } from 'react'
-import ClipLoader from 'react-spinners/ClipLoader'
+import React, { FC } from 'react'
 
 interface LaunchElementProps {
   name: string

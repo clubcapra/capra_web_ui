@@ -101,7 +101,9 @@ export const LaunchConfig: FC = () => {
           }
         }
       })
-      .catch(log.error)
+      .catch((e: string) => {
+        toast.error(e)
+      })
   }, [allLaunchFiles, dispatch])
 
   useEffect(() => {

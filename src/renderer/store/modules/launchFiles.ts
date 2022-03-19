@@ -70,4 +70,5 @@ export const launchFilesSlice = createSlice({
   },
 })
 
-export const selectAllLaunchFiles = (state: GlobalState) => state.launchFiles
+export const selectAllLaunchFiles = (state: GlobalState): LaunchFilesState[] =>
+  state.launchFiles
