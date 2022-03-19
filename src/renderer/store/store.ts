@@ -16,7 +16,7 @@ const appReducer = combineReducers({
   ros: rosSlice.reducer,
   input: inputSlice.reducer,
   debugTab: debugTabSlice.reducer,
-  launchFiles: launchFilesSlice.reducer
+  launchFiles: launchFilesSlice.reducer,
 })
 
 export type GlobalState = ReturnType<typeof appReducer>

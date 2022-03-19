@@ -12,7 +12,7 @@ export const defaultState: GlobalState = {
   ros: rosState,
   input: inputState,
   debugTab: debugTabState,
-  launchFiles: launchFilesState
+  launchFiles: launchFilesState,
 }
 
 // WARN
