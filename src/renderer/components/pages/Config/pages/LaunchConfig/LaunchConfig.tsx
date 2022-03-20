@@ -92,10 +92,7 @@ export const LaunchConfig: FC = () => {
 
   useEffect(() => {
     if (connectionState.matches('connected')) {
-      const refresh = async () => {
-        await refreshLaunchedFiles()
-      }
-      void refresh()
+      void refreshLaunchedFiles()
     } else {
       allLaunchFiles.forEach((element) => {
         if (element.isLaunched) {
