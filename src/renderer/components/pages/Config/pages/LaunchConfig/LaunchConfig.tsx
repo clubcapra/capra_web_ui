@@ -32,30 +32,27 @@ export const LaunchConfig: FC = () => {
   const [connectionState] = useActor(rosService)
 
   const onClick = useCallback(
-    (fileName: string, packageName: string) => {
+    async (fileName: string, packageName: string) => {
       setIsLoading(true)
-      rosClient
-        .callService(
+      try {
+        const result = (await rosClient.callService(
           {
             name: '/launchHandler/launchFile',
           },
           { package: packageName, fileName }
-        )
-        .then((res: unknown) => {
-          const messageData = res as LaunchMsg
-          setIsLoading(false)
-          if (messageData.isLaunched) {
-            dispatch(launchFilesSlice.actions.launchFile(messageData.fileName))
-            toast.success(messageData.message)
-          } else {
-            dispatch(launchFilesSlice.actions.killFile(messageData.fileName))
-            toast.error(messageData.message)
-          }
-        })
-        .catch((e: string) => {
-          setIsLoading(false)
-          toast.error(e)
-        })
+        )) as LaunchMsg
+        setIsLoading(false)
+        if (result.isLaunched) {
+          dispatch(launchFilesSlice.actions.launchFile(result.fileName))
+          toast.success(result.message)
+        } else {
+          dispatch(launchFilesSlice.actions.killFile(result.fileName))
+          toast.error(result.message)
+        }
+      } catch (e) {
+        setIsLoading(false)
+        log.error(e)
+      }
     },
     [dispatch]
   )
@@ -63,7 +60,7 @@ export const LaunchConfig: FC = () => {
   const onClickLaunchAll = useCallback(() => {
     allLaunchFiles.forEach((element) => {
       if (!element.isLaunched) {
-        onClick(element.fileName, element.packageName)
+        void onClick(element.fileName, element.packageName)
       }
     })
   }, [allLaunchFiles, onClick])
@@ -71,44 +68,34 @@ export const LaunchConfig: FC = () => {
   const onClickKillAll = useCallback(() => {
     allLaunchFiles.forEach((element) => {
       if (element.isLaunched) {
-        onClick(element.fileName, element.packageName)
+        void onClick(element.fileName, element.packageName)
       }
     })
   }, [allLaunchFiles, onClick])
 
-  const onClickRefresh = () => {
-    refreshLaunchedFiles()
-  }
-
-  const refreshLaunchedFiles = useCallback(() => {
-    rosClient
-      .callService({
+  const refreshLaunchedFiles = useCallback(async () => {
+    try {
+      const result = (await rosClient.callService({
         name: '/launchHandler/getAllLaunchedFiles',
-      })
-      .then((res: unknown) => {
-        const launchedFiles = res as LaunchedFiles
-        for (const element of allLaunchFiles) {
-          if (
-            !element.isLaunched &&
-            launchedFiles.fileNames.includes(element.fileName)
-          ) {
-            dispatch(launchFilesSlice.actions.launchFile(element.fileName))
-          } else if (
-            element.isLaunched &&
-            !launchedFiles.fileNames.includes(element.fileName)
-          ) {
-            dispatch(launchFilesSlice.actions.killFile(element.fileName))
-          }
+      })) as LaunchedFiles
+      allLaunchFiles.forEach((element) => {
+        if (result.fileNames.includes(element.fileName)) {
+          element.isLaunched
+            ? dispatch(launchFilesSlice.actions.killFile(element.fileName))
+            : dispatch(launchFilesSlice.actions.launchFile(element.fileName))
         }
       })
-      .catch((e: string) => {
-        toast.error(e)
-      })
+    } catch (e) {
+      log.error(e)
+    }
   }, [allLaunchFiles, dispatch])
 
   useEffect(() => {
     if (connectionState.matches('connected')) {
-      refreshLaunchedFiles()
+      const refresh = async () => {
+        await refreshLaunchedFiles()
+      }
+      void refresh()
     } else {
       allLaunchFiles.forEach((element) => {
         if (element.isLaunched) {
@@ -124,25 +111,18 @@ export const LaunchConfig: FC = () => {
     refreshLaunchedFiles,
   ])
 
-  const stylingObject = {
-    div: {
-      display: 'flex',
-      marginTop: 5,
-    },
-  }
-
   return (
     <>
       {connectionState.matches('connected') ? (
         <>
-          <div style={stylingObject.div}>
+          <div style={{ display: 'flex', marginTop: 5 }}>
             <Button onClick={onClickLaunchAll}>Launch All</Button>
             <Button onClick={onClickKillAll}>Kill All</Button>
-            <Button onClick={onClickRefresh}>
+            <Button onClick={refreshLaunchedFiles}>
               <FaSync />
             </Button>
           </div>
-          <div>
+          <>
             {allLaunchFiles.map((element) => (
               <LaunchElement
                 key={element.name}
@@ -153,11 +133,11 @@ export const LaunchConfig: FC = () => {
                 isLaunched={element.isLaunched}
               />
             ))}
-          </div>
+          </>
           {isLoading ? <LoadingOverlay>File is launching</LoadingOverlay> : ''}
         </>
       ) : (
-        <div>No connection to ROS</div>
+        <>No connection to ROS</>
       )}
     </>
   )
