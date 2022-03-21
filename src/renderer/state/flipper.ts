@@ -8,11 +8,11 @@ interface FlipperContext {}
 interface FlipperStateSchema {
   states: {
     front: Record<string, unknown>
-    frontLeft: Record<string, unknown>
-    frontRight: Record<string, unknown>
+    fl: Record<string, unknown>
+    fr: Record<string, unknown>
     rear: Record<string, unknown>
-    rearLeft: Record<string, unknown>
-    rearRight: Record<string, unknown>
+    rl: Record<string, unknown>
+    rr: Record<string, unknown>
     none: Record<string, unknown>
   }
 }
@@ -40,13 +40,13 @@ export const flipperMachine = Machine<
           MODE_REAR: { target: 'none', actions: 'set_mode_none' },
         },
       },
-      frontLeft: {
+      fl: {
         on: {
           MODE_RIGHT: { target: 'front', actions: 'set_mode_front' },
           MODE_REAR: { target: 'none', actions: 'set_mode_none' },
         },
       },
-      frontRight: {
+      fr: {
         on: {
           MODE_LEFT: { target: 'front', actions: 'set_mode_front' },
           MODE_REAR: { target: 'none', actions: 'set_mode_none' },
@@ -59,13 +59,13 @@ export const flipperMachine = Machine<
           MODE_RIGHT: { target: 'rearRight', actions: 'set_mode_rr' },
         },
       },
-      rearLeft: {
+      rl: {
         on: {
           MODE_FRONT: { target: 'none', actions: 'set_mode_none' },
           MODE_RIGHT: { target: 'rear', actions: 'set_mode_rear' },
         },
       },
-      rearRight: {
+      rr: {
         on: {
           MODE_FRONT: { target: 'none', actions: 'set_mode_none' },
           MODE_LEFT: { target: 'rear', actions: 'set_mode_rear' },
