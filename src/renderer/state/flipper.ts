@@ -35,8 +35,8 @@ export const flipperMachine = Machine<
     states: {
       front: {
         on: {
-          MODE_LEFT: { target: 'frontLeft', actions: 'set_mode_fl' },
-          MODE_RIGHT: { target: 'frontRight', actions: 'set_mode_fr' },
+          MODE_LEFT: { target: 'fl', actions: 'set_mode_fl' },
+          MODE_RIGHT: { target: 'fr', actions: 'set_mode_fr' },
           MODE_REAR: { target: 'none', actions: 'set_mode_none' },
         },
       },
@@ -55,8 +55,8 @@ export const flipperMachine = Machine<
       rear: {
         on: {
           MODE_FRONT: { target: 'none', actions: 'set_mode_none' },
-          MODE_LEFT: { target: 'rearLeft', actions: 'set_mode_rl' },
-          MODE_RIGHT: { target: 'rearRight', actions: 'set_mode_rr' },
+          MODE_LEFT: { target: 'rl', actions: 'set_mode_rl' },
+          MODE_RIGHT: { target: 'rr', actions: 'set_mode_rr' },
         },
       },
       rl: {
