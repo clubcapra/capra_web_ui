@@ -10,16 +10,16 @@ interface FlipperStateSchema {
     front: Record<string, unknown>
     frontLeft: Record<string, unknown>
     frontRight: Record<string, unknown>
-    back: Record<string, unknown>
-    backLeft: Record<string, unknown>
-    backRight: Record<string, unknown>
+    rear: Record<string, unknown>
+    rearLeft: Record<string, unknown>
+    rearRight: Record<string, unknown>
     none: Record<string, unknown>
   }
 }
 
 type FlipperEvent =
   | { type: 'MODE_FRONT' }
-  | { type: 'MODE_BACK' }
+  | { type: 'MODE_REAR' }
   | { type: 'MODE_LEFT' }
   | { type: 'MODE_RIGHT' }
 
@@ -35,46 +35,46 @@ export const flipperMachine = Machine<
     states: {
       front: {
         on: {
-          MODE_LEFT: { target: 'frontLeft', actions: 'set_mode_frontLeft' },
-          MODE_RIGHT: { target: 'frontRight', actions: 'set_mode_frontRight' },
-          MODE_BACK: { target: 'none', actions: 'set_mode_none' },
+          MODE_LEFT: { target: 'frontLeft', actions: 'set_mode_fl' },
+          MODE_RIGHT: { target: 'frontRight', actions: 'set_mode_fr' },
+          MODE_REAR: { target: 'none', actions: 'set_mode_none' },
         },
       },
       frontLeft: {
         on: {
           MODE_RIGHT: { target: 'front', actions: 'set_mode_front' },
-          MODE_BACK: { target: 'none', actions: 'set_mode_none' },
+          MODE_REAR: { target: 'none', actions: 'set_mode_none' },
         },
       },
       frontRight: {
         on: {
           MODE_LEFT: { target: 'front', actions: 'set_mode_front' },
-          MODE_BACK: { target: 'none', actions: 'set_mode_none' },
+          MODE_REAR: { target: 'none', actions: 'set_mode_none' },
         },
       },
-      back: {
+      rear: {
         on: {
           MODE_FRONT: { target: 'none', actions: 'set_mode_none' },
-          MODE_LEFT: { target: 'backLeft', actions: 'set_mode_backLeft' },
-          MODE_RIGHT: { target: 'backRight', actions: 'set_mode_backRight' },
+          MODE_LEFT: { target: 'rearLeft', actions: 'set_mode_rl' },
+          MODE_RIGHT: { target: 'rearRight', actions: 'set_mode_rr' },
         },
       },
-      backLeft: {
+      rearLeft: {
         on: {
           MODE_FRONT: { target: 'none', actions: 'set_mode_none' },
-          MODE_RIGHT: { target: 'back', actions: 'set_mode_back' },
+          MODE_RIGHT: { target: 'rear', actions: 'set_mode_rear' },
         },
       },
-      backRight: {
+      rearRight: {
         on: {
           MODE_FRONT: { target: 'none', actions: 'set_mode_none' },
-          MODE_LEFT: { target: 'back', actions: 'set_mode_back' },
+          MODE_LEFT: { target: 'rear', actions: 'set_mode_rear' },
         },
       },
       none: {
         on: {
           MODE_FRONT: { target: 'front', actions: 'set_mode_front' },
-          MODE_BACK: { target: 'back', actions: 'set_mode_back' },
+          MODE_REAR: { target: 'rear', actions: 'set_mode_rear' },
         },
       },
     },
@@ -83,24 +83,24 @@ export const flipperMachine = Machine<
     actions: {
       set_mode_none: () => {
         void sendFlipperMode('front_disable')
-        void sendFlipperMode('back_disable')
+        void sendFlipperMode('rear_disable')
       },
       set_mode_front: () => {
         void sendFlipperMode('front_enable')
       },
-      set_mode_frontLeft: () => {
+      set_mode_fl: () => {
         void sendFlipperMode('fr_disable')
       },
-      set_mode_frontRight: () => {
+      set_mode_fr: () => {
         void sendFlipperMode('fl_disable')
       },
-      set_mode_back: () => {
-        void sendFlipperMode('back_enable')
+      set_mode_rear: () => {
+        void sendFlipperMode('rear_enable')
       },
-      set_mode_backLeft: () => {
+      set_mode_rl: () => {
         void sendFlipperMode('rr_disable')
       },
-      set_mode_backRight: () => {
+      set_mode_rr: () => {
         void sendFlipperMode('rl_disable')
       },
     },
@@ -110,8 +110,8 @@ export const flipperMachine = Machine<
 type FlipperMode =
   | 'front_enable'
   | 'front_disable'
-  | 'back_enable'
-  | 'back_disable'
+  | 'rear_enable'
+  | 'rear_disable'
   | 'fr_disable'
   | 'fl_disable'
   | 'rr_disable'

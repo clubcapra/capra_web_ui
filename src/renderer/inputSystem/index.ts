@@ -96,7 +96,7 @@ const defaultActions: Action[] = [
       // { type: 'keyboard', code: 'KeyK' },
     ],
     perform: () => {
-      flipperService.send('MODE_BACK')
+      flipperService.send('MODE_REAR')
     },
   },
   {
