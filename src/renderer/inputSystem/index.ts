@@ -96,7 +96,22 @@ const defaultActions: Action[] = [
       // { type: 'keyboard', code: 'KeyK' },
     ],
     perform: () => {
-      flipperService.send('MODE_BACK')
+      flipperService.send('MODE_REAR')
+    },
+  },
+  {
+    name: 'flipperRight',
+    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.dpad.right }],
+    perform: () => {
+      //TODO add check for arm control if in none flipper mode
+      flipperService.send('MODE_RIGHT')
+    },
+  },
+  {
+    name: 'flipperLeft',
+    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.dpad.left }],
+    perform: () => {
+      flipperService.send('MODE_LEFT')
     },
   },
   {
