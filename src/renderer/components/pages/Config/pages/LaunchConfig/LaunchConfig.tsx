@@ -79,10 +79,11 @@ export const LaunchConfig: FC = () => {
         name: '/launchHandler/getAllLaunchedFiles',
       })) as LaunchedFiles
       allLaunchFiles.forEach((element) => {
-        if (result.fileNames.includes(element.fileName)) {
-          element.isLaunched
-            ? dispatch(launchFilesSlice.actions.killFile(element.fileName))
-            : dispatch(launchFilesSlice.actions.launchFile(element.fileName))
+        const isLaunched = result.fileNames.includes(element.fileName)
+        if (isLaunched && !element.isLaunched) {
+          dispatch(launchFilesSlice.actions.launchFile(element.fileName))
+        } else if (!isLaunched && element.isLaunched) {
+          dispatch(launchFilesSlice.actions.killFile(element.fileName))
         }
       })
     } catch (e) {
@@ -100,13 +101,7 @@ export const LaunchConfig: FC = () => {
         }
       })
     }
-  }, [
-    allLaunchFiles,
-    connectionState,
-    dispatch,
-    onClickKillAll,
-    refreshLaunchedFiles,
-  ])
+  }, [allLaunchFiles, connectionState, dispatch, refreshLaunchedFiles])
 
   return (
     <>
