@@ -87,10 +87,10 @@ const View: FC<Props> = () => {
 
     const tfClient = new ROSLIB.TFClient({
       ros: ros,
+      fixedFrame: baseLinkName,
       angularThres: 0.01,
       transThres: 0.01,
       rate: 10.0,
-      fixedFrame: baseLinkName,
     })
 
     new ROS3D.UrdfClient({
