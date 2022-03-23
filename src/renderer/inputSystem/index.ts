@@ -9,7 +9,7 @@ import { feedSlice } from '@/renderer/store/modules/feed'
 import { store } from '@/renderer/store/store'
 import { flipperService } from '@/renderer/state/flipper'
 import { log } from '@/renderer/logger'
-import { inputSlice } from '@/renderer/store/modules/input'
+import { inputSlice, selectReverse } from '@/renderer/store/modules/input'
 
 const joyTopic: TopicOptions = {
   name: '/joy',
@@ -32,12 +32,11 @@ const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
   const rt = getBtnValue(gamepad.buttons[buttonMappings.RT])
 
   let axes = gamepad.axes
-  axes = [-axes[0], -axes[1], lt, -axes[2], -axes[3], rt]
-  const deadzone = 0.09
+  const isReverse = selectReverse(store.getState())
+  axes = [-axes[0], isReverse ? axes[1] : -axes[1], lt, -axes[2], -axes[3], rt]
+  const deadzone = 0.15
   axes = axes.map((x) => (x < deadzone && x > -deadzone ? 0.0 : x))
-
   const buttons = gamepad.buttons.map((x) => Math.floor(x.value))
-
   //TODO add turbo support
 
   return {
@@ -97,7 +96,22 @@ const defaultActions: Action[] = [
       // { type: 'keyboard', code: 'KeyK' },
     ],
     perform: () => {
-      flipperService.send('MODE_BACK')
+      flipperService.send('MODE_REAR')
+    },
+  },
+  {
+    name: 'flipperRight',
+    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.dpad.right }],
+    perform: () => {
+      //TODO add check for arm control if in none flipper mode
+      flipperService.send('MODE_RIGHT')
+    },
+  },
+  {
+    name: 'flipperLeft',
+    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.dpad.left }],
+    perform: () => {
+      flipperService.send('MODE_LEFT')
     },
   },
   {
@@ -126,7 +140,9 @@ const defaultActions: Action[] = [
     name: 'flipper_reset',
     bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.B }],
     perform: () => {
-      rosClient.callService({ name: 'markhor/flipper_reset' }).catch(log.error)
+      rosClient
+        .callService({ name: 'markhor/flippers/flipper_reset' })
+        .catch(log.error)
     },
   },
   {

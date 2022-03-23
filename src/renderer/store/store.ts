@@ -9,12 +9,14 @@ import { rosSlice } from '@/renderer/store/modules/ros'
 import { debugTabSlice } from '@/renderer/store/modules/debugTab'
 import { configureStore, AnyAction, combineReducers } from '@reduxjs/toolkit'
 import { throttle } from 'lodash'
+import { launchFilesSlice } from './modules/launchFiles'
 
 const appReducer = combineReducers({
   feed: feedSlice.reducer,
   ros: rosSlice.reducer,
   input: inputSlice.reducer,
   debugTab: debugTabSlice.reducer,
+  launchFiles: launchFilesSlice.reducer,
 })
 
 export type GlobalState = ReturnType<typeof appReducer>

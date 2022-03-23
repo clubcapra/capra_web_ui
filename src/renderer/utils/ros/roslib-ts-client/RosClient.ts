@@ -161,6 +161,6 @@ export default class RosClient {
   }
 
   get isLogEnabled() {
-    return process.env.NODE_ENV !== 'production' && this.options.enableLogging
+    return window.preloadApi.isDev && this.options.enableLogging
   }
 }
