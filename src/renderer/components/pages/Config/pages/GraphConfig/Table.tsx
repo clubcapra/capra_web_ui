@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import {
   feedSlice,
   selectAllGraph,
+  GraphType,
   IGraphData,
   IGraphFeed,
 } from '@/renderer/store/modules/feed'
@@ -11,18 +12,20 @@ import { useSelector } from '@/renderer/hooks/typedUseSelector'
 import { Input } from '@/renderer/components/common/Input'
 import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
 import { styled } from '@/renderer/globalStyles/styled'
+import { Select } from '@/renderer/components/common/Select'
 
 const TableRow: FC<{
   feed: IGraphFeed
   updateTopic: (
     id: string
   ) => (field: keyof TopicOptions, value: string) => void
-  updateName: (id: string) => (value: string) => void
-}> = ({ feed, updateTopic, updateName }) => {
+  updateGraph: (id: string) => (field: keyof IGraphData, value: string) => void
+}> = ({ feed, updateTopic, updateGraph }) => {
   const {
     id,
     graph: {
       name,
+      type,
       topic: { name: topicName, messageType },
     },
   } = feed
@@ -30,7 +33,7 @@ const TableRow: FC<{
   const dispatch = useDispatch()
   const removeGraph = () => dispatch(feedSlice.actions.removeFeed(id))
   const updateTopicId = updateTopic(id)
-  const updateNameId = updateName(id)
+  const updateGraphId = updateGraph(id)
 
   return (
     <tr>
@@ -38,7 +41,7 @@ const TableRow: FC<{
         <Input
           type="text"
           value={name}
-          onChange={(e) => updateNameId(e.target.value)}
+          onChange={(e) => updateGraphId('name', e.target.value)}
         />
       </td>
       <td>
@@ -53,6 +56,16 @@ const TableRow: FC<{
           type="text"
           value={messageType}
           onChange={(e) => updateTopicId('messageType', e.target.value)}
+        />
+      </td>
+      <td>
+        <Select
+          value={type}
+          options={Object.keys(GraphType).map((o) => ({
+            key: o,
+            value: o.toLowerCase(),
+          }))}
+          onChange={(e) => updateGraphId('type', e.target.value)}
         />
       </td>
       <td>
@@ -91,14 +104,26 @@ export const Table: FC = () => {
     [allGraphs, dispatch]
   )
 
-  const updateName = useCallback(
+  const updateGraph = useCallback(
     (id: string) =>
-      (value: string): void => {
+      (field: keyof IGraphData, value: string): void => {
         const feed = allGraphs.find((f) => f.id === id)
         if (!feed) {
           return
         }
-        const newGraph: IGraphData = { ...feed.graph, name: value }
+
+        const newGraph: IGraphData = { ...feed.graph }
+
+        switch (field) {
+          case 'name':
+            newGraph[field] = value
+            break
+          case 'type':
+            newGraph[field] =
+              GraphType[value as keyof typeof GraphType] || value
+            break
+        }
+
         dispatch(
           feedSlice.actions.updateGraph({
             graph: newGraph,
@@ -116,6 +141,7 @@ export const Table: FC = () => {
           <th>Name</th>
           <th>Topic</th>
           <th>Message Type</th>
+          <th>Type</th>
           <th />
         </tr>
       </thead>
@@ -125,7 +151,7 @@ export const Table: FC = () => {
             key={feed.id}
             feed={feed}
             updateTopic={updateTopic}
-            updateName={updateName}
+            updateGraph={updateGraph}
           />
         ))}
       </tbody>

@@ -31,6 +31,11 @@ export enum CameraType {
   WEBCAM = 'webcam',
 }
 
+export enum GraphType {
+  GRAPH = 'graph',
+  TEXT = 'text',
+}
+
 export type FeedType =
   | IEmptyFeed
   | ICameraFeed
@@ -76,6 +81,7 @@ export interface IGraphFeed extends BaseFeed {
 export interface IGraphData {
   topic: TopicOptions<string>
   name: string
+  type: GraphType
 }
 
 export const feed_id = {
@@ -209,6 +215,7 @@ export const initialState: FeedState = {
       id: 'co2_graph',
       graph: {
         name: 'co2_graph',
+        type: GraphType.GRAPH,
         topic: {
           name: '/capra/co2_ppm',
           messageType: 'std_msgs/String',
