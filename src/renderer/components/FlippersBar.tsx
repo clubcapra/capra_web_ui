@@ -7,7 +7,6 @@ import React, { FC } from 'react'
 export const FlippersBar: FC = () => {
 
   const allFeeds = useSelector(selectAllFlippers)
-
   return <StyledFlippersBarWrapper>
     <LeftStatusBar>
     <FlippersFeed feed={allFeeds[0]} />

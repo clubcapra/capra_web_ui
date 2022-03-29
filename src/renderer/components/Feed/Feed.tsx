@@ -2,7 +2,6 @@ import { Select } from '@/renderer/components/common/Select'
 import { CameraFeed } from '@/renderer/components/Feed/Feeds/CameraFeed'
 import { GraphFeed } from '@/renderer/components/Feed/Feeds/GraphFeed'
 import { TextFeed } from '@/renderer/components/Feed/Feeds/TextFeed'
-import { FlippersFeed } from '@/renderer/components/Feed/Feeds/FlippersFeed'
 import { UrdfFeed } from '@/renderer/components/Feed/Feeds/UrdfFeed'
 import { styled } from '@/renderer/globalStyles/styled'
 import {
@@ -63,8 +62,6 @@ const FeedView: FC<{
       return <UrdfFeed feed={feed} />
     case FeedTypeEnum.Graph:
       return <GraphFeed feed={feed} />
-    case FeedTypeEnum.Flippers:
-      return <FlippersFeed feed={feed} />
     default:
       return <TextFeed text="NOT SUPPORTED" />
   }
@@ -88,7 +85,7 @@ const FeedSelect: FC<{
 }> = ({ id, visible, currentFeedId }) => {
   const dispatch = useDispatch()
   const allFeeds = useSelector(selectAllFeeds)
-  const feedCollection = Object.values(allFeeds)
+  const feedCollection = Object.values(allFeeds).filter(isNotFlippersFeed)
 
   const selectFeed = (e: ChangeEvent<HTMLSelectElement>) => {
     dispatch(feedSlice.actions.updateFeedMap({ id, feedId: e.target.value }))
@@ -108,6 +105,8 @@ const FeedSelect: FC<{
     </StyledSelectContainer>
   )
 }
+
+const isNotFlippersFeed = (feed : FeedType) =>{ return feed.type != FeedTypeEnum.Flippers} 
 
 const StyledFeedComponent = styled.div`
   position: relative;
