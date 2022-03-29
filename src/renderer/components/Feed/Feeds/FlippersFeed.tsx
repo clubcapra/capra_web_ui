@@ -23,7 +23,6 @@ export const FlippersFeed: FC<Props> = ({ feed }) => {
     if (!text) {
       settext('')
     }
-    return () => {}
   }, [text])
 
   useRosSubscribe(

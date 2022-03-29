@@ -106,7 +106,9 @@ const FeedSelect: FC<{
   )
 }
 
-const isNotFlippersFeed = (feed : FeedType) =>{ return feed.type != FeedTypeEnum.Flippers} 
+const isNotFlippersFeed = (feed: FeedType) => {
+  return feed.type != FeedTypeEnum.Flippers
+}
 
 const StyledFeedComponent = styled.div`
   position: relative;

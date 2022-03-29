@@ -226,7 +226,7 @@ export const initialState: FeedState = {
           name: '/capra/co2_ppm',
           messageType: 'std_msgs/String',
         },
-      }
+      },
     },
     flippers_fl: {
       type: FeedTypeEnum.Flippers,
@@ -238,7 +238,7 @@ export const initialState: FeedState = {
           name: '/markhor/flippers/flipper_fl_position_target',
           messageType: 'std_msgs/String',
         },
-      }
+      },
     },
     flippers_fr: {
       type: FeedTypeEnum.Flippers,
@@ -250,7 +250,7 @@ export const initialState: FeedState = {
           name: '/markhor/flippers/flipper_fr_position_target',
           messageType: 'std_msgs/String',
         },
-      }
+      },
     },
     flippers_rl: {
       type: FeedTypeEnum.Flippers,
@@ -262,7 +262,7 @@ export const initialState: FeedState = {
           name: '/markhor/flippers/flipper_rl_position_target',
           messageType: 'std_msgs/String',
         },
-      }
+      },
     },
     flippers_rr: {
       type: FeedTypeEnum.Flippers,
@@ -274,7 +274,7 @@ export const initialState: FeedState = {
           name: '/markhor/flippers/flipper_rr_position_target',
           messageType: 'std_msgs/String',
         },
-      }
+      },
     },
   },
 }

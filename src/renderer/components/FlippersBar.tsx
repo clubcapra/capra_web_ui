@@ -1,6 +1,6 @@
 import { styled } from '@/renderer/globalStyles/styled'
 import { FlippersFeed } from '@/renderer/components/Feed/Feeds/FlippersFeed'
-import { FeedType, selectAllFlippers } from '@/renderer/store/modules/feed'
+import { selectAllFlippers } from '@/renderer/store/modules/feed'
 import { useSelector } from 'react-redux'
 import React, { FC } from 'react'
 
