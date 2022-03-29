@@ -3,7 +3,6 @@ import { Table } from '../FlippersConfig/Table'
 import { SectionTitle } from '@/renderer/components/pages/Config/styles'
 import { styled } from '@/renderer/globalStyles/styled'
 
-
 const TableSection = () => (
   <>
     <SectionTitle>Flippers</SectionTitle>
@@ -20,9 +19,7 @@ export const FlippersConfig: FC = () => {
   return (
     <FlippersConfigWrapper>
       <SectionTitle>Notice</SectionTitle>
-      <p>
-        This assumes that the data can be converted to a number
-      </p>
+      <p>This assumes that the data can be converted to a number</p>
       <TableSection />
     </FlippersConfigWrapper>
   )

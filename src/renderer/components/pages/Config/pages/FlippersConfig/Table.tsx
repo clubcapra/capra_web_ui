@@ -2,7 +2,6 @@ import React, { FC, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import {
   feedSlice,
-  selectAllGraph,
   IFlippersFeed,
   IFlippersData,
   selectAllFlippers,

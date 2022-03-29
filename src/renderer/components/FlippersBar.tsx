@@ -1,22 +1,23 @@
 import { styled } from '@/renderer/globalStyles/styled'
 import { FlippersFeed } from '@/renderer/components/Feed/Feeds/FlippersFeed'
-import { FeedType, selectAllFlippers} from '@/renderer/store/modules/feed' 
+import { FeedType, selectAllFlippers } from '@/renderer/store/modules/feed'
 import { useSelector } from 'react-redux'
 import React, { FC } from 'react'
 
 export const FlippersBar: FC = () => {
-
   const allFeeds = useSelector(selectAllFlippers)
-  return <StyledFlippersBarWrapper>
-    <LeftStatusBar>
-    <FlippersFeed feed={allFeeds[0]} />
-    <FlippersFeed feed={allFeeds[1]} />
-    </LeftStatusBar>
-    <RightStatusBar>
-    <FlippersFeed feed={allFeeds[2]} />
-    <FlippersFeed feed={allFeeds[3]} />
-    </RightStatusBar>
-  </StyledFlippersBarWrapper>
+  return (
+    <StyledFlippersBarWrapper>
+      <LeftStatusBar>
+        <FlippersFeed feed={allFeeds[0]} />
+        <FlippersFeed feed={allFeeds[1]} />
+      </LeftStatusBar>
+      <RightStatusBar>
+        <FlippersFeed feed={allFeeds[2]} />
+        <FlippersFeed feed={allFeeds[3]} />
+      </RightStatusBar>
+    </StyledFlippersBarWrapper>
+  )
 }
 
 const StyledFlippersBarWrapper = styled.div`

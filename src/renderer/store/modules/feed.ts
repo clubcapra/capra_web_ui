@@ -230,7 +230,7 @@ export const initialState: FeedState = {
     },
     flippers_fl: {
       type: FeedTypeEnum.Flippers,
-      direction : 'fl',
+      direction: 'fl',
       id: 'flippers_fl',
       flippers: {
         name: 'flippers_fl',
@@ -242,7 +242,7 @@ export const initialState: FeedState = {
     },
     flippers_fr: {
       type: FeedTypeEnum.Flippers,
-      direction : 'fr',
+      direction: 'fr',
       id: 'flippers_fr',
       flippers: {
         name: 'flippers_fr',
@@ -254,7 +254,7 @@ export const initialState: FeedState = {
     },
     flippers_rl: {
       type: FeedTypeEnum.Flippers,
-      direction : 'rl',
+      direction: 'rl',
       id: 'flippers_rl',
       flippers: {
         name: 'flippers_rl',
@@ -266,7 +266,7 @@ export const initialState: FeedState = {
     },
     flippers_rr: {
       type: FeedTypeEnum.Flippers,
-      direction : 'rr',
+      direction: 'rr',
       id: 'flippers_rr',
       flippers: {
         name: 'flippers_rr',

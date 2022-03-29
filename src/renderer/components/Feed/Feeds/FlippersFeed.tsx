@@ -7,7 +7,6 @@ interface Props {
   feed: IFlippersFeed
 }
 
-
 const StyledTextFeed = styled.div`
   width: 100%;
   height: 100%;
@@ -18,14 +17,13 @@ const StyledTextFeed = styled.div`
 `
 
 export const FlippersFeed: FC<Props> = ({ feed }) => {
-  const [text, settext] = useState<string>("")
+  const [text, settext] = useState<string>('')
 
   useEffect(() => {
     if (!text) {
-      settext("")
+      settext('')
     }
-    return () => {
-    }
+    return () => {}
   }, [text])
 
   useRosSubscribe(
@@ -37,5 +35,9 @@ export const FlippersFeed: FC<Props> = ({ feed }) => {
       [text]
     )
   )
-  return <StyledTextFeed>{feed.direction} : {text}</StyledTextFeed>
+  return (
+    <StyledTextFeed>
+      {feed.direction} : {text}
+    </StyledTextFeed>
+  )
 }
