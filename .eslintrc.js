@@ -29,7 +29,8 @@ const typescriptConfigs = {
       'error',
       {
         checksVoidReturn: {
-          returns: false,
+          arguments: false,
+          attributes: false,
         },
       },
     ],
