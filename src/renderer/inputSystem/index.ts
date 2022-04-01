@@ -10,6 +10,8 @@ import { store } from '@/renderer/store/store'
 import { flipperService } from '@/renderer/state/flipper'
 import { log } from '@/renderer/logger'
 import { inputSlice, selectReverse } from '@/renderer/store/modules/input'
+import { armService } from '../state/arm'
+import { useActor } from '@xstate/react'
 
 const joyTopic: TopicOptions = {
   name: '/joy',
@@ -19,6 +21,11 @@ const joyTopic: TopicOptions = {
 const spaceMouseTopic: TopicOptions = {
   name: '/spacenav/twist',
   messageType: 'geometry_msgs/Twist',
+}
+
+const jointGoalTopic: TopicOptions = {
+  name: 'ovis/joint_goal',
+  messageType: 'ovis_msgs/OvisJointGoal',
 }
 
 let joySeqId = 0
@@ -54,6 +61,12 @@ const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
 const getBtnValue = (rawBtn: GamepadButton) =>
   typeof rawBtn == 'number' ? rawBtn : rawBtn.value
 
+/*const getAxesValue = (rawAxes: number[]) => {
+  if (!controlService.state.matches('arm')) {
+
+  }
+}*/
+
 const defaultActions: Action[] = [
   {
     name: 'estop',
@@ -70,13 +83,13 @@ const defaultActions: Action[] = [
       rosClient.callService({ name: 'markhor/estop_disable' }).catch(log.error)
     },
   },
-  // {
-  //   name: 'toggleArmControl',
-  //   bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.dpad.right }],
-  //   perform: () => {
-  //     controlService.send('TOGGLE')
-  //   },
-  // },
+  {
+    name: 'toggleArmControl',
+    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.start }],
+    perform: () => {
+      controlService.send('TOGGLE')
+    },
+  },
   {
     name: 'flipperFront',
     bindings: [
@@ -84,7 +97,11 @@ const defaultActions: Action[] = [
       // { type: 'keyboard', code: 'KeyI' },
     ],
     perform: () => {
-      flipperService.send('MODE_FRONT')
+      if (controlService.state.matches('flipper')) {
+        flipperService.send('MODE_FRONT')
+      } else {
+        armService.send('MODE_CARTESIAN')
+      }
     },
   },
   {
@@ -94,14 +111,17 @@ const defaultActions: Action[] = [
       // { type: 'keyboard', code: 'KeyK' },
     ],
     perform: () => {
-      flipperService.send('MODE_REAR')
+      if (controlService.state.matches('flipper')) {
+        flipperService.send('MODE_REAR')
+      } else {
+        armService.send('MODE_JOINT')
+      }
     },
   },
   {
     name: 'flipperRight',
     bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.dpad.right }],
     perform: () => {
-      //TODO add check for arm control if in none flipper mode
       flipperService.send('MODE_RIGHT')
     },
   },
@@ -115,7 +135,7 @@ const defaultActions: Action[] = [
   {
     name: 'switchForwardDirection',
     bindings: [
-      { type: 'gamepadBtnDown', button: buttonMappings.back },
+      { type: 'gamepadBtnDown', button: buttonMappings.Y },
       // { type: 'keyboard', code: 'KeyT', onKeyDown: true },
     ],
     perform: () => {
@@ -129,7 +149,7 @@ const defaultActions: Action[] = [
   },
   {
     name: 'headlights',
-    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.Y }],
+    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.X }],
     perform: () => {
       rosClient.callService({ name: '/headlights' }).catch(log.error)
     },
@@ -165,8 +185,21 @@ const defaultActions: Action[] = [
       if (ctx.type !== 'gamepad') {
         return
       }
+
+      const gamepad = ctx.gamepadState.gamepad
+      if (!controlService.state.matches('arm')) {
+        rosClient.publish(jointGoalTopic, {
+          joint_index: armService.state.context.jointValue,
+          joint_angle: gamepad.axes[0],
+        })
+      }
+
       const joy = mapGamepadToJoy(ctx.gamepadState.gamepad)
+      const tpvEnabled = gamepad.buttons[buttonMappings.LB].pressed
       rosClient.publish(joyTopic, joy)
+
+      //rosClient.publish(tpvXTopic, tpvEnabled ? gamepad.axes[2] : 0)
+      //rosClient.publish(tpvYTopic, tpvEnabled ? gamepad.axes[3] : 0)
     },
   },
 ]

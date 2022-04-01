@@ -16,6 +16,7 @@ import React, { FC, useState } from 'react'
 import { BiWifi, BiWifi0, BiWifi1, BiWifi2, BiWifiOff } from 'react-icons/bi'
 import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
+import { armService } from '../state/arm'
 
 export const StatusBar: FC = () => (
   <StyledStatusBarWrapper>
@@ -26,7 +27,7 @@ export const StatusBar: FC = () => (
     </LeftStatusBar>
     <RightStatusBar>
       <ControlStatus />
-      <FlipperMode />
+      <ModeInfo />
       <NetworkInfo />
       <TimeDisplay />
     </RightStatusBar>
@@ -66,8 +67,9 @@ const ControlStatus = () => {
   )
 }
 
-const FlipperMode = () => {
+const ModeInfo = () => {
   const [flipper] = useActor(flipperService)
+  const [arm] = useActor(armService)
   const [control] = useActor(controlService)
   const isReverse = useSelector(selectReverse)
   if (control.matches('flipper')) {
@@ -82,6 +84,8 @@ const FlipperMode = () => {
         {flipper.matches('rear') && (isReverse ? 'FRONT' : 'REAR')}
       </div>
     )
+  } else if (control.matches('arm')) {
+    return <div>{String(arm.value).toUpperCase()}</div>
   } else {
     return <div />
   }
