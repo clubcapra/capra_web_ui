@@ -11,7 +11,6 @@ import { flipperService } from '@/renderer/state/flipper'
 import { log } from '@/renderer/logger'
 import { inputSlice, selectReverse } from '@/renderer/store/modules/input'
 import { armService } from '../state/arm'
-import { useActor } from '@xstate/react'
 
 const joyTopic: TopicOptions = {
   name: '/joy',
@@ -197,7 +196,7 @@ const defaultActions: Action[] = [
       }
 
       const gamepad = ctx.gamepadState.gamepad
-      if (!controlService.state.matches('arm')) {
+      if (controlService.state.matches('arm')) {
         rosClient.publish(jointGoalTopic, {
           joint_index: armService.state.context.jointValue,
           joint_angle: gamepad.axes[0],
@@ -207,9 +206,14 @@ const defaultActions: Action[] = [
       const joy = mapGamepadToJoy(ctx.gamepadState.gamepad)
       const tpvEnabled = gamepad.buttons[buttonMappings.LB].pressed
       rosClient.publish(joyTopic, joy)
-
-      rosClient.publish(tpvXTopic, tpvEnabled ? gamepad.axes[2] : 0)
-      rosClient.publish(tpvYTopic, tpvEnabled ? gamepad.axes[3] : 0)
+      rosClient.publish(
+        tpvXTopic,
+        tpvEnabled ? { data: gamepad.axes[2] } : { data: 0 }
+      )
+      rosClient.publish(
+        tpvYTopic,
+        tpvEnabled ? { data: gamepad.axes[3] } : { data: 0 }
+      )
     },
   },
 ]
