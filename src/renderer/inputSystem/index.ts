@@ -28,6 +28,16 @@ const jointGoalTopic: TopicOptions = {
   messageType: 'ovis_msgs/OvisJointGoal',
 }
 
+const tpvXTopic: TopicOptions = {
+  name: '/tpv_x',
+  messageType: 'std_msgs/Float64',
+}
+
+const tpvYTopic: TopicOptions = {
+  name: '/tpv_y',
+  messageType: 'std_msgs/Float64',
+}
+
 let joySeqId = 0
 
 const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
@@ -198,8 +208,8 @@ const defaultActions: Action[] = [
       const tpvEnabled = gamepad.buttons[buttonMappings.LB].pressed
       rosClient.publish(joyTopic, joy)
 
-      //rosClient.publish(tpvXTopic, tpvEnabled ? gamepad.axes[2] : 0)
-      //rosClient.publish(tpvYTopic, tpvEnabled ? gamepad.axes[3] : 0)
+      rosClient.publish(tpvXTopic, tpvEnabled ? gamepad.axes[2] : 0)
+      rosClient.publish(tpvYTopic, tpvEnabled ? gamepad.axes[3] : 0)
     },
   },
 ]
