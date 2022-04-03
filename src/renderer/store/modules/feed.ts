@@ -230,49 +230,49 @@ export const initialState: FeedState = {
     },
     flippers_fl: {
       type: FeedTypeEnum.Flippers,
-      direction: 'fl',
+      direction: 'Front left',
       id: 'flippers_fl',
       flippers: {
         name: 'flippers_fl',
         topic: {
           name: '/markhor/flippers/flipper_fl_position_target',
-          messageType: 'std_msgs/String',
+          messageType: 'std_msgs/Float64',
         },
       },
     },
     flippers_fr: {
       type: FeedTypeEnum.Flippers,
-      direction: 'fr',
+      direction: 'Front right',
       id: 'flippers_fr',
       flippers: {
         name: 'flippers_fr',
         topic: {
           name: '/markhor/flippers/flipper_fr_position_target',
-          messageType: 'std_msgs/String',
+          messageType: 'std_msgs/Float64',
         },
       },
     },
     flippers_rl: {
       type: FeedTypeEnum.Flippers,
-      direction: 'rl',
+      direction: 'Rear left',
       id: 'flippers_rl',
       flippers: {
         name: 'flippers_rl',
         topic: {
           name: '/markhor/flippers/flipper_rl_position_target',
-          messageType: 'std_msgs/String',
+          messageType: 'std_msgs/Float64',
         },
       },
     },
     flippers_rr: {
       type: FeedTypeEnum.Flippers,
-      direction: 'rr',
+      direction: 'Rear right',
       id: 'flippers_rr',
       flippers: {
         name: 'flippers_rr',
         topic: {
           name: '/markhor/flippers/flipper_rr_position_target',
-          messageType: 'std_msgs/String',
+          messageType: 'std_msgs/Float64',
         },
       },
     },
