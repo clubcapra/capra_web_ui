@@ -22,7 +22,6 @@ const spaceMouseTopic: TopicOptions = {
 }
 
 let joySeqId = 0
-let turboEnabled = false
 
 const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
   const d = new Date()
@@ -37,7 +36,6 @@ const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
   const deadzone = 0.15
   axes = axes.map((x) => (x < deadzone && x > -deadzone ? 0.0 : x))
   const buttons = gamepad.buttons.map((x) => Math.floor(x.value))
-  //TODO add turbo support
 
   return {
     header: {
@@ -96,7 +94,22 @@ const defaultActions: Action[] = [
       // { type: 'keyboard', code: 'KeyK' },
     ],
     perform: () => {
-      flipperService.send('MODE_BACK')
+      flipperService.send('MODE_REAR')
+    },
+  },
+  {
+    name: 'flipperRight',
+    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.dpad.right }],
+    perform: () => {
+      //TODO add check for arm control if in none flipper mode
+      flipperService.send('MODE_RIGHT')
+    },
+  },
+  {
+    name: 'flipperLeft',
+    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.dpad.left }],
+    perform: () => {
+      flipperService.send('MODE_LEFT')
     },
   },
   {
@@ -154,20 +167,6 @@ const defaultActions: Action[] = [
       }
       const joy = mapGamepadToJoy(ctx.gamepadState.gamepad)
       rosClient.publish(joyTopic, joy)
-    },
-  },
-  {
-    name: 'turbo_enable',
-    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.A }],
-    perform: () => {
-      turboEnabled = true
-    },
-  },
-  {
-    name: 'turbo_dsiable',
-    bindings: [{ type: 'gamepadBtnUp', button: buttonMappings.A }],
-    perform: () => {
-      turboEnabled = false
     },
   },
 ]
