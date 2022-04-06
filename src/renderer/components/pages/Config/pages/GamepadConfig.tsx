@@ -21,10 +21,10 @@ let data: ShortcutData[] = [
   // #endregion
 
   // #region Triggers and bumpers
-  { content: 'Brake', from: [LEFT_X, 90], to: [320, 90] }, // LT
-  { content: 'Previous Tab', from: [LEFT_X, 160], to: [300, 160] }, // LB
-  { content: 'Throttle', from: [RIGHT_X, 90], to: [675, 90] }, // RT
-  { content: 'Next Tab', from: [RIGHT_X, 140], to: [680, 155] }, // RB
+  { content: '', from: [LEFT_X, 90], to: [320, 90] }, // LT
+  { content: 'TPV Enabled', from: [LEFT_X, 160], to: [300, 160] }, // LB
+  { content: '', from: [RIGHT_X, 90], to: [675, 90] }, // RT
+  { content: 'Dead Man Switch', from: [RIGHT_X, 140], to: [680, 155] }, // RB
   // #endregion
 
   // #region DPAD
@@ -32,9 +32,9 @@ let data: ShortcutData[] = [
     content: (
       <>
         <div>Up: Flipper mode front</div>
-        <div>Right: </div>
+        <div>Right: Flipper mode right</div>
         <div>Down: Flipper mode back</div>
-        <div>Left: </div>
+        <div>Left: Flipper mode left</div>
       </>
     ),
     from: [LEFT_X, 320],
@@ -43,14 +43,14 @@ let data: ShortcutData[] = [
   // //#endregion
 
   // #region XYAB
-  { content: 'X: Switch Front Back', from: [RIGHT_X, 180], to: [610, 230] },
-  { content: 'Y: Headlights', from: [RIGHT_X, 211], to: [675, 211] },
+  { content: 'X: Headlights', from: [RIGHT_X, 180], to: [610, 230] },
+  { content: 'Y: Switch Fron Back', from: [RIGHT_X, 211], to: [675, 211] },
   {
     content: 'B: Reset Flipper Position',
     from: [RIGHT_X, 250],
     to: [715, 250],
   },
-  { content: 'A: ', from: [RIGHT_X, 290], to: [675, 290] },
+  { content: 'A: Turbo Enabled', from: [RIGHT_X, 290], to: [675, 290] },
   // #endregion
 
   // Center
@@ -64,7 +64,7 @@ let data: ShortcutData[] = [
     to: [500, 160],
   },
   { content: 'Select: ', from: [LEFT_X, 450], to: [450, 290] },
-  { content: 'Start: ', from: [RIGHT_X, 450], to: [550, 290] },
+  { content: 'Start: Mode Switch', from: [RIGHT_X, 450], to: [550, 290] },
 ]
 
 data = data.map((item) => {

@@ -10,7 +10,7 @@ import { store } from '@/renderer/store/store'
 import { flipperService } from '@/renderer/state/flipper'
 import { log } from '@/renderer/logger'
 import { inputSlice, selectReverse } from '@/renderer/store/modules/input'
-import { armService } from '../state/arm'
+import { ArmContext, armService } from '../state/arm'
 
 const joyTopic: TopicOptions = {
   name: '/joy',
@@ -47,12 +47,23 @@ const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
   const rt = getBtnValue(gamepad.buttons[buttonMappings.RT])
 
   let axes = gamepad.axes
-  const isReverse = selectReverse(store.getState())
-  axes = [-axes[0], isReverse ? axes[1] : -axes[1], lt, -axes[2], -axes[3], rt]
-  const deadzone = 0.15
-  axes = axes.map((x) => (x < deadzone && x > -deadzone ? 0.0 : x))
+  if (controlService.state.matches('arm')) {
+    axes = [0, 0, 0, 0, 0, 0]
+  } else {
+    const isReverse = selectReverse(store.getState())
+    const rightStickEnabled = !gamepad.buttons[buttonMappings.LB].pressed
+    axes = [
+      -axes[0],
+      isReverse ? axes[1] : -axes[1],
+      lt,
+      rightStickEnabled ? -axes[2] : 0,
+      rightStickEnabled ? -axes[3] : 0,
+      rt,
+    ]
+    const deadzone = 0.15
+    axes = axes.map((x) => (x < deadzone && x > -deadzone ? 0.0 : x))
+  }
   const buttons = gamepad.buttons.map((x) => Math.floor(x.value))
-
   return {
     header: {
       seq: joySeqId++,
@@ -69,12 +80,6 @@ const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
 
 const getBtnValue = (rawBtn: GamepadButton) =>
   typeof rawBtn == 'number' ? rawBtn : rawBtn.value
-
-/*const getAxesValue = (rawAxes: number[]) => {
-  if (!controlService.state.matches('arm')) {
-
-  }
-}*/
 
 const defaultActions: Action[] = [
   {
@@ -100,7 +105,7 @@ const defaultActions: Action[] = [
     },
   },
   {
-    name: 'flipperFront',
+    name: 'modeFront',
     bindings: [
       { type: 'gamepadBtnDown', button: buttonMappings.dpad.up },
       // { type: 'keyboard', code: 'KeyI' },
@@ -114,7 +119,7 @@ const defaultActions: Action[] = [
     },
   },
   {
-    name: 'flipperBack',
+    name: 'modeBack',
     bindings: [
       { type: 'gamepadBtnDown', button: buttonMappings.dpad.down },
       // { type: 'keyboard', code: 'KeyK' },
@@ -128,17 +133,25 @@ const defaultActions: Action[] = [
     },
   },
   {
-    name: 'flipperRight',
+    name: 'modeRight',
     bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.dpad.right }],
     perform: () => {
-      flipperService.send('MODE_RIGHT')
+      if (controlService.state.matches('flipper')) {
+        flipperService.send('MODE_RIGHT')
+      } else {
+        armService.send('INCREMENT_JOINT')
+      }
     },
   },
   {
-    name: 'flipperLeft',
+    name: 'modeLeft',
     bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.dpad.left }],
     perform: () => {
-      flipperService.send('MODE_LEFT')
+      if (controlService.state.matches('flipper')) {
+        flipperService.send('MODE_LEFT')
+      } else {
+        armService.send('DECREMENT_JOINT')
+      }
     },
   },
   {
@@ -196,9 +209,12 @@ const defaultActions: Action[] = [
       }
 
       const gamepad = ctx.gamepadState.gamepad
-      if (controlService.state.matches('arm')) {
+      if (
+        controlService.state.matches('arm') &&
+        armService.state.matches('joint')
+      ) {
         rosClient.publish(jointGoalTopic, {
-          joint_index: armService.state.context.jointValue,
+          joint_index: (armService.state.context as ArmContext).jointValue,
           joint_angle: gamepad.axes[0],
         })
       }

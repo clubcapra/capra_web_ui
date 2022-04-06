@@ -1,8 +1,7 @@
 import { log } from '@/renderer/logger'
-import { assign } from 'lodash'
 import { Machine, interpret } from 'xstate'
 
-interface ArmContext {
+export interface ArmContext {
   jointValue: number
 }
 
@@ -44,15 +43,14 @@ export const armMachine = Machine<ArmContext, ArmStateSchema, ArmEvent>(
   {
     actions: {
       decrement_joint: () => {
-        log.info(context.jointValue)
-        assign({
-          jointValue: (context: { jointValue: number }) => context.jointValue--,
-        })
+        if (context.jointValue < 5 && context.jointValue > 0) {
+          context.jointValue--
+        }
       },
       increment_joint: () => {
-        assign({
-          jointValue: (context: { jointValue: number }) => context.jointValue++,
-        })
+        if (context.jointValue < 5 && context.jointValue > 0) {
+          context.jointValue++
+        }
       },
     },
   }
