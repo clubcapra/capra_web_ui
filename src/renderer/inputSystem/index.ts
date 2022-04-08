@@ -213,10 +213,15 @@ const defaultActions: Action[] = [
         controlService.state.matches('arm') &&
         armService.state.matches('joint')
       ) {
-        rosClient.publish(jointGoalTopic, {
-          joint_index: (armService.state.context as ArmContext).jointValue,
-          joint_angle: gamepad.axes[0],
-        })
+        if (gamepad.buttons[buttonMappings.A].pressed) {
+          rosClient.publish(jointGoalTopic, {
+            joint_index: (armService.state.context as ArmContext).jointValue,
+            joint_velocity:
+              gamepad.axes[0] < 0.15 && gamepad.axes[0] > -0.15
+                ? 0
+                : gamepad.axes[0],
+          })
+        }
       }
 
       const joy = mapGamepadToJoy(ctx.gamepadState.gamepad)
