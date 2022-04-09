@@ -301,4 +301,3 @@ export const selectAllGraph = (state: GlobalState) =>
   Object.values(state.feed.feeds)
     .filter((feed) => feed.type === FeedTypeEnum.Graph)
     .reverse() as IGraphFeed[]
-

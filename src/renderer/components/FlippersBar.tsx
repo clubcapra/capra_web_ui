@@ -56,7 +56,7 @@ const FlipperArea: FC<Props> = ({ flipper, target }) => {
     if (!motorCurrentColor) {
       setMotorCurrentColor('')
     }
-  }, [position, motorCurrentValue, setMotorCurrentColor])
+  }, [position, motorCurrentValue, motorCurrentColor])
 
   useRosSubscribe(
     flipper.topicPosition,
@@ -85,9 +85,7 @@ const FlipperArea: FC<Props> = ({ flipper, target }) => {
     <StyledFlipperArea>
       <StyledTarget>{target}:</StyledTarget>
       <StyledPostion>{position}</StyledPostion>
-      <StyledMotorCurrentColor
-        style={{ backgroundColor: motorCurrentColor }}
-      ></StyledMotorCurrentColor>
+      <StyledMotorCurrentColor style={{ backgroundColor: motorCurrentColor }} />
       <StyledMotorCurrentValue>{motorCurrentValue}</StyledMotorCurrentValue>
     </StyledFlipperArea>
   )
