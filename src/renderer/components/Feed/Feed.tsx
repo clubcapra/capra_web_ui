@@ -85,7 +85,7 @@ const FeedSelect: FC<{
 }> = ({ id, visible, currentFeedId }) => {
   const dispatch = useDispatch()
   const allFeeds = useSelector(selectAllFeeds)
-  const feedCollection = Object.values(allFeeds).filter(isNotFlippersFeed)
+  const feedCollection = Object.values(allFeeds)
 
   const selectFeed = (e: ChangeEvent<HTMLSelectElement>) => {
     dispatch(feedSlice.actions.updateFeedMap({ id, feedId: e.target.value }))
@@ -104,10 +104,6 @@ const FeedSelect: FC<{
       />
     </StyledSelectContainer>
   )
-}
-
-const isNotFlippersFeed = (feed: FeedType) => {
-  return feed.type != FeedTypeEnum.Flippers
 }
 
 const StyledFeedComponent = styled.div`

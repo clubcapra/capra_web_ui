@@ -15,7 +15,7 @@ const GridLayout = styled.div`
     'f e'
     's e';
   grid-template-columns: 1fr 70px;
-  grid-template-rows: auto 1fr 20px;
+  grid-template-rows: auto 1fr 40px 20px;
 `
 
 const StyledView = styled.div`

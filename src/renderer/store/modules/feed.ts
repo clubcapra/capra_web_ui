@@ -22,7 +22,6 @@ export enum FeedTypeEnum {
   Urdf,
   Graph,
   NotSelected,
-  Flippers,
 }
 
 export enum CameraType {
@@ -38,7 +37,6 @@ export type FeedType =
   | IUrdfFeed
   | IGraphFeed
   | INotSelected
-  | IFlippersFeed
 
 interface BaseFeed {
   type: FeedTypeEnum
@@ -76,17 +74,6 @@ export interface IGraphFeed extends BaseFeed {
 }
 
 export interface IGraphData {
-  topic: TopicOptions<string>
-  name: string
-}
-
-export interface IFlippersFeed extends BaseFeed {
-  type: FeedTypeEnum.Flippers
-  direction: string
-  flippers: IFlippersData
-}
-
-export interface IFlippersData {
   topic: TopicOptions<string>
   name: string
 }
@@ -228,54 +215,6 @@ export const initialState: FeedState = {
         },
       },
     },
-    flippers_fl: {
-      type: FeedTypeEnum.Flippers,
-      direction: 'Front left',
-      id: 'flippers_fl',
-      flippers: {
-        name: 'flippers_fl',
-        topic: {
-          name: '/markhor/flippers/flipper_fl_position_target',
-          messageType: 'std_msgs/Float64',
-        },
-      },
-    },
-    flippers_fr: {
-      type: FeedTypeEnum.Flippers,
-      direction: 'Front right',
-      id: 'flippers_fr',
-      flippers: {
-        name: 'flippers_fr',
-        topic: {
-          name: '/markhor/flippers/flipper_fr_position_target',
-          messageType: 'std_msgs/Float64',
-        },
-      },
-    },
-    flippers_rl: {
-      type: FeedTypeEnum.Flippers,
-      direction: 'Rear left',
-      id: 'flippers_rl',
-      flippers: {
-        name: 'flippers_rl',
-        topic: {
-          name: '/markhor/flippers/flipper_rl_position_target',
-          messageType: 'std_msgs/Float64',
-        },
-      },
-    },
-    flippers_rr: {
-      type: FeedTypeEnum.Flippers,
-      direction: 'Rear right',
-      id: 'flippers_rr',
-      flippers: {
-        name: 'flippers_rr',
-        topic: {
-          name: '/markhor/flippers/flipper_rr_position_target',
-          messageType: 'std_msgs/Float64',
-        },
-      },
-    },
   },
 }
 
@@ -334,18 +273,6 @@ export const feedSlice = createSlice({
       }
       feed.graph = graph
     },
-    updateFlippers: (
-      state,
-      {
-        payload: { flippers, id },
-      }: PayloadAction<{ flippers: IFlippersData; id: string }>
-    ) => {
-      const feed = state.feeds[id]
-      if (feed.type !== FeedTypeEnum.Flippers) {
-        return
-      }
-      feed.flippers = flippers
-    },
     updateFeedMap: (
       state,
       { payload: { id, feedId } }: PayloadAction<{ id: string; feedId: string }>
@@ -375,7 +302,3 @@ export const selectAllGraph = (state: GlobalState) =>
     .filter((feed) => feed.type === FeedTypeEnum.Graph)
     .reverse() as IGraphFeed[]
 
-export const selectAllFlippers = (state: GlobalState) =>
-  Object.values(state.feed.feeds)
-    .filter((feed) => feed.type === FeedTypeEnum.Flippers)
-    .reverse() as IFlippersFeed[]

@@ -197,7 +197,7 @@ const StyledStatusBarWrapper = styled.div`
   height: 100%;
   background-color: ${({ theme }) => theme.colors.darkerBackground};
   color: ${({ theme }) => theme.colors.fontLight};
-  box-shadow: 0 -2px 2px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.5);
   font-size: 14px;
 `
 
