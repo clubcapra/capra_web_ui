@@ -16,6 +16,10 @@ import React, { FC, useState } from 'react'
 import { BiWifi, BiWifi0, BiWifi1, BiWifi2, BiWifiOff } from 'react-icons/bi'
 import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
+import {
+  flippersViewToggleSlice,
+  selectFlippersViewToggleVisible,
+} from '@/renderer/store/modules/flippersViewToggle'
 
 export const StatusBar: FC = () => (
   <StyledStatusBarWrapper>
@@ -25,6 +29,7 @@ export const StatusBar: FC = () => (
       <Reverse />
     </LeftStatusBar>
     <RightStatusBar>
+      <FlippersViewToggle />
       <ControlStatus />
       <FlipperMode />
       <NetworkInfo />
@@ -190,6 +195,25 @@ const Reverse = () => {
   )
 }
 
+const FlippersViewToggle = () => {
+  const visible = useSelector(selectFlippersViewToggleVisible)
+  const dispatch = useDispatch()
+  const flippersViewToggle = (): void => {
+    dispatch(flippersViewToggleSlice.actions.toggleVisible())
+  }
+
+  return (
+    <>
+      <p>Afficher status flippers</p>
+      <StyledInput
+        type="checkbox"
+        onChange={flippersViewToggle}
+        checked={visible}
+      />
+    </>
+  )
+}
+
 const StyledStatusBarWrapper = styled.div`
   display: grid;
   grid-template: 'l r';
@@ -234,4 +258,7 @@ const StatusBarButton = styled.button`
   &:disabled {
     cursor: not-allowed;
   }
+`
+const StyledInput = styled.input`
+  margin-top: 3px;
 `

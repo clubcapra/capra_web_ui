@@ -5,6 +5,8 @@ import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
 import { ChangeEvent } from 'react'
 import { Select } from '@/renderer/components/common/Select'
 import { useRosSubscribeNoData } from '@/renderer/hooks/useRosSubscribe'
+import { flippersViewToggleSlice } from '@/renderer/store/modules/flippersViewToggle'
+import { useDispatch } from 'react-redux'
 
 const maxLine = 200
 const topic: TopicOptions<Line> = {
@@ -188,6 +190,9 @@ export const Debug: FC = () => {
   const [selectedTopic, setSelectedTopic] = useState(nofilter)
   const [selectedSeverity, setSelectedSeverity] = useState(Severity.ALL)
   const [errorTopics, setErrorTopics] = useState(Array<string>())
+  const dispatch = useDispatch()
+
+  dispatch(flippersViewToggleSlice.actions.setNotVisible())
 
   useRosSubscribeNoData(
     topic,

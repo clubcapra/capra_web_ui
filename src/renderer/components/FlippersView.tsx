@@ -7,25 +7,25 @@ import { useSelector } from '@/renderer/hooks/typedUseSelector'
 
 interface Props {
   flipper: IFlipperData
-  target: string
+  name: string
 }
 
-export const FlippersBar: FC = () => {
+export const FlippersView: FC = () => {
   const isReverse = useSelector(selectReverse)
   return (
-    <StyledFlippersBarWrapper>
+    <StyledFlippersView>
       {isReverse ? <FlippersReverseView /> : <FlippersForwardView />}
-    </StyledFlippersBarWrapper>
+    </StyledFlippersView>
   )
 }
 
 const FlippersForwardView: FC = () => {
   return (
     <>
-      <FlipperArea flipper={flippers.flipperRL} target="Rear left" />
-      <FlipperArea flipper={flippers.flipperRR} target="Rear right" />
-      <FlipperArea flipper={flippers.flipperFR} target="Front right" />
-      <FlipperArea flipper={flippers.flipperFL} target="Front left" />
+      <StyledTLArea flipper={flippers.flipperFR} name="Front right" />
+      <StyledTRArea flipper={flippers.flipperFL} name="Front left" />
+      <StyledBLArea flipper={flippers.flipperRL} name="Rear left" />
+      <StyledBRArea flipper={flippers.flipperRR} name="Rear right" />
     </>
   )
 }
@@ -33,30 +33,35 @@ const FlippersForwardView: FC = () => {
 const FlippersReverseView: FC = () => {
   return (
     <>
-      <FlipperArea flipper={flippers.flipperRR} target="Rear left" />
-      <FlipperArea flipper={flippers.flipperFR} target="Rear right" />
-      <FlipperArea flipper={flippers.flipperRL} target="Front right" />
-      <FlipperArea flipper={flippers.flipperFL} target="Front left" />
+      <StyledTLArea flipper={flippers.flipperFR} name="Front right" />
+      <StyledTRArea flipper={flippers.flipperFL} name="Front left" />
+      <StyledBLArea flipper={flippers.flipperRL} name="Rear left" />
+      <StyledBRArea flipper={flippers.flipperFR} name="Rear right" />
     </>
   )
 }
 
-const FlipperArea: FC<Props> = ({ flipper, target }) => {
-  const [position, setPosition] = useState<string>('')
+const FlipperArea: FC<Props> = ({ flipper, name }) => {
+  const [position, setPosition] = useState<string>('0.00')
   const [motorCurrentColor, setMotorCurrentColor] = useState<string>('')
-  const [motorCurrentValue, setMotorCurrentValue] = useState<string>('')
+  const [motorCurrentValue, setMotorCurrentValue] = useState<string>('0')
+  const [MotorBusVoltage, setMotorBusVoltage] = useState<string>('0')
 
   useEffect(() => {
     if (!position) {
-      setPosition('')
+      setPosition('0')
     }
     if (!motorCurrentValue) {
-      setMotorCurrentValue('')
+      setMotorCurrentValue('0')
+      setMotorCurrentColor('')
     }
     if (!motorCurrentColor) {
       setMotorCurrentColor('')
     }
-  }, [position, motorCurrentValue, motorCurrentColor])
+    if (!MotorBusVoltage) {
+      setMotorBusVoltage('0')
+    }
+  }, [position, motorCurrentValue, motorCurrentColor, MotorBusVoltage])
 
   useRosSubscribe(
     flipper.topicPosition,
@@ -81,54 +86,85 @@ const FlipperArea: FC<Props> = ({ flipper, target }) => {
     }, [])
   )
 
+  useRosSubscribe(
+    flipper.topicMotorBusVoltage,
+    useCallback((message) => {
+      setMotorBusVoltage(Number(message.data).toFixed(2))
+    }, [])
+  )
+
   return (
     <StyledFlipperArea>
-      <StyledTarget>{target}:</StyledTarget>
+      <StyledName>{name}</StyledName>
       <StyledPostion>{position}</StyledPostion>
+      {/* <StyledMotorBusVoltage>{MotorBusVoltage} V</StyledMotorBusVoltage> */}
       <StyledMotorCurrentColor style={{ backgroundColor: motorCurrentColor }} />
-      <StyledMotorCurrentValue>{motorCurrentValue}</StyledMotorCurrentValue>
+      <StyledMotorCurrentValue>{motorCurrentValue} A</StyledMotorCurrentValue>
     </StyledFlipperArea>
   )
 }
 
-const StyledFlippersBarWrapper = styled.div`
+const StyledFlippersView = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-areas:
+    'tl tr'
+    'bl br';
+  grid-gap: 1px;
   align-items: center;
   justify-items: center;
   height: 100%;
+  padding: 2px;
   background-color: ${({ theme }) => theme.colors.darkerBackground};
   color: ${({ theme }) => theme.colors.fontLight};
   box-shadow: 0 -2px 2px rgba(0, 0, 0, 0.25);
   font-size: 14px;
 `
 
-const StyledFlipperArea = styled.div`
-  height: 100%;
-  padding: 5px;
-  display: grid;
-  grid-template-areas:
-    't p'
-    'mcc mcv';
+const StyledTLArea = styled(FlipperArea)`
+  grid-area: tl;
 `
 
-const StyledTarget = styled.p`
-  grid-area: t;
-  margin-right: 5px;
+const StyledTRArea = styled(FlipperArea)`
+  grid-area: tl;
+`
+
+const StyledBLArea = styled(FlipperArea)`
+  grid-area: tl;
+`
+
+const StyledBRArea = styled(FlipperArea)`
+  grid-area: tl;
+`
+
+const StyledFlipperArea = styled.div`
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-areas:
+    'n p'
+    // '1fr t'
+    'mcc mcv';
+`
+const StyledName = styled.p`
+  grid-area: n;
 `
 
 const StyledPostion = styled.p`
   grid-area: p;
 `
 
-const StyledMotorCurrentColor = styled.p`
-  grid-area: mcc;
-  border-radius: 5px;
-  margin: 5px;
+const StyledMotorBusVoltage = styled.p`
+  grid-area: t;
 `
 
 const StyledMotorCurrentValue = styled.p`
   grid-area: mcv;
+`
+
+const StyledMotorCurrentColor = styled.p`
+  grid-area: mcc;
+  border-radius: 5px;
+  margin: 5px;
 `
 
 export interface IFlippers {
@@ -142,6 +178,7 @@ export interface IFlippers {
 export interface IFlipperData {
   topicPosition: TopicOptions<string>
   topicMotorCurrent: TopicOptions<string>
+  topicMotorBusVoltage: TopicOptions<string>
 }
 
 const flippers: IFlippers = {
@@ -155,6 +192,10 @@ const flippers: IFlippers = {
       name: '/markhor/flippers/flipper_fl_motor_current',
       messageType: 'std_msgs/Float64',
     },
+    topicMotorBusVoltage: {
+      name: '/markhor/flippers/flipper_fl_bus_voltage',
+      messageType: 'std_msgs/Float64',
+    },
   },
   flipperFR: {
     topicPosition: {
@@ -163,6 +204,10 @@ const flippers: IFlippers = {
     },
     topicMotorCurrent: {
       name: '/markhor/flippers/flipper_fr_motor_current',
+      messageType: 'std_msgs/Float64',
+    },
+    topicMotorBusVoltage: {
+      name: '/markhor/flippers/flipper_fr_bus_voltage',
       messageType: 'std_msgs/Float64',
     },
   },
@@ -175,6 +220,10 @@ const flippers: IFlippers = {
       name: '/markhor/flippers/flipper_rl_motor_current',
       messageType: 'std_msgs/Float64',
     },
+    topicMotorBusVoltage: {
+      name: '/markhor/flippers/flipper_rl_bus_voltage',
+      messageType: 'std_msgs/Float64',
+    },
   },
   flipperRR: {
     topicPosition: {
@@ -183,6 +232,10 @@ const flippers: IFlippers = {
     },
     topicMotorCurrent: {
       name: '/markhor/flippers/flipper_rr_motor_current',
+      messageType: 'std_msgs/Float64',
+    },
+    topicMotorBusVoltage: {
+      name: '/markhor/flippers/flipper_rr_bus_voltage',
       messageType: 'std_msgs/Float64',
     },
   },

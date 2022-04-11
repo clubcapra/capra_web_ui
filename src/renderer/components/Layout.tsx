@@ -2,9 +2,14 @@ import React, { FC } from 'react'
 import { EStopButton } from '@/renderer/components/EStopButton'
 import { Header } from '@/renderer/components/Header'
 import { StatusBar } from '@/renderer/components/StatusBar'
-import { FlippersBar } from '@/renderer/components/FlippersBar'
+import { FlippersView } from '@/renderer/components/FlippersView'
 import { Router } from '@/renderer/components/Router'
 import { styled } from '@/renderer/globalStyles/styled'
+import { selectFlippersViewToggleVisible } from '@/renderer/store/modules/flippersViewToggle'
+import { useSelector } from 'react-redux'
+
+const eStopButtonestopSpace = 70
+const statusBarSpace = 20
 
 const GridLayout = styled.div`
   height: 100%;
@@ -12,10 +17,9 @@ const GridLayout = styled.div`
   grid-template-areas:
     'h e'
     'v e'
-    'f e'
     's e';
-  grid-template-columns: 1fr 70px;
-  grid-template-rows: auto 1fr 40px 20px;
+  grid-template-columns: 1fr ${eStopButtonestopSpace}px;
+  grid-template-rows: auto 1fr ${statusBarSpace}px;
 `
 
 const StyledView = styled.div`
@@ -25,8 +29,15 @@ const StyledView = styled.div`
   position: relative;
 `
 
-const FlippersBarArea = styled.div`
-  grid-area: f;
+const StyledFlippersViewArea = styled.div`
+  grid-area: v;
+  // height: 105px;
+  // width: 280px;
+  height: 85px;
+  width: 225px;
+  position: absolute;
+  bottom: ${statusBarSpace}px;
+  right: ${eStopButtonestopSpace}px;
 `
 
 const StatusBarArea = styled.div`
@@ -50,9 +61,7 @@ export const Layout: FC = () => {
       <StyledView>
         <Router />
       </StyledView>
-      <FlippersBarArea>
-        <FlippersBar />
-      </FlippersBarArea>
+      <FlippersViewArea />
       <StatusBarArea>
         <StatusBar />
       </StatusBarArea>
@@ -61,4 +70,12 @@ export const Layout: FC = () => {
       </EStopArea>
     </GridLayout>
   )
+}
+
+const FlippersViewArea = () => {
+  return useSelector(selectFlippersViewToggleVisible) ? (
+    <StyledFlippersViewArea>
+      <FlippersView />
+    </StyledFlippersViewArea>
+  ) : null
 }

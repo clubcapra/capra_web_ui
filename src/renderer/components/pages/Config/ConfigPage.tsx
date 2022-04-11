@@ -8,9 +8,15 @@ import { useControl } from '@/renderer/hooks/useControl'
 import { GraphConfig } from '@/renderer/components/pages/Config/pages/GraphConfig/GraphConfig'
 import { styled } from '@/renderer/globalStyles/styled'
 import { LaunchConfig } from './pages/LaunchConfig/LaunchConfig'
+import { flippersViewToggleSlice } from '@/renderer/store/modules/flippersViewToggle'
+import { useDispatch } from 'react-redux'
 
 export const ConfigPage: FC = () => {
   useControl('nothing')
+
+  const dispatch = useDispatch()
+  dispatch(flippersViewToggleSlice.actions.setNotVisible())
+
   return (
     <ConfigPageGrid>
       <MenuArea>
