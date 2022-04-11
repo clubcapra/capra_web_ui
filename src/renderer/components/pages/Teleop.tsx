@@ -11,7 +11,7 @@ export const Teleop: FC = () => {
 
   const dispatch = useDispatch()
   dispatch(flippersViewToggleSlice.actions.setVisible())
-  
+
   return (
     <>
       <Feed feed_id={feed_id.teleop.main} defaultFeed="front_cam" />

@@ -153,9 +153,9 @@ const StyledPostion = styled.p`
   grid-area: p;
 `
 
-const StyledMotorBusVoltage = styled.p`
-  grid-area: t;
-`
+// const StyledMotorBusVoltage = styled.p`
+  // grid-area: t;
+// `
 
 const StyledMotorCurrentValue = styled.p`
   grid-area: mcv;
