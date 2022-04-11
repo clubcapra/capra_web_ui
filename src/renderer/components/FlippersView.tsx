@@ -45,7 +45,6 @@ const FlipperArea: FC<Props> = ({ flipper, name }) => {
   const [position, setPosition] = useState<string>('0.00')
   const [motorCurrentColor, setMotorCurrentColor] = useState<string>('')
   const [motorCurrentValue, setMotorCurrentValue] = useState<string>('0')
-  const [MotorBusVoltage, setMotorBusVoltage] = useState<string>('0')
 
   useEffect(() => {
     if (!position) {
@@ -58,15 +57,16 @@ const FlipperArea: FC<Props> = ({ flipper, name }) => {
     if (!motorCurrentColor) {
       setMotorCurrentColor('')
     }
-    if (!MotorBusVoltage) {
-      setMotorBusVoltage('0')
-    }
-  }, [position, motorCurrentValue, motorCurrentColor, MotorBusVoltage])
+  }, [position, motorCurrentValue, motorCurrentColor])
 
   useRosSubscribe(
     flipper.topicPosition,
     useCallback((message) => {
-      setPosition(Number(message.data).toFixed(2))
+      setPosition(
+        Number(message.data)
+          .toFixed(2)
+          .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ' ')
+      )
     }, [])
   )
 
@@ -86,18 +86,10 @@ const FlipperArea: FC<Props> = ({ flipper, name }) => {
     }, [])
   )
 
-  useRosSubscribe(
-    flipper.topicMotorBusVoltage,
-    useCallback((message) => {
-      setMotorBusVoltage(Number(message.data).toFixed(2))
-    }, [])
-  )
-
   return (
     <StyledFlipperArea>
       <StyledName>{name}</StyledName>
       <StyledPostion>{position}</StyledPostion>
-      {/* <StyledMotorBusVoltage>{MotorBusVoltage} V</StyledMotorBusVoltage> */}
       <StyledMotorCurrentColor style={{ backgroundColor: motorCurrentColor }} />
       <StyledMotorCurrentValue>{motorCurrentValue} A</StyledMotorCurrentValue>
     </StyledFlipperArea>
@@ -142,7 +134,6 @@ const StyledFlipperArea = styled.div`
   display: grid;
   grid-template-areas:
     'n p'
-    // '1fr t'
     'mcc mcv';
 `
 const StyledName = styled.p`
@@ -152,10 +143,6 @@ const StyledName = styled.p`
 const StyledPostion = styled.p`
   grid-area: p;
 `
-
-// const StyledMotorBusVoltage = styled.p`
-// grid-area: t;
-// `
 
 const StyledMotorCurrentValue = styled.p`
   grid-area: mcv;
@@ -178,7 +165,6 @@ export interface IFlippers {
 export interface IFlipperData {
   topicPosition: TopicOptions<string>
   topicMotorCurrent: TopicOptions<string>
-  topicMotorBusVoltage: TopicOptions<string>
 }
 
 const flippers: IFlippers = {
@@ -192,10 +178,6 @@ const flippers: IFlippers = {
       name: '/markhor/flippers/flipper_fl_motor_current',
       messageType: 'std_msgs/Float64',
     },
-    topicMotorBusVoltage: {
-      name: '/markhor/flippers/flipper_fl_bus_voltage',
-      messageType: 'std_msgs/Float64',
-    },
   },
   flipperFR: {
     topicPosition: {
@@ -204,10 +186,6 @@ const flippers: IFlippers = {
     },
     topicMotorCurrent: {
       name: '/markhor/flippers/flipper_fr_motor_current',
-      messageType: 'std_msgs/Float64',
-    },
-    topicMotorBusVoltage: {
-      name: '/markhor/flippers/flipper_fr_bus_voltage',
       messageType: 'std_msgs/Float64',
     },
   },
@@ -220,10 +198,6 @@ const flippers: IFlippers = {
       name: '/markhor/flippers/flipper_rl_motor_current',
       messageType: 'std_msgs/Float64',
     },
-    topicMotorBusVoltage: {
-      name: '/markhor/flippers/flipper_rl_bus_voltage',
-      messageType: 'std_msgs/Float64',
-    },
   },
   flipperRR: {
     topicPosition: {
@@ -232,10 +206,6 @@ const flippers: IFlippers = {
     },
     topicMotorCurrent: {
       name: '/markhor/flippers/flipper_rr_motor_current',
-      messageType: 'std_msgs/Float64',
-    },
-    topicMotorBusVoltage: {
-      name: '/markhor/flippers/flipper_rr_bus_voltage',
       messageType: 'std_msgs/Float64',
     },
   },
