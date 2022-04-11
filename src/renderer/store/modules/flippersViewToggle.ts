@@ -27,4 +27,3 @@ export const flippersViewToggleSlice = createSlice({
 
 export const selectFlippersViewToggleVisible = (state: GlobalState): boolean =>
   state.flippersViewToggle.visible
-
