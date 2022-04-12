@@ -16,7 +16,7 @@ import React, { FC, useState } from 'react'
 import { BiWifi, BiWifi0, BiWifi1, BiWifi2, BiWifiOff } from 'react-icons/bi'
 import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
-import { armService } from '../state/arm'
+import { ArmContext, armService } from '../state/arm'
 
 export const StatusBar: FC = () => (
   <StyledStatusBarWrapper>
@@ -85,7 +85,13 @@ const ModeInfo = () => {
       </div>
     )
   } else if (control.matches('arm')) {
-    return <div>{String(arm.value).toUpperCase()}</div>
+    return (
+      <div>
+        {arm.matches('joint')
+          ? 'JOINT ' + String((arm.context as ArmContext).jointValue + 1)
+          : 'CARTESIAN'}
+      </div>
+    )
   } else {
     return <div />
   }

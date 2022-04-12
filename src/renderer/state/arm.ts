@@ -43,12 +43,12 @@ export const armMachine = Machine<ArmContext, ArmStateSchema, ArmEvent>(
   {
     actions: {
       decrement_joint: () => {
-        if (context.jointValue < 5 && context.jointValue > 0) {
+        if (context.jointValue < 6 && context.jointValue > 0) {
           context.jointValue--
         }
       },
       increment_joint: () => {
-        if (context.jointValue < 5 && context.jointValue > 0) {
+        if (context.jointValue < 5 && context.jointValue >= 0) {
           context.jointValue++
         }
       },
