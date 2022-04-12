@@ -217,9 +217,9 @@ const defaultActions: Action[] = [
           rosClient.publish(jointGoalTopic, {
             joint_index: (armService.state.context as ArmContext).jointValue,
             joint_velocity:
-              gamepad.axes[0] < 0.15 && gamepad.axes[0] > -0.15
+              gamepad.axes[1] < 0.15 && gamepad.axes[1] > -0.15
                 ? 0
-                : gamepad.axes[0],
+                : gamepad.axes[1],
           })
         }
       }
