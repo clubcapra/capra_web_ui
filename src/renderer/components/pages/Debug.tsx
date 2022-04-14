@@ -192,8 +192,6 @@ export const Debug: FC = () => {
   const [errorTopics, setErrorTopics] = useState(Array<string>())
   const dispatch = useDispatch()
 
-  dispatch(flippersViewToggleSlice.actions.setNotVisible())
-
   useRosSubscribeNoData(
     topic,
     useCallback((message) => {
@@ -242,12 +240,14 @@ export const Debug: FC = () => {
       filteredLines.splice(0, lines.length - maxLine)
     }
 
+    dispatch(flippersViewToggleSlice.actions.setNotVisible())
+
     setLines(lines)
     setTopics(topicList)
     setErrorTopics(errorList)
     setConsole(filteredLines)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newMessage])
+  }, [newMessage, dispatch])
 
   return (
     <DebugConfigWrapper>

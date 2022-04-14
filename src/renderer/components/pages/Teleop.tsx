@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { Feed } from '@/renderer/components/Feed/Feed'
 import { useControl } from '@/renderer/hooks/useControl'
 import { styled } from '@/renderer/globalStyles/styled'
@@ -10,8 +10,11 @@ export const Teleop: FC = () => {
   useControl('flipper')
 
   const dispatch = useDispatch()
-  dispatch(flippersViewToggleSlice.actions.setVisible())
 
+  useEffect(() => {
+    dispatch(flippersViewToggleSlice.actions.setVisible())
+  }, [dispatch])
+  
   return (
     <>
       <Feed feed_id={feed_id.teleop.main} defaultFeed="front_cam" />

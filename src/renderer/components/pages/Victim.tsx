@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { Feed } from '@/renderer/components/Feed/Feed'
 import { useControl } from '@/renderer/hooks/useControl'
 import { styled } from '@/renderer/globalStyles/styled'
@@ -9,7 +9,10 @@ export const Victim: FC = () => {
   useControl('flipper')
 
   const dispatch = useDispatch()
-  dispatch(flippersViewToggleSlice.actions.setNotVisible())
+
+  useEffect(() => {
+    dispatch(flippersViewToggleSlice.actions.setNotVisible())
+  }, [dispatch])
 
   return (
     <Layout>

@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { Route, Routes, Navigate } from 'react-router'
 import { ConfigMenu } from './ConfigMenu'
 import { GeneralConfig } from '@/renderer/components/pages/Config/pages/GeneralConfig'
@@ -15,7 +15,10 @@ export const ConfigPage: FC = () => {
   useControl('nothing')
 
   const dispatch = useDispatch()
-  dispatch(flippersViewToggleSlice.actions.setNotVisible())
+
+  useEffect(() => {
+    dispatch(flippersViewToggleSlice.actions.setNotVisible())
+  }, [dispatch])
 
   return (
     <ConfigPageGrid>
