@@ -1,3 +1,4 @@
+import { GraphType } from '@/renderer/store/modules/feed'
 import { Select } from '@/renderer/components/common/Select'
 import { CameraFeed } from '@/renderer/components/Feed/Feeds/CameraFeed'
 import { GraphFeed } from '@/renderer/components/Feed/Feeds/GraphFeed'
@@ -15,6 +16,7 @@ import { useOpenClose } from '@/renderer/hooks/useOpenClose'
 import React, { ChangeEvent, FC, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { EmptyFeed } from '@/renderer/components/Feed/Feeds/EmptyFeed'
+import { QRFeed } from './Feeds/QRFeed'
 
 export const Feed: FC<{
   feed_id: string
@@ -61,6 +63,9 @@ const FeedView: FC<{
     case FeedTypeEnum.Urdf:
       return <UrdfFeed feed={feed} />
     case FeedTypeEnum.Graph:
+      if (feed.graph.type == GraphType.TEXT) {
+        return <QRFeed feed={feed} />
+      }
       return <GraphFeed feed={feed} />
     default:
       return <TextFeed text="NOT SUPPORTED" />
