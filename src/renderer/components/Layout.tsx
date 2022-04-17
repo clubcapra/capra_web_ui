@@ -8,7 +8,7 @@ import { styled } from '@/renderer/globalStyles/styled'
 import { selectFlippersViewToggleVisible } from '@/renderer/store/modules/flippersViewToggle'
 import { useSelector } from 'react-redux'
 
-const eStopButtonestopSpace = 70
+const eStopSpace = 70
 const statusBarSpace = 20
 
 const GridLayout = styled.div`
@@ -18,7 +18,7 @@ const GridLayout = styled.div`
     'h e'
     'v e'
     's e';
-  grid-template-columns: 1fr ${eStopButtonestopSpace}px;
+  grid-template-columns: 1fr ${eStopSpace}px;
   grid-template-rows: auto 1fr ${statusBarSpace}px;
 `
 
@@ -35,7 +35,7 @@ const StyledFlippersViewArea = styled.div`
   width: 300px;
   position: absolute;
   bottom: ${statusBarSpace}px;
-  right: ${eStopButtonestopSpace}px;
+  right: ${eStopSpace}px;
 `
 
 const StatusBarArea = styled.div`

@@ -204,7 +204,7 @@ const FlippersViewToggle = () => {
 
   return (
     <>
-      <p>Afficher status flippers</p>
+      <p>Show flippers status</p>
       <StyledInput
         type="checkbox"
         onChange={flippersViewToggle}
