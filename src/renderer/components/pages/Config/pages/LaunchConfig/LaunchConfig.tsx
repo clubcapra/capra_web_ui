@@ -126,7 +126,7 @@ export const LaunchConfig: FC = () => {
               />
             ))}
           </>
-          {isLoading ? <LoadingOverlay>File is launching</LoadingOverlay> : ''}
+          {isLoading ? <LoadingOverlay>Loading...</LoadingOverlay> : ''}
         </>
       ) : (
         <>No connection to ROS</>
