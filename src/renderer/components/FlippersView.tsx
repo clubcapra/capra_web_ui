@@ -33,9 +33,9 @@ const FlippersForwardView: FC = () => {
 const FlippersReverseView: FC = () => {
   return (
     <>
-      <StyledTLArea flipper={flippers.flipperFR} name="Front right" />
-      <StyledTRArea flipper={flippers.flipperFL} name="Front left" />
-      <StyledBLArea flipper={flippers.flipperRL} name="Rear left" />
+      <StyledTLArea flipper={flippers.flipperRR} name="Front right" />
+      <StyledTRArea flipper={flippers.flipperRL} name="Front left" />
+      <StyledBLArea flipper={flippers.flipperFL} name="Rear left" />
       <StyledBRArea flipper={flippers.flipperFR} name="Rear right" />
     </>
   )
