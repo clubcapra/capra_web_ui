@@ -1,15 +1,9 @@
-import { InputSystem } from '@/renderer/inputSystem/InputSystem'
 import { buttons as buttonMappings } from '@/renderer/inputSystem/mappings'
 import { rosClient } from '@/renderer/utils/ros/rosClient'
 import { Action } from '@/renderer/inputSystem/@types'
 import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
 import { IJoyMsg } from '@/renderer/utils/ros/rosMsgs.types'
-import { controlService } from '@/renderer/state/control'
-import { feedSlice } from '@/renderer/store/modules/feed'
-import { store } from '@/renderer/store/store'
-import { flipperService } from '@/renderer/state/flipper'
 import { log } from '@/renderer/logger'
-import { inputSlice, selectReverse } from '@/renderer/store/modules/input'
 import { ArmContext, armService } from '../state/arm'
 
 const joyTopic: TopicOptions = {
@@ -43,9 +37,6 @@ const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
   const d = new Date()
   const seconds = Math.round(d.getTime() / 1000)
 
-  const lt = getBtnValue(gamepad.buttons[buttonMappings.LT])
-  const rt = getBtnValue(gamepad.buttons[buttonMappings.RT])
-
   let axes = gamepad.axes
   axes = [0, 0, 0, 0, 0, 0]
   const buttons = gamepad.buttons.map((x) => Math.floor(x.value))
@@ -62,9 +53,6 @@ const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
     buttons,
   }
 }
-
-const getBtnValue = (rawBtn: GamepadButton) =>
-  typeof rawBtn == 'number' ? rawBtn : rawBtn.value
 
 export const armModeActions: Action[] = [
   {
@@ -108,21 +96,21 @@ export const armModeActions: Action[] = [
       // { type: 'keyboard', code: 'KeyT', onKeyDown: true },
     ],
     perform: () => {
-      console.log('home')
+      log.info('home')
     },
   },
   {
     name: 'openGripper',
     bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.X }],
     perform: () => {
-      console.log('open gripper')
+      log.info('open gripper')
     },
   },
   {
     name: 'closeGripper',
     bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.B }],
     perform: () => {
-      console.log("close gripper")
+      log.info('close gripper')
     },
   },
   {
@@ -171,4 +159,3 @@ export const armModeActions: Action[] = [
     },
   },
 ]
-

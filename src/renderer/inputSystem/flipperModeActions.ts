@@ -34,19 +34,19 @@ const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
   const rt = getBtnValue(gamepad.buttons[buttonMappings.RT])
 
   let axes = gamepad.axes
-    const isReverse = selectReverse(store.getState())
-    //Disable flipper movement when TPV is active
-    const rightStickEnabled = !gamepad.buttons[buttonMappings.LB].pressed
-    axes = [
-      -axes[0],
-      isReverse ? axes[1] : -axes[1],
-      lt,
-      rightStickEnabled ? -axes[2] : 0,
-      rightStickEnabled ? -axes[3] : 0,
-      rt,
-    ]
-    const deadzone = 0.15
-    axes = axes.map((x) => (x < deadzone && x > -deadzone ? 0.0 : x))
+  const isReverse = selectReverse(store.getState())
+  //Disable flipper movement when TPV is active
+  const rightStickEnabled = !gamepad.buttons[buttonMappings.LB].pressed
+  axes = [
+    -axes[0],
+    isReverse ? axes[1] : -axes[1],
+    lt,
+    rightStickEnabled ? -axes[2] : 0,
+    rightStickEnabled ? -axes[3] : 0,
+    rt,
+  ]
+  const deadzone = 0.15
+  axes = axes.map((x) => (x < deadzone && x > -deadzone ? 0.0 : x))
   const buttons = gamepad.buttons.map((x) => Math.floor(x.value))
   return {
     header: {
@@ -154,4 +154,3 @@ export const flipperModeActions: Action[] = [
     },
   },
 ]
-
