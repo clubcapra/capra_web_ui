@@ -11,6 +11,8 @@ import { flipperService } from '@/renderer/state/flipper'
 import { log } from '@/renderer/logger'
 import { inputSlice, selectReverse } from '@/renderer/store/modules/input'
 import { ArmContext, armService } from '../state/arm'
+import { armModeActions } from './armModeActions'
+import { flipperModeActions } from './flipperModeActions'
 
 const joyTopic: TopicOptions = {
   name: '/joy',
@@ -102,143 +104,15 @@ const defaultActions: Action[] = [
     bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.start }],
     perform: () => {
       controlService.send('TOGGLE')
-    },
-  },
-  {
-    name: 'modeFront',
-    bindings: [
-      { type: 'gamepadBtnDown', button: buttonMappings.dpad.up },
-      // { type: 'keyboard', code: 'KeyI' },
-    ],
-    perform: () => {
-      if (controlService.state.matches('flipper')) {
-        flipperService.send('MODE_FRONT')
+      if (controlService.state.matches('arm')) {
+        inputSystem.setActionMap(defaultActions.concat(armModeActions))
       } else {
-        armService.send('MODE_CARTESIAN')
+        inputSystem.setActionMap(defaultActions.concat(flipperModeActions))
       }
-    },
-  },
-  {
-    name: 'modeBack',
-    bindings: [
-      { type: 'gamepadBtnDown', button: buttonMappings.dpad.down },
-      // { type: 'keyboard', code: 'KeyK' },
-    ],
-    perform: () => {
-      if (controlService.state.matches('flipper')) {
-        flipperService.send('MODE_REAR')
-      } else {
-        armService.send('MODE_JOINT')
-      }
-    },
-  },
-  {
-    name: 'modeRight',
-    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.dpad.right }],
-    perform: () => {
-      if (controlService.state.matches('flipper')) {
-        flipperService.send('MODE_RIGHT')
-      } else {
-        armService.send('INCREMENT_JOINT')
-      }
-    },
-  },
-  {
-    name: 'modeLeft',
-    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.dpad.left }],
-    perform: () => {
-      if (controlService.state.matches('flipper')) {
-        flipperService.send('MODE_LEFT')
-      } else {
-        armService.send('DECREMENT_JOINT')
-      }
-    },
-  },
-  {
-    name: 'switchForwardDirection',
-    bindings: [
-      { type: 'gamepadBtnDown', button: buttonMappings.Y },
-      // { type: 'keyboard', code: 'KeyT', onKeyDown: true },
-    ],
-    perform: () => {
-      // TODO implement this client side by flipping the necessary axis direction see issue #82
-      // rosClient
-      //   .callService({ name: 'markhor/switch_direction' })
-      //   .catch(log.error)
-      store.dispatch(feedSlice.actions.switchDirection())
-      store.dispatch(inputSlice.actions.toggleReverse())
-    },
-  },
-  {
-    name: 'headlights',
-    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.X }],
-    perform: () => {
-      rosClient.callService({ name: '/headlights' }).catch(log.error)
-    },
-  },
-  {
-    name: 'flipper_reset',
-    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.B }],
-    perform: () => {
-      rosClient
-        .callService({ name: 'markhor/flippers/flipper_reset' })
-        .catch(log.error)
-    },
-  },
-  {
-    name: 'spacemouse',
-    bindings: [{ type: 'spacemouse' }],
-    perform: (ctx) => {
-      if (ctx.type !== 'spacemouse') {
-        return
-      }
-      if (!controlService.state.matches('arm')) {
-        return
-      }
-
-      const joy = mapGamepadToJoy(ctx.gamepadState.gamepad)
-      rosClient.publish(spaceMouseTopic, joy)
-    },
-  },
-  {
-    name: 'gamepad',
-    bindings: [{ type: 'gamepad' }],
-    perform: (ctx) => {
-      if (ctx.type !== 'gamepad') {
-        return
-      }
-
-      const gamepad = ctx.gamepadState.gamepad
-      if (
-        controlService.state.matches('arm') &&
-        armService.state.matches('joint')
-      ) {
-        if (gamepad.buttons[buttonMappings.A].pressed) {
-          rosClient.publish(jointGoalTopic, {
-            joint_index: (armService.state.context as ArmContext).jointValue,
-            joint_velocity:
-              gamepad.axes[1] < 0.15 && gamepad.axes[1] > -0.15
-                ? 0
-                : gamepad.axes[1],
-          })
-        }
-      }
-
-      const joy = mapGamepadToJoy(ctx.gamepadState.gamepad)
-      const tpvEnabled = gamepad.buttons[buttonMappings.LB].pressed
-      rosClient.publish(joyTopic, joy)
-      rosClient.publish(
-        tpvXTopic,
-        tpvEnabled ? { data: gamepad.axes[2] } : { data: 0 }
-      )
-      rosClient.publish(
-        tpvYTopic,
-        tpvEnabled ? { data: gamepad.axes[3] } : { data: 0 }
-      )
     },
   },
 ]
 
-const inputSystem = new InputSystem(defaultActions)
+const inputSystem = new InputSystem(defaultActions.concat(flipperModeActions))
 
 export default inputSystem
