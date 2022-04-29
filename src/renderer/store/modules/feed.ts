@@ -25,6 +25,7 @@ export enum FeedTypeEnum {
 }
 
 export enum CameraType {
+  COMPRESSED = 'ros_compressed',
   MJPEG = 'mjpeg',
   PNG = 'png',
   VP8 = 'vp8',
@@ -101,35 +102,35 @@ export const initialState: FeedState = {
       type: FeedTypeEnum.NotSelected,
       id: 'not_selected',
     },
-    video0: {
+    camera01: {
       type: FeedTypeEnum.Camera,
-      id: 'video0',
+      id: 'camera01',
       camera: {
-        name: 'video0',
-        type: CameraType.MJPEG,
-        topic: '/markhor/video0/usb_cam/image_raw',
+        name: 'camera01',
+        type: CameraType.COMPRESSED,
+        topic: '/markhor/camera_01/image_raw',
         flipped: true,
         rotated: false,
       },
     },
-    video1: {
+    camera02: {
       type: FeedTypeEnum.Camera,
-      id: 'video1',
+      id: 'camera02',
       camera: {
-        name: 'video1',
-        type: CameraType.MJPEG,
-        topic: '/markhor/video1/usb_cam/image_raw',
+        name: 'camera02',
+        type: CameraType.COMPRESSED,
+        topic: '/markhor/camera_02/image_raw',
         flipped: true,
         rotated: false,
       },
     },
-    video2: {
+    camera03: {
       type: FeedTypeEnum.Camera,
-      id: 'video2',
+      id: 'camera03',
       camera: {
-        name: 'video2',
-        type: CameraType.MJPEG,
-        topic: '/markhor/video2/usb_cam/image_raw',
+        name: 'camera03',
+        type: CameraType.COMPRESSED,
+        topic: '/markhor/camera_03/image_raw',
         flipped: true,
         rotated: true,
       },
