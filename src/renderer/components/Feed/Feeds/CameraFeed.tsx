@@ -90,6 +90,7 @@ const View: FC<Props> = ({ feed }) => {
   const source = useSelector(selectVideoUrl(feed.camera))
 
   switch (feed.camera.type) {
+    case CameraType.COMPRESSED:
     case CameraType.MJPEG:
     case CameraType.PNG:
       return (
