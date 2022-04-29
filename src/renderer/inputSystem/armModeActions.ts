@@ -2,22 +2,11 @@ import { buttons as buttonMappings } from '@/renderer/inputSystem/mappings'
 import { rosClient } from '@/renderer/utils/ros/rosClient'
 import { Action } from '@/renderer/inputSystem/@types'
 import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
-import { IJoyMsg } from '@/renderer/utils/ros/rosMsgs.types'
 import { log } from '@/renderer/logger'
 import { ArmContext, armService } from '../state/arm'
 
-const joyTopic: TopicOptions = {
-  name: '/joy',
-  messageType: 'sensor_msgs/Joy',
-}
-
-const spaceMouseTopic: TopicOptions = {
-  name: '/spacenav/twist',
-  messageType: 'geometry_msgs/Twist',
-}
-
 const jointGoalTopic: TopicOptions = {
-  name: 'ovis/joint_goal',
+  name: 'ovis/arm/joint_goal',
   messageType: 'ovis_msgs/OvisJointGoal',
 }
 
@@ -29,29 +18,6 @@ const tpvXTopic: TopicOptions = {
 const tpvYTopic: TopicOptions = {
   name: '/tpv_y',
   messageType: 'std_msgs/Float64',
-}
-
-let joySeqId = 0
-
-const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
-  const d = new Date()
-  const seconds = Math.round(d.getTime() / 1000)
-
-  let axes = gamepad.axes
-  axes = [0, 0, 0, 0, 0, 0]
-  const buttons = gamepad.buttons.map((x) => Math.floor(x.value))
-  return {
-    header: {
-      seq: joySeqId++,
-      stamp: {
-        sec: seconds,
-        nsecs: 0,
-      },
-      frame_id: '',
-    },
-    axes,
-    buttons,
-  }
 }
 
 export const armModeActions: Action[] = [
@@ -96,7 +62,9 @@ export const armModeActions: Action[] = [
       // { type: 'keyboard', code: 'KeyT', onKeyDown: true },
     ],
     perform: () => {
-      log.info('home')
+      rosClient
+        .callService({ name: '/ovis/arm/home_joint_positions' })
+        .catch(log.error)
     },
   },
   {
@@ -111,17 +79,6 @@ export const armModeActions: Action[] = [
     bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.B }],
     perform: () => {
       log.info('close gripper')
-    },
-  },
-  {
-    name: 'spacemouse',
-    bindings: [{ type: 'spacemouse' }],
-    perform: (ctx) => {
-      if (ctx.type !== 'spacemouse') {
-        return
-      }
-      const joy = mapGamepadToJoy(ctx.gamepadState.gamepad)
-      rosClient.publish(spaceMouseTopic, joy)
     },
   },
   {
@@ -144,10 +101,7 @@ export const armModeActions: Action[] = [
           })
         }
       }
-
-      const joy = mapGamepadToJoy(ctx.gamepadState.gamepad)
       const tpvEnabled = gamepad.buttons[buttonMappings.LB].pressed
-      rosClient.publish(joyTopic, joy)
       rosClient.publish(
         tpvXTopic,
         tpvEnabled ? { data: gamepad.axes[2] } : { data: 0 }
