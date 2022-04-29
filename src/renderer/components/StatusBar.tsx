@@ -159,10 +159,7 @@ const AudioStart = () => {
     }
   }
   return (
-    <StatusBarButton
-      onClick={onClick}
-      disabled={!state.matches('disconnected')}
-    >
+    <StatusBarButton onClick={onClick} disabled={state.matches('disconnected')}>
       {isStarted ? 'Audio Stop' : 'Audio Start'}
     </StatusBarButton>
   )
