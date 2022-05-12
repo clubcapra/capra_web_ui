@@ -1,4 +1,7 @@
-import { buttons as buttonMappings, sticks } from '@/renderer/inputSystem/mappings'
+import {
+  buttons as buttonMappings,
+  sticks,
+} from '@/renderer/inputSystem/mappings'
 import { rosClient } from '@/renderer/utils/ros/rosClient'
 import { Action } from '@/renderer/inputSystem/@types'
 import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'

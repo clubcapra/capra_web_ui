@@ -1,4 +1,3 @@
-import { log } from '@/renderer/logger'
 import { Machine, interpret } from 'xstate'
 
 export interface ArmContext {
