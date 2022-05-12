@@ -1,9 +1,10 @@
-import { buttons as buttonMappings } from '@/renderer/inputSystem/mappings'
+import { buttons as buttonMappings, sticks } from '@/renderer/inputSystem/mappings'
 import { rosClient } from '@/renderer/utils/ros/rosClient'
 import { Action } from '@/renderer/inputSystem/@types'
 import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
 import { log } from '@/renderer/logger'
 import { ArmContext, armService } from '../state/arm'
+import { deadzone } from '../utils/gamepad'
 
 const jointGoalTopic: TopicOptions = {
   name: 'ovis/arm/joint_goal',
@@ -94,21 +95,22 @@ export const armModeActions: Action[] = [
         if (gamepad.buttons[buttonMappings.A].pressed) {
           rosClient.publish(jointGoalTopic, {
             joint_index: (armService.state.context as ArmContext).jointValue,
-            joint_velocity:
-              gamepad.axes[1] < 0.15 && gamepad.axes[1] > -0.15
-                ? 0
-                : -gamepad.axes[1],
+            joint_velocity: -deadzone(gamepad.axes[sticks.left.vertical]),
           })
         }
       }
       const tpvEnabled = gamepad.buttons[buttonMappings.LB].pressed
       rosClient.publish(
         tpvXTopic,
-        tpvEnabled ? { data: gamepad.axes[2] } : { data: 0 }
+        tpvEnabled
+          ? { data: deadzone(gamepad.axes[sticks.right.horizontal]) }
+          : { data: 0 }
       )
       rosClient.publish(
         tpvYTopic,
-        tpvEnabled ? { data: gamepad.axes[3] } : { data: 0 }
+        tpvEnabled
+          ? { data: deadzone(gamepad.axes[sticks.right.vertical]) }
+          : { data: 0 }
       )
     },
   },
