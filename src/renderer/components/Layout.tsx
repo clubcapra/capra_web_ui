@@ -2,8 +2,14 @@ import React, { FC } from 'react'
 import { EStopButton } from '@/renderer/components/EStopButton'
 import { Header } from '@/renderer/components/Header'
 import { StatusBar } from '@/renderer/components/StatusBar'
+import { FlippersView } from '@/renderer/components/FlippersView'
 import { Router } from '@/renderer/components/Router'
 import { styled } from '@/renderer/globalStyles/styled'
+import { selectFlippersViewToggleVisible } from '@/renderer/store/modules/flippersViewToggle'
+import { useSelector } from 'react-redux'
+
+const eStopSpace = 70
+const statusBarSpace = 20
 
 const GridLayout = styled.div`
   height: 100%;
@@ -12,8 +18,8 @@ const GridLayout = styled.div`
     'h e'
     'v e'
     's e';
-  grid-template-columns: 1fr 70px;
-  grid-template-rows: auto 1fr 20px;
+  grid-template-columns: 1fr ${eStopSpace}px;
+  grid-template-rows: auto 1fr ${statusBarSpace}px;
 `
 
 const StyledView = styled.div`
@@ -21,6 +27,15 @@ const StyledView = styled.div`
   height: 100%;
   overflow-y: auto;
   position: relative;
+`
+
+const StyledFlippersViewArea = styled.div`
+  grid-area: v;
+  height: 75px;
+  width: 300px;
+  position: absolute;
+  bottom: ${statusBarSpace}px;
+  right: ${eStopSpace}px;
 `
 
 const StatusBarArea = styled.div`
@@ -44,6 +59,7 @@ export const Layout: FC = () => {
       <StyledView>
         <Router />
       </StyledView>
+      <FlippersViewArea />
       <StatusBarArea>
         <StatusBar />
       </StatusBarArea>
@@ -52,4 +68,12 @@ export const Layout: FC = () => {
       </EStopArea>
     </GridLayout>
   )
+}
+
+const FlippersViewArea = () => {
+  return useSelector(selectFlippersViewToggleVisible) ? (
+    <StyledFlippersViewArea>
+      <FlippersView />
+    </StyledFlippersViewArea>
+  ) : null
 }
