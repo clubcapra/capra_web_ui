@@ -11,7 +11,7 @@ import { deadzone } from '../utils/gamepad'
 
 const jointGoalTopic: TopicOptions = {
   name: 'ovis/arm/joint_goal',
-  messageType: 'ovis_msgs/OvisJointGoal',
+  messageType: 'ovis_msgs/OvisArmJointVelocity',
 }
 
 const tpvXTopic: TopicOptions = {
@@ -22,6 +22,11 @@ const tpvXTopic: TopicOptions = {
 const tpvYTopic: TopicOptions = {
   name: '/tpv_y',
   messageType: 'std_msgs/Float64',
+}
+
+const gripperTopic: TopicOptions = {
+  name: 'ovis/gripper/position_goal',
+  messageType: 'ovis_robotiq_gripper/OvisGripperPosition',
 }
 
 export const armModeActions: Action[] = [
@@ -72,17 +77,12 @@ export const armModeActions: Action[] = [
     },
   },
   {
-    name: 'openGripper',
-    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.X }],
-    perform: () => {
-      log.info('open gripper')
-    },
-  },
-  {
-    name: 'closeGripper',
+    name: 'toggleGripper',
     bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.B }],
     perform: () => {
-      log.info('close gripper')
+      rosClient.publish(gripperTopic, {
+        position: 2,
+      })
     },
   },
   {
