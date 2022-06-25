@@ -1,6 +1,6 @@
 {
   "name": "capra_web_ui",
-  "version": "2.4.3",
+  "version": "2.4.6",
   "author": {
     "name": "Club Capra",
     "email": "admin@clubcapra.com",
@@ -99,3 +99,4 @@
     "typescript": "^4.6.2"
   }
 }
+

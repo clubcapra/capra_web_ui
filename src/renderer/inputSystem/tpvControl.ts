@@ -24,13 +24,13 @@ export const handleTpvControl = (gamepad: Gamepad) => {
   rosClient.publish(
     tpvXTopic,
     tpvEnabled
-      ? { data: deadzone(-gamepad.axes[sticks.right.horizontal] * 0.8) }
+      ? { data: deadzone(-gamepad.axes[sticks.right.horizontal] * 0.5) }
       : { data: 0 }
   )
   rosClient.publish(
     tpvYTopic,
     tpvEnabled
-      ? { data: deadzone(gamepad.axes[sticks.right.vertical] * 0.8) }
+      ? { data: deadzone(gamepad.axes[sticks.right.vertical] * 0.5) }
       : { data: 0 }
   )
 }
