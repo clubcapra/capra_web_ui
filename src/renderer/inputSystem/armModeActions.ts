@@ -8,20 +8,11 @@ import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
 import { log } from '@/renderer/logger'
 import { ArmContext, armService } from '../state/arm'
 import { deadzone } from '../utils/gamepad'
+import { handleTpvControl } from './tpvControl'
 
 const jointGoalTopic: TopicOptions = {
   name: 'ovis/arm/joint_goal',
   messageType: 'ovis_msgs/OvisArmJointVelocity',
-}
-
-const tpvXTopic: TopicOptions = {
-  name: '/tpv_x',
-  messageType: 'std_msgs/Float64',
-}
-
-const tpvYTopic: TopicOptions = {
-  name: '/tpv_y',
-  messageType: 'std_msgs/Float64',
 }
 
 const gripperTopic: TopicOptions = {
@@ -102,19 +93,7 @@ export const armModeActions: Action[] = [
           })
         }
       }
-      const tpvEnabled = gamepad.buttons[buttonMappings.LB].pressed
-      rosClient.publish(
-        tpvXTopic,
-        tpvEnabled
-          ? { data: deadzone(gamepad.axes[sticks.right.horizontal]) }
-          : { data: 0 }
-      )
-      rosClient.publish(
-        tpvYTopic,
-        tpvEnabled
-          ? { data: deadzone(gamepad.axes[sticks.right.vertical]) }
-          : { data: 0 }
-      )
+      handleTpvControl(gamepad)
     },
   },
 ]

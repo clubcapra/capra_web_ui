@@ -1,7 +1,4 @@
-import {
-  buttons as buttonMappings,
-  sticks,
-} from '@/renderer/inputSystem/mappings'
+import { buttons as buttonMappings } from '@/renderer/inputSystem/mappings'
 import { rosClient } from '@/renderer/utils/ros/rosClient'
 import { Action } from '@/renderer/inputSystem/@types'
 import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
@@ -11,21 +8,11 @@ import { store } from '@/renderer/store/store'
 import { flipperService } from '@/renderer/state/flipper'
 import { log } from '@/renderer/logger'
 import { inputSlice, selectReverse } from '@/renderer/store/modules/input'
-import { deadzone } from '../utils/gamepad'
+import { handleTpvControl } from './tpvControl'
 
 const joyTopic: TopicOptions = {
   name: '/joy',
   messageType: 'sensor_msgs/Joy',
-}
-
-const tpvXTopic: TopicOptions = {
-  name: '/tpv_x',
-  messageType: 'std_msgs/Float64',
-}
-
-const tpvYTopic: TopicOptions = {
-  name: '/tpv_y',
-  messageType: 'std_msgs/Float64',
 }
 
 let joySeqId = 0
@@ -145,20 +132,9 @@ export const flipperModeActions: Action[] = [
 
       const gamepad = ctx.gamepadState.gamepad
       const joy = mapGamepadToJoy(ctx.gamepadState.gamepad)
-      const tpvEnabled = gamepad.buttons[buttonMappings.LB].pressed
       rosClient.publish(joyTopic, joy)
-      rosClient.publish(
-        tpvXTopic,
-        tpvEnabled
-          ? { data: deadzone(gamepad.axes[sticks.right.horizontal]) }
-          : { data: 0 }
-      )
-      rosClient.publish(
-        tpvYTopic,
-        tpvEnabled
-          ? { data: deadzone(gamepad.axes[sticks.right.vertical]) }
-          : { data: 0 }
-      )
+
+      handleTpvControl(gamepad)
     },
   },
 ]

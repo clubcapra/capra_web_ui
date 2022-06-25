@@ -4,7 +4,7 @@ import { Vector3 } from '@/renderer/utils/math/types'
 import { store } from '@/renderer/store/store'
 
 export const deadzone = (value: number): number => {
-  const deadzone = 0.15
+  const deadzone = 0.1
   return value > deadzone || value < -deadzone ? value : 0
 }
 
