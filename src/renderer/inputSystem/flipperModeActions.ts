@@ -98,10 +98,6 @@ export const flipperModeActions: Action[] = [
       // { type: 'keyboard', code: 'KeyT', onKeyDown: true },
     ],
     perform: () => {
-      // TODO implement this client side by flipping the necessary axis direction see issue #82
-      // rosClient
-      //   .callService({ name: 'markhor/switch_direction' })
-      //   .catch(log.error)
       store.dispatch(feedSlice.actions.switchDirection())
       store.dispatch(inputSlice.actions.toggleReverse())
     },

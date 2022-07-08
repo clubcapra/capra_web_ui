@@ -21,9 +21,7 @@ let data: ShortcutData[] = [
   // #endregion
 
   // #region Triggers and bumpers
-  { content: '', from: [LEFT_X, 90], to: [320, 90] }, // LT
   { content: 'TPV Enabled', from: [LEFT_X, 160], to: [300, 160] }, // LB
-  { content: '', from: [RIGHT_X, 90], to: [675, 90] }, // RT
   { content: 'Turbo Enabled', from: [RIGHT_X, 140], to: [680, 155] }, // RB
   // #endregion
 

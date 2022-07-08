@@ -21,16 +21,12 @@ const tpvYTopic: TopicOptions = {
  */
 export const handleTpvControl = (gamepad: Gamepad) => {
   const tpvEnabled = gamepad.buttons[buttonMappings.LB].pressed
-  rosClient.publish(
-    tpvXTopic,
-    tpvEnabled
-      ? { data: deadzone(-gamepad.axes[sticks.right.horizontal] * 0.5) }
-      : { data: 0 }
-  )
-  rosClient.publish(
-    tpvYTopic,
-    tpvEnabled
-      ? { data: deadzone(gamepad.axes[sticks.right.vertical] * 0.5) }
-      : { data: 0 }
-  )
+  rosClient.publish(tpvXTopic, {
+    data: tpvEnabled
+      ? deadzone(-gamepad.axes[sticks.right.horizontal] * 0.5)
+      : 0,
+  })
+  rosClient.publish(tpvYTopic, {
+    data: tpvEnabled ? deadzone(gamepad.axes[sticks.right.vertical] * 0.5) : 0,
+  })
 }
