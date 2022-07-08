@@ -24,19 +24,12 @@ let data: ShortcutData[] = [
   { content: '', from: [LEFT_X, 90], to: [320, 90] }, // LT
   { content: 'TPV Enabled', from: [LEFT_X, 160], to: [300, 160] }, // LB
   { content: '', from: [RIGHT_X, 90], to: [675, 90] }, // RT
-  { content: 'Dead Man Switch', from: [RIGHT_X, 140], to: [680, 155] }, // RB
+  { content: 'Turbo Enabled', from: [RIGHT_X, 140], to: [680, 155] }, // RB
   // #endregion
 
   // #region DPAD
   {
-    content: (
-      <>
-        <div>Up: Flipper mode front</div>
-        <div>Right: Flipper mode right</div>
-        <div>Down: Flipper mode back</div>
-        <div>Left: Flipper mode left</div>
-      </>
-    ),
+    content: 'Current Mode Configuration',
     from: [LEFT_X, 320],
     to: [400, 320],
   },
@@ -50,7 +43,7 @@ let data: ShortcutData[] = [
     from: [RIGHT_X, 250],
     to: [715, 250],
   },
-  { content: 'A: Turbo Enabled', from: [RIGHT_X, 290], to: [675, 290] },
+  { content: 'A: Dead Man Switch', from: [RIGHT_X, 290], to: [675, 290] },
   // #endregion
 
   // Center
