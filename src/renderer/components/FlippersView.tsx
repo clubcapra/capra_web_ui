@@ -45,6 +45,7 @@ const FlipperArea: FC<Props> = ({ flipper, name }) => {
   const [position, setPosition] = useState<string>('0.00')
   const [motorCurrentColor, setMotorCurrentColor] = useState<string>('')
   const [motorCurrentValue, setMotorCurrentValue] = useState<string>('0')
+  const limite =  1;
 
   useEffect(() => {
     if (!position) {
@@ -63,7 +64,7 @@ const FlipperArea: FC<Props> = ({ flipper, name }) => {
     flipper.topicPosition,
     useCallback((message) => {
       setPosition(
-        Number(message.data)
+        (Number(message.data)/limite)
           .toFixed(2)
           .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ' ')
       )
@@ -89,9 +90,10 @@ const FlipperArea: FC<Props> = ({ flipper, name }) => {
   return (
     <StyledFlipperArea>
       <StyledName>{name}</StyledName>
-      <StyledPostion>{position}</StyledPostion>
+      <StyledPostion>{position} %</StyledPostion>
       <StyledMotorCurrentColor style={{ backgroundColor: motorCurrentColor }} />
       <StyledMotorCurrentValue>{motorCurrentValue} A</StyledMotorCurrentValue>
+      <StyledTemperature>0 C</StyledTemperature>
     </StyledFlipperArea>
   )
 }
@@ -134,7 +136,8 @@ const StyledFlipperArea = styled.div`
   display: grid;
   grid-template-areas:
     'n p'
-    'mcc mcv';
+    'mcc mcv'
+    'x t';
 `
 const StyledName = styled.p`
   grid-area: n;
@@ -152,6 +155,9 @@ const StyledMotorCurrentColor = styled.p`
   grid-area: mcc;
   border-radius: 5px;
   margin: 5px;
+`
+const StyledTemperature = styled.p`
+  grid-area: t;
 `
 
 export interface IFlippers {
