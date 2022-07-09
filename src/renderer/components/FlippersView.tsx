@@ -4,11 +4,23 @@ import { useRosSubscribe } from '@/renderer/hooks/useRosSubscribe'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { selectReverse } from '@/renderer/store/modules/input'
 import { useSelector } from '@/renderer/hooks/typedUseSelector'
+import ROSLIB from 'roslib'
+import { rosClient } from '../utils/ros/rosClient'
 
 interface Props {
   flipper: IFlipperData
   name: string
 }
+
+const flipperUpperLimitParam = new ROSLIB.Param({
+  name: 'markhor/flippers/front_left_drive_upper_limit',
+  ros: rosClient.ros,
+})
+
+const flipperLowerLimitParam = new ROSLIB.Param({
+  name: 'markhor/flippers/front_left_drive_lower_limit',
+  ros: rosClient.ros,
+})
 
 export const FlippersView: FC = () => {
   const isReverse = useSelector(selectReverse)
@@ -45,7 +57,8 @@ const FlipperArea: FC<Props> = ({ flipper, name }) => {
   const [position, setPosition] = useState<string>('0.00')
   const [motorCurrentColor, setMotorCurrentColor] = useState<string>('')
   const [motorCurrentValue, setMotorCurrentValue] = useState<string>('0')
-  const limite =  1;
+  const [flipperUpperLimit, setFlipperUpperLimit] = useState<number>(0)
+  const [flipperLowerLimit, setFlipperLowerLimit] = useState<number>(0)
 
   useEffect(() => {
     if (!position) {
@@ -60,15 +73,35 @@ const FlipperArea: FC<Props> = ({ flipper, name }) => {
     }
   }, [position, motorCurrentValue, motorCurrentColor])
 
+  // Load flipper limits from ROS
+  useEffect(() => {
+    flipperLowerLimitParam.get((value) => {
+      if (value) {
+        setFlipperLowerLimit(value as number)
+      }
+    })
+    flipperUpperLimitParam.get((value) => {
+      if (value) {
+        setFlipperUpperLimit(value as number)
+      }
+    })
+  }, [])
+
   useRosSubscribe(
     flipper.topicPosition,
-    useCallback((message) => {
-      setPosition(
-        (Number(message.data)/limite)
-          .toFixed(2)
-          .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ' ')
-      )
-    }, [])
+    useCallback(
+      (message) => {
+        setPosition(
+          (Number(message.data) / Number(message.data) < 0
+            ? flipperUpperLimit
+            : flipperLowerLimit
+          )
+            .toFixed(2)
+            .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ' ')
+        )
+      },
+      [flipperLowerLimit, flipperUpperLimit]
+    )
   )
 
   useRosSubscribe(
@@ -93,7 +126,7 @@ const FlipperArea: FC<Props> = ({ flipper, name }) => {
       <StyledPostion>{position} %</StyledPostion>
       <StyledMotorCurrentColor style={{ backgroundColor: motorCurrentColor }} />
       <StyledMotorCurrentValue>{motorCurrentValue} A</StyledMotorCurrentValue>
-      <StyledTemperature>0 C</StyledTemperature>
+      <StyledTemperature>0 °C</StyledTemperature>
     </StyledFlipperArea>
   )
 }
