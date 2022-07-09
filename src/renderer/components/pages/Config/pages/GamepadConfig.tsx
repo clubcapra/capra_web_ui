@@ -35,7 +35,7 @@ let data: ShortcutData[] = [
 
   // #region XYAB
   { content: 'X: Headlights', from: [RIGHT_X, 180], to: [610, 230] },
-  { content: 'Y: Switch Fron Back', from: [RIGHT_X, 211], to: [675, 211] },
+  { content: 'Y: Switch Front Back', from: [RIGHT_X, 211], to: [675, 211] },
   {
     content: 'B: Reset Flipper Position',
     from: [RIGHT_X, 250],
