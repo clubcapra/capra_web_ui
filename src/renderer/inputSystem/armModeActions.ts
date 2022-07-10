@@ -11,7 +11,7 @@ import { deadzone } from '../utils/gamepad'
 import { handleTpvControl } from './tpvControl'
 
 const jointGoalTopic: TopicOptions = {
-  name: 'ovis/arm/joint_goal',
+  name: 'ovis/arm/joint_velocity_goal',
   messageType: 'ovis_msgs/OvisArmJointVelocity',
 }
 
