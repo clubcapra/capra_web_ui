@@ -1,7 +1,6 @@
-import { FeedTypeEnum, IDetectionFeed } from '@/renderer/store/modules/feed'
+import { IDetectionFeed } from '@/renderer/store/modules/feed'
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
 import { styled } from '@/renderer/globalStyles/styled'
-import { CameraFeed } from './CameraFeed'
 import { selectVideoUrl } from '@/renderer/store/modules/ros'
 import { useSelector } from 'react-redux'
 import QRScanner from 'qr-scanner'
@@ -16,15 +15,59 @@ const StyledImg = styled.img`
   object-fit: contain;
   overflow: hidden;
 `
+interface Point {
+  x: number
+  y: number
+}
 
-const engine = QRScanner.createQrEngine()
+interface QRScanRegionProps {
+  points: Point[]
+  message: string
+  imageWidth: number
+  imageHeight: number
+}
+
+const QRScanRegion: FC<QRScanRegionProps> = ({
+  points,
+  message,
+  imageWidth,
+  imageHeight,
+}) => {
+  let width = 0
+  let height = 0
+  let topPosition = 0
+  let leftPosition = 0
+  if (points.length > 0) {
+    width = points[2].x - points[0].x
+    height = points[2].y - points[0].y
+    const yOffset = (points[0].y / imageHeight / 2) * 100
+    const xOffset = (points[0].x / imageWidth / 5) * 100
+    topPosition = (points[0].y / imageHeight) * 100 + yOffset
+    leftPosition = (points[0].x / imageWidth) * 100 + xOffset
+  }
+  return points.length > 0 ? (
+    <StyledContainer
+      style={{ top: `${topPosition}%`, left: `${leftPosition}%` }}
+    >
+      <StyledRectangle
+        style={{
+          width: `${width}px`,
+          height: `${height}px`,
+        }}
+      />
+      <StyledText>{message}</StyledText>
+    </StyledContainer>
+  ) : (
+    <></>
+  )
+}
 
 export const QRFeed: FC<Props> = ({ feed }) => {
   const [text, setText] = useState(Array<string>())
   const [qrCodeMessage, setMessage] = useState('')
+  const [qrCodeCorners, setQrCodeCorners] = useState<Point[]>([])
   const source = useSelector(selectVideoUrl(feed.camera))
   const imageRef = useRef<HTMLImageElement>(null)
-  const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
     const lines = [...text]
@@ -38,45 +81,56 @@ export const QRFeed: FC<Props> = ({ feed }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [qrCodeMessage])
 
+  const startScanRoutine = useCallback(() => {
+    if (imageRef.current !== null) {
+      return new Promise((resolve) =>
+        QRScanner.scanImage(
+          imageRef.current !== null ? imageRef.current : source,
+          {
+            returnDetailedScanResult: true,
+          }
+        )
+          .then((result) => {
+            setMessage(result.data)
+            setQrCodeCorners(result.cornerPoints)
+          })
+          .catch(() => {
+            setQrCodeCorners([])
+          })
+          .finally(() => {
+            resolve('scanned')
+          })
+      )
+    } else {
+      return undefined
+    }
+  }, [source])
+
   useEffect(() => {
-    setInterval(() => {
-      console.log(scanImage())
-    }, 1000)
+    setInterval(async () => {
+      await startScanRoutine()
+    }, 500)
 
     return () => {
-      console.log('unmount')
-      clearTimeout()
+      clearInterval()
     }
-  })
-
-  function scanImage() {
-    const result = QRScanner.scanImage(source, {
-      returnDetailedScanResult: true,
-      qrEngine: engine,
-    })
-      .then((result) => {
-        return result
-      })
-      .catch((err: string) => {
-        return err
-      })
-    return result
-  }
+  }, [startScanRoutine])
 
   return (
     <>
       <StyledImg id="image" src={source} ref={imageRef} />
-
-      <StyledContainer>
-        <StyledRectangle />
-        <StyledText>Hello {':)'}</StyledText>
-      </StyledContainer>
+      <QRScanRegion
+        points={qrCodeCorners}
+        message={qrCodeMessage}
+        imageWidth={imageRef.current?.width ?? 0}
+        imageHeight={imageRef.current?.height ?? 0}
+      />
     </>
   )
 }
 
 const StyledRectangle = styled.div`
-  outline: green solid 3px;
+  outline: red solid 3px;
   width: 100%;
   height: 100%;
   z-index: 1000;
@@ -84,17 +138,13 @@ const StyledRectangle = styled.div`
 
 const StyledContainer = styled.div`
   position: absolute;
-  top: 30%;
-  left: 30%;
-  width: 30%;
-  height: 50%;
   z-index: 1000;
 `
 
 const StyledText = styled.p`
   font-size: 0.8rem;
   margin-top: 0.5rem;
-  color: green;
+  color: red;
   text-align: center;
   z-index: 1001;
 `
