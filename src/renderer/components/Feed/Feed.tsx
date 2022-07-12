@@ -58,13 +58,15 @@ const FeedView: FC<{
     case FeedTypeEnum.NotSelected:
       return <TextFeed text="Nothing Selected" />
     case FeedTypeEnum.Camera:
-      return <CameraFeed feed={feed} />
+      return feed.id === 'qr_code' ? (
+        <QRFeed feed={feed} />
+      ) : (
+        <CameraFeed feed={feed} />
+      )
     case FeedTypeEnum.Urdf:
       return <UrdfFeed feed={feed} />
     case FeedTypeEnum.Graph:
       return <GraphFeed feed={feed} />
-    case FeedTypeEnum.Detection:
-      return <QRFeed feed={feed} />
     default:
       return <TextFeed text="NOT SUPPORTED" />
   }

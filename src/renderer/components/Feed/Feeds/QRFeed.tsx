@@ -1,12 +1,15 @@
-import { IDetectionFeed } from '@/renderer/store/modules/feed'
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
 import { styled } from '@/renderer/globalStyles/styled'
 import { selectVideoUrl } from '@/renderer/store/modules/ros'
 import { useSelector } from 'react-redux'
 import QRScanner from 'qr-scanner'
+import { ICameraFeed } from '@/renderer/store/modules/feed'
+import { rosService } from '@/renderer/state/ros'
+import { useActor } from '@xstate/react'
+import { TextFeed } from './TextFeed'
 
 interface Props {
-  feed: IDetectionFeed
+  feed: ICameraFeed
 }
 
 const StyledImg = styled.img`
@@ -27,6 +30,7 @@ interface QRScanRegionProps {
   imageHeight: number
 }
 
+// This should be a component in a seperate file and could be reused for other detection cameras
 const QRScanRegion: FC<QRScanRegionProps> = ({
   points,
   message,
@@ -40,6 +44,7 @@ const QRScanRegion: FC<QRScanRegionProps> = ({
   if (points.length > 0) {
     width = points[2].x - points[0].x
     height = points[2].y - points[0].y
+    // Temporary adjustments for rectangle placement
     const yOffset = (points[0].y / imageHeight / 2) * 100
     const xOffset = (points[0].x / imageWidth / 5) * 100
     topPosition = (points[0].y / imageHeight) * 100 + yOffset
@@ -63,23 +68,12 @@ const QRScanRegion: FC<QRScanRegionProps> = ({
 }
 
 export const QRFeed: FC<Props> = ({ feed }) => {
-  const [text, setText] = useState(Array<string>())
   const [qrCodeMessage, setMessage] = useState('')
   const [qrCodeCorners, setQrCodeCorners] = useState<Point[]>([])
   const source = useSelector(selectVideoUrl(feed.camera))
   const imageRef = useRef<HTMLImageElement>(null)
-
-  useEffect(() => {
-    const lines = [...text]
-    if (!lines.includes(qrCodeMessage) && qrCodeMessage.length != 0) {
-      lines.push(qrCodeMessage)
-      if (lines.length > 5) {
-        lines.splice(0, lines.length - 5)
-      }
-      setText(lines)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [qrCodeMessage])
+  const [state] = useActor(rosService)
+  const connected = state.matches('connected')
 
   const startScanRoutine = useCallback(() => {
     if (imageRef.current !== null) {
@@ -118,13 +112,19 @@ export const QRFeed: FC<Props> = ({ feed }) => {
 
   return (
     <>
-      <StyledImg id="image" src={source} ref={imageRef} />
-      <QRScanRegion
-        points={qrCodeCorners}
-        message={qrCodeMessage}
-        imageWidth={imageRef.current?.width ?? 0}
-        imageHeight={imageRef.current?.height ?? 0}
-      />
+      {connected ? (
+        <>
+          <StyledImg id="image" src={source} ref={imageRef} />
+          <QRScanRegion
+            points={qrCodeCorners}
+            message={qrCodeMessage}
+            imageWidth={imageRef.current?.width ?? 0}
+            imageHeight={imageRef.current?.height ?? 0}
+          />
+        </>
+      ) : (
+        <TextFeed text="No video" />
+      )}
     </>
   )
 }
