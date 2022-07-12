@@ -22,6 +22,7 @@ export enum FeedTypeEnum {
   Urdf,
   Graph,
   NotSelected,
+  Detection,
 }
 
 export enum CameraType {
@@ -42,6 +43,7 @@ export type FeedType =
   | IUrdfFeed
   | IGraphFeed
   | INotSelected
+  | IDetectionFeed
 
 interface BaseFeed {
   type: FeedTypeEnum
@@ -82,6 +84,17 @@ export interface IGraphData {
   topic: TopicOptions<string>
   name: string
   type: GraphType
+}
+
+export interface IDetectionFeed extends BaseFeed {
+  type: FeedTypeEnum.Detection
+  camera: ICameraData
+  detection: IDetectionData
+}
+
+export interface IDetectionData {
+  topic: TopicOptions<string>
+  name: string
 }
 
 export const feed_id = {
@@ -219,6 +232,24 @@ export const initialState: FeedState = {
         topic: {
           name: '/capra/co2_ppm',
           messageType: 'std_msgs/String',
+        },
+      },
+    },
+    qr_code: {
+      type: FeedTypeEnum.Detection,
+      id: 'qr_code',
+      camera: {
+        name: 'qr_code',
+        type: CameraType.MJPEG,
+        topic: '/capra/usb_cam/image_raw',
+        flipped: false,
+        rotated: false,
+      },
+      detection: {
+        name: 'qr_code',
+        topic: {
+          name: '/capra/visp_auto_tracker/object_position',
+          messageType: 'geometry_msgs/PoseStamped',
         },
       },
     },

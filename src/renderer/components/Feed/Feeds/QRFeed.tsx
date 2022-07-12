@@ -1,15 +1,30 @@
-import { IGraphFeed } from '@/renderer/store/modules/feed'
-import { useRosSubscribe } from '@/renderer/hooks/useRosSubscribe'
-import React, { FC, useCallback, useEffect, useState } from 'react'
+import { FeedTypeEnum, IDetectionFeed } from '@/renderer/store/modules/feed'
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
 import { styled } from '@/renderer/globalStyles/styled'
+import { CameraFeed } from './CameraFeed'
+import { selectVideoUrl } from '@/renderer/store/modules/ros'
+import { useSelector } from 'react-redux'
+import QRScanner from 'qr-scanner'
 
 interface Props {
-  feed: IGraphFeed
+  feed: IDetectionFeed
 }
+
+const StyledImg = styled.img`
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  overflow: hidden;
+`
+
+const engine = QRScanner.createQrEngine()
 
 export const QRFeed: FC<Props> = ({ feed }) => {
   const [text, setText] = useState(Array<string>())
   const [qrCodeMessage, setMessage] = useState('')
+  const source = useSelector(selectVideoUrl(feed.camera))
+  const imageRef = useRef<HTMLImageElement>(null)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
     const lines = [...text]
@@ -23,74 +38,63 @@ export const QRFeed: FC<Props> = ({ feed }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [qrCodeMessage])
 
-  useRosSubscribe(
-    feed.graph.topic,
-    useCallback(
-      (message) => {
-        setMessage(message.data)
-      },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      []
-    )
-  )
+  useEffect(() => {
+    setInterval(() => {
+      console.log(scanImage())
+    }, 1000)
+
+    return () => {
+      console.log('unmount')
+      clearTimeout()
+    }
+  })
+
+  function scanImage() {
+    const result = QRScanner.scanImage(source, {
+      returnDetailedScanResult: true,
+      qrEngine: engine,
+    })
+      .then((result) => {
+        return result
+      })
+      .catch((err: string) => {
+        return err
+      })
+    return result
+  }
 
   return (
     <>
-      <StyledTable>
-        <thead>
-          <tr>
-            <th>Type</th>
-            <th>Text</th>
-          </tr>
-        </thead>
-        <tbody>
-          {text.map((line) => {
-            return (
-              <tr key={line}>
-                <td>QR Code</td>
-                <td>{line}</td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </StyledTable>
+      <StyledImg id="image" src={source} ref={imageRef} />
+
+      <StyledContainer>
+        <StyledRectangle />
+        <StyledText>Hello {':)'}</StyledText>
+      </StyledContainer>
     </>
   )
 }
 
-const StyledTable = styled.table`
+const StyledRectangle = styled.div`
+  outline: green solid 3px;
   width: 100%;
-  border-spacing: 0;
-  border-collapse: collapse;
+  height: 100%;
+  z-index: 1000;
+`
 
-  th,
-  td {
-    text-align: left;
+const StyledContainer = styled.div`
+  position: absolute;
+  top: 30%;
+  left: 30%;
+  width: 30%;
+  height: 50%;
+  z-index: 1000;
+`
 
-    &:last-child {
-      width: 80%;
-    }
-  }
-
-  td {
-    padding: 8px 8px;
-
-    input {
-      width: 100%;
-    }
-
-    select {
-      width: 100%;
-    }
-  }
-
-  thead th {
-    padding: 4px 8px;
-    font-size: inherit;
-    border-bottom: 1px solid ${({ theme }) => theme.colors.border};
-  }
-
-  tbody {
-    border: 1px solid ${({ theme }) => theme.colors.border};
-  }
+const StyledText = styled.p`
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  color: green;
+  text-align: center;
+  z-index: 1001;
 `
