@@ -11,7 +11,7 @@ import { deadzone } from '../utils/gamepad'
 import { handleTpvControl } from './tpvControl'
 
 const jointGoalTopic: TopicOptions = {
-  name: 'ovis/arm/joint_velocity_goal',
+  name: 'ovis/arm/in/joint_velocity_goal',
   messageType: 'ovis_msgs/OvisArmJointVelocity',
 }
 
@@ -63,7 +63,7 @@ export const armModeActions: Action[] = [
     ],
     perform: () => {
       rosClient
-        .callService({ name: '/ovis/arm/home_joint_positions' })
+        .callService({ name: '/ovis/arm/in/home_joint_positions' })
         .catch(log.error)
     },
   },
