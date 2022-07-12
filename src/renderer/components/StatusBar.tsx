@@ -16,6 +16,7 @@ import React, { FC, useState } from 'react'
 import { BiWifi, BiWifi0, BiWifi1, BiWifi2, BiWifiOff } from 'react-icons/bi'
 import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
+import { ArmContext, armService } from '../state/arm'
 import {
   flippersViewToggleSlice,
   selectFlippersViewToggleVisible,
@@ -31,7 +32,7 @@ export const StatusBar: FC = () => (
     <RightStatusBar>
       <FlippersViewToggle />
       <ControlStatus />
-      <FlipperMode />
+      <ModeInfo />
       <NetworkInfo />
       <TimeDisplay />
     </RightStatusBar>
@@ -71,8 +72,9 @@ const ControlStatus = () => {
   )
 }
 
-const FlipperMode = () => {
+const ModeInfo = () => {
   const [flipper] = useActor(flipperService)
+  const [arm] = useActor(armService)
   const [control] = useActor(controlService)
   const isReverse = useSelector(selectReverse)
   if (control.matches('flipper')) {
@@ -85,6 +87,14 @@ const FlipperMode = () => {
         {flipper.matches('rr') && (isReverse ? 'FRONT RIGHT' : 'REAR RIGHT')}
         {flipper.matches('none') && 'NONE'}
         {flipper.matches('rear') && (isReverse ? 'FRONT' : 'REAR')}
+      </div>
+    )
+  } else if (control.matches('arm')) {
+    return (
+      <div>
+        {arm.matches('joint')
+          ? 'JOINT ' + String((arm.context as ArmContext).jointValue + 1)
+          : 'CARTESIAN'}
       </div>
     )
   } else {
