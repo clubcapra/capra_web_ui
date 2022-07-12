@@ -57,8 +57,8 @@ const FlipperArea: FC<Props> = ({ flipper, name }) => {
   const [position, setPosition] = useState<string>('0.00')
   const [motorCurrentColor, setMotorCurrentColor] = useState<string>('')
   const [motorCurrentValue, setMotorCurrentValue] = useState<string>('0')
-  const [flipperUpperLimit, setFlipperUpperLimit] = useState<number>(0)
-  const [flipperLowerLimit, setFlipperLowerLimit] = useState<number>(0)
+  const [flipperUpperLimit, setFlipperUpperLimit] = useState<number>(1)
+  const [flipperLowerLimit, setFlipperLowerLimit] = useState<number>(1)
 
   useEffect(() => {
     if (!position) {
@@ -92,9 +92,9 @@ const FlipperArea: FC<Props> = ({ flipper, name }) => {
     useCallback(
       (message) => {
         setPosition(
-          (Number(message.data) / Number(message.data) < 0
-            ? flipperUpperLimit
-            : flipperLowerLimit
+          (
+            Number(message.data) /
+            (Number(message.data) < 0 ? flipperUpperLimit : flipperLowerLimit)
           )
             .toFixed(2)
             .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ' ')
