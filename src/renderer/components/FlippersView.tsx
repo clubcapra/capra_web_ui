@@ -13,12 +13,12 @@ interface Props {
 }
 
 const flipperUpperLimitParam = new ROSLIB.Param({
-  name: 'markhor/flippers/front_left_drive_upper_limit',
+  name: 'markhor/flippers/markhor_flippers_node/front_left_drive_upper_limit',
   ros: rosClient.ros,
 })
 
 const flipperLowerLimitParam = new ROSLIB.Param({
-  name: 'markhor/flippers/front_left_drive_lower_limit',
+  name: 'markhor/flippers/markhor_flippers_node/front_left_drive_lower_limit',
   ros: rosClient.ros,
 })
 
@@ -93,8 +93,11 @@ const FlipperArea: FC<Props> = ({ flipper, name }) => {
       (message) => {
         setPosition(
           (
-            Number(message.data) /
-            (Number(message.data) < 0 ? flipperUpperLimit : flipperLowerLimit)
+            (Number(message.data) /
+              (Number(message.data) < 0
+                ? flipperUpperLimit
+                : flipperLowerLimit)) *
+            -100
           )
             .toFixed(2)
             .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ' ')
@@ -126,7 +129,6 @@ const FlipperArea: FC<Props> = ({ flipper, name }) => {
       <StyledPostion>{position} %</StyledPostion>
       <StyledMotorCurrentColor style={{ backgroundColor: motorCurrentColor }} />
       <StyledMotorCurrentValue>{motorCurrentValue} A</StyledMotorCurrentValue>
-      <StyledTemperature>0 °C</StyledTemperature>
     </StyledFlipperArea>
   )
 }
@@ -137,8 +139,8 @@ const StyledFlippersView = styled.div`
     'tl tr'
     'bl br';
   grid-gap: 1px;
-  align-items: center;
-  justify-items: center;
+  align-items: flex-end;
+  justify-items: flex-end;
   height: 100%;
   padding: 2px;
   background-color: ${({ theme }) => theme.colors.darkerBackground};
@@ -171,9 +173,11 @@ const StyledFlipperArea = styled.div`
     'n p'
     'mcc mcv'
     'x t';
+  padding: 2px;
 `
 const StyledName = styled.p`
   grid-area: n;
+  margin-right: 5px;
 `
 
 const StyledPostion = styled.p`
@@ -188,9 +192,6 @@ const StyledMotorCurrentColor = styled.p`
   grid-area: mcc;
   border-radius: 5px;
   margin: 5px;
-`
-const StyledTemperature = styled.p`
-  grid-area: t;
 `
 
 export interface IFlippers {
