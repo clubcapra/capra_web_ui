@@ -3,7 +3,7 @@ import { ITwistMsg } from '@/renderer/utils/ros/rosMsgs.types'
 import { Vector3 } from '@/renderer/utils/math/types'
 import { store } from '@/renderer/store/store'
 
-const deadzone = (value: number): number => {
+export const deadzone = (value: number): number => {
   const deadzone = 0.05
   return value > deadzone || value < -deadzone ? value : 0
 }

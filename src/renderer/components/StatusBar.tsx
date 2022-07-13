@@ -16,6 +16,11 @@ import React, { FC, useState } from 'react'
 import { BiWifi, BiWifi0, BiWifi1, BiWifi2, BiWifiOff } from 'react-icons/bi'
 import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
+import { ArmContext, armService } from '../state/arm'
+import {
+  flippersViewToggleSlice,
+  selectFlippersViewToggleVisible,
+} from '@/renderer/store/modules/flippersViewToggle'
 
 export const StatusBar: FC = () => (
   <StyledStatusBarWrapper>
@@ -25,8 +30,9 @@ export const StatusBar: FC = () => (
       <Reverse />
     </LeftStatusBar>
     <RightStatusBar>
+      <FlippersViewToggle />
       <ControlStatus />
-      <FlipperMode />
+      <ModeInfo />
       <NetworkInfo />
       <TimeDisplay />
     </RightStatusBar>
@@ -66,8 +72,9 @@ const ControlStatus = () => {
   )
 }
 
-const FlipperMode = () => {
+const ModeInfo = () => {
   const [flipper] = useActor(flipperService)
+  const [arm] = useActor(armService)
   const [control] = useActor(controlService)
   const isReverse = useSelector(selectReverse)
   if (control.matches('flipper')) {
@@ -80,6 +87,14 @@ const FlipperMode = () => {
         {flipper.matches('rr') && (isReverse ? 'FRONT RIGHT' : 'REAR RIGHT')}
         {flipper.matches('none') && 'NONE'}
         {flipper.matches('rear') && (isReverse ? 'FRONT' : 'REAR')}
+      </div>
+    )
+  } else if (control.matches('arm')) {
+    return (
+      <div>
+        {arm.matches('joint')
+          ? 'JOINT ' + String((arm.context as ArmContext).jointValue + 1)
+          : 'CARTESIAN'}
       </div>
     )
   } else {
@@ -190,6 +205,25 @@ const Reverse = () => {
   )
 }
 
+const FlippersViewToggle = () => {
+  const visible = useSelector(selectFlippersViewToggleVisible)
+  const dispatch = useDispatch()
+  const flippersViewToggle = (): void => {
+    dispatch(flippersViewToggleSlice.actions.toggleVisible())
+  }
+
+  return (
+    <>
+      <p>Show flippers status</p>
+      <StyledInput
+        type="checkbox"
+        onChange={flippersViewToggle}
+        checked={visible}
+      />
+    </>
+  )
+}
+
 const StyledStatusBarWrapper = styled.div`
   display: grid;
   grid-template: 'l r';
@@ -197,7 +231,7 @@ const StyledStatusBarWrapper = styled.div`
   height: 100%;
   background-color: ${({ theme }) => theme.colors.darkerBackground};
   color: ${({ theme }) => theme.colors.fontLight};
-  box-shadow: 0 -2px 2px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.5);
   font-size: 14px;
 `
 
@@ -234,4 +268,7 @@ const StatusBarButton = styled.button`
   &:disabled {
     cursor: not-allowed;
   }
+`
+const StyledInput = styled.input`
+  margin-top: 3px;
 `
