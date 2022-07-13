@@ -80,7 +80,7 @@ const ModeInfo = () => {
   if (control.matches('flipper')) {
     return (
       <div>
-        {flipper.matches('front') && (isReverse ? 'BACK' : 'FRONT')}
+        {flipper.matches('front') && (isReverse ? 'REAR' : 'FRONT')}
         {flipper.matches('fl') && (isReverse ? 'REAR LEFT' : 'FRONT LEFT')}
         {flipper.matches('fr') && (isReverse ? 'REAR RIGHT' : 'FRONT RIGHT')}
         {flipper.matches('rl') && (isReverse ? 'FRONT LEFT' : 'REAR LEFT')}
