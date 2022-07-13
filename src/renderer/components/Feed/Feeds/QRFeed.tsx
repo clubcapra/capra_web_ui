@@ -57,7 +57,6 @@ const QRScanRegion: FC<QRScanRegionProps> = ({
   points,
   message,
   imageWidth,
-  imageHeight,
 }) => {
   return points.length > 0 ? (
     <svg
@@ -75,9 +74,15 @@ const QRScanRegion: FC<QRScanRegionProps> = ({
         strokeWidth="5px"
         fill="transparent"
         style={{ translate: `translateY(${points[0].y - points[2].y})` }}
+      />
+      <text
+        x={(points[2].x - points[1].x) / 2 + points[0].x}
+        y={points[2].y + 20}
+        fill="red"
+        textAnchor="middle"
       >
-        <StyledText>{message}</StyledText>
-      </polygon>
+        {message}
+      </text>
     </svg>
   ) : (
     <></>
@@ -151,23 +156,3 @@ export const QRFeed: FC<Props> = ({ feed }) => {
     </>
   )
 }
-
-const StyledRectangle = styled.div`
-  outline: red solid 3px;
-  width: 100%;
-  height: 100%;
-  z-index: 1000;
-`
-
-const StyledContainer = styled.div`
-  position: absolute;
-  z-index: 1000;
-`
-
-const StyledText = styled.p`
-  font-size: 0.8rem;
-  margin-top: 0.5rem;
-  color: red;
-  text-align: center;
-  z-index: 1001;
-`
