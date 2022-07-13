@@ -34,8 +34,8 @@ export const FlippersView: FC = () => {
 const FlippersForwardView: FC = () => {
   return (
     <>
-      <StyledTLArea flipper={flippers.flipperFR} name="Front right" />
       <StyledTRArea flipper={flippers.flipperFL} name="Front left" />
+      <StyledTLArea flipper={flippers.flipperFR} name="Front right" />
       <StyledBLArea flipper={flippers.flipperRL} name="Rear left" />
       <StyledBRArea flipper={flippers.flipperRR} name="Rear right" />
     </>
@@ -45,8 +45,8 @@ const FlippersForwardView: FC = () => {
 const FlippersReverseView: FC = () => {
   return (
     <>
-      <StyledTLArea flipper={flippers.flipperRR} name="Front right" />
       <StyledTRArea flipper={flippers.flipperRL} name="Front left" />
+      <StyledTLArea flipper={flippers.flipperRR} name="Front right" />
       <StyledBLArea flipper={flippers.flipperFL} name="Rear left" />
       <StyledBRArea flipper={flippers.flipperFR} name="Rear right" />
     </>
@@ -139,8 +139,6 @@ const StyledFlippersView = styled.div`
     'tl tr'
     'bl br';
   grid-gap: 1px;
-  align-items: flex-end;
-  justify-items: flex-end;
   height: 100%;
   padding: 2px;
   background-color: ${({ theme }) => theme.colors.darkerBackground};
@@ -171,8 +169,7 @@ const StyledFlipperArea = styled.div`
   display: grid;
   grid-template-areas:
     'n p'
-    'mcc mcv'
-    'x t';
+    'mcc mcv';
   padding: 2px;
 `
 const StyledName = styled.p`
