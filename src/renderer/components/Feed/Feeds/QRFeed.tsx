@@ -59,32 +59,26 @@ const QRScanRegion: FC<QRScanRegionProps> = ({
   imageWidth,
   imageHeight,
 }) => {
-  let width = 0
-  let height = 0
-  let topPosition = 0
-  let leftPosition = 0
-  if (points.length > 0) {
-    console.log(points)
-    width = points[0].x - points[2].x
-    height = points[0].y - points[2].y
-    // Temporary adjustments for rectangle placement
-    const yOffset = (points[0].y / imageHeight / 2) * 100
-    const xOffset = (points[0].x / imageWidth / 5) * 100
-    topPosition = points[0].y
-    leftPosition = points[0].x
-  }
   return points.length > 0 ? (
-    <StyledContainer
-      style={{ top: `${topPosition}px`, left: `${leftPosition}px` }}
+    <svg
+      style={{
+        width: `${imageWidth}px`,
+        top: 0,
+        left: 0,
+        position: 'absolute',
+      }}
+      viewBox="0 0 640 480"
     >
-      <StyledRectangle
-        style={{
-          width: `${width}px`,
-          height: `${height}px`,
-        }}
-      />
-      <StyledText>{message}</StyledText>
-    </StyledContainer>
+      <polygon
+        points={points.map((point) => `${point.x} ${point.y}`).join(' ')}
+        stroke="red"
+        strokeWidth="5px"
+        fill="transparent"
+        style={{ translate: `translateY(${points[0].y - points[2].y})` }}
+      >
+        <StyledText>{message}</StyledText>
+      </polygon>
+    </svg>
   ) : (
     <></>
   )
