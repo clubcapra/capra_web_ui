@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
-import { styled } from '@/renderer/globalStyles/styled'
+import { css, styled } from '@/renderer/globalStyles/styled'
 import { selectVideoUrl } from '@/renderer/store/modules/ros'
 import { useSelector } from 'react-redux'
 import QRScanner from 'qr-scanner'
@@ -12,11 +12,33 @@ interface Props {
   feed: ICameraFeed
 }
 
-const StyledImg = styled.img`
+type CameraProp = { flipped: boolean; rotated: boolean }
+
+const CameraGrid = styled.div`
+  display: grid;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-items: center;
+  background-color: black;
+  position: absolute;
+`
+
+const autoScale = css`
   height: 100%;
   width: 100%;
   object-fit: contain;
   overflow: hidden;
+`
+
+const transform = css<CameraProp>`
+  transform: ${({ flipped, rotated }) =>
+    `${flipped ? 'scaleX(-1)' : ''} ${rotated ? 'rotate(180deg)' : ''}`};
+`
+
+const StyledImg = styled.img<CameraProp>`
+  ${autoScale}
+  ${transform}
 `
 interface Point {
   x: number
@@ -42,17 +64,18 @@ const QRScanRegion: FC<QRScanRegionProps> = ({
   let topPosition = 0
   let leftPosition = 0
   if (points.length > 0) {
-    width = points[2].x - points[0].x
-    height = points[2].y - points[0].y
+    console.log(points)
+    width = points[0].x - points[2].x
+    height = points[0].y - points[2].y
     // Temporary adjustments for rectangle placement
     const yOffset = (points[0].y / imageHeight / 2) * 100
     const xOffset = (points[0].x / imageWidth / 5) * 100
-    topPosition = (points[0].y / imageHeight) * 100 + yOffset
-    leftPosition = (points[0].x / imageWidth) * 100 + xOffset
+    topPosition = points[0].y
+    leftPosition = points[0].x
   }
   return points.length > 0 ? (
     <StyledContainer
-      style={{ top: `${topPosition}%`, left: `${leftPosition}%` }}
+      style={{ top: `${topPosition}px`, left: `${leftPosition}px` }}
     >
       <StyledRectangle
         style={{
@@ -101,27 +124,33 @@ export const QRFeed: FC<Props> = ({ feed }) => {
   }, [source])
 
   useEffect(() => {
-    setInterval(async () => {
+    const interval = setInterval(async () => {
       await startScanRoutine()
     }, 500)
 
     return () => {
-      clearInterval()
+      clearInterval(interval)
     }
   }, [startScanRoutine])
 
   return (
     <>
       {connected ? (
-        <>
-          <StyledImg id="image" src={source} ref={imageRef} />
+        <CameraGrid>
+          <StyledImg
+            id="image"
+            src={source}
+            ref={imageRef}
+            rotated={feed.camera.rotated}
+            flipped={feed.camera.flipped}
+          />
           <QRScanRegion
             points={qrCodeCorners}
             message={qrCodeMessage}
             imageWidth={imageRef.current?.width ?? 0}
             imageHeight={imageRef.current?.height ?? 0}
           />
-        </>
+        </CameraGrid>
       ) : (
         <TextFeed text="No video" />
       )}

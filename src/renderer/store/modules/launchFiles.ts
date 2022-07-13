@@ -16,7 +16,7 @@ export const initialState: LaunchFilesState[] = [
     isLaunched: false,
   },
   {
-    name: 'Observation',
+    name: "Observation (don't forget to launch the audio locally)",
     packageName: 'markhor_bringup',
     fileName: 'markhor_observation.launch',
     isLaunched: false,

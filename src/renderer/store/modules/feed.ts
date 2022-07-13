@@ -109,15 +109,26 @@ export const initialState: FeedState = {
       type: FeedTypeEnum.NotSelected,
       id: 'not_selected',
     },
+    camera00: {
+      type: FeedTypeEnum.Camera,
+      id: 'camera00',
+      camera: {
+        name: 'camera00',
+        type: CameraType.COMPRESSED,
+        topic: '/markhor/camera_00/usb_cam/image_raw',
+        flipped: true,
+        rotated: true,
+      },
+    },
     camera01: {
       type: FeedTypeEnum.Camera,
       id: 'camera01',
       camera: {
         name: 'camera01',
         type: CameraType.COMPRESSED,
-        topic: '/markhor/camera_01/image_raw',
+        topic: '/markhor/camera_01/usb_cam/image_raw',
         flipped: true,
-        rotated: false,
+        rotated: true,
       },
     },
     camera02: {
@@ -126,9 +137,9 @@ export const initialState: FeedState = {
       camera: {
         name: 'camera02',
         type: CameraType.COMPRESSED,
-        topic: '/markhor/camera_02/image_raw',
+        topic: '/markhor/camera_02/usb_cam/image_raw',
         flipped: true,
-        rotated: false,
+        rotated: true,
       },
     },
     camera03: {
@@ -137,64 +148,20 @@ export const initialState: FeedState = {
       camera: {
         name: 'camera03',
         type: CameraType.COMPRESSED,
-        topic: '/markhor/camera_03/image_raw',
+        topic: '/markhor/camera_03/usb_cam/image_raw',
         flipped: true,
         rotated: true,
       },
     },
-    video3: {
+    hazmat: {
       type: FeedTypeEnum.Camera,
-      id: 'video3',
+      id: 'hazmat',
       camera: {
-        name: 'video3',
-        type: CameraType.MJPEG,
-        topic: '/markhor/video3/usb_cam/image_raw',
+        name: 'hazmat',
+        type: CameraType.COMPRESSED,
+        topic: '/capra/hazmat_detection/detection_view',
         flipped: true,
-        rotated: false,
-      },
-    },
-    front_cam: {
-      type: FeedTypeEnum.Camera,
-      id: 'front_cam',
-      camera: {
-        name: 'front_cam',
-        type: CameraType.MJPEG,
-        topic: '/markhor/front/usb_cam/image_raw',
-        flipped: true,
-        rotated: false,
-      },
-    },
-    back_cam: {
-      type: FeedTypeEnum.Camera,
-      id: 'back_cam',
-      camera: {
-        name: 'back_cam',
-        type: CameraType.MJPEG,
-        topic: '/markhor/back/usb_cam/image_raw',
-        flipped: true,
-        rotated: false,
-      },
-    },
-    arm_cam: {
-      type: FeedTypeEnum.Camera,
-      id: 'arm_cam',
-      camera: {
-        name: 'arm_cam',
-        type: CameraType.MJPEG,
-        topic: '/markhor/arm/usb_cam/image_raw',
-        flipped: true,
-        rotated: false,
-      },
-    },
-    tpv_cam: {
-      type: FeedTypeEnum.Camera,
-      id: 'tpv_cam',
-      camera: {
-        name: 'tpv_cam',
-        type: CameraType.MJPEG,
-        topic: '/markhor/tpv/usb_cam/image_raw',
-        flipped: true,
-        rotated: false,
+        rotated: true,
       },
     },
     webcam: {
@@ -229,10 +196,10 @@ export const initialState: FeedState = {
       id: 'qr_code',
       camera: {
         name: 'qr_code',
-        type: CameraType.MJPEG,
-        topic: '/markhor/camera_0/image_raw',
+        type: CameraType.COMPRESSED,
+        topic: '/markhor/camera_00/usb_cam/image_raw',
         flipped: true,
-        rotated: false,
+        rotated: true,
       },
     },
   },
