@@ -31,9 +31,8 @@ const StyledView = styled.div`
 
 const StyledFlippersViewArea = styled.div`
   grid-area: v;
-  height: 75px;
-  width: 300px;
   position: absolute;
+  padding: 5px;
   bottom: ${statusBarSpace}px;
   right: ${eStopSpace}px;
 `
