@@ -86,14 +86,20 @@ export const flipperModeActions: Action[] = [
     name: 'modeRight',
     bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.dpad.right }],
     perform: () => {
-      flipperService.send('MODE_RIGHT')
+      const isReverse = selectReverse(store.getState())
+      isReverse
+        ? flipperService.send('MODE_LEFT')
+        : flipperService.send('MODE_RIGHT')
     },
   },
   {
     name: 'modeLeft',
     bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.dpad.left }],
     perform: () => {
-      flipperService.send('MODE_LEFT')
+      const isReverse = selectReverse(store.getState())
+      isReverse
+        ? flipperService.send('MODE_RIGHT')
+        : flipperService.send('MODE_LEFT')
     },
   },
   {

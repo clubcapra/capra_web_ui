@@ -81,10 +81,10 @@ const ModeInfo = () => {
     return (
       <div>
         {flipper.matches('front') && (isReverse ? 'REAR' : 'FRONT')}
-        {flipper.matches('fl') && (isReverse ? 'REAR LEFT' : 'FRONT LEFT')}
-        {flipper.matches('fr') && (isReverse ? 'REAR RIGHT' : 'FRONT RIGHT')}
-        {flipper.matches('rl') && (isReverse ? 'FRONT LEFT' : 'REAR LEFT')}
-        {flipper.matches('rr') && (isReverse ? 'FRONT RIGHT' : 'REAR RIGHT')}
+        {flipper.matches('fl') && (isReverse ? 'REAR RIGHT' : 'FRONT LEFT')}
+        {flipper.matches('fr') && (isReverse ? 'REAR LEFT' : 'FRONT RIGHT')}
+        {flipper.matches('rl') && (isReverse ? 'FRONT RIGHT' : 'REAR LEFT')}
+        {flipper.matches('rr') && (isReverse ? 'FRONT LEFT' : 'REAR RIGHT')}
         {flipper.matches('none') && 'NONE'}
         {flipper.matches('rear') && (isReverse ? 'FRONT' : 'REAR')}
       </div>

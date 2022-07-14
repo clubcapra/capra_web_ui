@@ -191,13 +191,35 @@ export const initialState: FeedState = {
         },
       },
     },
-    qr_code: {
+    qr_code0: {
       type: FeedTypeEnum.Camera,
-      id: 'qr_code',
+      id: 'qr_code0',
       camera: {
-        name: 'qr_code',
+        name: 'qr_code0',
         type: CameraType.COMPRESSED,
         topic: '/markhor/camera_00/usb_cam/image_raw',
+        flipped: true,
+        rotated: true,
+      },
+    },
+    qr_code1: {
+      type: FeedTypeEnum.Camera,
+      id: 'qr_code1',
+      camera: {
+        name: 'qr_code1',
+        type: CameraType.COMPRESSED,
+        topic: '/markhor/camera_01/usb_cam/image_raw',
+        flipped: true,
+        rotated: true,
+      },
+    },
+    qr_code2: {
+      type: FeedTypeEnum.Camera,
+      id: 'qr_code2',
+      camera: {
+        name: 'qr_code2',
+        type: CameraType.COMPRESSED,
+        topic: '/markhor/camera_02/usb_cam/image_raw',
         flipped: true,
         rotated: true,
       },

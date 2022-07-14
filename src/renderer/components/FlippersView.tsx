@@ -1,6 +1,9 @@
 import { styled } from '@/renderer/globalStyles/styled'
 import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
-import { useRosSubscribe } from '@/renderer/hooks/useRosSubscribe'
+import {
+  useRosSubscribe,
+  useRosSubscribeNoData,
+} from '@/renderer/hooks/useRosSubscribe'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { selectReverse } from '@/renderer/store/modules/input'
 import { useSelector } from '@/renderer/hooks/typedUseSelector'
@@ -10,6 +13,15 @@ import { rosClient } from '../utils/ros/rosClient'
 interface Props {
   flipper: IFlipperData
   name: string
+  flipperPosition: number
+}
+
+interface ViewProps {
+  flipperPositions: number[]
+}
+
+interface PositionsMsg {
+  positions: number[]
 }
 
 const flipperUpperLimitParam = new ROSLIB.Param({
@@ -22,47 +34,105 @@ const flipperLowerLimitParam = new ROSLIB.Param({
   ros: rosClient.ros,
 })
 
+const flipperPositionTopic: TopicOptions = {
+  name: '/markhor/flippers/flipper_positions',
+  messageType: '/markhor_flippers/FlipperPositions',
+}
+
 export const FlippersView: FC = () => {
   const isReverse = useSelector(selectReverse)
+  const [flipperPositions, setFlipperPositions] = useState<number[]>([])
+  useRosSubscribeNoData<PositionsMsg>(
+    flipperPositionTopic,
+    useCallback((message) => {
+      if (message.positions[0] !== flipperPositions[0]) {
+        setFlipperPositions(message.positions)
+      }
+    }, [])
+  )
   return (
     <StyledFlippersView>
-      {isReverse ? <FlippersReverseView /> : <FlippersForwardView />}
+      {isReverse ? (
+        <FlippersReverseView flipperPositions={flipperPositions} />
+      ) : (
+        <FlippersForwardView flipperPositions={flipperPositions} />
+      )}
     </StyledFlippersView>
   )
 }
 
-const FlippersForwardView: FC = () => {
+const FlippersForwardView: FC<ViewProps> = ({ flipperPositions }) => {
   return (
     <>
-      <StyledTRArea flipper={flippers.flipperFL} name="Front left" />
-      <StyledTLArea flipper={flippers.flipperFR} name="Front right" />
-      <StyledBLArea flipper={flippers.flipperRL} name="Rear left" />
-      <StyledBRArea flipper={flippers.flipperRR} name="Rear right" />
+      <StyledTRArea
+        flipper={flippers.flipperFL}
+        name="Front left"
+        flipperPosition={flipperPositions[0]}
+      />
+      <StyledTLArea
+        flipper={flippers.flipperFR}
+        name="Front right"
+        flipperPosition={flipperPositions[1]}
+      />
+      <StyledBLArea
+        flipper={flippers.flipperRL}
+        name="Rear left"
+        flipperPosition={flipperPositions[2]}
+      />
+      <StyledBRArea
+        flipper={flippers.flipperRR}
+        name="Rear right"
+        flipperPosition={flipperPositions[3]}
+      />
     </>
   )
 }
 
-const FlippersReverseView: FC = () => {
+const FlippersReverseView: FC<ViewProps> = ({ flipperPositions }) => {
   return (
     <>
-      <StyledTRArea flipper={flippers.flipperRL} name="Front left" />
-      <StyledTLArea flipper={flippers.flipperRR} name="Front right" />
-      <StyledBLArea flipper={flippers.flipperFL} name="Rear left" />
-      <StyledBRArea flipper={flippers.flipperFR} name="Rear right" />
+      <StyledTRArea
+        flipper={flippers.flipperRL}
+        name="Front left"
+        flipperPosition={flipperPositions[0]}
+      />
+      <StyledTLArea
+        flipper={flippers.flipperRR}
+        name="Front right"
+        flipperPosition={flipperPositions[1]}
+      />
+      <StyledBLArea
+        flipper={flippers.flipperFL}
+        name="Rear left"
+        flipperPosition={flipperPositions[2]}
+      />
+      <StyledBRArea
+        flipper={flippers.flipperFR}
+        name="Rear right"
+        flipperPosition={flipperPositions[3]}
+      />
     </>
   )
 }
 
-const FlipperArea: FC<Props> = ({ flipper, name }) => {
+const FlipperArea: FC<Props> = ({ flipper, name, flipperPosition }) => {
   const [position, setPosition] = useState<string>('0.00')
   const [motorCurrentColor, setMotorCurrentColor] = useState<string>('')
   const [motorCurrentValue, setMotorCurrentValue] = useState<string>('0')
-  const [flipperUpperLimit, setFlipperUpperLimit] = useState<number>(1)
-  const [flipperLowerLimit, setFlipperLowerLimit] = useState<number>(1)
+  const [flipperUpperLimit, setFlipperUpperLimit] = useState<number>(0)
+  const [flipperLowerLimit, setFlipperLowerLimit] = useState<number>(0)
 
   useEffect(() => {
-    if (!position) {
+    if (!flipperPosition) {
       setPosition('0')
+    } else if (flipperLowerLimit && flipperUpperLimit) {
+      setPosition(
+        (
+          (flipperPosition /
+            (flipperPosition < 0 ? flipperUpperLimit : flipperLowerLimit)) *
+          -100
+        ).toFixed(2)
+      )
     }
     if (!motorCurrentValue) {
       setMotorCurrentValue('0')
@@ -71,7 +141,13 @@ const FlipperArea: FC<Props> = ({ flipper, name }) => {
     if (!motorCurrentColor) {
       setMotorCurrentColor('')
     }
-  }, [position, motorCurrentValue, motorCurrentColor])
+  }, [
+    motorCurrentValue,
+    motorCurrentColor,
+    flipperPosition,
+    flipperUpperLimit,
+    flipperLowerLimit,
+  ])
 
   // Load flipper limits from ROS
   useEffect(() => {
@@ -86,26 +162,6 @@ const FlipperArea: FC<Props> = ({ flipper, name }) => {
       }
     })
   }, [])
-
-  useRosSubscribe(
-    flipper.topicPosition,
-    useCallback(
-      (message) => {
-        setPosition(
-          (
-            (Number(message.data) /
-              (Number(message.data) < 0
-                ? flipperUpperLimit
-                : flipperLowerLimit)) *
-            -100
-          )
-            .toFixed(2)
-            .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ' ')
-        )
-      },
-      [flipperLowerLimit, flipperUpperLimit]
-    )
-  )
 
   useRosSubscribe(
     flipper.topicMotorCurrent,
@@ -200,47 +256,30 @@ export interface IFlippers {
 }
 
 export interface IFlipperData {
-  topicPosition: TopicOptions<string>
   topicMotorCurrent: TopicOptions<string>
 }
 
 const flippers: IFlippers = {
   id: 'flippers',
   flipperFL: {
-    topicPosition: {
-      name: '/markhor/flippers/flipper_fl_position_target',
-      messageType: 'std_msgs/Float64',
-    },
     topicMotorCurrent: {
       name: '/markhor/flippers/flipper_fl_motor_current',
       messageType: 'std_msgs/Float64',
     },
   },
   flipperFR: {
-    topicPosition: {
-      name: '/markhor/flippers/flipper_fr_position_target',
-      messageType: 'std_msgs/Float64',
-    },
     topicMotorCurrent: {
       name: '/markhor/flippers/flipper_fr_motor_current',
       messageType: 'std_msgs/Float64',
     },
   },
   flipperRL: {
-    topicPosition: {
-      name: '/markhor/flippers/flipper_rl_position_target',
-      messageType: 'std_msgs/Float64',
-    },
     topicMotorCurrent: {
       name: '/markhor/flippers/flipper_rl_motor_current',
       messageType: 'std_msgs/Float64',
     },
   },
   flipperRR: {
-    topicPosition: {
-      name: '/markhor/flippers/flipper_rr_position_target',
-      messageType: 'std_msgs/Float64',
-    },
     topicMotorCurrent: {
       name: '/markhor/flippers/flipper_rr_motor_current',
       messageType: 'std_msgs/Float64',
