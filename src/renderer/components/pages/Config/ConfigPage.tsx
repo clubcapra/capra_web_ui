@@ -4,7 +4,6 @@ import { ConfigMenu } from './ConfigMenu'
 import { GeneralConfig } from '@/renderer/components/pages/Config/pages/GeneralConfig'
 import { CameraConfig } from '@/renderer/components/pages/Config/pages/CameraConfig/CameraConfig'
 import { GamepadConfig } from '@/renderer/components/pages/Config/pages/GamepadConfig'
-import { useControl } from '@/renderer/hooks/useControl'
 import { GraphConfig } from '@/renderer/components/pages/Config/pages/GraphConfig/GraphConfig'
 import { styled } from '@/renderer/globalStyles/styled'
 import { LaunchConfig } from './pages/LaunchConfig/LaunchConfig'
@@ -12,8 +11,6 @@ import { flippersViewToggleSlice } from '@/renderer/store/modules/flippersViewTo
 import { useDispatch } from 'react-redux'
 
 export const ConfigPage: FC = () => {
-  useControl('nothing')
-
   const dispatch = useDispatch()
 
   useEffect(() => {
