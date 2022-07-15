@@ -28,6 +28,7 @@ export const StatusBar: FC = () => (
       <RosConnectionStatus />
       <AudioStart />
       <Reverse />
+      <Reload />
     </LeftStatusBar>
     <RightStatusBar>
       <FlippersViewToggle />
@@ -198,6 +199,18 @@ const Reverse = () => {
   return (
     <StatusBarButton onClick={toggleReverse}>
       {reverse ? 'Reverse' : 'Forward'}
+    </StatusBarButton>
+  )
+}
+
+const Reload = () => {
+  return (
+    <StatusBarButton
+      onClick={() => {
+        window.location.reload()
+      }}
+    >
+      {'Reload'}
     </StatusBarButton>
   )
 }
