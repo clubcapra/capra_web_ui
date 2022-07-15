@@ -128,7 +128,7 @@ export const initialState: FeedState = {
         type: CameraType.COMPRESSED,
         topic: '/markhor/camera_01/usb_cam/image_raw',
         flipped: true,
-        rotated: true,
+        rotated: false,
       },
     },
     camera02: {
@@ -139,18 +139,7 @@ export const initialState: FeedState = {
         type: CameraType.COMPRESSED,
         topic: '/markhor/camera_02/usb_cam/image_raw',
         flipped: true,
-        rotated: true,
-      },
-    },
-    camera03: {
-      type: FeedTypeEnum.Camera,
-      id: 'camera03',
-      camera: {
-        name: 'camera03',
-        type: CameraType.COMPRESSED,
-        topic: '/markhor/camera_03/usb_cam/image_raw',
-        flipped: true,
-        rotated: true,
+        rotated: false,
       },
     },
     hazmat: {
@@ -163,7 +152,7 @@ export const initialState: FeedState = {
         flipped: true,
         rotated: true,
       },
-    },
+    } /*
     webcam: {
       type: FeedTypeEnum.Camera,
       id: 'webcam',
@@ -174,54 +163,43 @@ export const initialState: FeedState = {
         flipped: false,
         rotated: false,
       },
-    },
+    },*/,
     urdf_viewer: {
       type: FeedTypeEnum.Urdf,
       id: 'urdf_viewer',
     },
-    co2_graph: {
+    magnet_graph: {
       type: FeedTypeEnum.Graph,
-      id: 'co2_graph',
+      id: 'magnet_graph',
       graph: {
-        name: 'co2_graph',
+        name: 'magnet_graph',
         type: GraphType.GRAPH,
         topic: {
-          name: '/capra/co2_ppm',
-          messageType: 'std_msgs/String',
+          name: '/magnet_polarity',
+          messageType: 'std_msgs/Float64',
         },
       },
     },
-    qr_code0: {
+    thermal: {
       type: FeedTypeEnum.Camera,
-      id: 'qr_code0',
+      id: 'thermal',
       camera: {
-        name: 'qr_code0',
+        name: 'thermal',
         type: CameraType.COMPRESSED,
-        topic: '/markhor/camera_00/usb_cam/image_raw',
+        topic: '/capra_thermal_cam/image_raw',
         flipped: true,
-        rotated: true,
+        rotated: false,
       },
     },
-    qr_code1: {
+    qr_code: {
       type: FeedTypeEnum.Camera,
-      id: 'qr_code1',
+      id: 'qr_code',
       camera: {
-        name: 'qr_code1',
-        type: CameraType.COMPRESSED,
-        topic: '/markhor/camera_01/usb_cam/image_raw',
-        flipped: true,
-        rotated: true,
-      },
-    },
-    qr_code2: {
-      type: FeedTypeEnum.Camera,
-      id: 'qr_code2',
-      camera: {
-        name: 'qr_code2',
-        type: CameraType.COMPRESSED,
+        name: 'qr_code',
+        type: CameraType.MJPEG,
         topic: '/markhor/camera_02/usb_cam/image_raw',
         flipped: true,
-        rotated: true,
+        rotated: false,
       },
     },
   },

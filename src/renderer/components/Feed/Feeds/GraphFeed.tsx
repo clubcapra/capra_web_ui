@@ -84,7 +84,7 @@ export const GraphFeed: FC<Props> = ({ feed }) => {
       chart?.destroy()
     }
   }, [chart])
-
+  // Temporary -6 for magnet sensor offset
   useRosSubscribe(
     feed.graph.topic,
     useCallback(
@@ -94,7 +94,7 @@ export const GraphFeed: FC<Props> = ({ feed }) => {
         }
         chart.data.datasets[0].data.push({
           x: Date.now(),
-          y: parseInt(message.data, 10),
+          y: parseInt(message.data, 10) - 6,
         })
         chart.update()
       },
