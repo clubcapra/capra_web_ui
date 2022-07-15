@@ -69,16 +69,18 @@ const QRScanRegion: FC<QRScanRegionProps> = ({
       viewBox="0 0 640 480"
     >
       <polygon
-        points={points.map((point) => `${point.x} ${point.y}`).join(' ')}
-        stroke="red"
+        points={points
+          .map((point) => `${imageWidth - point.x} ${point.y}`)
+          .join(' ')}
+        stroke="green"
         strokeWidth="5px"
         fill="transparent"
         style={{ translate: `translateY(${points[0].y - points[2].y})` }}
       />
       <text
-        x={(points[2].x - points[1].x) / 2 + points[0].x}
+        x={(points[2].x - points[0].x) / 2 + imageWidth - points[2].x}
         y={points[2].y + 20}
-        fill="red"
+        fill="green"
         textAnchor="middle"
       >
         {message}
@@ -99,6 +101,7 @@ export const QRFeed: FC<Props> = ({ feed }) => {
 
   const startScanRoutine = useCallback(() => {
     if (imageRef.current !== null) {
+      imageRef.current.style.transform = 'scaleX(-1)'
       return new Promise((resolve) =>
         QRScanner.scanImage(
           imageRef.current !== null ? imageRef.current : source,

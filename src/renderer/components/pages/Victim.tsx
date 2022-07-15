@@ -1,13 +1,10 @@
 import React, { FC, useEffect } from 'react'
 import { Feed } from '@/renderer/components/Feed/Feed'
-import { useControl } from '@/renderer/hooks/useControl'
 import { styled } from '@/renderer/globalStyles/styled'
 import { flippersViewToggleSlice } from '@/renderer/store/modules/flippersViewToggle'
 import { useDispatch } from 'react-redux'
 
 export const Victim: FC = () => {
-  useControl('flipper')
-
   const dispatch = useDispatch()
 
   useEffect(() => {

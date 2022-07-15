@@ -1,14 +1,11 @@
 import React, { FC, useEffect } from 'react'
 import { Feed } from '@/renderer/components/Feed/Feed'
-import { useControl } from '@/renderer/hooks/useControl'
 import { styled } from '@/renderer/globalStyles/styled'
 import { feed_id } from '@/renderer/store/modules/feed'
 import { flippersViewToggleSlice } from '@/renderer/store/modules/flippersViewToggle'
 import { useDispatch } from 'react-redux'
 
 export const Teleop: FC = () => {
-  useControl('flipper')
-
   const dispatch = useDispatch()
 
   useEffect(() => {

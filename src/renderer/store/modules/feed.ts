@@ -197,7 +197,7 @@ export const initialState: FeedState = {
       camera: {
         name: 'qr_code',
         type: CameraType.MJPEG,
-        topic: '/markhor/camera_02/usb_cam/image_raw',
+        topic: '/capra/usb_cam/image_raw',
         flipped: true,
         rotated: false,
       },
