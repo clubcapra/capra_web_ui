@@ -6,6 +6,12 @@ import { controlService } from '@/renderer/state/control'
 import { log } from '@/renderer/logger'
 import { armModeActions } from './armModeActions'
 import { flipperModeActions } from './flipperModeActions'
+import { TopicOptions } from '../utils/ros/roslib-ts-client/@types'
+
+const gripperTopic: TopicOptions = {
+  name: 'ovis/gripper/position_goal',
+  messageType: 'ovis_robotiq_gripper/OvisGripperPosition',
+}
 
 const defaultActions: Action[] = [
   {
@@ -33,6 +39,17 @@ const defaultActions: Action[] = [
       } else {
         inputSystem.setActionMap(defaultActions.concat(flipperModeActions))
       }
+    },
+  },
+  // Allow gripper movement in both flipper and arm mode
+  {
+    name: 'toggleGripper',
+    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.B }],
+    perform: () => {
+      // Toggle gripper
+      rosClient.publish(gripperTopic, {
+        position: 2,
+      })
     },
   },
 ]

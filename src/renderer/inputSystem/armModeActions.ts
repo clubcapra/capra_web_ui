@@ -15,11 +15,6 @@ const jointGoalTopic: TopicOptions = {
   messageType: 'ovis_msgs/OvisArmJointVelocity',
 }
 
-const gripperTopic: TopicOptions = {
-  name: 'ovis/gripper/position_goal',
-  messageType: 'ovis_robotiq_gripper/OvisGripperPosition',
-}
-
 export const armModeActions: Action[] = [
   {
     name: 'modeCartesian',
@@ -65,15 +60,6 @@ export const armModeActions: Action[] = [
       rosClient
         .callService({ name: '/ovis/arm/in/home_joint_positions' })
         .catch(log.error)
-    },
-  },
-  {
-    name: 'toggleGripper',
-    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.B }],
-    perform: () => {
-      rosClient.publish(gripperTopic, {
-        position: 2,
-      })
     },
   },
   {
