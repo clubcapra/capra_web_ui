@@ -15,7 +15,6 @@ import { useOpenClose } from '@/renderer/hooks/useOpenClose'
 import React, { ChangeEvent, FC, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { EmptyFeed } from '@/renderer/components/Feed/Feeds/EmptyFeed'
-import { QRFeed } from './Feeds/QRFeed'
 
 export const Feed: FC<{
   feed_id: string
@@ -58,11 +57,7 @@ const FeedView: FC<{
     case FeedTypeEnum.NotSelected:
       return <TextFeed text="Nothing Selected" />
     case FeedTypeEnum.Camera:
-      return feed.id === 'qr_code' ? (
-        <QRFeed feed={feed} />
-      ) : (
-        <CameraFeed feed={feed} />
-      )
+      return <CameraFeed feed={feed} />
     case FeedTypeEnum.Urdf:
       return <UrdfFeed feed={feed} />
     case FeedTypeEnum.Graph:

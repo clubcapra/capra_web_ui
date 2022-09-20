@@ -1,4 +1,4 @@
-import { ICameraData } from '@/renderer/store/modules/feed'
+import { CameraType, ICameraData } from '@/renderer/store/modules/feed'
 import { GlobalState } from '@/renderer/store/store'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
@@ -64,5 +64,12 @@ export const selectFullAddress = (state: GlobalState): string =>
 
 export const selectVideoUrl =
   (camera: ICameraData, param: 'stream' | 'snapshot' = 'stream') =>
-  (state: GlobalState): string =>
-    `http://${state.ros.IP}:${state.ros.videoServerPort}/${param}?topic=${camera.topic}&type=${camera.type}`
+  (state: GlobalState): string => {
+    let cameraType = camera.type
+    // QR Code feeds are streamed as mjpeg
+    if (camera.type === CameraType.QR_CODE) {
+      cameraType = CameraType.MJPEG
+    }
+
+    return `http://${state.ros.IP}:${state.ros.videoServerPort}/${param}?topic=${camera.topic}&type=${cameraType}`
+  }

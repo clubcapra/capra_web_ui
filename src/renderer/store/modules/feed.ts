@@ -31,6 +31,7 @@ export enum CameraType {
   PNG = 'png',
   VP8 = 'vp8',
   WEBCAM = 'webcam',
+  QR_CODE = 'qr_code',
 }
 
 export enum GraphType {
@@ -152,7 +153,7 @@ export const initialState: FeedState = {
         flipped: true,
         rotated: true,
       },
-    } /*
+    },
     webcam: {
       type: FeedTypeEnum.Camera,
       id: 'webcam',
@@ -163,7 +164,7 @@ export const initialState: FeedState = {
         flipped: false,
         rotated: false,
       },
-    },*/,
+    },
     urdf_viewer: {
       type: FeedTypeEnum.Urdf,
       id: 'urdf_viewer',
@@ -196,8 +197,8 @@ export const initialState: FeedState = {
       id: 'qr_code',
       camera: {
         name: 'qr_code',
-        type: CameraType.MJPEG,
-        topic: '/capra/usb_cam/image_raw',
+        type: CameraType.QR_CODE,
+        topic: '/markhor/camera_00/usb_cam/image_raw',
         flipped: true,
         rotated: false,
       },
