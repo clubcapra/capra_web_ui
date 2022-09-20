@@ -22,7 +22,6 @@ export enum FeedTypeEnum {
   Urdf,
   Graph,
   NotSelected,
-  Detection,
 }
 
 export enum CameraType {
@@ -32,11 +31,6 @@ export enum CameraType {
   VP8 = 'vp8',
   WEBCAM = 'webcam',
   QR_CODE = 'qr_code',
-}
-
-export enum GraphType {
-  GRAPH = 'graph',
-  TEXT = 'text',
 }
 
 export type FeedType =
@@ -84,7 +78,6 @@ export interface IGraphFeed extends BaseFeed {
 export interface IGraphData {
   topic: TopicOptions<string>
   name: string
-  type: GraphType
 }
 
 export const feed_id = {
@@ -174,7 +167,6 @@ export const initialState: FeedState = {
       id: 'magnet_graph',
       graph: {
         name: 'magnet_graph',
-        type: GraphType.GRAPH,
         topic: {
           name: '/magnet_polarity',
           messageType: 'std_msgs/Float64',

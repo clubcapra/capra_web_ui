@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { useDispatch } from 'react-redux'
-import { feedSlice, GraphType } from '@/renderer/store/modules/feed'
+import { feedSlice } from '@/renderer/store/modules/feed'
 import { Table } from './Table'
 import { Button } from '@/renderer/components/common/Button'
 import { SectionTitle } from '@/renderer/components/pages/Config/styles'
@@ -13,7 +13,6 @@ const AddGraph = () => {
     dispatch(
       feedSlice.actions.addGraph({
         name: '',
-        type: GraphType.GRAPH,
         topic: {
           name: '',
           messageType: '',
