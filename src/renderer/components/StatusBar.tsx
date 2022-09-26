@@ -86,7 +86,7 @@ const ModeInfo = () => {
         {flipper.matches('fr') && (isReverse ? 'REAR LEFT' : 'FRONT RIGHT')}
         {flipper.matches('rl') && (isReverse ? 'FRONT RIGHT' : 'REAR LEFT')}
         {flipper.matches('rr') && (isReverse ? 'FRONT LEFT' : 'REAR RIGHT')}
-        {flipper.matches('none') && 'NONE'}
+        {flipper.matches('all') && 'ALL'}
         {flipper.matches('rear') && (isReverse ? 'FRONT' : 'REAR')}
       </div>
     )
