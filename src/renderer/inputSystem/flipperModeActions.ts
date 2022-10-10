@@ -123,15 +123,6 @@ export const flipperModeActions: Action[] = [
       rosClient.callService({ name: '/headlights' }).catch(log.error)
     },
   },
-  /*{
-    name: 'flipper_reset',
-    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.B }],
-    perform: () => {
-      rosClient
-        .callService({ name: 'markhor/flippers/flipper_reset' })
-        .catch(log.error)
-    },
-  },*/
   {
     name: 'gamepad',
     bindings: [{ type: 'gamepad' }],
