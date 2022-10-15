@@ -10,21 +10,21 @@ export interface LaunchFilesState {
 
 export const initialState: LaunchFilesState[] = [
   {
-    name: 'Parkour parkour',
+    name: 'Common',
     packageName: 'markhor_bringup',
-    fileName: 'markhor_parkour.launch',
+    fileName: 'markhor_common.launch',
     isLaunched: false,
   },
   {
-    name: 'Observation',
+    name: 'Movement',
     packageName: 'markhor_bringup',
-    fileName: 'markhor_observation.launch',
+    fileName: 'markhor_movement.launch',
     isLaunched: false,
   },
   {
-    name: 'Base',
-    packageName: 'markhor_bringup',
-    fileName: 'markhor_base.launch',
+    name: 'Arm',
+    packageName: 'ovis_bringup',
+    fileName: 'ovis_arm.launch',
     isLaunched: false,
   },
 ]

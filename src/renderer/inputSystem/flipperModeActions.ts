@@ -3,7 +3,6 @@ import { rosClient } from '@/renderer/utils/ros/rosClient'
 import { Action } from '@/renderer/inputSystem/@types'
 import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
 import { IJoyMsg } from '@/renderer/utils/ros/rosMsgs.types'
-import { feedSlice } from '@/renderer/store/modules/feed'
 import { store } from '@/renderer/store/store'
 import { flipperService } from '@/renderer/state/flipper'
 import { log } from '@/renderer/logger'
@@ -64,7 +63,10 @@ export const flipperModeActions: Action[] = [
       // { type: 'keyboard', code: 'KeyI' },
     ],
     perform: () => {
-      flipperService.send('MODE_FRONT')
+      const isReverse = selectReverse(store.getState())
+      isReverse
+        ? flipperService.send('MODE_REAR')
+        : flipperService.send('MODE_FRONT')
     },
   },
   {
@@ -74,21 +76,30 @@ export const flipperModeActions: Action[] = [
       // { type: 'keyboard', code: 'KeyK' },
     ],
     perform: () => {
-      flipperService.send('MODE_REAR')
+      const isReverse = selectReverse(store.getState())
+      isReverse
+        ? flipperService.send('MODE_FRONT')
+        : flipperService.send('MODE_REAR')
     },
   },
   {
     name: 'modeRight',
     bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.dpad.right }],
     perform: () => {
-      flipperService.send('MODE_RIGHT')
+      const isReverse = selectReverse(store.getState())
+      isReverse
+        ? flipperService.send('MODE_LEFT')
+        : flipperService.send('MODE_RIGHT')
     },
   },
   {
     name: 'modeLeft',
     bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.dpad.left }],
     perform: () => {
-      flipperService.send('MODE_LEFT')
+      const isReverse = selectReverse(store.getState())
+      isReverse
+        ? flipperService.send('MODE_RIGHT')
+        : flipperService.send('MODE_LEFT')
     },
   },
   {
@@ -98,7 +109,10 @@ export const flipperModeActions: Action[] = [
       // { type: 'keyboard', code: 'KeyT', onKeyDown: true },
     ],
     perform: () => {
+      /*
+      Disabled for now since the TPV is used as main camera in forward and reverse modes
       store.dispatch(feedSlice.actions.switchDirection())
+      */
       store.dispatch(inputSlice.actions.toggleReverse())
     },
   },
@@ -107,15 +121,6 @@ export const flipperModeActions: Action[] = [
     bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.X }],
     perform: () => {
       rosClient.callService({ name: '/headlights' }).catch(log.error)
-    },
-  },
-  {
-    name: 'flipper_reset',
-    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.B }],
-    perform: () => {
-      rosClient
-        .callService({ name: 'markhor/flippers/flipper_reset' })
-        .catch(log.error)
     },
   },
   {

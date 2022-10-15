@@ -22,7 +22,7 @@ const context: ArmContext = { jointValue: 0 }
 export const armMachine = Machine<ArmContext, ArmStateSchema, ArmEvent>(
   {
     id: 'arm',
-    initial: 'cartesian',
+    initial: 'joint',
     context: context,
     states: {
       joint: {

@@ -28,6 +28,7 @@ export const StatusBar: FC = () => (
       <RosConnectionStatus />
       <AudioStart />
       <Reverse />
+      <Reload />
     </LeftStatusBar>
     <RightStatusBar>
       <FlippersViewToggle />
@@ -80,12 +81,12 @@ const ModeInfo = () => {
   if (control.matches('flipper')) {
     return (
       <div>
-        {flipper.matches('front') && (isReverse ? 'BACK' : 'FRONT')}
-        {flipper.matches('fl') && (isReverse ? 'REAR LEFT' : 'FRONT LEFT')}
-        {flipper.matches('fr') && (isReverse ? 'REAR RIGHT' : 'FRONT RIGHT')}
-        {flipper.matches('rl') && (isReverse ? 'FRONT LEFT' : 'REAR LEFT')}
-        {flipper.matches('rr') && (isReverse ? 'FRONT RIGHT' : 'REAR RIGHT')}
-        {flipper.matches('none') && 'NONE'}
+        {flipper.matches('front') && (isReverse ? 'REAR' : 'FRONT')}
+        {flipper.matches('fl') && (isReverse ? 'REAR RIGHT' : 'FRONT LEFT')}
+        {flipper.matches('fr') && (isReverse ? 'REAR LEFT' : 'FRONT RIGHT')}
+        {flipper.matches('rl') && (isReverse ? 'FRONT RIGHT' : 'REAR LEFT')}
+        {flipper.matches('rr') && (isReverse ? 'FRONT LEFT' : 'REAR RIGHT')}
+        {flipper.matches('all') && 'ALL'}
         {flipper.matches('rear') && (isReverse ? 'FRONT' : 'REAR')}
       </div>
     )
@@ -169,10 +170,7 @@ const AudioStart = () => {
     }
   }
   return (
-    <StatusBarButton
-      onClick={onClick}
-      disabled={!state.matches('disconnected')}
-    >
+    <StatusBarButton onClick={onClick} disabled={state.matches('disconnected')}>
       {isStarted ? 'Audio Stop' : 'Audio Start'}
     </StatusBarButton>
   )
@@ -201,6 +199,18 @@ const Reverse = () => {
   return (
     <StatusBarButton onClick={toggleReverse}>
       {reverse ? 'Reverse' : 'Forward'}
+    </StatusBarButton>
+  )
+}
+
+const Reload = () => {
+  return (
+    <StatusBarButton
+      onClick={() => {
+        window.location.reload()
+      }}
+    >
+      {'Reload'}
     </StatusBarButton>
   )
 }

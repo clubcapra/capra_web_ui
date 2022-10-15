@@ -62,9 +62,9 @@ const TableRow: FC<TableRowProps> = ({ feed, updateCamera }) => {
       <td>
         <Select
           value={type}
-          options={Object.keys(CameraType).map((o) => ({
+          options={Object.values(CameraType).map((o) => ({
             key: o,
-            value: o.toLowerCase(),
+            value: o,
           }))}
           onChange={(e) => updateCameraId('type', e.target.value)}
         />
