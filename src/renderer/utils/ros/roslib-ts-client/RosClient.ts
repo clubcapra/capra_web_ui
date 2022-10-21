@@ -32,7 +32,7 @@ export default class RosClient {
   private port = '9090'
   private options: RosClientOptions
   private listeners?: Listeners
-  private interval: any;
+  private interval: number | undefined
 
   constructor(
     robotIP: string,
@@ -59,12 +59,12 @@ export default class RosClient {
   }
 
   sendHeartbeat() {
-    let heartbeatTopic: TopicOptions = {
+    const heartbeatTopic: TopicOptions = {
       name: '/heartbeat',
       messageType: 'std_msgs/String',
     }
 
-    let message = new ROSLIB.Message({ data: "heartbeat" })
+    const message = new ROSLIB.Message({ data: 'heartbeat' })
 
     rosClient.publish(heartbeatTopic, message)
   }
@@ -147,7 +147,9 @@ export default class RosClient {
       log.info('RosClient: ros connected to ', this.robotIP)
 
       // Send heartbeat every second.
-      this.interval = window.setInterval(this.sendHeartbeat, 1000)
+      this.interval = window.setInterval(() => {
+        this.sendHeartbeat()
+      }, 1000)
 
       onConnection()
     }
