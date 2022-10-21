@@ -39,7 +39,7 @@ export const rosMachine = Machine<RosContext, RosStateSchema, RosEvent>(
     states: {
       connected: {
         on: {
-          DISCONNECT: { target: 'disconnected', actions: 'toastDisconnect' },
+          DISCONNECT: { target: 'disconnected', actions: ['toastDisconnect', 'rosClientDisconnect'] },
         },
       },
       connecting: {

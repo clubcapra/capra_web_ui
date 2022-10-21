@@ -3,6 +3,7 @@ import TopicManager from './TopicManager'
 import ServiceManager from './ServiceManager'
 import ROSLIB from 'roslib'
 import { log } from '@/renderer/logger'
+import { rosClient } from '../rosClient'
 
 interface Listeners {
   onConnection: () => void
@@ -31,6 +32,7 @@ export default class RosClient {
   private port = '9090'
   private options: RosClientOptions
   private listeners?: Listeners
+  private interval: any;
 
   constructor(
     robotIP: string,
@@ -54,6 +56,17 @@ export default class RosClient {
 
   setOptions(options: RosClientOptions) {
     this.options = options
+  }
+
+  sendHeartbeat() {
+    let heartbeatTopic: TopicOptions = {
+      name: '/heartbeat',
+      messageType: 'std_msgs/String',
+    }
+
+    let message = new ROSLIB.Message({ data: "heartbeat" })
+
+    rosClient.publish(heartbeatTopic, message)
   }
 
   connect(robotIP = this.robotIP, port = this.port) {
@@ -132,6 +145,10 @@ export default class RosClient {
       this.topicManager.reconnectAllDisconnectedHandler()
       this.connected = true
       log.info('RosClient: ros connected to ', this.robotIP)
+
+      // Send heartbeat every second.
+      this.interval = window.setInterval(this.sendHeartbeat, 1000)
+
       onConnection()
     }
   }
@@ -141,6 +158,7 @@ export default class RosClient {
       this.topicManager.unsubscribeAllTopics()
       this.connected = false
       log.info('RosClient: ros disconnected')
+      window.clearInterval(this.interval)
       onClose()
     }
   }
@@ -148,6 +166,7 @@ export default class RosClient {
   private onError(onError: (error: unknown) => void): (event: unknown) => void {
     return (error) => {
       this.connected = false
+      window.clearInterval(this.interval)
       if (this.isLogEnabled) {
         log.error('RosClient: ros error', error)
       }
