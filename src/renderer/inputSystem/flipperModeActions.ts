@@ -117,10 +117,10 @@ export const flipperModeActions: Action[] = [
     },
   },
   {
-    name: 'headlights',
+    name: 'wristlights',
     bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.X }],
     perform: () => {
-      rosClient.callService({ name: '/headlights' }).catch(log.error)
+      rosClient.callService({ name: '/markhor/wristLightToggle' }).catch(log.error)
     },
   },
   {
