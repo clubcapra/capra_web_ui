@@ -82,4 +82,12 @@ export const armModeActions: Action[] = [
       handleTpvControl(gamepad)
     },
   },
+
+  {
+    name: 'wristlights',
+    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.X }],
+    perform: () => {
+      rosClient.callService({ name: '/markhor/wristLightToggle' }).catch(log.error)
+    },
+  },
 ]
