@@ -87,7 +87,7 @@ export const armModeActions: Action[] = [
     name: 'wristlights',
     bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.X }],
     perform: () => {
-      rosClient.callService({ name: '/capra/wristLightToggle' }).catch(log.error)
+      rosClient.callService({ name: '/capra/wrist_light_toggle' }).catch(log.error)
     },
   },
 ]
