@@ -20,8 +20,9 @@
     "clean": "electron-snowpack clean",
     "postinstall": "patch-package",
     "depcheck": "depcheck --ignores=\"ts-node,ts-jest,@jest/types,@types/jest,concurrently\"",
+    "dependencies_check": "npm run depcheck",
     "ci": "concurrently --kill-others-on-fail npm:lint npm:typecheck npm:test",
-    "local_ci": "concurrently npm:ci npm:dependencies"
+    "local_ci": "concurrently npm:ci npm:dependencies_check"
   },
   "build": {
     "appId": "com.clubcapra.capra_web_ui",
@@ -99,4 +100,3 @@
     "typescript": "^4.6.2"
   }
 }
-
