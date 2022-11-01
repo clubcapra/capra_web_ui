@@ -13,6 +13,8 @@ import { handleTpvControl } from './tpvControl'
 const jointGoalTopic: TopicOptions = {
   name: 'ovis/arm/in/joint_velocity_goal',
   messageType: 'ovis_msgs/OvisArmJointVelocity',
+  queue_size: 1,
+  queue_length: 1,
 }
 
 export const armModeActions: Action[] = [
@@ -72,7 +74,7 @@ export const armModeActions: Action[] = [
 
       const gamepad = ctx.gamepadState.gamepad
       if (armService.state.matches('joint')) {
-        if (gamepad.buttons[buttonMappings.A].pressed) {
+        if (deadzone(gamepad.axes[sticks.left.vertical]) !== 0) {
           rosClient.publish(jointGoalTopic, {
             joint_index: (armService.state.context as ArmContext).jointValue,
             joint_velocity: -deadzone(gamepad.axes[sticks.left.vertical]),
