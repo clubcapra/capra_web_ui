@@ -13,8 +13,6 @@ import { handleTpvControl } from './tpvControl'
 const jointGoalTopic: TopicOptions = {
   name: 'ovis/arm/in/joint_velocity_goal',
   messageType: 'ovis_msgs/OvisArmJointVelocity',
-  queue_size: 1,
-  queue_length: 1,
 }
 
 export const armModeActions: Action[] = [
