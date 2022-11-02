@@ -52,6 +52,16 @@ const defaultActions: Action[] = [
       })
     },
   },
+
+  {
+    name: 'wristlights',
+    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.X }],
+    perform: () => {
+      rosClient
+        .callService({ name: '/capra/wrist_light_toggle' })
+        .catch(log.error)
+    },
+  },
 ]
 
 const inputSystem = new InputSystem(defaultActions.concat(flipperModeActions))

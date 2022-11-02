@@ -116,13 +116,7 @@ export const flipperModeActions: Action[] = [
       store.dispatch(inputSlice.actions.toggleReverse())
     },
   },
-  {
-    name: 'wristlights',
-    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.X }],
-    perform: () => {
-      rosClient.callService({ name: '/markhor/wrist_light_toggle' }).catch(log.error)
-    },
-  },
+
   {
     name: 'gamepad',
     bindings: [{ type: 'gamepad' }],
