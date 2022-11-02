@@ -77,7 +77,7 @@ export const armModeActions: Action[] = [
         if (deadzone(gamepad.axes[sticks.left.vertical]) !== 0) {
           rosClient.publish(jointGoalTopic, {
             joint_index: (armService.state.context as ArmContext).jointValue,
-            joint_velocity: -deadzone(gamepad.axes[sticks.left.vertical]),
+            joint_velocity: -gamepad.axes[sticks.left.vertical],
           })
         }
       }
