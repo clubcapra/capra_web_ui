@@ -116,13 +116,7 @@ export const flipperModeActions: Action[] = [
       store.dispatch(inputSlice.actions.toggleReverse())
     },
   },
-  {
-    name: 'headlights',
-    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.X }],
-    perform: () => {
-      rosClient.callService({ name: '/headlights' }).catch(log.error)
-    },
-  },
+
   {
     name: 'gamepad',
     bindings: [{ type: 'gamepad' }],
