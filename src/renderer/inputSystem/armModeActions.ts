@@ -72,10 +72,10 @@ export const armModeActions: Action[] = [
 
       const gamepad = ctx.gamepadState.gamepad
       if (armService.state.matches('joint')) {
-        if (gamepad.buttons[buttonMappings.A].pressed) {
+        if (deadzone(gamepad.axes[sticks.left.vertical]) !== 0) {
           rosClient.publish(jointGoalTopic, {
             joint_index: (armService.state.context as ArmContext).jointValue,
-            joint_velocity: -deadzone(gamepad.axes[sticks.left.vertical]),
+            joint_velocity: -gamepad.axes[sticks.left.vertical],
           })
         }
       }
