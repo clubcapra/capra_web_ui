@@ -4,7 +4,7 @@ import { Vector3 } from '@/renderer/utils/math/types'
 import { store } from '@/renderer/store/store'
 
 /**
- * Function to add a deadzone to a gamepad axis
+ * Function that adds a deadzone to a gamepad axis
  * @param value The value of the axis
  * @returns The value of the axis with the deadzone applied
  */
