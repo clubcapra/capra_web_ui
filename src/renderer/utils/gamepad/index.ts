@@ -3,9 +3,20 @@ import { ITwistMsg } from '@/renderer/utils/ros/rosMsgs.types'
 import { Vector3 } from '@/renderer/utils/math/types'
 import { store } from '@/renderer/store/store'
 
+/**
+ * Function to add a deadzone to a gamepad axis
+ * @param value The value of the axis
+ * @returns The value of the axis with the deadzone applied
+ */
 export const deadzone = (value: number): number => {
   const deadzone = 0.1
-  return value > deadzone || value < -deadzone ? value : 0
+
+  if (Math.abs(value) < deadzone) {
+    return 0
+  } else {
+    // Scale the value to be between 0 and 1 if positive, or -1 and 0 if negative
+    return (value - Math.sign(value) * deadzone) / (1 - deadzone)
+  }
 }
 
 export const mapToTwist = (
