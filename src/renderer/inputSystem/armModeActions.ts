@@ -1,7 +1,4 @@
-import {
-  buttons as buttonMappings,
-  sticks,
-} from '@/renderer/inputSystem/mappings'
+import { buttons as buttonMappings } from '@/renderer/inputSystem/mappings'
 import { rosClient } from '@/renderer/utils/ros/rosClient'
 import { Action } from '@/renderer/inputSystem/@types'
 import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
@@ -72,10 +69,11 @@ export const armModeActions: Action[] = [
 
       const gamepad = ctx.gamepadState.gamepad
       if (armService.state.matches('joint')) {
-        if (deadzone(gamepad.axes[sticks.left.vertical]) !== 0) {
+        const selectedJoint = armService.state.context as ArmContext
+        if (deadzone(gamepad.axes[selectedJoint.axis]) !== 0) {
           rosClient.publish(jointGoalTopic, {
-            joint_index: (armService.state.context as ArmContext).jointValue,
-            joint_velocity: -gamepad.axes[sticks.left.vertical],
+            joint_index: selectedJoint.jointValue,
+            joint_velocity: -gamepad.axes[selectedJoint.axis],
           })
         }
       }
