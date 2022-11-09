@@ -91,6 +91,15 @@ const View: FC<Props> = ({ feed }) => {
   const source = useSelector(selectVideoUrl(feed.camera))
   const imageRef = useRef<HTMLImageElement | null>(null)
 
+  useEffect(() => {
+    const refCopy = imageRef.current
+
+    return () => {
+      // Reset img src to end network request
+      refCopy && refCopy.setAttribute('src', '')
+    }
+  }, [source])
+
   switch (feed.camera.type) {
     case CameraType.COMPRESSED:
     case CameraType.MJPEG:
@@ -100,6 +109,7 @@ const View: FC<Props> = ({ feed }) => {
           src={source}
           flipped={feed.camera.flipped}
           rotated={feed.camera.rotated}
+          ref={imageRef}
           alt="camera stream"
         />
       )
