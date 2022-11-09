@@ -6,7 +6,7 @@ import { selectVideoUrl } from '@/renderer/store/modules/ros'
 import { useSelector } from '@/renderer/hooks/typedUseSelector'
 import { useActor } from '@xstate/react'
 import * as React from 'react'
-import { FC, useEffect, useRef } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { log } from '@/renderer/logger'
 import { QRFeed } from './QRFeed/QRFeed'
 
@@ -90,10 +90,11 @@ const Webcam: FC<{ deviceid: string; flipped: boolean; rotated: boolean }> = ({
 const View: FC<Props> = ({ feed }) => {
   const source = useSelector(selectVideoUrl(feed.camera))
   const imageRef = useRef<HTMLImageElement | null>(null)
+  const [frame, setFrame] = useState('')
 
   useEffect(() => {
     const refCopy = imageRef.current
-
+    setFrame(source)
     return () => {
       // Reset img src to end network request
       refCopy && refCopy.setAttribute('src', '')
@@ -106,7 +107,7 @@ const View: FC<Props> = ({ feed }) => {
     case CameraType.PNG:
       return (
         <StyledImg
-          src={source}
+          src={frame}
           flipped={feed.camera.flipped}
           rotated={feed.camera.rotated}
           ref={imageRef}
@@ -116,7 +117,7 @@ const View: FC<Props> = ({ feed }) => {
     case CameraType.VP8:
       return (
         <StyledVideo
-          src={source}
+          src={frame}
           flipped={feed.camera.flipped}
           rotated={feed.camera.rotated}
           autoPlay
@@ -135,7 +136,7 @@ const View: FC<Props> = ({ feed }) => {
       return (
         <QRFeed imageRef={imageRef}>
           <StyledImg
-            src={source}
+            src={frame}
             flipped={feed.camera.flipped}
             rotated={feed.camera.rotated}
             ref={imageRef}
