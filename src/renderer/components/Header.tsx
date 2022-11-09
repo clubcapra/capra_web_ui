@@ -72,7 +72,7 @@ const RightHeader = styled.div`
 
 const StyledNavLink = styled(NavLink)`
   display: grid;
-  width: 90%;
+  width: 80%;
   align-items: center;
   text-align: center;
   text-decoration: none;
