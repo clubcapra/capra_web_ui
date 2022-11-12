@@ -94,6 +94,7 @@ const View: FC<Props> = ({ feed }) => {
 
   useEffect(() => {
     const refCopy = imageRef.current
+    // Directly using the source redux state is causing issues so a react state is used instead
     setFrame(source)
     return () => {
       // Reset img src to end network request
