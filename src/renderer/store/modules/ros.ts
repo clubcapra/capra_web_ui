@@ -13,7 +13,7 @@ export interface RosState {
 
 export const initialState: RosState = {
   namespace: 'capra_ui/',
-  IP: '192.168.1.150',
+  IP: 'jetson',
   port: '9090',
   videoServerPort: '8080',
   descriptionServerPort: '88',
