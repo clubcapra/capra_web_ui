@@ -17,12 +17,14 @@ import {
   selectIP,
   selectNamespace,
   selectPort,
+  selectRobotName,
 } from '@/renderer/store/modules/ros'
 import { useSelector } from '@/renderer/hooks/typedUseSelector'
 
 const ConnectionSection = () => {
   const IP = useSelector(selectIP)
   const port = useSelector(selectPort)
+  const robotName = useSelector(selectRobotName)
   const dispatch = useDispatch()
   const [state, send] = useActor(rosService)
 
@@ -34,6 +36,10 @@ const ConnectionSection = () => {
     dispatch(rosSlice.actions.updatePort(e.target.value))
   }
 
+  const updateRobotName = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(rosSlice.actions.updateRobotName(e.target.value))
+  }
+
   const connect = () => send('CONNECT')
   const disconnect = () => send('DISCONNECT')
 
@@ -41,12 +47,19 @@ const ConnectionSection = () => {
     <>
       <SectionTitle>Connection</SectionTitle>
       <div style={{ display: 'flex' }}>
-        <LabeledInput label="IP address" value={IP} onChange={updateIp} />
+        <LabeledInput
+          label="IP address"
+          value={IP}
+          onChange={updateIp} />
         <LabeledInput
           label="rosbrige_server port"
           value={port}
           onChange={updatePort}
         />
+        <LabeledInput
+          label="Robot name"
+          value={robotName}
+          onChange={updateRobotName} />
       </div>
 
       <div style={{ display: 'flex' }}>
