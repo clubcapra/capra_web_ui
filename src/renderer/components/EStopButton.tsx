@@ -6,11 +6,8 @@ import { useOpenClose } from '@/renderer/hooks/useOpenClose'
 import { styled } from '@/renderer/globalStyles/styled'
 import { darken } from 'polished'
 import { log } from '@/renderer/logger'
-
-// const topic: TopicOptions<boolean> = {
-//   name: 'markhor/estop_status',
-//   messageType: 'std_msgs/Bool',
-// }
+import { selectRobotName } from '../store/modules/ros'
+import { useSelector } from '@/renderer/hooks/typedUseSelector'
 
 interface StopButtonProps {
   onClick: () => void
@@ -19,14 +16,6 @@ interface StopButtonProps {
 const StopButton: FC<StopButtonProps> = ({ onClick }) => {
   const [text] = useState('EMERGENCY STOP')
 
-  // useRosSubscribe(topic, (message) => {
-  //   if (message.data) {
-  //     setText('EMERGENCY STOP')
-  //   } else {
-  //     setText('REARM')
-  //   }
-  // })
-
   return (
     <StyledStopButton onClick={onClick}>
       <span>{text}</span>
@@ -34,13 +23,15 @@ const StopButton: FC<StopButtonProps> = ({ onClick }) => {
   )
 }
 
+//TODO change robotName for 'capra' or an organisation field equivalent. Both UI side and in the estop code.
 export const EStopButton: FC = () => {
   const [isModalOpen, openModal, closeModal] = useOpenClose()
+  const robotName = useSelector(selectRobotName)
 
   const stopRobot = () => {
     log.info('ESTOP: stopping robot')
     rosClient
-      .callService({ name: 'markhor/estop_disable', serviceType: '' }, '')
+      .callService({ name: { robotName } + '/estop_disable', serviceType: '' }, '')
       .catch(log.error)
     openModal()
   }
@@ -48,7 +39,7 @@ export const EStopButton: FC = () => {
   const restartRobot = () => {
     log.info('ESTOP: restarting robot')
     rosClient
-      .callService({ name: 'markhor/estop_enable', serviceType: '' }, '')
+      .callService({ name: { robotName } + '/estop_enable', serviceType: '' }, '')
       .catch(log.error)
     closeModal()
   }

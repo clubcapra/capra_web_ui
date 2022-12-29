@@ -9,6 +9,7 @@ import { selectReverse } from '@/renderer/store/modules/input'
 import { useSelector } from '@/renderer/hooks/typedUseSelector'
 import ROSLIB from 'roslib'
 import { rosClient } from '../utils/ros/rosClient'
+import { selectRobotName } from '../store/modules/ros'
 
 interface Props {
   flipper: IFlipperData
@@ -24,24 +25,16 @@ interface PositionsMsg {
   positions: number[]
 }
 
-const flipperUpperLimitParam = new ROSLIB.Param({
-  name: 'markhor/flippers/markhor_flippers_node/front_left_drive_upper_limit',
-  ros: rosClient.ros,
-})
-
-const flipperLowerLimitParam = new ROSLIB.Param({
-  name: 'markhor/flippers/markhor_flippers_node/front_left_drive_lower_limit',
-  ros: rosClient.ros,
-})
-
-const flipperPositionTopic: TopicOptions = {
-  name: '/markhor/flippers/flipper_positions',
-  messageType: '/markhor_flippers/FlipperPositions',
-}
-
 export const FlippersView: FC = () => {
   const isReverse = useSelector(selectReverse)
   const [flipperPositions, setFlipperPositions] = useState<number[]>([])
+  const robotName = useSelector(selectRobotName)
+
+  const flipperPositionTopic: TopicOptions = {
+    name: { robotName } + '/flippers/flipper_positions',
+    messageType: '/' + { robotName } + '_flippers/FlipperPositions',
+  }
+
   useRosSubscribeNoData<PositionsMsg>(
     flipperPositionTopic,
     useCallback((message) => {
@@ -121,6 +114,17 @@ const FlipperArea: FC<Props> = ({ flipper, name, flipperPosition }) => {
   const [motorCurrentValue, setMotorCurrentValue] = useState<string>('0')
   const [flipperUpperLimit, setFlipperUpperLimit] = useState<number>(0)
   const [flipperLowerLimit, setFlipperLowerLimit] = useState<number>(0)
+  const robotName = useSelector(selectRobotName)
+
+  const flipperUpperLimitParam = new ROSLIB.Param({
+    name: { robotName } + '/flippers/' + { robotName } + '_flippers_node/front_left_drive_upper_limit',
+    ros: rosClient.ros,
+  })
+
+  const flipperLowerLimitParam = new ROSLIB.Param({
+    name: { robotName } + '/flippers/' + { robotName } + '_flippers_node/front_left_drive_lower_limit',
+    ros: rosClient.ros,
+  })
 
   useEffect(() => {
     if (!flipperPosition) {

@@ -7,6 +7,8 @@ import { log } from '@/renderer/logger'
 import { armModeActions } from './armModeActions'
 import { flipperModeActions } from './flipperModeActions'
 import { TopicOptions } from '../utils/ros/roslib-ts-client/@types'
+import { selectRobotName } from '../store/modules/ros'
+import { useSelector } from '@/renderer/hooks/typedUseSelector'
 
 const gripperTopic: TopicOptions = {
   name: 'ovis/gripper/position_goal',
@@ -26,7 +28,8 @@ const defaultActions: Action[] = [
       if (controlService.state.matches('nothing') && ctx.type === 'keyboard') {
         return
       }
-      rosClient.callService({ name: 'markhor/estop_disable' }).catch(log.error)
+      const robotName = useSelector(selectRobotName)
+      rosClient.callService({ name: { robotName } + '/estop_disable' }).catch(log.error)
     },
   },
   {
