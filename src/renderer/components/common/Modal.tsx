@@ -1,13 +1,13 @@
-import * as React from 'react'
-import { FaTimes } from 'react-icons/fa'
-import { ReactNode } from 'react'
-import { styled } from '@/renderer/globalStyles/styled'
+import * as React from 'react';
+import { FaTimes } from 'react-icons/fa';
+import { ReactNode } from 'react';
+import { styled } from '@/renderer/globalStyles/styled';
 
 interface Props {
-  isOpen: boolean
-  onClose: () => void
-  title: string
-  footer?: ReactNode
+  isOpen: boolean;
+  onClose: () => void;
+  title: string;
+  footer?: ReactNode;
 }
 
 export const Modal: React.FC<Props> = ({
@@ -31,8 +31,8 @@ export const Modal: React.FC<Props> = ({
         {footer}
       </StyledModal>
     </>
-  ) : null
-}
+  ) : null;
+};
 
 const StyledModal = styled.div`
   height: auto;
@@ -45,19 +45,19 @@ const StyledModal = styled.div`
   z-index: 999;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.32), 0 2px 6px rgba(0, 0, 0, 0.21);
   background-color: ${({ theme }) => theme.colors.background};
-`
+`;
 
 const StyledModalHeader = styled.div`
   display: flex;
   border-bottom: 1px solid ${({ theme }) => theme.colors.darkerBackground};
   background-color: ${({ theme }) => theme.colors.darkerBackground};
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.32), 0 2px 6px rgba(0, 0, 0, 0.21);
-`
+`;
 
 const StyledModalTitle = styled.h3`
   padding: 5px;
   flex-grow: 9;
-`
+`;
 
 const StyledModalClose = styled.div`
   flex-grow: 1;
@@ -74,11 +74,11 @@ const StyledModalClose = styled.div`
     height: 24px;
     width: 24px;
   }
-`
+`;
 
 const StyledModalContent = styled.div`
   padding: 5px;
-`
+`;
 
 const StyledOverlay = styled.div`
   position: fixed;
@@ -88,4 +88,4 @@ const StyledOverlay = styled.div`
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 998;
-`
+`;

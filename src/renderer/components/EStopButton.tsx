@@ -1,11 +1,11 @@
-import React, { FC, useState } from 'react'
-import { Modal } from './common/Modal'
-import { Button } from './common/Button'
-import { rosClient } from '@/renderer/utils/ros/rosClient'
-import { useOpenClose } from '@/renderer/hooks/useOpenClose'
-import { styled } from '@/renderer/globalStyles/styled'
-import { darken } from 'polished'
-import { log } from '@/renderer/logger'
+import React, { FC, useState } from 'react';
+import { Modal } from './common/Modal';
+import { Button } from './common/Button';
+import { rosClient } from '@/renderer/utils/ros/rosClient';
+import { useOpenClose } from '@/renderer/hooks/useOpenClose';
+import { styled } from '@/renderer/globalStyles/styled';
+import { darken } from 'polished';
+import { log } from '@/renderer/logger';
 
 // const topic: TopicOptions<boolean> = {
 //   name: 'markhor/estop_status',
@@ -13,11 +13,11 @@ import { log } from '@/renderer/logger'
 // }
 
 interface StopButtonProps {
-  onClick: () => void
+  onClick: () => void;
 }
 
 const StopButton: FC<StopButtonProps> = ({ onClick }) => {
-  const [text] = useState('EMERGENCY STOP')
+  const [text] = useState('EMERGENCY STOP');
 
   // useRosSubscribe(topic, (message) => {
   //   if (message.data) {
@@ -31,27 +31,27 @@ const StopButton: FC<StopButtonProps> = ({ onClick }) => {
     <StyledStopButton onClick={onClick}>
       <span>{text}</span>
     </StyledStopButton>
-  )
-}
+  );
+};
 
 export const EStopButton: FC = () => {
-  const [isModalOpen, openModal, closeModal] = useOpenClose()
+  const [isModalOpen, openModal, closeModal] = useOpenClose();
 
   const stopRobot = () => {
-    log.info('ESTOP: stopping robot')
+    log.info('ESTOP: stopping robot');
     rosClient
       .callService({ name: 'markhor/estop_disable', serviceType: '' }, '')
-      .catch(log.error)
-    openModal()
-  }
+      .catch(log.error);
+    openModal();
+  };
 
   const restartRobot = () => {
-    log.info('ESTOP: restarting robot')
+    log.info('ESTOP: restarting robot');
     rosClient
       .callService({ name: 'markhor/estop_enable', serviceType: '' }, '')
-      .catch(log.error)
-    closeModal()
-  }
+      .catch(log.error);
+    closeModal();
+  };
 
   return (
     <>
@@ -75,8 +75,8 @@ export const EStopButton: FC = () => {
         <p>Do you want to restart it?</p>
       </Modal>
     </>
-  )
-}
+  );
+};
 
 const StyledStopButton = styled.div`
   height: 100%;
@@ -103,4 +103,4 @@ const StyledStopButton = styled.div`
     writing-mode: vertical-rl;
     text-orientation: upright;
   }
-`
+`;

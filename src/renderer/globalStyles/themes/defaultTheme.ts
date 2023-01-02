@@ -27,4 +27,4 @@ export const defaultTheme = {
     },
   },
   inputHeight: '32px',
-}
+};

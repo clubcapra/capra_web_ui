@@ -1,4 +1,4 @@
-import { styled } from '@/renderer/globalStyles/styled'
+import { styled } from '@/renderer/globalStyles/styled';
 
 export const SectionTitle = styled.h2`
   padding-top: 12px;
@@ -8,4 +8,4 @@ export const SectionTitle = styled.h2`
   letter-spacing: 0.4pt;
   border-bottom: 1px solid ${({ theme }) => theme.colors.darkerBackground};
   font-size: inherit;
-`
+`;

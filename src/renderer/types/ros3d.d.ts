@@ -3,7 +3,7 @@
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
 declare module 'ros3d' {
-  import { Ros, TFClient } from 'roslib'
+  import { Ros, TFClient } from 'roslib';
   /**
    * A URDF client can be used to load a URDF and its associated models into a 3D object from the ROS
    * parameter server.
@@ -26,14 +26,14 @@ declare module 'ros3d' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   class UrdfClient {
     constructor(options: {
-      ros: Ros
-      param?: string
-      tfClient: TFClient
-      path?: string
-      rootObject?: unknown
-      tfPrefix?: string
-      loader?: unknown
-    })
+      ros: Ros;
+      param?: string;
+      tfClient: TFClient;
+      path?: string;
+      rootObject?: unknown;
+      tfPrefix?: string;
+      loader?: unknown;
+    });
   }
   /**
    * A Viewer can be used to render an interactive 3D scene to a HTML5 canvas.
@@ -57,52 +57,52 @@ declare module 'ros3d' {
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   class Viewer {
-    scene: unknown
+    scene: unknown;
     constructor(params: {
-      divID: string
-      width: number
-      height: number
-      background?: string
-      antialias?: boolean
-      intensity?: number
-      near?: number
-      far?: number
-      alpha?: number
+      divID: string;
+      width: number;
+      height: number;
+      background?: string;
+      antialias?: boolean;
+      intensity?: number;
+      near?: number;
+      far?: number;
+      alpha?: number;
       cameraPose?: {
-        x: number
-        y: number
-        z: number
-      }
-      cameraZoomSpeed?: number
-      displayPanAndZoomFrame?: boolean
-      lineTypePanAndZoomFrame?: string
-    })
+        x: number;
+        y: number;
+        z: number;
+      };
+      cameraZoomSpeed?: number;
+      displayPanAndZoomFrame?: boolean;
+      lineTypePanAndZoomFrame?: string;
+    });
     /**
      *  Start the render loop
      */
-    start(): void
+    start(): void;
     /**
      *  Stop the render loop
      */
-    stop(): void
+    stop(): void;
     /**
      * Renders the associated scene to the viewer.
      */
-    draw(): void
+    draw(): void;
     /**
      * Add the given THREE Object3D to the global scene in the viewer.
      *
      * @param object - the THREE Object3D to add
      * @param selectable (optional) - if the object should be added to the selectable list
      */
-    addObject(object: unknown, selectable?: boolean): void
+    addObject(object: unknown, selectable?: boolean): void;
     /**
      * Resize 3D viewer
      *
      * @param width - new width value
      * @param height - new height value
      */
-    resize(width: number, height: number): void
+    resize(width: number, height: number): void;
   }
   /**
    * Create a grid object.
@@ -118,11 +118,11 @@ declare module 'ros3d' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   class Grid {
     constructor(options?: {
-      num_cells?: number
-      color?: string
-      lineWidth?: number
-      cellSize?: number
-    })
+      num_cells?: number;
+      color?: string;
+      lineWidth?: number;
+      cellSize?: number;
+    });
   }
   /**
    * A MeshResource is an THREE object that will load from a external mesh file. Currently loads
@@ -139,10 +139,10 @@ declare module 'ros3d' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   class MeshResource {
     constructor(options: {
-      path?: string
-      resource: string
-      material?: string
-      warnings?: boolean
-    })
+      path?: string;
+      resource: string;
+      material?: string;
+      warnings?: boolean;
+    });
   }
 }

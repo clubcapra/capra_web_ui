@@ -1,11 +1,11 @@
-import React, { FC } from 'react'
-import { Point } from './QRFeed'
+import React, { FC } from 'react';
+import { Point } from './QRFeed';
 
 interface QRScanRegionProps {
-  points: Point[]
-  message: string
-  imageWidth: number
-  imageHeight: number
+  points: Point[];
+  message: string;
+  imageWidth: number;
+  imageHeight: number;
 }
 
 // This should be a component in a seperate file and could be reused for other detection cameras
@@ -44,7 +44,7 @@ const QRScanRegion: FC<QRScanRegionProps> = ({
     </svg>
   ) : (
     <></>
-  )
-}
+  );
+};
 
-export default QRScanRegion
+export default QRScanRegion;

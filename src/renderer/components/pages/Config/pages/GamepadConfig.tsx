@@ -1,18 +1,18 @@
-import React, { FC } from 'react'
-import { styled } from '@/renderer/globalStyles/styled'
-import { nanoid } from 'nanoid'
-import { ReactNode } from 'react'
-import { FaXbox } from 'react-icons/fa'
+import React, { FC } from 'react';
+import { styled } from '@/renderer/globalStyles/styled';
+import { nanoid } from 'nanoid';
+import { ReactNode } from 'react';
+import { FaXbox } from 'react-icons/fa';
 
 interface ShortcutData {
-  content: ReactNode
-  from: [number, number]
-  to: [number, number]
-  key?: string
+  content: ReactNode;
+  from: [number, number];
+  to: [number, number];
+  key?: string;
 }
 
-const LEFT_X = 0
-const RIGHT_X = 800
+const LEFT_X = 0;
+const RIGHT_X = 800;
 
 let data: ShortcutData[] = [
   // #region Sticks
@@ -56,14 +56,14 @@ let data: ShortcutData[] = [
   },
   { content: 'Select: ', from: [LEFT_X, 450], to: [450, 290] },
   { content: 'Start: Mode Switch', from: [RIGHT_X, 450], to: [550, 290] },
-]
+];
 
 data = data.map((item) => {
   if (!item.key) {
-    item.key = nanoid()
+    item.key = nanoid();
   }
-  return item
-})
+  return item;
+});
 
 const GamepadComponent = () => {
   return (
@@ -75,20 +75,20 @@ const GamepadComponent = () => {
       ))}
       <img src="assets/images/xbox-one-controller.png" alt="xbox one gamepad" />
     </StyledGamepad>
-  )
-}
+  );
+};
 
 export const GamepadConfig = () => {
   return (
     <GamepadConfigWrapper>
       <GamepadComponent />
     </GamepadConfigWrapper>
-  )
-}
+  );
+};
 
 const GamepadBindingInfo: FC<{
-  from: [number, number]
-  to: [number, number]
+  from: [number, number];
+  to: [number, number];
 }> = ({ from, to, children }) => {
   return (
     <>
@@ -114,11 +114,11 @@ const GamepadBindingInfo: FC<{
         />
       </StyledSvg>
     </>
-  )
-}
+  );
+};
 
 const StyledGamepadBindingInfo = styled.div<{
-  position: [number, number]
+  position: [number, number];
 }>`
   position: absolute;
   left: ${({ position }) => position[0]}px;
@@ -128,14 +128,14 @@ const StyledGamepadBindingInfo = styled.div<{
   background-color: ${({ theme }) => theme.colors.darkerBackground};
   z-index: 3;
   display: table;
-`
+`;
 
 const StyledSvg = styled.svg`
   position: absolute;
   z-index: 2;
   left: 1px;
   top: 1px;
-`
+`;
 
 const GamepadConfigWrapper = styled.div`
   width: 100%;
@@ -143,7 +143,7 @@ const GamepadConfigWrapper = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
-`
+`;
 
 const StyledGamepad = styled.div`
   padding-top: 40px;
@@ -161,4 +161,4 @@ const StyledGamepad = styled.div`
     height: 500px;
     z-index: 1;
   }
-`
+`;

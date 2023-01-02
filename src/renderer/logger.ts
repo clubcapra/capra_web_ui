@@ -4,7 +4,7 @@
 // This file is configuring the console so it's easier to allow it here
 /* eslint-disable no-console */
 
-import { format } from 'date-fns'
+import { format } from 'date-fns';
 
 /**
  * This is a custom logger that should be used in place of console.log
@@ -31,51 +31,51 @@ import { format } from 'date-fns'
 // maybe support some kind of module specifier.
 // Unfortunately that info is not available in js so it would need to be customised in each file
 
-type Levels = 'error' | 'warn' | 'info' | 'debug'
+type Levels = 'error' | 'warn' | 'info' | 'debug';
 
-const timeFormat = (date: Date) => format(date, '[HH:mm:ss]')
+const timeFormat = (date: Date) => format(date, '[HH:mm:ss]');
 const logFormat = (level: Levels) =>
-  `${timeFormat(new Date())} ${level.toUpperCase()} %s`
+  `${timeFormat(new Date())} ${level.toUpperCase()} %s`;
 
 function callsites() {
-  const _prepareStackTrace = Error.prepareStackTrace
-  Error.prepareStackTrace = (_, stack) => stack
+  const _prepareStackTrace = Error.prepareStackTrace;
+  Error.prepareStackTrace = (_, stack) => stack;
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const stack = new Error().stack.slice(1)
-  Error.prepareStackTrace = _prepareStackTrace
+  const stack = new Error().stack.slice(1);
+  Error.prepareStackTrace = _prepareStackTrace;
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  return stack as NodeJS.CallSite[]
+  return stack as NodeJS.CallSite[];
 }
 
 const printCallsite =
-  window.preloadApi.PRINT_CALLSITE && window.preloadApi.isDev
+  window.preloadApi.PRINT_CALLSITE && window.preloadApi.isDev;
 
 function callsite() {
   // WARN
   // This number is equivalent to the number of functions called
   // to get to the actual console.log
-  const callsite = callsites()[3]
+  const callsite = callsites()[3];
   return printCallsite && callsite
     ? `\n${callsite.getFileName()}:${callsite.getLineNumber()}`
-    : ''
+    : '';
 }
 
 function logFn(level: Levels, args: any[]) {
-  window.preloadApi.log({ level, message: args.join(' ') })
+  window.preloadApi.log({ level, message: args.join(' ') });
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  console[level](logFormat(level), ...args, callsite())
+  console[level](logFormat(level), ...args, callsite());
 }
 
-export const error = (...args: any[]) => logFn('error', args)
-export const warn = (...args: any[]) => logFn('warn', args)
-export const info = (...args: any[]) => logFn('info', args)
-export const debug = (...args: any[]) => logFn('debug', args)
+export const error = (...args: any[]) => logFn('error', args);
+export const warn = (...args: any[]) => logFn('warn', args);
+export const info = (...args: any[]) => logFn('info', args);
+export const debug = (...args: any[]) => logFn('debug', args);
 
 export const log = {
   error,
   warn,
   info,
   debug,
-}
+};

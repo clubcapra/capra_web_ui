@@ -1,17 +1,17 @@
-import React, { FC } from 'react'
-import { styled } from '@/renderer/globalStyles/styled'
-import { NavLink } from 'react-router-dom'
-import { selectDebugTabVisible } from '@/renderer/store/modules/debugTab'
-import { useSelector } from 'react-redux'
+import React, { FC } from 'react';
+import { styled } from '@/renderer/globalStyles/styled';
+import { NavLink } from 'react-router-dom';
+import { selectDebugTabVisible } from '@/renderer/store/modules/debugTab';
+import { useSelector } from 'react-redux';
 
 interface NavLinkDefinition {
-  to: string
-  label: string
-  visible: boolean
+  to: string;
+  label: string;
+  visible: boolean;
 }
 
 export const Header: FC = () => {
-  const debugVisible = useSelector(selectDebugTabVisible)
+  const debugVisible = useSelector(selectDebugTabVisible);
   const navLinks: NavLinkDefinition[] = [
     {
       to: '/teleop',
@@ -33,7 +33,7 @@ export const Header: FC = () => {
       label: 'Debug',
       visible: debugVisible,
     },
-  ]
+  ];
   return (
     <HeaderGrid>
       <LeftHeader navlinks={navLinks}>
@@ -49,26 +49,26 @@ export const Header: FC = () => {
         <StyledLogo src="assets/images/logo.png" />
       </RightHeader>
     </HeaderGrid>
-  )
-}
+  );
+};
 
 const HeaderGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 100px;
   box-shadow: 0 3px 2px rgba(0, 0, 0, 0.25);
-`
+`;
 
 const LeftHeader = styled.div<{
-  navlinks: NavLinkDefinition[]
+  navlinks: NavLinkDefinition[];
 }>`
   display: grid;
   grid-template-columns: ${({ navlinks }) => navlinks.map(() => '100px ')};
   justify-items: center;
-`
+`;
 
 const RightHeader = styled.div`
   margin: 2px;
-`
+`;
 
 const StyledNavLink = styled(NavLink)`
   display: grid;
@@ -88,9 +88,9 @@ const StyledNavLink = styled(NavLink)`
     color: ${({ theme }) => theme.colors.fontLight};
     border-bottom: 2px solid ${({ theme }) => theme.colors.primary};
   }
-`
+`;
 
 const StyledLogo = styled.img`
   height: auto;
   max-width: 100%;
-`
+`;
