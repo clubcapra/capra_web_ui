@@ -47,10 +47,7 @@ const ConnectionSection = () => {
     <>
       <SectionTitle>Connection</SectionTitle>
       <div style={{ display: 'flex' }}>
-        <LabeledInput
-          label="IP address"
-          value={IP}
-          onChange={updateIp} />
+        <LabeledInput label="IP address" value={IP} onChange={updateIp} />
         <LabeledInput
           label="rosbrige_server port"
           value={port}
@@ -59,7 +56,8 @@ const ConnectionSection = () => {
         <LabeledInput
           label="Robot name"
           value={robotName}
-          onChange={updateRobotName} />
+          onChange={updateRobotName}
+        />
       </div>
 
       <div style={{ display: 'flex' }}>

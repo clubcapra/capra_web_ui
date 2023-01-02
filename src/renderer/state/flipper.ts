@@ -1,11 +1,11 @@
 import { log } from '@/renderer/logger'
 import { rosClient } from '@/renderer/utils/ros/rosClient'
 import { Machine, interpret } from 'xstate'
-import { selectRobotName } from '../store/modules/ros'
-import { useSelector } from '@/renderer/hooks/typedUseSelector'
+import { store } from '@/renderer/store/store'
+import { selectRobotName } from '@/renderer/store/modules/input'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface FlipperContext { }
+interface FlipperContext {}
 
 interface FlipperStateSchema {
   states: {
@@ -122,10 +122,10 @@ type FlipperMode =
   | 'rl_disable'
 
 async function sendFlipperMode(mode: FlipperMode) {
-  const robotName = useSelector(selectRobotName)
+  const robotName = selectRobotName(store.getState())
   try {
     await rosClient.callService({
-      name: { robotName } + `/flippers/flipper_mode_${mode}`,
+      name: `${robotName}/flippers/flipper_mode_${mode}`,
     })
   } catch (e) {
     log.error(e)

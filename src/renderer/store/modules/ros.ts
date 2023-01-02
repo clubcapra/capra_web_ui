@@ -36,7 +36,7 @@ export const rosSlice = createSlice({
       state.port = payload
     },
     updateRobotName: (state, { payload }: PayloadAction<string>) => {
-      state.robotName = payload;
+      state.robotName = payload
     },
     updateVideoServerPort: (state, { payload }: PayloadAction<string>) => {
       state.videoServerPort = payload
@@ -55,7 +55,8 @@ export const rosSlice = createSlice({
 
 export const selectIP = (state: GlobalState): string => state.ros.IP
 export const selectPort = (state: GlobalState): string => state.ros.port
-export const selectRobotName = (state: GlobalState): string => state.ros.robotName
+export const selectRobotName = (state: GlobalState): string =>
+  state.ros.robotName
 export const selectVideoServerPort = (state: GlobalState): string =>
   state.ros.videoServerPort
 export const selectDescriptionServerPort = (state: GlobalState): string =>

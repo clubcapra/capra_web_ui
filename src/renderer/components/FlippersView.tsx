@@ -9,7 +9,7 @@ import { selectReverse } from '@/renderer/store/modules/input'
 import { useSelector } from '@/renderer/hooks/typedUseSelector'
 import ROSLIB from 'roslib'
 import { rosClient } from '../utils/ros/rosClient'
-import { selectRobotName } from '../store/modules/ros'
+import { selectRobotName } from '@/renderer/store/modules/ros'
 
 interface Props {
   flipper: IFlipperData
@@ -31,8 +31,8 @@ export const FlippersView: FC = () => {
   const robotName = useSelector(selectRobotName)
 
   const flipperPositionTopic: TopicOptions = {
-    name: { robotName } + '/flippers/flipper_positions',
-    messageType: '/' + { robotName } + '_flippers/FlipperPositions',
+    name: `${robotName}/flippers/flipper_positions`,
+    messageType: `/${robotName}_flippers/FlipperPositions`,
   }
 
   useRosSubscribeNoData<PositionsMsg>(
@@ -117,12 +117,12 @@ const FlipperArea: FC<Props> = ({ flipper, name, flipperPosition }) => {
   const robotName = useSelector(selectRobotName)
 
   const flipperUpperLimitParam = new ROSLIB.Param({
-    name: { robotName } + '/flippers/' + { robotName } + '_flippers_node/front_left_drive_upper_limit',
+    name: `${robotName}/flippers/${robotName}_flippers_node/front_left_drive_upper_limit`,
     ros: rosClient.ros,
   })
 
   const flipperLowerLimitParam = new ROSLIB.Param({
-    name: { robotName } + '/flippers/' + { robotName } + '_flippers_node/front_left_drive_lower_limit',
+    name: `${robotName}/flippers/${robotName}_flippers_node/front_left_drive_lower_limit`,
     ros: rosClient.ros,
   })
 

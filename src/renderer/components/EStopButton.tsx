@@ -6,7 +6,7 @@ import { useOpenClose } from '@/renderer/hooks/useOpenClose'
 import { styled } from '@/renderer/globalStyles/styled'
 import { darken } from 'polished'
 import { log } from '@/renderer/logger'
-import { selectRobotName } from '../store/modules/ros'
+import { selectRobotName } from '@/renderer/store/modules/ros'
 import { useSelector } from '@/renderer/hooks/typedUseSelector'
 
 interface StopButtonProps {
@@ -31,7 +31,13 @@ export const EStopButton: FC = () => {
   const stopRobot = () => {
     log.info('ESTOP: stopping robot')
     rosClient
-      .callService({ name: { robotName } + '/estop_disable', serviceType: '' }, '')
+      .callService(
+        {
+          name: `${robotName}/estop_disable`,
+          serviceType: '',
+        },
+        ''
+      )
       .catch(log.error)
     openModal()
   }
@@ -39,7 +45,13 @@ export const EStopButton: FC = () => {
   const restartRobot = () => {
     log.info('ESTOP: restarting robot')
     rosClient
-      .callService({ name: { robotName } + '/estop_enable', serviceType: '' }, '')
+      .callService(
+        {
+          name: `${robotName}/estop_enable`,
+          serviceType: '',
+        },
+        ''
+      )
       .catch(log.error)
     closeModal()
   }
