@@ -145,3 +145,15 @@ Logs are written to the following locations:
 
 - Linux: `~/.config/capra_web_ui/logs/{DATE}/{process type}.log`
 - Windows: `%USERPROFILE%\AppData\Roaming\capra_web_ui\logs\{DATE}\{process type}.log`
+
+### Testing ROS features locally
+
+To test ROS features without connecting to a robot you simply need to specify `localhost` as the host to connect to while a rosbridge web_socket node is running.
+
+To run the rosbridge server simply open a terminal and run the following command:
+
+`roslaunch rosbridge_server rosbridge_websocket.launch`.
+
+If the package is not installed you can install it:
+
+`sudo apt-get install ros-<rosdistro>-rosbridge-suite`.
