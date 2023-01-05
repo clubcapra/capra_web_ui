@@ -2,7 +2,7 @@ import { log } from '@/renderer/logger'
 import { rosClient } from '@/renderer/utils/ros/rosClient'
 import { Machine, interpret } from 'xstate'
 import { store } from '@/renderer/store/store'
-import { selectRobotName } from '@/renderer/store/modules/input'
+import { selectRobotNameState } from '@/renderer/store/modules/input'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface FlipperContext {}
@@ -122,7 +122,7 @@ type FlipperMode =
   | 'rl_disable'
 
 async function sendFlipperMode(mode: FlipperMode) {
-  const robotName = selectRobotName(store.getState())
+  const robotName = selectRobotNameState(store.getState())
   try {
     await rosClient.callService({
       name: `${robotName}/flippers/flipper_mode_${mode}`,
