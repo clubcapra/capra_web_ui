@@ -269,9 +269,9 @@ export interface IFlipperData {
   topicMotorCurrent: TopicOptions<string>
 }
 
-const flippers = () => {
+const flippers = (): IFlippers => {
   const robotName = selectRobotNameState(store.getState())
-  const newFlippers: IFlippers = {
+  return {
     id: 'flippers',
     flipperFL: {
       topicMotorCurrent: {
@@ -298,5 +298,4 @@ const flippers = () => {
       },
     },
   }
-  return newFlippers
 }
