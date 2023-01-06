@@ -1,15 +1,15 @@
-import React, { FC, ChangeEvent } from 'react'
-import { LabeledInput } from '@/renderer/components/common/LabeledInput'
-import { Button } from '@/renderer/components/common/Button'
-import { SectionTitle } from '@/renderer/components/pages/Config/styles'
-import { useActor } from '@xstate/react'
-import { rosService } from '@/renderer/state/ros'
-import { clearStoreCache } from '@/renderer/store/localStorage'
-import { useDispatch } from 'react-redux'
+import React, { FC, ChangeEvent } from 'react';
+import { LabeledInput } from '@/renderer/components/common/LabeledInput';
+import { Button } from '@/renderer/components/common/Button';
+import { SectionTitle } from '@/renderer/components/pages/Config/styles';
+import { useActor } from '@xstate/react';
+import { rosService } from '@/renderer/state/ros';
+import { clearStoreCache } from '@/renderer/store/localStorage';
+import { useDispatch } from 'react-redux';
 import {
   debugTabSlice,
   selectDebugTabVisible,
-} from '@/renderer/store/modules/debugTab'
+} from '@/renderer/store/modules/debugTab';
 import {
   rosSlice,
   selectBaseLinkName,
@@ -18,30 +18,30 @@ import {
   selectNamespace,
   selectPort,
   selectRobotName,
-} from '@/renderer/store/modules/ros'
-import { useSelector } from '@/renderer/hooks/typedUseSelector'
+} from '@/renderer/store/modules/ros';
+import { useSelector } from '@/renderer/hooks/typedUseSelector';
 
 const ConnectionSection = () => {
-  const IP = useSelector(selectIP)
-  const port = useSelector(selectPort)
-  const robotName = useSelector(selectRobotName)
-  const dispatch = useDispatch()
-  const [state, send] = useActor(rosService)
+  const IP = useSelector(selectIP);
+  const port = useSelector(selectPort);
+  const robotName = useSelector(selectRobotName);
+  const dispatch = useDispatch();
+  const [state, send] = useActor(rosService);
 
   const updateIp = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(rosSlice.actions.updateIP(e.target.value))
-  }
+    dispatch(rosSlice.actions.updateIP(e.target.value));
+  };
 
   const updatePort = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(rosSlice.actions.updatePort(e.target.value))
-  }
+    dispatch(rosSlice.actions.updatePort(e.target.value));
+  };
 
   const updateRobotName = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(rosSlice.actions.updateRobotName(e.target.value))
-  }
+    dispatch(rosSlice.actions.updateRobotName(e.target.value));
+  };
 
-  const connect = () => send('CONNECT')
-  const disconnect = () => send('DISCONNECT')
+  const connect = () => send('CONNECT');
+  const disconnect = () => send('DISCONNECT');
 
   return (
     <>
@@ -81,15 +81,15 @@ const ConnectionSection = () => {
         </Button>
       </div>
     </>
-  )
-}
+  );
+};
 
 const NamespaceSection = () => {
-  const namespace = useSelector(selectNamespace)
-  const dispatch = useDispatch()
+  const namespace = useSelector(selectNamespace);
+  const dispatch = useDispatch();
 
   const updateNamespace = (e: ChangeEvent<HTMLInputElement>) =>
-    dispatch(rosSlice.actions.updateNamespace(e.target.value))
+    dispatch(rosSlice.actions.updateNamespace(e.target.value));
 
   return (
     <>
@@ -104,21 +104,21 @@ const NamespaceSection = () => {
         onChange={updateNamespace}
       />
     </>
-  )
-}
+  );
+};
 
 const UrdfDescriptionSection = () => {
-  const dispatch = useDispatch()
-  const descriptionServerPort = useSelector(selectDescriptionServerPort)
-  const baseLinkName = useSelector(selectBaseLinkName)
+  const dispatch = useDispatch();
+  const descriptionServerPort = useSelector(selectDescriptionServerPort);
+  const baseLinkName = useSelector(selectBaseLinkName);
 
   const updateDescriptionPort = (e: ChangeEvent<HTMLInputElement>): void => {
-    dispatch(rosSlice.actions.updateDescriptionServerPort(e.target.value))
-  }
+    dispatch(rosSlice.actions.updateDescriptionServerPort(e.target.value));
+  };
 
   const updateBaseLinkName = (e: ChangeEvent<HTMLInputElement>): void => {
-    dispatch(rosSlice.actions.updateBaseLinkName(e.target.value))
-  }
+    dispatch(rosSlice.actions.updateBaseLinkName(e.target.value));
+  };
 
   return (
     <>
@@ -136,25 +136,25 @@ const UrdfDescriptionSection = () => {
         onChange={updateBaseLinkName}
       />
     </>
-  )
-}
+  );
+};
 
 const DetectedGamepad = () => {
-  const gamepads = [...navigator.getGamepads()]
+  const gamepads = [...navigator.getGamepads()];
   return (
     <>
       <SectionTitle>Gamepads Detected</SectionTitle>
       <ul>{gamepads.map((g) => g && <li key={g?.id}>{g?.id}</li>)}</ul>
     </>
-  )
-}
+  );
+};
 
 const ToggleDebug = () => {
-  const visible = useSelector(selectDebugTabVisible)
-  const dispatch = useDispatch()
+  const visible = useSelector(selectDebugTabVisible);
+  const dispatch = useDispatch();
   const toggleDebugTab = (): void => {
-    dispatch(debugTabSlice.actions.toggleVisible())
-  }
+    dispatch(debugTabSlice.actions.toggleVisible());
+  };
 
   return (
     <>
@@ -162,8 +162,8 @@ const ToggleDebug = () => {
       <p>Debug</p>
       <input type="checkbox" onChange={toggleDebugTab} checked={visible} />
     </>
-  )
-}
+  );
+};
 
 export const GeneralConfig: FC = () => (
   <>
@@ -174,4 +174,4 @@ export const GeneralConfig: FC = () => (
     <DetectedGamepad />
     <ToggleDebug />
   </>
-)
+);

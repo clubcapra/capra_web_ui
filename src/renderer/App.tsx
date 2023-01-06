@@ -1,20 +1,20 @@
-import React, { FC, StrictMode, useEffect } from 'react'
-import { HashRouter } from 'react-router-dom'
-import { ThemeProvider, createGlobalStyle } from 'styled-components'
-import { Provider } from 'react-redux'
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import { defaultTheme } from '@/renderer/globalStyles/themes/defaultTheme'
-import { Layout } from '@/renderer/components/Layout'
-import { store } from '@/renderer/store/store'
-import inputSystem from '@/renderer/inputSystem'
-import { Theme } from '@/renderer/globalStyles/styled'
+import React, { FC, StrictMode, useEffect } from 'react';
+import { HashRouter } from 'react-router-dom';
+import { ThemeProvider, createGlobalStyle } from 'styled-components';
+import { Provider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { defaultTheme } from '@/renderer/globalStyles/themes/defaultTheme';
+import { Layout } from '@/renderer/components/Layout';
+import { store } from '@/renderer/store/store';
+import inputSystem from '@/renderer/inputSystem';
+import { Theme } from '@/renderer/globalStyles/styled';
 
 export const App: FC = () => {
   useEffect(() => {
-    inputSystem.start()
-    return () => inputSystem.stop()
-  }, [])
+    inputSystem.start();
+    return () => inputSystem.stop();
+  }, []);
 
   return (
     <StrictMode>
@@ -30,8 +30,8 @@ export const App: FC = () => {
         </HashRouter>
       </Provider>
     </StrictMode>
-  )
-}
+  );
+};
 
 const GlobalStyles = createGlobalStyle<{ theme: Theme }>`
   html { height: 100%; }
@@ -56,4 +56,4 @@ const GlobalStyles = createGlobalStyle<{ theme: Theme }>`
     --toastify-color-warning: ${(props) => props.theme.colors.warning};
     --toastify-color-error: ${(props) => props.theme.colors.danger};
   }
-`
+`;

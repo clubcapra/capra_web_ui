@@ -1,15 +1,15 @@
-import { CameraType, ICameraData } from '@/renderer/store/modules/feed'
-import { GlobalState } from '@/renderer/store/store'
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { CameraType, ICameraData } from '@/renderer/store/modules/feed';
+import { GlobalState } from '@/renderer/store/store';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface RosState {
-  namespace: string
-  IP: string
-  port: string
-  robotName: string
-  videoServerPort: string
-  descriptionServerPort: string
-  baseLinkName: string
+  namespace: string;
+  IP: string;
+  port: string;
+  robotName: string;
+  videoServerPort: string;
+  descriptionServerPort: string;
+  baseLinkName: string;
 }
 
 export const initialState: RosState = {
@@ -20,63 +20,63 @@ export const initialState: RosState = {
   videoServerPort: '8080',
   descriptionServerPort: '88',
   baseLinkName: 'markhor_link_base',
-}
+};
 
 export const rosSlice = createSlice({
   name: 'ros',
   initialState,
   reducers: {
     updateNamespace: (state, { payload }: PayloadAction<string>) => {
-      state.namespace = payload
+      state.namespace = payload;
     },
     updateIP: (state, { payload }: PayloadAction<string>) => {
-      state.IP = payload
+      state.IP = payload;
     },
     updatePort: (state, { payload }: PayloadAction<string>) => {
-      state.port = payload
+      state.port = payload;
     },
     updateRobotName: (state, { payload }: PayloadAction<string>) => {
-      state.robotName = payload
+      state.robotName = payload;
     },
     updateVideoServerPort: (state, { payload }: PayloadAction<string>) => {
-      state.videoServerPort = payload
+      state.videoServerPort = payload;
     },
     updateDescriptionServerPort: (
       state,
       { payload }: PayloadAction<string>
     ) => {
-      state.descriptionServerPort = payload
+      state.descriptionServerPort = payload;
     },
     updateBaseLinkName: (state, { payload }: PayloadAction<string>) => {
-      state.baseLinkName = payload
+      state.baseLinkName = payload;
     },
   },
-})
+});
 
-export const selectIP = (state: GlobalState): string => state.ros.IP
-export const selectPort = (state: GlobalState): string => state.ros.port
+export const selectIP = (state: GlobalState): string => state.ros.IP;
+export const selectPort = (state: GlobalState): string => state.ros.port;
 export const selectRobotName = (state: GlobalState): string =>
-  state.ros.robotName
+  state.ros.robotName;
 export const selectVideoServerPort = (state: GlobalState): string =>
-  state.ros.videoServerPort
+  state.ros.videoServerPort;
 export const selectDescriptionServerPort = (state: GlobalState): string =>
-  state.ros.descriptionServerPort
+  state.ros.descriptionServerPort;
 export const selectBaseLinkName = (state: GlobalState): string =>
-  state.ros.baseLinkName
+  state.ros.baseLinkName;
 
 export const selectNamespace = (state: GlobalState): string =>
-  state.ros.namespace
+  state.ros.namespace;
 export const selectFullAddress = (state: GlobalState): string =>
-  `${state.ros.IP}:${state.ros.port}/`
+  `${state.ros.IP}:${state.ros.port}/`;
 
 export const selectVideoUrl =
   (camera: ICameraData, param: 'stream' | 'snapshot' = 'stream') =>
   (state: GlobalState): string => {
-    let cameraType = camera.type
+    let cameraType = camera.type;
     // QR Code feeds are streamed as mjpeg
     if (camera.type === CameraType.QR_CODE) {
-      cameraType = CameraType.MJPEG
+      cameraType = CameraType.MJPEG;
     }
 
-    return `http://${state.ros.IP}:${state.ros.videoServerPort}/${param}?topic=${camera.topic}&type=${cameraType}`
-  }
+    return `http://${state.ros.IP}:${state.ros.videoServerPort}/${param}?topic=${camera.topic}&type=${cameraType}`;
+  };
