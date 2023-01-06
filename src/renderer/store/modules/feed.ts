@@ -1,19 +1,19 @@
-import { GlobalState } from '@/renderer/store/store'
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
-import { nanoid } from 'nanoid'
+import { GlobalState } from '@/renderer/store/store';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types';
+import { nanoid } from 'nanoid';
 
 export interface FeedState {
-  feeds: { [feedId: string]: FeedType }
+  feeds: { [feedId: string]: FeedType };
   feedMap: {
     [id: string]: {
-      id: string
-      feedId: string
-    }
-  }
+      id: string;
+      feedId: string;
+    };
+  };
 
-  feed_front: string
-  feed_back: string
+  feed_front: string;
+  feed_back: string;
 }
 
 export enum FeedTypeEnum {
@@ -38,46 +38,46 @@ export type FeedType =
   | ICameraFeed
   | IUrdfFeed
   | IGraphFeed
-  | INotSelected
+  | INotSelected;
 
 interface BaseFeed {
-  type: FeedTypeEnum
-  id: string
+  type: FeedTypeEnum;
+  id: string;
 }
 
 export interface IEmptyFeed extends BaseFeed {
-  type: FeedTypeEnum.Empty
+  type: FeedTypeEnum.Empty;
 }
 
 export interface INotSelected extends BaseFeed {
-  type: FeedTypeEnum.NotSelected
+  type: FeedTypeEnum.NotSelected;
 }
 
 export interface ICameraFeed extends BaseFeed {
-  type: FeedTypeEnum.Camera
-  camera: ICameraData
+  type: FeedTypeEnum.Camera;
+  camera: ICameraData;
 }
 
 export interface ICameraData {
-  name: string
-  type: CameraType
-  topic: string
-  flipped: boolean
-  rotated: boolean
+  name: string;
+  type: CameraType;
+  topic: string;
+  flipped: boolean;
+  rotated: boolean;
 }
 
 export interface IUrdfFeed extends BaseFeed {
-  type: FeedTypeEnum.Urdf
+  type: FeedTypeEnum.Urdf;
 }
 
 export interface IGraphFeed extends BaseFeed {
-  type: FeedTypeEnum.Graph
-  graph: IGraphData
+  type: FeedTypeEnum.Graph;
+  graph: IGraphData;
 }
 
 export interface IGraphData {
-  topic: TopicOptions<string>
-  name: string
+  topic: TopicOptions<string>;
+  name: string;
 }
 
 export const feed_id = {
@@ -88,7 +88,7 @@ export const feed_id = {
     top_right: 'teleop_top_right',
   },
   victim: {},
-}
+};
 
 export const initialState: FeedState = {
   feedMap: {},
@@ -196,38 +196,38 @@ export const initialState: FeedState = {
       },
     },
   },
-}
+};
 
 export const feedSlice = createSlice({
   name: 'feed',
   initialState,
   reducers: {
     addCamera: (state, { payload }: PayloadAction<ICameraData>) => {
-      const id = nanoid()
+      const id = nanoid();
       state.feeds[id] = {
         id,
         type: FeedTypeEnum.Camera,
         camera: payload,
-      }
+      };
     },
     addGraph: (state, { payload }: PayloadAction<IGraphData>) => {
-      const id = nanoid()
+      const id = nanoid();
       state.feeds[id] = {
         id,
         type: FeedTypeEnum.Graph,
         graph: payload,
-      }
+      };
     },
     removeFeed: (state, { payload }: PayloadAction<string>) => {
-      delete state.feeds[payload]
+      delete state.feeds[payload];
 
       Object.values(state.feedMap).some((m) => {
         if (m.feedId === payload) {
-          delete state.feedMap[m.id]
-          return true
+          delete state.feedMap[m.id];
+          return true;
         }
-        return false
-      })
+        return false;
+      });
     },
     updateCamera: (
       state,
@@ -235,11 +235,11 @@ export const feedSlice = createSlice({
         payload: { camera, id },
       }: PayloadAction<{ camera: ICameraData; id: string }>
     ) => {
-      const feed = state.feeds[id]
+      const feed = state.feeds[id];
       if (feed.type !== FeedTypeEnum.Camera) {
-        return
+        return;
       }
-      feed.camera = camera
+      feed.camera = camera;
     },
     updateGraph: (
       state,
@@ -247,37 +247,37 @@ export const feedSlice = createSlice({
         payload: { graph, id },
       }: PayloadAction<{ graph: IGraphData; id: string }>
     ) => {
-      const feed = state.feeds[id]
+      const feed = state.feeds[id];
       if (feed.type !== FeedTypeEnum.Graph) {
-        return
+        return;
       }
-      feed.graph = graph
+      feed.graph = graph;
     },
     updateFeedMap: (
       state,
       { payload: { id, feedId } }: PayloadAction<{ id: string; feedId: string }>
     ) => {
-      state.feedMap[id] = { id, feedId }
+      state.feedMap[id] = { id, feedId };
     },
     switchDirection: (state) => {
-      const feed_id_old = state.feedMap[state.feed_front]
-      state.feedMap[state.feed_front] = state.feedMap[state.feed_back]
-      state.feedMap[state.feed_back] = feed_id_old
+      const feed_id_old = state.feedMap[state.feed_front];
+      state.feedMap[state.feed_front] = state.feedMap[state.feed_back];
+      state.feedMap[state.feed_back] = feed_id_old;
     },
   },
-})
+});
 
-export const selectAllFeeds = (state: GlobalState) => state.feed.feeds
+export const selectAllFeeds = (state: GlobalState) => state.feed.feeds;
 
 export const selectFeedFromFeedMap = (id: string) => (state: GlobalState) =>
-  state.feed.feedMap[id]
+  state.feed.feedMap[id];
 
 export const selectAllCamera = (state: GlobalState) =>
   Object.values(state.feed.feeds)
     .filter((feed) => feed.type === FeedTypeEnum.Camera)
-    .reverse() as ICameraFeed[]
+    .reverse() as ICameraFeed[];
 
 export const selectAllGraph = (state: GlobalState) =>
   Object.values(state.feed.feeds)
     .filter((feed) => feed.type === FeedTypeEnum.Graph)
-    .reverse() as IGraphFeed[]
+    .reverse() as IGraphFeed[];

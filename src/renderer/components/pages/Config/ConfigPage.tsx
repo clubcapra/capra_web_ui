@@ -1,21 +1,21 @@
-import React, { FC, useEffect } from 'react'
-import { Route, Routes, Navigate } from 'react-router'
-import { ConfigMenu } from './ConfigMenu'
-import { GeneralConfig } from '@/renderer/components/pages/Config/pages/GeneralConfig'
-import { CameraConfig } from '@/renderer/components/pages/Config/pages/CameraConfig/CameraConfig'
-import { GamepadConfig } from '@/renderer/components/pages/Config/pages/GamepadConfig'
-import { GraphConfig } from '@/renderer/components/pages/Config/pages/GraphConfig/GraphConfig'
-import { styled } from '@/renderer/globalStyles/styled'
-import { LaunchConfig } from './pages/LaunchConfig/LaunchConfig'
-import { flippersViewToggleSlice } from '@/renderer/store/modules/flippersViewToggle'
-import { useDispatch } from 'react-redux'
+import React, { FC, useEffect } from 'react';
+import { Route, Routes, Navigate } from 'react-router';
+import { ConfigMenu } from './ConfigMenu';
+import { GeneralConfig } from '@/renderer/components/pages/Config/pages/GeneralConfig';
+import { CameraConfig } from '@/renderer/components/pages/Config/pages/CameraConfig/CameraConfig';
+import { GamepadConfig } from '@/renderer/components/pages/Config/pages/GamepadConfig';
+import { GraphConfig } from '@/renderer/components/pages/Config/pages/GraphConfig/GraphConfig';
+import { styled } from '@/renderer/globalStyles/styled';
+import { LaunchConfig } from './pages/LaunchConfig/LaunchConfig';
+import { flippersViewToggleSlice } from '@/renderer/store/modules/flippersViewToggle';
+import { useDispatch } from 'react-redux';
 
 export const ConfigPage: FC = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(flippersViewToggleSlice.actions.setNotVisible())
-  }, [dispatch])
+    dispatch(flippersViewToggleSlice.actions.setNotVisible());
+  }, [dispatch]);
 
   return (
     <ConfigPageGrid>
@@ -33,8 +33,8 @@ export const ConfigPage: FC = () => {
         </Routes>
       </ConfigRouterArea>
     </ConfigPageGrid>
-  )
-}
+  );
+};
 
 const ConfigPageGrid = styled.div`
   display: grid;
@@ -42,17 +42,17 @@ const ConfigPageGrid = styled.div`
   grid-template-columns: 1fr 5fr;
   height: 100%;
   max-height: 100%;
-`
+`;
 
 const MenuArea = styled.div`
   grid-area: m;
   background-color: ${({ theme }) => theme.colors.darkerBackground};
   margin: 0;
   min-height: 100%;
-`
+`;
 
 const ConfigRouterArea = styled.div`
   grid-area: r;
   padding: 16px;
   overflow: auto;
-`
+`;

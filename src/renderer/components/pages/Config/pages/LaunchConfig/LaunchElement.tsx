@@ -1,12 +1,12 @@
-import { Button } from '@/renderer/components/common/Button'
-import React, { FC } from 'react'
+import { Button } from '@/renderer/components/common/Button';
+import React, { FC } from 'react';
 
 interface LaunchElementProps {
-  name: string
-  launchFile: string
-  packageName: string
-  onClick: (fileName: string, packageName: string) => void
-  isLaunched?: boolean
+  name: string;
+  launchFile: string;
+  packageName: string;
+  onClick: (fileName: string, packageName: string) => void;
+  isLaunched?: boolean;
 }
 
 export const LaunchElement: FC<LaunchElementProps> = (
@@ -24,5 +24,5 @@ export const LaunchElement: FC<LaunchElementProps> = (
         </Button>
       </div>
     </>
-  )
-}
+  );
+};

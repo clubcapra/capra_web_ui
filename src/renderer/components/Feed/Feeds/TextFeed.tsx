@@ -1,5 +1,5 @@
-import { styled } from '@/renderer/globalStyles/styled'
-import React, { FC } from 'react'
+import { styled } from '@/renderer/globalStyles/styled';
+import React, { FC } from 'react';
 
 const StyledTextFeed = styled.div`
   width: 100%;
@@ -9,8 +9,8 @@ const StyledTextFeed = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 export const TextFeed: FC<{ text: string }> = ({ text }) => (
   <StyledTextFeed>{text}</StyledTextFeed>
-)
+);

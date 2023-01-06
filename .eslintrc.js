@@ -35,7 +35,7 @@ const typescriptConfigs = {
       },
     ],
   },
-}
+};
 
 module.exports = {
   root: true,
@@ -75,4 +75,4 @@ module.exports = {
       version: 'detect',
     },
   },
-}
+};

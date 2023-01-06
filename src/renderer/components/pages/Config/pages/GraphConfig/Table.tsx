@@ -1,23 +1,23 @@
-import React, { FC, useCallback } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { FC, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   feedSlice,
   selectAllGraph,
   IGraphData,
   IGraphFeed,
-} from '@/renderer/store/modules/feed'
-import { FaTimes } from 'react-icons/fa'
-import { useSelector } from '@/renderer/hooks/typedUseSelector'
-import { Input } from '@/renderer/components/common/Input'
-import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
-import { styled } from '@/renderer/globalStyles/styled'
+} from '@/renderer/store/modules/feed';
+import { FaTimes } from 'react-icons/fa';
+import { useSelector } from '@/renderer/hooks/typedUseSelector';
+import { Input } from '@/renderer/components/common/Input';
+import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types';
+import { styled } from '@/renderer/globalStyles/styled';
 
 const TableRow: FC<{
-  feed: IGraphFeed
+  feed: IGraphFeed;
   updateTopic: (
     id: string
-  ) => (field: keyof TopicOptions, value: string) => void
-  updateName: (id: string) => (value: string) => void
+  ) => (field: keyof TopicOptions, value: string) => void;
+  updateName: (id: string) => (value: string) => void;
 }> = ({ feed, updateTopic, updateName }) => {
   const {
     id,
@@ -25,12 +25,12 @@ const TableRow: FC<{
       name,
       topic: { name: topicName, messageType },
     },
-  } = feed
+  } = feed;
 
-  const dispatch = useDispatch()
-  const removeGraph = () => dispatch(feedSlice.actions.removeFeed(id))
-  const updateTopicId = updateTopic(id)
-  const updateNameId = updateName(id)
+  const dispatch = useDispatch();
+  const removeGraph = () => dispatch(feedSlice.actions.removeFeed(id));
+  const updateTopicId = updateTopic(id);
+  const updateNameId = updateName(id);
 
   return (
     <tr>
@@ -61,53 +61,53 @@ const TableRow: FC<{
         </div>
       </td>
     </tr>
-  )
-}
+  );
+};
 
 export const Table: FC = () => {
-  const dispatch = useDispatch()
-  const allGraphs = useSelector(selectAllGraph)
+  const dispatch = useDispatch();
+  const allGraphs = useSelector(selectAllGraph);
 
   const updateTopic = useCallback(
     (id: string) =>
       (field: keyof TopicOptions, value: string): void => {
-        const feed = allGraphs.find((f) => f.id === id)
+        const feed = allGraphs.find((f) => f.id === id);
         if (!feed) {
-          return
+          return;
         }
 
         const newGraph: IGraphData = {
           ...feed.graph,
           topic: { ...feed.graph.topic, [field]: value },
-        }
+        };
 
         dispatch(
           feedSlice.actions.updateGraph({
             graph: newGraph,
             id,
           })
-        )
+        );
       },
     [allGraphs, dispatch]
-  )
+  );
 
   const updateName = useCallback(
     (id: string) =>
       (value: string): void => {
-        const feed = allGraphs.find((f) => f.id === id)
+        const feed = allGraphs.find((f) => f.id === id);
         if (!feed) {
-          return
+          return;
         }
-        const newGraph: IGraphData = { ...feed.graph, name: value }
+        const newGraph: IGraphData = { ...feed.graph, name: value };
         dispatch(
           feedSlice.actions.updateGraph({
             graph: newGraph,
             id,
           })
-        )
+        );
       },
     [allGraphs, dispatch]
-  )
+  );
 
   return (
     <StyledTable>
@@ -130,8 +130,8 @@ export const Table: FC = () => {
         ))}
       </tbody>
     </StyledTable>
-  )
-}
+  );
+};
 
 const StyledTable = styled.table`
   width: 100%;
@@ -172,4 +172,4 @@ const StyledTable = styled.table`
   tbody {
     border: 1px solid ${({ theme }) => theme.colors.border};
   }
-`
+`;

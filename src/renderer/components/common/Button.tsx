@@ -1,17 +1,17 @@
-import React, { CSSProperties, FC } from 'react'
-import { styled, Theme } from '@/renderer/globalStyles/styled'
+import React, { CSSProperties, FC } from 'react';
+import { styled, Theme } from '@/renderer/globalStyles/styled';
 
-type ButtonType = 'danger' | 'success' | 'primary'
+type ButtonType = 'danger' | 'success' | 'primary';
 
 interface Props {
-  onClick: () => void
-  btnType?: ButtonType
-  disabled?: boolean
-  style?: CSSProperties
+  onClick: () => void;
+  btnType?: ButtonType;
+  disabled?: boolean;
+  style?: CSSProperties;
 }
 
 interface StyledButtonProps {
-  btnType: ButtonType | undefined
+  btnType: ButtonType | undefined;
 }
 
 const getColor = (
@@ -23,11 +23,11 @@ const getColor = (
     case 'danger':
     case 'success':
     case 'primary':
-      return theme.colors[type]
+      return theme.colors[type];
     default:
-      return defaultColor
+      return defaultColor;
   }
-}
+};
 
 const StyledButton = styled.button<StyledButtonProps>`
   /* cursor: pointer; */
@@ -74,7 +74,7 @@ const StyledButton = styled.button<StyledButtonProps>`
   &:disabled {
     cursor: not-allowed;
   }
-`
+`;
 
 export const Button: FC<Props> = ({
   children,
@@ -92,5 +92,5 @@ export const Button: FC<Props> = ({
     >
       {children}
     </StyledButton>
-  )
-}
+  );
+};

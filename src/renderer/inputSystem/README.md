@@ -8,12 +8,12 @@ const inputsys = new InputSystem([
       { type: 'keyboard', code: 'Space', onKeyDown: true },
       { type: 'gamepadBtn', button: buttons.A },
     ],
-    perform: ctx => {
-      console.log('performed estop')
+    perform: (ctx) => {
+      console.log('performed estop');
     },
   },
-])
-inputsys.start()
+]);
+inputsys.start();
 ```
 
 ## Available events
