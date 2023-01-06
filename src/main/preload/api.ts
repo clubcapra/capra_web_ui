@@ -7,8 +7,8 @@ import {
   AUDIO_STOP,
   LOG_MSG,
   LOG_MSG_TYPE,
-} from '@/main/preload'
-import { ipcRenderer } from 'electron'
+} from '@/main/preload';
+import { ipcRenderer } from 'electron';
 
 export const preload = {
   PUBLIC_URL: process.env.PUBLIC_URL,
@@ -19,14 +19,14 @@ export const preload = {
    * Send the log message to the main thread
    */
   log: (data: LOG_MSG_TYPE) => {
-    ipcRenderer.send(LOG_MSG, data)
+    ipcRenderer.send(LOG_MSG, data);
   },
   app_info: ipcRenderer.sendSync(APP_INFO_QUERY) as APP_INFO_TYPE,
   audio: {
     start: () => ipcRenderer.send(AUDIO_START),
     stop: () => ipcRenderer.send(AUDIO_STOP),
     receive: (cb: (args: AUDIO_MSG_TYPE) => void) => {
-      ipcRenderer.on(AUDIO_MSG, (_event, args) => cb(args as AUDIO_MSG_TYPE))
+      ipcRenderer.on(AUDIO_MSG, (_event, args) => cb(args as AUDIO_MSG_TYPE));
     },
   },
-}
+};

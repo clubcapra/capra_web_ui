@@ -1,17 +1,17 @@
-import { styled } from '@/renderer/globalStyles/styled'
-import React, { ChangeEvent, FC } from 'react'
+import { styled } from '@/renderer/globalStyles/styled';
+import React, { ChangeEvent, FC } from 'react';
 
 interface Options {
-  key: string
-  value: string
-  content?: string
+  key: string;
+  value: string;
+  content?: string;
 }
 
 interface Props {
-  value: string
-  options: Options[]
-  onChange: (e: ChangeEvent<HTMLSelectElement>) => void
-  disabled?: boolean
+  value: string;
+  options: Options[];
+  onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
+  disabled?: boolean;
 }
 
 const StyledSelect = styled.select`
@@ -31,7 +31,7 @@ const StyledSelect = styled.select`
   &:disabled {
     cursor: not-allowed;
   }
-`
+`;
 
 export const Select: FC<Props> = ({ value, options, onChange, disabled }) => {
   return (
@@ -42,5 +42,5 @@ export const Select: FC<Props> = ({ value, options, onChange, disabled }) => {
         </option>
       ))}
     </StyledSelect>
-  )
-}
+  );
+};

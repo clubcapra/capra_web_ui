@@ -1,8 +1,8 @@
-import { rosClient } from '@/renderer/utils/ros/rosClient'
-import { useEffect } from 'react'
-import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types'
-import { useActor } from '@xstate/react'
-import { rosService } from '@/renderer/state/ros'
+import { rosClient } from '@/renderer/utils/ros/rosClient';
+import { useEffect } from 'react';
+import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types';
+import { useActor } from '@xstate/react';
+import { rosService } from '@/renderer/state/ros';
 
 /**
  * Subscribes to a specified topic
@@ -22,24 +22,24 @@ export function useRosSubscribe<T>(
   topic: TopicOptions<T>,
   callback: (message: { data: T }) => void
 ): void {
-  const [state] = useActor(rosService)
+  const [state] = useActor(rosService);
   useEffect(() => {
     if (state.matches('connected')) {
-      rosClient.subscribe(topic, callback)
-      return () => rosClient.unsubscribe(topic)
+      rosClient.subscribe(topic, callback);
+      return () => rosClient.unsubscribe(topic);
     }
-  }, [topic, state, callback])
+  }, [topic, state, callback]);
 }
 
 export function useRosSubscribeNoData<T>(
   topic: TopicOptions<T>,
   callback: (message: T) => void
 ): void {
-  const [state] = useActor(rosService)
+  const [state] = useActor(rosService);
   useEffect(() => {
     if (state.matches('connected')) {
-      rosClient.subscribeNoData(topic, callback)
-      return () => rosClient.unsubscribe(topic)
+      rosClient.subscribeNoData(topic, callback);
+      return () => rosClient.unsubscribe(topic);
     }
-  }, [topic, state, callback])
+  }, [topic, state, callback]);
 }

@@ -1,15 +1,15 @@
-import React, { FC, useEffect } from 'react'
-import { Feed } from '@/renderer/components/Feed/Feed'
-import { styled } from '@/renderer/globalStyles/styled'
-import { flippersViewToggleSlice } from '@/renderer/store/modules/flippersViewToggle'
-import { useDispatch } from 'react-redux'
+import React, { FC, useEffect } from 'react';
+import { Feed } from '@/renderer/components/Feed/Feed';
+import { styled } from '@/renderer/globalStyles/styled';
+import { flippersViewToggleSlice } from '@/renderer/store/modules/flippersViewToggle';
+import { useDispatch } from 'react-redux';
 
 export const Victim: FC = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(flippersViewToggleSlice.actions.setNotVisible())
-  }, [dispatch])
+    dispatch(flippersViewToggleSlice.actions.setNotVisible());
+  }, [dispatch]);
 
   return (
     <Layout>
@@ -20,8 +20,8 @@ export const Victim: FC = () => {
       <Feed feed_id="victim_feed_5" defaultFeed="not_selected" />
       <Feed feed_id="victim_feed_6" defaultFeed="not_selected" />
     </Layout>
-  )
-}
+  );
+};
 
 const Layout = styled.div`
   display: grid;
@@ -51,4 +51,4 @@ const Layout = styled.div`
   > #victim_feed_6 {
     grid-area: feed6;
   }
-`
+`;

@@ -1,11 +1,11 @@
-import { isDev } from '@/main/isDev'
-import { app, ipcMain } from 'electron'
-import electronLog, { LogMessage, LogLevel } from 'electron-log'
-import path from 'path'
-import datefns from 'date-fns'
-import chalk from 'chalk'
-import { LOG_MSG, LOG_MSG_TYPE } from '@/main/preload'
-chalk.level = 3
+import { isDev } from '@/main/isDev';
+import { app, ipcMain } from 'electron';
+import electronLog, { LogMessage, LogLevel } from 'electron-log';
+import path from 'path';
+import datefns from 'date-fns';
+import chalk from 'chalk';
+import { LOG_MSG, LOG_MSG_TYPE } from '@/main/preload';
+chalk.level = 3;
 
 /**
  * This module uses eletron-log to write logs to the console and to a file.
@@ -19,56 +19,56 @@ chalk.level = 3
 
 const padding = Math.max(
   ...['error', 'warn', 'info', 'debug'].map((level) => level.length)
-)
+);
 
 function formatLevel(level: LogLevel) {
-  const levelString = level.toUpperCase().padEnd(padding)
+  const levelString = level.toUpperCase().padEnd(padding);
   switch (level) {
     case 'error':
-      return chalk.red(levelString)
+      return chalk.red(levelString);
     case 'warn':
-      return chalk.yellow(levelString)
+      return chalk.yellow(levelString);
     case 'info':
-      return chalk.green(levelString)
+      return chalk.green(levelString);
     case 'debug':
-      return chalk.blue(levelString)
+      return chalk.blue(levelString);
     default:
-      return levelString
+      return levelString;
   }
 }
 
 const consoleFormat = (message: LogMessage) => {
-  const date = datefns.format(message.date, 'HH:mm:ss')
-  return `${date} ${formatLevel(message.level)} ${message.data}`
-}
+  const date = datefns.format(message.date, 'HH:mm:ss');
+  return `${date} ${formatLevel(message.level)} ${message.data}`;
+};
 
 const fileFormat = (message: LogMessage) =>
   `${message.date.toISOString()} ${message.level
     .toUpperCase()
-    .padEnd(padding)} ${message.data}`
+    .padEnd(padding)} ${message.data}`;
 
-const date = datefns.format(new Date(), 'yyyy-MM-dd')
+const date = datefns.format(new Date(), 'yyyy-MM-dd');
 const resolvePath = (filename: string) =>
   path.join(
     isDev ? process.cwd() : path.join(app.getPath('appData'), app.name),
     'logs',
     date,
     filename
-  )
+  );
 
-const rendererElectronLog = electronLog.create('renderer')
+const rendererElectronLog = electronLog.create('renderer');
 rendererElectronLog.transports.file.resolvePath = () =>
-  resolvePath('renderer.log')
-rendererElectronLog.transports.file.format = fileFormat
-rendererElectronLog.transports.console.format = consoleFormat
+  resolvePath('renderer.log');
+rendererElectronLog.transports.file.format = fileFormat;
+rendererElectronLog.transports.console.format = consoleFormat;
 
 ipcMain.on(LOG_MSG, (_event, data: LOG_MSG_TYPE) => {
-  rendererElectronLog[data.level](data.message)
-})
+  rendererElectronLog[data.level](data.message);
+});
 
-const mainElectronLog = electronLog.create('main')
-mainElectronLog.transports.file.resolvePath = () => resolvePath('main.log')
-mainElectronLog.transports.file.format = fileFormat
-mainElectronLog.transports.console.format = consoleFormat
+const mainElectronLog = electronLog.create('main');
+mainElectronLog.transports.file.resolvePath = () => resolvePath('main.log');
+mainElectronLog.transports.file.format = fileFormat;
+mainElectronLog.transports.console.format = consoleFormat;
 
-export const log = mainElectronLog
+export const log = mainElectronLog;
