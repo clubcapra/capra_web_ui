@@ -5,10 +5,15 @@ import {
   useRosSubscribeNoData,
 } from '@/renderer/hooks/useRosSubscribe';
 import React, { FC, useCallback, useEffect, useState } from 'react';
-import { selectReverse } from '@/renderer/store/modules/input';
+import {
+  selectReverse,
+  selectRobotNameState,
+} from '@/renderer/store/modules/input';
 import { useSelector } from '@/renderer/hooks/typedUseSelector';
 import ROSLIB from 'roslib';
 import { rosClient } from '../utils/ros/rosClient';
+import { selectRobotName } from '@/renderer/store/modules/ros';
+import { store } from '@/renderer/store/store';
 
 interface Props {
   flipper: IFlipperData;
@@ -24,24 +29,16 @@ interface PositionsMsg {
   positions: number[];
 }
 
-const flipperUpperLimitParam = new ROSLIB.Param({
-  name: 'markhor/flippers/markhor_flippers_node/front_left_drive_upper_limit',
-  ros: rosClient.ros,
-});
-
-const flipperLowerLimitParam = new ROSLIB.Param({
-  name: 'markhor/flippers/markhor_flippers_node/front_left_drive_lower_limit',
-  ros: rosClient.ros,
-});
-
-const flipperPositionTopic: TopicOptions = {
-  name: '/markhor/flippers/flipper_positions',
-  messageType: '/markhor_flippers/FlipperPositions',
-};
-
 export const FlippersView: FC = () => {
   const isReverse = useSelector(selectReverse);
   const [flipperPositions, setFlipperPositions] = useState<number[]>([]);
+  const robotName = useSelector(selectRobotName);
+
+  const flipperPositionTopic: TopicOptions = {
+    name: `${robotName}/flippers/flipper_positions`,
+    messageType: `/${robotName}_flippers/FlipperPositions`,
+  };
+
   useRosSubscribeNoData<PositionsMsg>(
     flipperPositionTopic,
     useCallback((message) => {
@@ -62,25 +59,26 @@ export const FlippersView: FC = () => {
 };
 
 const FlippersForwardView: FC<ViewProps> = ({ flipperPositions }) => {
+  const flipperInfo: IFlippers = flippers();
   return (
     <>
       <StyledTRArea
-        flipper={flippers.flipperFL}
+        flipper={flipperInfo.flipperFL}
         name="Front left"
         flipperPosition={flipperPositions[0]}
       />
       <StyledTLArea
-        flipper={flippers.flipperFR}
+        flipper={flipperInfo.flipperFR}
         name="Front right"
         flipperPosition={flipperPositions[1]}
       />
       <StyledBLArea
-        flipper={flippers.flipperRL}
+        flipper={flipperInfo.flipperRL}
         name="Rear left"
         flipperPosition={flipperPositions[2]}
       />
       <StyledBRArea
-        flipper={flippers.flipperRR}
+        flipper={flipperInfo.flipperRR}
         name="Rear right"
         flipperPosition={flipperPositions[3]}
       />
@@ -89,25 +87,26 @@ const FlippersForwardView: FC<ViewProps> = ({ flipperPositions }) => {
 };
 
 const FlippersReverseView: FC<ViewProps> = ({ flipperPositions }) => {
+  const flipperInfo: IFlippers = flippers();
   return (
     <>
       <StyledTRArea
-        flipper={flippers.flipperRL}
+        flipper={flipperInfo.flipperRL}
         name="Front left"
         flipperPosition={flipperPositions[0]}
       />
       <StyledTLArea
-        flipper={flippers.flipperRR}
+        flipper={flipperInfo.flipperRR}
         name="Front right"
         flipperPosition={flipperPositions[1]}
       />
       <StyledBLArea
-        flipper={flippers.flipperFL}
+        flipper={flipperInfo.flipperFL}
         name="Rear left"
         flipperPosition={flipperPositions[2]}
       />
       <StyledBRArea
-        flipper={flippers.flipperFR}
+        flipper={flipperInfo.flipperFR}
         name="Rear right"
         flipperPosition={flipperPositions[3]}
       />
@@ -121,6 +120,17 @@ const FlipperArea: FC<Props> = ({ flipper, name, flipperPosition }) => {
   const [motorCurrentValue, setMotorCurrentValue] = useState<string>('0');
   const [flipperUpperLimit, setFlipperUpperLimit] = useState<number>(0);
   const [flipperLowerLimit, setFlipperLowerLimit] = useState<number>(0);
+  const robotName = useSelector(selectRobotNameState);
+
+  const flipperUpperLimitParam = new ROSLIB.Param({
+    name: `${robotName}/flippers/${robotName}_flippers_node/front_left_drive_upper_limit`,
+    ros: rosClient.ros,
+  });
+
+  const flipperLowerLimitParam = new ROSLIB.Param({
+    name: `${robotName}/flippers/${robotName}_flippers_node/front_left_drive_lower_limit`,
+    ros: rosClient.ros,
+  });
 
   useEffect(() => {
     if (!flipperPosition) {
@@ -259,30 +269,33 @@ export interface IFlipperData {
   topicMotorCurrent: TopicOptions<string>;
 }
 
-const flippers: IFlippers = {
-  id: 'flippers',
-  flipperFL: {
-    topicMotorCurrent: {
-      name: '/markhor/flippers/flipper_fl_motor_current',
-      messageType: 'std_msgs/Float64',
+const flippers = (): IFlippers => {
+  const robotName = selectRobotNameState(store.getState());
+  return {
+    id: 'flippers',
+    flipperFL: {
+      topicMotorCurrent: {
+        name: `${robotName}/flippers/flipper_fl_motor_current`,
+        messageType: 'std_msgs/Float64',
+      },
     },
-  },
-  flipperFR: {
-    topicMotorCurrent: {
-      name: '/markhor/flippers/flipper_fr_motor_current',
-      messageType: 'std_msgs/Float64',
+    flipperFR: {
+      topicMotorCurrent: {
+        name: `${robotName}/flippers/flipper_fr_motor_current`,
+        messageType: 'std_msgs/Float64',
+      },
     },
-  },
-  flipperRL: {
-    topicMotorCurrent: {
-      name: '/markhor/flippers/flipper_rl_motor_current',
-      messageType: 'std_msgs/Float64',
+    flipperRL: {
+      topicMotorCurrent: {
+        name: `${robotName}/flippers/flipper_rl_motor_current`,
+        messageType: 'std_msgs/Float64',
+      },
     },
-  },
-  flipperRR: {
-    topicMotorCurrent: {
-      name: '/markhor/flippers/flipper_rr_motor_current',
-      messageType: 'std_msgs/Float64',
+    flipperRR: {
+      topicMotorCurrent: {
+        name: `${robotName}/flippers/flipper_rr_motor_current`,
+        messageType: 'std_msgs/Float64',
+      },
     },
-  },
+  };
 };

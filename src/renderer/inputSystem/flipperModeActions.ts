@@ -5,7 +5,6 @@ import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types';
 import { IJoyMsg } from '@/renderer/utils/ros/rosMsgs.types';
 import { store } from '@/renderer/store/store';
 import { flipperService } from '@/renderer/state/flipper';
-import { log } from '@/renderer/logger';
 import { inputSlice, selectReverse } from '@/renderer/store/modules/input';
 import { handleTpvControl } from './tpvControl';
 

@@ -21,3 +21,7 @@ export const inputSlice = createSlice({
 
 export const selectReverse = (state: GlobalState): boolean =>
   state.input.reverse;
+
+export const selectRobotNameState = (state: GlobalState): string => {
+  return state.ros.robotName;
+};
