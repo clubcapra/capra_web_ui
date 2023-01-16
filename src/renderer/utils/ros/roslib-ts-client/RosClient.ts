@@ -152,7 +152,7 @@ export default class RosClient {
       }, 1000);
 
       onConnection();
-    }
+    };
   }
 
   private onClose(onClose: () => void) {
@@ -162,7 +162,7 @@ export default class RosClient {
       log.info('RosClient: ros disconnected');
       window.clearInterval(this.interval);
       onClose();
-    }
+    };
   }
 
   private onError(onError: (error: unknown) => void): (event: unknown) => void {
