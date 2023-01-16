@@ -149,7 +149,7 @@ export default class RosClient {
       // Send heartbeat every second.
       this.interval = window.setInterval(() => {
         this.sendHeartbeat();
-      }, 1000);
+      }, 500);
 
       onConnection();
     };
