@@ -18,7 +18,7 @@ export const buttons = {
     right: 15,
   },
   XBOX: 16,
-}
+};
 
 export const sticks = {
   left: {
@@ -29,4 +29,4 @@ export const sticks = {
     horizontal: 2,
     vertical: 3,
   },
-}
+};

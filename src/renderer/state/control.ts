@@ -1,21 +1,21 @@
-import { Machine, interpret } from 'xstate'
+import { Machine, interpret } from 'xstate';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface ControlContext {}
 
 interface ControlStateSchema {
   states: {
-    arm: Record<string, unknown>
-    flipper: Record<string, unknown>
-    nothing: Record<string, unknown>
-  }
+    arm: Record<string, unknown>;
+    flipper: Record<string, unknown>;
+    nothing: Record<string, unknown>;
+  };
 }
 
 type ControlEvent =
   | { type: 'CONTROL_ARM' }
   | { type: 'CONTROL_FLIPPER' }
   | { type: 'CONTROL_NOTHING' }
-  | { type: 'TOGGLE' }
+  | { type: 'TOGGLE' };
 
 export const controlMachine = Machine<
   ControlContext,
@@ -47,6 +47,6 @@ export const controlMachine = Machine<
       },
     },
   },
-})
+});
 
-export const controlService = interpret(controlMachine).start()
+export const controlService = interpret(controlMachine).start();

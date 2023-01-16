@@ -1,11 +1,11 @@
-import { GlobalState } from '@/renderer/store/store'
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { GlobalState } from '@/renderer/store/store';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface LaunchFilesState {
-  name: string
-  packageName: string
-  fileName: string
-  isLaunched: boolean
+  name: string;
+  packageName: string;
+  fileName: string;
+  isLaunched: boolean;
 }
 
 export const initialState: LaunchFilesState[] = [
@@ -27,7 +27,7 @@ export const initialState: LaunchFilesState[] = [
     fileName: 'ovis_arm.launch',
     isLaunched: false,
   },
-]
+];
 
 export const launchFilesSlice = createSlice({
   name: 'launchFiles',
@@ -36,21 +36,21 @@ export const launchFilesSlice = createSlice({
     launchFile: (state, action: PayloadAction<string>) => {
       const element = state.find(
         (element) => element.fileName === action.payload
-      )
+      );
       if (element) {
-        element.isLaunched = true
+        element.isLaunched = true;
       }
     },
     killFile: (state, action: PayloadAction<string>) => {
       const element = state.find(
         (element) => element.fileName === action.payload
-      )
+      );
       if (element) {
-        element.isLaunched = false
+        element.isLaunched = false;
       }
     },
   },
-})
+});
 
 export const selectAllLaunchFiles = (state: GlobalState): LaunchFilesState[] =>
-  state.launchFiles
+  state.launchFiles;

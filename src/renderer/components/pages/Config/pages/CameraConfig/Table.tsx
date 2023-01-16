@@ -1,47 +1,47 @@
-import { Button } from '@/renderer/components/common/Button'
-import { Input } from '@/renderer/components/common/Input'
-import { Modal } from '@/renderer/components/common/Modal'
-import { Select } from '@/renderer/components/common/Select'
-import { styled } from '@/renderer/globalStyles/styled'
+import { Button } from '@/renderer/components/common/Button';
+import { Input } from '@/renderer/components/common/Input';
+import { Modal } from '@/renderer/components/common/Modal';
+import { Select } from '@/renderer/components/common/Select';
+import { styled } from '@/renderer/globalStyles/styled';
 import {
   CameraType,
   ICameraData,
   ICameraFeed,
   feedSlice,
   selectAllCamera,
-} from '@/renderer/store/modules/feed'
-import { selectVideoUrl } from '@/renderer/store/modules/ros'
-import { useSelector } from '@/renderer/hooks/typedUseSelector'
-import { useOpenClose } from '@/renderer/hooks/useOpenClose'
-import React, { FC, useCallback } from 'react'
-import { CgTrash } from 'react-icons/cg'
-import { useDispatch } from 'react-redux'
-import { useKeyPress } from '@/renderer/hooks/useKeyPress'
+} from '@/renderer/store/modules/feed';
+import { selectVideoUrl } from '@/renderer/store/modules/ros';
+import { useSelector } from '@/renderer/hooks/typedUseSelector';
+import { useOpenClose } from '@/renderer/hooks/useOpenClose';
+import React, { FC, useCallback } from 'react';
+import { CgTrash } from 'react-icons/cg';
+import { useDispatch } from 'react-redux';
+import { useKeyPress } from '@/renderer/hooks/useKeyPress';
 
 interface TableRowProps {
-  feed: ICameraFeed
+  feed: ICameraFeed;
   updateCamera: (
     id: string
-  ) => (field: keyof ICameraData, value: string | boolean) => void
+  ) => (field: keyof ICameraData, value: string | boolean) => void;
 }
 
 const TableRow: FC<TableRowProps> = ({ feed, updateCamera }) => {
   const {
     id,
     camera: { name, topic, type, flipped, rotated },
-  } = feed
+  } = feed;
 
-  const dispatch = useDispatch()
-  const removeCamera = () => dispatch(feedSlice.actions.removeFeed(id))
-  const updateCameraId = updateCamera(id)
-  const snapshotSource = useSelector(selectVideoUrl(feed.camera, 'snapshot'))
-  const [isOpen, open, close] = useOpenClose()
+  const dispatch = useDispatch();
+  const removeCamera = () => dispatch(feedSlice.actions.removeFeed(id));
+  const updateCameraId = updateCamera(id);
+  const snapshotSource = useSelector(selectVideoUrl(feed.camera, 'snapshot'));
+  const [isOpen, open, close] = useOpenClose();
 
   useKeyPress('Escape', () => {
     if (isOpen) {
-      close()
+      close();
     }
-  })
+  });
 
   return (
     <tr>
@@ -99,42 +99,42 @@ const TableRow: FC<TableRowProps> = ({ feed, updateCamera }) => {
         </div>
       </td>
     </tr>
-  )
-}
+  );
+};
 
 export const Table: FC = () => {
-  const dispatch = useDispatch()
-  const allCameras = useSelector(selectAllCamera)
+  const dispatch = useDispatch();
+  const allCameras = useSelector(selectAllCamera);
 
   const updateCamera = useCallback(
     (id: string) =>
       (field: keyof ICameraData, value: string | boolean): void => {
-        const feed = allCameras.find((f) => f.id === id)
+        const feed = allCameras.find((f) => f.id === id);
 
         if (!feed) {
-          return
+          return;
         }
 
-        const newCam: ICameraData = { ...feed.camera }
+        const newCam: ICameraData = { ...feed.camera };
         switch (field) {
           case 'name':
           case 'topic':
-            newCam[field] = value as string
-            break
+            newCam[field] = value as string;
+            break;
           case 'type':
             newCam[field] =
-              CameraType[value as keyof typeof CameraType] || value
-            break
+              CameraType[value as keyof typeof CameraType] || value;
+            break;
           case 'flipped':
           case 'rotated':
-            newCam[field] = value as boolean
-            break
+            newCam[field] = value as boolean;
+            break;
         }
 
-        dispatch(feedSlice.actions.updateCamera({ camera: newCam, id }))
+        dispatch(feedSlice.actions.updateCamera({ camera: newCam, id }));
       },
     [allCameras, dispatch]
-  )
+  );
 
   return (
     <StyledTable>
@@ -155,8 +155,8 @@ export const Table: FC = () => {
         ))}
       </tbody>
     </StyledTable>
-  )
-}
+  );
+};
 
 const StyledTable = styled.table`
   width: 100%;
@@ -197,4 +197,4 @@ const StyledTable = styled.table`
   tbody {
     border: 1px solid ${({ theme }) => theme.colors.border};
   }
-`
+`;

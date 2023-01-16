@@ -1,13 +1,13 @@
-import React, { FC } from 'react'
-import { useDispatch } from 'react-redux'
-import { feedSlice } from '@/renderer/store/modules/feed'
-import { Table } from './Table'
-import { Button } from '@/renderer/components/common/Button'
-import { SectionTitle } from '@/renderer/components/pages/Config/styles'
-import { styled } from '@/renderer/globalStyles/styled'
+import React, { FC } from 'react';
+import { useDispatch } from 'react-redux';
+import { feedSlice } from '@/renderer/store/modules/feed';
+import { Table } from './Table';
+import { Button } from '@/renderer/components/common/Button';
+import { SectionTitle } from '@/renderer/components/pages/Config/styles';
+import { styled } from '@/renderer/globalStyles/styled';
 
 const AddGraph = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const addGraph = () =>
     dispatch(
@@ -18,10 +18,10 @@ const AddGraph = () => {
           messageType: '',
         },
       })
-    )
+    );
 
-  return <Button onClick={addGraph}>Add Graph Data Source</Button>
-}
+  return <Button onClick={addGraph}>Add Graph Data Source</Button>;
+};
 
 const TableSection = () => (
   <>
@@ -29,12 +29,12 @@ const TableSection = () => (
     <AddGraph />
     <Table />
   </>
-)
+);
 
 const GraphConfigWrapper = styled.div`
   width: 100%;
   height: 100%;
-`
+`;
 
 export const GraphConfig: FC = () => {
   return (
@@ -47,5 +47,5 @@ export const GraphConfig: FC = () => {
       </p>
       <TableSection />
     </GraphConfigWrapper>
-  )
-}
+  );
+};

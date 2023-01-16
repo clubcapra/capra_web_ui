@@ -1,6 +1,6 @@
-import { styled } from '@/renderer/globalStyles/styled'
-import { darken } from 'polished'
-import React, { ChangeEvent, FC } from 'react'
+import { styled } from '@/renderer/globalStyles/styled';
+import { darken } from 'polished';
+import React, { ChangeEvent, FC } from 'react';
 
 const StyledInput = styled.input`
   display: block;
@@ -16,33 +16,33 @@ const StyledInput = styled.input`
     color: ${({ theme }) => darken(0.2, theme.colors.fontLight)};
     cursor: not-allowed;
   }
-`
+`;
 
 interface InputOnChange {
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 interface Text extends InputOnChange {
-  type: 'text'
-  value: string
+  type: 'text';
+  value: string;
 }
 
 interface Password extends InputOnChange {
-  type: 'password'
-  value: string
+  type: 'password';
+  value: string;
 }
 
 interface NumberInput extends InputOnChange {
-  type: 'number'
-  value: string | number
+  type: 'number';
+  value: string | number;
 }
 
 interface Checkbox extends InputOnChange {
-  type: 'checkbox'
-  value: boolean
+  type: 'checkbox';
+  value: boolean;
 }
 
-type InputPropsType = Checkbox | Text | Password | NumberInput
+type InputPropsType = Checkbox | Text | Password | NumberInput;
 
 export const Input: FC<InputPropsType> = (props) => {
   if (props.type === 'checkbox') {
@@ -52,7 +52,7 @@ export const Input: FC<InputPropsType> = (props) => {
         checked={props.value}
         onChange={props.onChange}
       />
-    )
+    );
   } else {
     return (
       <StyledInput
@@ -60,6 +60,6 @@ export const Input: FC<InputPropsType> = (props) => {
         value={props.value}
         onChange={props.onChange}
       />
-    )
+    );
   }
-}
+};

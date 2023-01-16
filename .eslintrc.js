@@ -35,7 +35,7 @@ const typescriptConfigs = {
       },
     ],
   },
-}
+};
 
 module.exports = {
   root: true,
@@ -61,7 +61,6 @@ module.exports = {
         ignoreReadBeforeAssign: false,
       },
     ],
-    'linebreak-style': ['error', 'windows'],
     'react/self-closing-comp': 1,
     'react/prop-types': 0,
     curly: 'error',
@@ -76,4 +75,4 @@ module.exports = {
       version: 'detect',
     },
   },
-}
+};

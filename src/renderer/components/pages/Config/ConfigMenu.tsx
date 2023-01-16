@@ -1,7 +1,7 @@
-import React, { FC } from 'react'
-import { styled } from '@/renderer/globalStyles/styled'
-import { NavLink } from 'react-router-dom'
-import { darken } from 'polished'
+import React, { FC } from 'react';
+import { styled } from '@/renderer/globalStyles/styled';
+import { NavLink } from 'react-router-dom';
+import { darken } from 'polished';
 
 export const ConfigMenu: FC = () => {
   return (
@@ -24,8 +24,8 @@ export const ConfigMenu: FC = () => {
         </li>
       </MenuList>
     </aside>
-  )
-}
+  );
+};
 
 const MenuList = styled.ul`
   margin: 0;
@@ -36,7 +36,7 @@ const MenuList = styled.ul`
     margin: 0;
     padding: 0;
   }
-`
+`;
 
 const StyledNavLink = styled(NavLink)`
   display: block;
@@ -51,4 +51,4 @@ const StyledNavLink = styled(NavLink)`
   &.active {
     background-color: ${({ theme }) => theme.colors.background};
   }
-`
+`;

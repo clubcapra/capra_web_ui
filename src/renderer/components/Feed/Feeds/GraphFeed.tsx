@@ -1,5 +1,5 @@
-import { IGraphFeed } from '@/renderer/store/modules/feed'
-import { useRosSubscribe } from '@/renderer/hooks/useRosSubscribe'
+import { IGraphFeed } from '@/renderer/store/modules/feed';
+import { useRosSubscribe } from '@/renderer/hooks/useRosSubscribe';
 import {
   Chart,
   ChartData,
@@ -9,11 +9,11 @@ import {
   LineElement,
   PointElement,
   TimeScale,
-} from 'chart.js'
-import 'chartjs-adapter-date-fns'
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
-import { log } from '@/renderer/logger'
-import { styled } from '@/renderer/globalStyles/styled'
+} from 'chart.js';
+import 'chartjs-adapter-date-fns';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { log } from '@/renderer/logger';
+import { styled } from '@/renderer/globalStyles/styled';
 
 Chart.register(
   LineController,
@@ -21,14 +21,14 @@ Chart.register(
   LinearScale,
   TimeScale,
   PointElement
-)
+);
 
 interface Props {
-  feed: IGraphFeed
+  feed: IGraphFeed;
 }
 
 function initChart(canvas: HTMLCanvasElement) {
-  log.info('Initialising chart')
+  log.info('Initialising chart');
   const data: ChartData = {
     datasets: [
       {
@@ -37,7 +37,7 @@ function initChart(canvas: HTMLCanvasElement) {
         pointRadius: 1,
       },
     ],
-  }
+  };
   const options: ChartOptions = {
     scales: {
       x: {
@@ -63,48 +63,48 @@ function initChart(canvas: HTMLCanvasElement) {
       },
     },
     maintainAspectRatio: false,
-  }
+  };
   return new Chart(canvas, {
     type: 'line',
     data,
     options,
-  })
+  });
 }
 
 export const GraphFeed: FC<Props> = ({ feed }) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [chart, setChart] = useState<Chart | null>(null)
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [chart, setChart] = useState<Chart | null>(null);
 
   useEffect(() => {
     if (canvasRef.current && !chart) {
-      const chartInstance = initChart(canvasRef.current)
-      setChart(chartInstance)
+      const chartInstance = initChart(canvasRef.current);
+      setChart(chartInstance);
     }
     return () => {
-      chart?.destroy()
-    }
-  }, [chart])
+      chart?.destroy();
+    };
+  }, [chart]);
 
   useRosSubscribe(
     feed.graph.topic,
     useCallback(
       (message) => {
         if (!chart || !canvasRef.current) {
-          return
+          return;
         }
         chart.data.datasets[0].data.push({
           x: Date.now(),
           y: parseInt(message.data, 10),
-        })
-        chart.update()
+        });
+        chart.update();
       },
       [chart]
     )
-  )
+  );
 
-  return <StyledCanvas ref={canvasRef} />
-}
+  return <StyledCanvas ref={canvasRef} />;
+};
 
 const StyledCanvas = styled.canvas`
   background-color: ${(ctx) => ctx.theme.colors.background};
-`
+`;

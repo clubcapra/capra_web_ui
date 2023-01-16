@@ -1,21 +1,21 @@
-import React, { ChangeEvent, FC, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { CameraType } from '@/renderer/store/modules/feed'
-import { feedSlice } from '@/renderer/store/modules/feed'
-import { LabeledInput } from '@/renderer/components/common/LabeledInput'
-import { Table } from './Table'
-import { Button } from '@/renderer/components/common/Button'
-import { SectionTitle } from '@/renderer/components/pages/Config/styles'
-import { styled } from '@/renderer/globalStyles/styled'
-import { useSelector } from '@/renderer/hooks/typedUseSelector'
-import { rosSlice, selectVideoServerPort } from '@/renderer/store/modules/ros'
+import React, { ChangeEvent, FC, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { CameraType } from '@/renderer/store/modules/feed';
+import { feedSlice } from '@/renderer/store/modules/feed';
+import { LabeledInput } from '@/renderer/components/common/LabeledInput';
+import { Table } from './Table';
+import { Button } from '@/renderer/components/common/Button';
+import { SectionTitle } from '@/renderer/components/pages/Config/styles';
+import { styled } from '@/renderer/globalStyles/styled';
+import { useSelector } from '@/renderer/hooks/typedUseSelector';
+import { rosSlice, selectVideoServerPort } from '@/renderer/store/modules/ros';
 
 const VideoServerPortConfig: FC = () => {
-  const videoServerPort = useSelector(selectVideoServerPort)
-  const dispatch = useDispatch()
+  const videoServerPort = useSelector(selectVideoServerPort);
+  const dispatch = useDispatch();
 
   const updateVideoServerPort = (e: ChangeEvent<HTMLInputElement>) =>
-    dispatch(rosSlice.actions.updateVideoServerPort(e.currentTarget.value))
+    dispatch(rosSlice.actions.updateVideoServerPort(e.currentTarget.value));
 
   return (
     <>
@@ -27,11 +27,11 @@ const VideoServerPortConfig: FC = () => {
         onChange={updateVideoServerPort}
       />
     </>
-  )
-}
+  );
+};
 
 const AddCamera = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const addFeed = () =>
     dispatch(
@@ -42,17 +42,17 @@ const AddCamera = () => {
         flipped: true, // TODO add UI toggle for this
         rotated: false,
       })
-    )
+    );
 
-  return <Button onClick={addFeed}>Add New Camera</Button>
-}
+  return <Button onClick={addFeed}>Add New Camera</Button>;
+};
 
 const VideoServerSection = () => (
   <>
     <SectionTitle>Video Server Settings</SectionTitle>
     <VideoServerPortConfig />
   </>
-)
+);
 
 const CameraTableSection = () => (
   <>
@@ -67,19 +67,19 @@ const CameraTableSection = () => (
     <AddCamera />
     <Table />
   </>
-)
+);
 
 const MediaDevicesInfoSection = () => {
-  const [devices, setDevices] = useState<MediaDeviceInfo[]>([])
+  const [devices, setDevices] = useState<MediaDeviceInfo[]>([]);
   useEffect(() => {
     void (async () => {
       setDevices(
         (await navigator.mediaDevices.enumerateDevices()).filter(
           (d) => d.kind === 'videoinput'
         )
-      )
-    })()
-  }, [])
+      );
+    })();
+  }, []);
 
   return (
     <>
@@ -88,13 +88,13 @@ const MediaDevicesInfoSection = () => {
         <div key={device.deviceId}>{`${device.label} ${device.deviceId}`}</div>
       ))}
     </>
-  )
-}
+  );
+};
 
 const CameraConfigWrapper = styled.div`
   width: 100%;
   height: 100%;
-`
+`;
 
 export const CameraConfig: FC = () => {
   return (
@@ -103,5 +103,5 @@ export const CameraConfig: FC = () => {
       <CameraTableSection />
       <MediaDevicesInfoSection />
     </CameraConfigWrapper>
-  )
-}
+  );
+};

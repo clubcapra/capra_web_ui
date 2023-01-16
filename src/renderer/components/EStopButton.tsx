@@ -1,57 +1,60 @@
-import React, { FC, useState } from 'react'
-import { Modal } from './common/Modal'
-import { Button } from './common/Button'
-import { rosClient } from '@/renderer/utils/ros/rosClient'
-import { useOpenClose } from '@/renderer/hooks/useOpenClose'
-import { styled } from '@/renderer/globalStyles/styled'
-import { darken } from 'polished'
-import { log } from '@/renderer/logger'
-
-// const topic: TopicOptions<boolean> = {
-//   name: 'markhor/estop_status',
-//   messageType: 'std_msgs/Bool',
-// }
+import React, { FC, useState } from 'react';
+import { Modal } from './common/Modal';
+import { Button } from './common/Button';
+import { rosClient } from '@/renderer/utils/ros/rosClient';
+import { useOpenClose } from '@/renderer/hooks/useOpenClose';
+import { styled } from '@/renderer/globalStyles/styled';
+import { darken } from 'polished';
+import { log } from '@/renderer/logger';
+import { selectRobotName } from '@/renderer/store/modules/ros';
+import { useSelector } from '@/renderer/hooks/typedUseSelector';
 
 interface StopButtonProps {
-  onClick: () => void
+  onClick: () => void;
 }
 
 const StopButton: FC<StopButtonProps> = ({ onClick }) => {
-  const [text] = useState('EMERGENCY STOP')
-
-  // useRosSubscribe(topic, (message) => {
-  //   if (message.data) {
-  //     setText('EMERGENCY STOP')
-  //   } else {
-  //     setText('REARM')
-  //   }
-  // })
+  const [text] = useState('EMERGENCY STOP');
 
   return (
     <StyledStopButton onClick={onClick}>
       <span>{text}</span>
     </StyledStopButton>
-  )
-}
+  );
+};
 
+//TODO change robotName for 'capra' or an organisation field equivalent. Both UI side and in the estop code.
 export const EStopButton: FC = () => {
-  const [isModalOpen, openModal, closeModal] = useOpenClose()
+  const [isModalOpen, openModal, closeModal] = useOpenClose();
+  const robotName = useSelector(selectRobotName);
 
   const stopRobot = () => {
-    log.info('ESTOP: stopping robot')
+    log.info('ESTOP: stopping robot');
     rosClient
-      .callService({ name: 'markhor/estop_disable', serviceType: '' }, '')
-      .catch(log.error)
-    openModal()
-  }
+      .callService(
+        {
+          name: `${robotName}/estop_disable`,
+          serviceType: '',
+        },
+        ''
+      )
+      .catch(log.error);
+    openModal();
+  };
 
   const restartRobot = () => {
-    log.info('ESTOP: restarting robot')
+    log.info('ESTOP: restarting robot');
     rosClient
-      .callService({ name: 'markhor/estop_enable', serviceType: '' }, '')
-      .catch(log.error)
-    closeModal()
-  }
+      .callService(
+        {
+          name: `${robotName}/estop_enable`,
+          serviceType: '',
+        },
+        ''
+      )
+      .catch(log.error);
+    closeModal();
+  };
 
   return (
     <>
@@ -75,8 +78,8 @@ export const EStopButton: FC = () => {
         <p>Do you want to restart it?</p>
       </Modal>
     </>
-  )
-}
+  );
+};
 
 const StyledStopButton = styled.div`
   height: 100%;
@@ -103,4 +106,4 @@ const StyledStopButton = styled.div`
     writing-mode: vertical-rl;
     text-orientation: upright;
   }
-`
+`;

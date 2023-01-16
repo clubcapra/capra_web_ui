@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react';
 
 /**
  * Hook wrapper around setInterval() that will automatically
@@ -8,22 +8,22 @@ import { useEffect, useRef } from 'react'
  * @param delay time between interval in ms
  */
 export const useInterval = (callback: () => unknown, delay: number): void => {
-  const savedCallback = useRef<() => unknown>()
+  const savedCallback = useRef<() => unknown>();
 
   useEffect(() => {
-    savedCallback.current = callback
-  }, [callback])
+    savedCallback.current = callback;
+  }, [callback]);
 
   useEffect(() => {
     const tick = (): void => {
       if (savedCallback.current) {
-        savedCallback.current()
+        savedCallback.current();
       }
-    }
+    };
 
     if (delay !== null) {
-      const id = setInterval(tick, delay)
-      return () => clearInterval(id)
+      const id = setInterval(tick, delay);
+      return () => clearInterval(id);
     }
-  }, [delay])
-}
+  }, [delay]);
+};

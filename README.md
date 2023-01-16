@@ -11,6 +11,7 @@ This is a UI application for manually controlling ROS-based robots in real-time.
   - [ROS dependencies](#ros-dependencies)
     - [Audio](#audio)
   - [Global state - redux and xstate](#global-state---redux-and-xstate)
+  - [Code Formatting](#code-formatting)
   - [Release](#release)
   - [Usage Guide](#usage-guide)
     - [Reverse mode](#reverse-mode)
@@ -93,6 +94,24 @@ Currently, the audio IO is handled by the [capra_audio](https://github.com/clubc
 
 For global state handle we use a mix of redux and xstate. While it's technically possible to use xstate context for the entirety of the global state. It's much easier to store global state in redux and only use xstate when the state is an actual state machine and not just pure data.
 
+## Code Formatting
+
+Our code formatting is handled by Prettier and ESLint. The configuration files for both are located in the root of the project. We recommend using the Prettier and ESLint extensions on VSCode to automatically detect style errors.
+
+To automatically format the code every time you save, add the following to your `settings.json` in the `.vscode` folder:
+
+```json
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
+}
+```
+
+If you do not have a `settings.json` file or a `.vscode` folder at the root of the project, you can manually create them.
+
 ## Release
 
 To create a new release, simply use `npm version [major | minor | patch]`. This will bump the version and create a git tag. You can then push the new commit and github actions will take care of everythin else. You can use `git push --follow-tags` to push the tags to github.
@@ -126,3 +145,15 @@ Logs are written to the following locations:
 
 - Linux: `~/.config/capra_web_ui/logs/{DATE}/{process type}.log`
 - Windows: `%USERPROFILE%\AppData\Roaming\capra_web_ui\logs\{DATE}\{process type}.log`
+
+### Testing ROS features locally
+
+To test ROS features without connecting to a robot you simply need to specify `localhost` as the host to connect to while a rosbridge web_socket node is running.
+
+To run the rosbridge server simply open a terminal and run the following command:
+
+`roslaunch rosbridge_server rosbridge_websocket.launch`.
+
+If the package is not installed you can install it:
+
+`sudo apt-get install ros-<rosdistro>-rosbridge-suite`.

@@ -2,15 +2,15 @@ import {
   clearStoreCache,
   loadState,
   saveState,
-} from '@/renderer/store/localStorage'
-import { feedSlice } from '@/renderer/store/modules/feed'
-import { inputSlice } from '@/renderer/store/modules/input'
-import { rosSlice } from '@/renderer/store/modules/ros'
-import { debugTabSlice } from '@/renderer/store/modules/debugTab'
-import { configureStore, AnyAction, combineReducers } from '@reduxjs/toolkit'
-import { throttle } from 'lodash'
-import { launchFilesSlice } from './modules/launchFiles'
-import { flippersViewToggleSlice } from '@/renderer/store/modules/flippersViewToggle'
+} from '@/renderer/store/localStorage';
+import { feedSlice } from '@/renderer/store/modules/feed';
+import { inputSlice } from '@/renderer/store/modules/input';
+import { rosSlice } from '@/renderer/store/modules/ros';
+import { debugTabSlice } from '@/renderer/store/modules/debugTab';
+import { configureStore, AnyAction, combineReducers } from '@reduxjs/toolkit';
+import { throttle } from 'lodash';
+import { launchFilesSlice } from './modules/launchFiles';
+import { flippersViewToggleSlice } from '@/renderer/store/modules/flippersViewToggle';
 
 const appReducer = combineReducers({
   feed: feedSlice.reducer,
@@ -19,31 +19,31 @@ const appReducer = combineReducers({
   debugTab: debugTabSlice.reducer,
   launchFiles: launchFilesSlice.reducer,
   flippersViewToggle: flippersViewToggleSlice.reducer,
-})
+});
 
-export type GlobalState = ReturnType<typeof appReducer>
+export type GlobalState = ReturnType<typeof appReducer>;
 
-export const RESET_STATE = { type: 'RESET_STATE' }
+export const RESET_STATE = { type: 'RESET_STATE' };
 
 export const rootReducer = (
   state: GlobalState | undefined,
   action: AnyAction
 ) => {
   if (action.type === RESET_STATE.type) {
-    state = undefined
-    clearStoreCache()
+    state = undefined;
+    clearStoreCache();
   }
 
-  return appReducer(state, action)
-}
+  return appReducer(state, action);
+};
 
 export const store = configureStore({
   reducer: rootReducer,
   preloadedState: loadState(),
-})
+});
 
 store.subscribe(
   throttle(() => {
-    saveState(store.getState())
+    saveState(store.getState());
   }, 2000)
-)
+);

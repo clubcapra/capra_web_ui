@@ -41,7 +41,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: ./.github/workflows/install
       - name: dependencies
-        run: npm run dependencies
+        run: npm run dependencies_check
 
   build-release:
     # Builds the app and creates a new release
@@ -70,4 +70,3 @@ jobs:
         with:
           files: ./dist/capra_web_ui_setup.deb
           prerelease: true
-

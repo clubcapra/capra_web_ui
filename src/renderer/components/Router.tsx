@@ -1,9 +1,9 @@
-import React, { FC } from 'react'
-import { Route, Routes, Navigate } from 'react-router-dom'
-import { Teleop } from '@/renderer/components/pages/Teleop'
-import { Victim } from '@/renderer/components/pages/Victim'
-import { Debug } from '@/renderer/components/pages/Debug'
-import { ConfigPage } from '@/renderer/components/pages/Config/ConfigPage'
+import React, { FC } from 'react';
+import { Route, Routes, Navigate } from 'react-router-dom';
+import { Teleop } from '@/renderer/components/pages/Teleop';
+import { Victim } from '@/renderer/components/pages/Victim';
+import { Debug } from '@/renderer/components/pages/Debug';
+import { ConfigPage } from '@/renderer/components/pages/Config/ConfigPage';
 
 export const Router: FC = () => {
   return (
@@ -16,5 +16,5 @@ export const Router: FC = () => {
         <Route path="/debug" element={<Debug />} />
       </Routes>
     </>
-  )
-}
+  );
+};
