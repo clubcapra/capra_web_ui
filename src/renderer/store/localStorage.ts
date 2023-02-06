@@ -5,7 +5,6 @@ import { initialState as rosState } from '@/renderer/store/modules/ros';
 import { initialState as inputState } from '@/renderer/store/modules/input';
 import { initialState as debugTabState } from '@/renderer/store/modules/debugTab';
 import { initialState as launchFilesState } from '@/renderer/store/modules/launchFiles';
-import { initialState as flippersViewToggleState } from '@/renderer/store/modules/flippersViewToggle';
 import { log } from '@/renderer/logger';
 
 export const defaultState: GlobalState = {
@@ -14,7 +13,6 @@ export const defaultState: GlobalState = {
   input: inputState,
   debugTab: debugTabState,
   launchFiles: launchFilesState,
-  flippersViewToggle: flippersViewToggleState,
 };
 
 // WARN
