@@ -20,7 +20,7 @@ const StyledFlipperPanel = styled.div`
   z-index: 2;
   padding: 10px;
   border-radius: 10px;
-  width: 20vw;
+  width: 320px;
 `;
 
 const StyledFlipperPanelRow = styled.div`

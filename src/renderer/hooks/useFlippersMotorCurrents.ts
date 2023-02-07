@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { selectRobotNameState } from '../store/modules/input';
 
 import { store } from '../store/store';
@@ -9,22 +9,12 @@ interface FlipperTopic {
   messageType: string;
 }
 
-const flipperFL = {
-  name: `markhor/flippers/flipper_fl_motor_current`,
-  messageType: 'std_msgs/Float64',
-};
-const flipperFR = {
-  name: `markhor/flippers/flipper_fr_motor_current`,
-  messageType: 'std_msgs/Float64',
-};
-const flipperRL = {
-  name: `markhor/flippers/flipper_rl_motor_current`,
-  messageType: 'std_msgs/Float64',
-};
-const flipperRR = {
-  name: `markhor/flippers/flipper_rr_motor_current`,
-  messageType: 'std_msgs/Float64',
-};
+interface FlipperTopics {
+  flipperFLTopic: FlipperTopic;
+  flipperFRTopic: FlipperTopic;
+  flipperRLTopic: FlipperTopic;
+  flipperRRTopic: FlipperTopic;
+}
 
 export const useFlippersMotorCurrents = () => {
   const robotName = selectRobotNameState(store.getState());
@@ -33,10 +23,31 @@ export const useFlippersMotorCurrents = () => {
   const [frMotorCurrentState, setFrMotorCurrentState] = useState(0);
   const [rlMotorCurrentState, setRlMotorCurrentState] = useState(0);
   const [rrMotorCurrentState, setRrMotorCurrentState] = useState(0);
+  const flipperTopics = useMemo<FlipperTopics>(
+    () => ({
+      flipperFLTopic: {
+        name: `${robotName}/flippers/flipper_fl_motor_current`,
+        messageType: 'std_msgs/Float64',
+      },
+      flipperFRTopic: {
+        name: `${robotName}/flippers/flipper_fr_motor_current`,
+        messageType: 'std_msgs/Float64',
+      },
+      flipperRLTopic: {
+        name: `${robotName}/flippers/flipper_rl_motor_current`,
+        messageType: 'std_msgs/Float64',
+      },
+      flipperRRTopic: {
+        name: `${robotName}/flippers/flipper_rr_motor_current`,
+        messageType: 'std_msgs/Float64',
+      },
+    }),
+    [robotName]
+  );
 
   // useRosSubscribe for each flipper
   useRosSubscribe<FlipperTopic>(
-    flipperFL,
+    flipperTopics.flipperFLTopic,
     useCallback((message) => {
       const motorCurrent = Number(message.data);
       setFlMotorCurrentState(motorCurrent);
@@ -44,7 +55,7 @@ export const useFlippersMotorCurrents = () => {
   );
 
   useRosSubscribe<FlipperTopic>(
-    flipperFR,
+    flipperTopics.flipperFRTopic,
     useCallback((message) => {
       const motorCurrent = Number(message.data);
       setFrMotorCurrentState(motorCurrent);
@@ -52,7 +63,7 @@ export const useFlippersMotorCurrents = () => {
   );
 
   useRosSubscribe<FlipperTopic>(
-    flipperRL,
+    flipperTopics.flipperRLTopic,
     useCallback((message) => {
       const motorCurrent = Number(message.data);
       setRlMotorCurrentState(motorCurrent);
@@ -60,7 +71,7 @@ export const useFlippersMotorCurrents = () => {
   );
 
   useRosSubscribe<FlipperTopic>(
-    flipperRR,
+    flipperTopics.flipperRRTopic,
     useCallback((message) => {
       const motorCurrent = Number(message.data);
       setRrMotorCurrentState(motorCurrent);

@@ -1,4 +1,5 @@
 import { styled } from '@/renderer/globalStyles/styled';
+import { defaultTheme } from '@/renderer/globalStyles/themes/defaultTheme';
 import React from 'react';
 
 interface Props {
@@ -33,11 +34,14 @@ export const FlipperMotorCurrentInfo = ({ name, value }: Props) => {
       <StyledRow>
         <StyledCurrentValue
           style={{
-            color: value > DANGER_THRESHOLD ? 'red' : 'green',
+            color:
+              value > DANGER_THRESHOLD
+                ? defaultTheme.colors.danger
+                : defaultTheme.colors.success,
             marginRight: '5px',
           }}
         >
-          {value}
+          {value.toFixed(2)}
         </StyledCurrentValue>
         <p>A</p>
       </StyledRow>
