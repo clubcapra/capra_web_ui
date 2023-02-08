@@ -4,6 +4,7 @@ import React, { memo, useEffect, useState } from 'react';
 import { FlipperMotorCurrentInfo } from './FlipperMotorCurrentInfo';
 
 const CURRENT_THRESHOLD = 0.3;
+let currentTimeout: NodeJS.Timeout;
 
 const StyledFlipperPanel = styled.div`
   display: flex;
@@ -43,6 +44,8 @@ const FlipperInfoPanel = () => {
   const [isVisible, setVisible] = useState(false);
 
   useEffect(() => {
+    // Clear previous timeout
+    clearTimeout(currentTimeout);
     if (
       flMotorCurrentState > CURRENT_THRESHOLD ||
       frMotorCurrentState > CURRENT_THRESHOLD ||
@@ -51,9 +54,9 @@ const FlipperInfoPanel = () => {
     ) {
       setVisible(true);
     } else {
-      setTimeout(() => {
+      currentTimeout = setTimeout(() => {
         setVisible(false);
-      }, 3000);
+      }, 2000);
     }
   }, [
     flMotorCurrentState,
