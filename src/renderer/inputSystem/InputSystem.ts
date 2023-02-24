@@ -11,7 +11,8 @@ import {
   GamepadButtonBinding,
 } from '@/renderer/inputSystem/@types';
 
-const GAMEPAD_REFRESH_RATE = 20;
+// 1000ms / refresh rate in Hz
+const GAMEPAD_REFRESH_RATE = 1000 / 20;
 
 /* TODO
  * - button axis (RT, LT)
@@ -98,7 +99,7 @@ export class InputSystem {
       setTimeout(() => {
         this.updateGamepad();
         requestAnimationFrame(this.update);
-      }, 1000 / GAMEPAD_REFRESH_RATE);
+      }, GAMEPAD_REFRESH_RATE);
     }
   };
 
