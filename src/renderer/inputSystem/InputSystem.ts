@@ -11,7 +11,7 @@ import {
   GamepadButtonBinding,
 } from '@/renderer/inputSystem/@types';
 
-const GAMEPAD_REFRESH_RATE = 10;
+const GAMEPAD_REFRESH_RATE = 20;
 
 /* TODO
  * - button axis (RT, LT)
