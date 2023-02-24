@@ -9,6 +9,7 @@ export const defaultTheme = {
     border: '#010101',
     background: '#525252',
     darkerBackground: '#404040',
+    overlayBackground: 'rgba(64,64,64,0.5)',
     foreground: '#616161',
     fontDark: 'black',
     fontLight: 'white',
