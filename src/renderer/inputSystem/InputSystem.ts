@@ -11,6 +11,9 @@ import {
   GamepadButtonBinding,
 } from '@/renderer/inputSystem/@types';
 
+// 1000ms / refresh rate in Hz
+const GAMEPAD_REFRESH_RATE = 1000 / 20;
+
 /* TODO
  * - button axis (RT, LT)
  * - support key combinations?
@@ -93,8 +96,10 @@ export class InputSystem {
 
   private update = () => {
     if (this.isRunning) {
-      this.updateGamepad();
-      requestAnimationFrame(this.update);
+      setTimeout(() => {
+        this.updateGamepad();
+        requestAnimationFrame(this.update);
+      }, GAMEPAD_REFRESH_RATE);
     }
   };
 
