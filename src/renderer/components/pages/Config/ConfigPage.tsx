@@ -7,6 +7,7 @@ import { GamepadConfig } from '@/renderer/components/pages/Config/pages/GamepadC
 import { GraphConfig } from '@/renderer/components/pages/Config/pages/GraphConfig/GraphConfig';
 import { styled } from '@/renderer/globalStyles/styled';
 import { LaunchConfig } from './pages/LaunchConfig/LaunchConfig';
+import ArmPresetsConfig from './pages/ArmPresetsConfig/ArmPresetsConfig';
 
 export const ConfigPage: FC = () => {
   return (
@@ -20,6 +21,7 @@ export const ConfigPage: FC = () => {
           <Route path="/general" element={<GeneralConfig />} />
           <Route path="/camera" element={<CameraConfig />} />
           <Route path="/graph" element={<GraphConfig />} />
+          <Route path="/armPresets" element={<ArmPresetsConfig />} />
           <Route path="/gamepad" element={<GamepadConfig />} />
           <Route path="/launch" element={<LaunchConfig />} />
         </Routes>
