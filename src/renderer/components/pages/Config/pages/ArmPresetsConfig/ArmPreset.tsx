@@ -21,8 +21,8 @@ interface JointBoundaries {
 
 const jointBoundaries: JointBoundaries[] = [
   { min: 0, max: 360 }, //Joint 1
-  { min: 100, max: 250 }, //Joint 2
-  { min: 100, max: 250 }, //Joint 3
+  { min: 100, max: 260 }, //Joint 2
+  { min: 95, max: 260 }, //Joint 3
   { min: 0, max: 360 }, //Joint 4
   { min: 100, max: 250 }, //Joint 5
   { min: 0, max: 360 }, //Joint 6
