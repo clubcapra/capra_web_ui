@@ -58,14 +58,19 @@ const ArmPresetsConfig = () => {
           value={selectedPreset.id}
           onChange={onPresetSelect}
         />
-        <SectionTitle>Current positions</SectionTitle>
-        <div>
-          {jointPositions.map((position, index) => (
-            <div key={index}>
-              Joint {index + 1}: {round(position, 0)}
+        {jointPositions.length > 0 && (
+          <>
+            <SectionTitle>Current positions</SectionTitle>
+            <div>
+              {jointPositions.map((position, index) => (
+                <div key={index}>
+                  Joint {index + 1}: {round(position, 0)}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        )}
+
         <SectionTitle>Presets</SectionTitle>
         <Button onClick={addPreset}>
           <FaPlus />
