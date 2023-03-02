@@ -42,10 +42,8 @@ export const armPresetsSlice = createSlice({
       const index = state.presets.findIndex(
         (preset) => preset.id === state.selectedPreset.id
       );
-      if (index !== -1) {
-        state.selectedPreset =
-          state.presets[(index + 1) % state.presets.length] ?? initialPreset;
-      }
+      state.selectedPreset =
+        state.presets[(index + 1) % state.presets.length] ?? initialPreset;
     },
     updatePreset: (state, { payload }: PayloadAction<ArmPreset>) => {
       const index = state.presets.findIndex(

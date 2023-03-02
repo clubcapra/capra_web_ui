@@ -58,14 +58,8 @@ export const armModeActions: Action[] = [
   },
   {
     name: 'home',
-    bindings: [
-      { type: 'gamepadBtnDown', button: buttonMappings.Y },
-      // { type: 'keyboard', code: 'KeyT', onKeyDown: true },
-    ],
+    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.Y }],
     perform: () => {
-      /*rosClient
-        .callService({ name: '/ovis/arm/in/home_joint_positions' })
-        .catch(log.error);*/
       rosClient.publish(jointPositionTopic, {
         joint_positions: selectSelectedPreset(store.getState()).positions,
       });

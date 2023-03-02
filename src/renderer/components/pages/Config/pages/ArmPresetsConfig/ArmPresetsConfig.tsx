@@ -1,11 +1,13 @@
 import { Button } from '@/renderer/components/common/Button';
 import { Select } from '@/renderer/components/common/Select';
 import { styled } from '@/renderer/globalStyles/styled';
+import useArmJointPositions from '@/renderer/hooks/useArmJointPositions';
 import {
   armPresetsSlice,
   selectAllPresets,
   selectSelectedPreset,
 } from '@/renderer/store/modules/armPresets';
+import { round } from 'lodash';
 import { nanoid } from 'nanoid';
 import React, { useCallback } from 'react';
 import { FaPlus } from 'react-icons/fa';
@@ -26,6 +28,7 @@ const ArmPresetsConfig = () => {
   const armPresets = useSelector(selectAllPresets);
   const selectedPreset = useSelector(selectSelectedPreset);
   const dispatch = useDispatch();
+  const jointPositions = useArmJointPositions() ?? [];
 
   const addPreset = useCallback(() => {
     dispatch(
@@ -58,6 +61,19 @@ const ArmPresetsConfig = () => {
           value={selectedPreset.id}
           onChange={onPresetSelect}
         />
+        {jointPositions.length > 0 && (
+          <>
+            <SectionTitle>Current positions</SectionTitle>
+            <div>
+              {jointPositions.map((position, index) => (
+                <div key={index}>
+                  Joint {index + 1}: {round(position, 0)}
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
         <SectionTitle>Presets</SectionTitle>
         <Button onClick={addPreset}>
           <FaPlus />
