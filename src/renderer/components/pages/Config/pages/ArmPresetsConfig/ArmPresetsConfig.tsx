@@ -7,7 +7,7 @@ import {
   selectSelectedPreset,
 } from '@/renderer/store/modules/armPresets';
 import { nanoid } from 'nanoid';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { SectionTitle } from '../../styles';
@@ -27,7 +27,7 @@ const ArmPresetsConfig = () => {
   const selectedPreset = useSelector(selectSelectedPreset);
   const dispatch = useDispatch();
 
-  const addPreset = () => {
+  const addPreset = useCallback(() => {
     dispatch(
       armPresetsSlice.actions.addPreset({
         id: nanoid(),
@@ -35,11 +35,14 @@ const ArmPresetsConfig = () => {
         positions: [180, 180, 180, 180, 180, 180],
       })
     );
-  };
+  }, [dispatch]);
 
-  const onPresetSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    dispatch(armPresetsSlice.actions.selectPreset(e.target.value));
-  };
+  const onPresetSelect = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      dispatch(armPresetsSlice.actions.selectPreset(e.target.value));
+    },
+    [dispatch]
+  );
 
   return (
     armPresets &&
