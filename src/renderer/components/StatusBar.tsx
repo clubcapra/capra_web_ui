@@ -17,6 +17,7 @@ import { BiWifi, BiWifi0, BiWifi1, BiWifi2, BiWifiOff } from 'react-icons/bi';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { ArmContext, armService } from '../state/arm';
+import { selectSelectedPreset } from '../store/modules/armPresets';
 
 export const StatusBar: FC = () => (
   <StyledStatusBarWrapper>
@@ -73,6 +74,8 @@ const ModeInfo = () => {
   const [arm] = useActor(armService);
   const [control] = useActor(controlService);
   const isReverse = useSelector(selectReverse);
+  const selectedArmPreset = useSelector(selectSelectedPreset);
+
   if (control.matches('flipper')) {
     return (
       <div>
@@ -87,11 +90,14 @@ const ModeInfo = () => {
     );
   } else if (control.matches('arm')) {
     return (
-      <div>
-        {arm.matches('joint')
-          ? 'JOINT ' + String((arm.context as ArmContext).jointValue + 1)
-          : 'CARTESIAN'}
-      </div>
+      <>
+        <div>
+          {arm.matches('joint')
+            ? 'JOINT ' + String((arm.context as ArmContext).jointValue + 1)
+            : 'CARTESIAN'}
+        </div>
+        <div>{selectedArmPreset.name.toUpperCase()}</div>
+      </>
     );
   } else {
     return <div />;

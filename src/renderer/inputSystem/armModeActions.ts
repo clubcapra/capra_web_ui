@@ -2,14 +2,23 @@ import { buttons as buttonMappings } from '@/renderer/inputSystem/mappings';
 import { rosClient } from '@/renderer/utils/ros/rosClient';
 import { Action } from '@/renderer/inputSystem/@types';
 import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types';
-import { log } from '@/renderer/logger';
 import { ArmContext, armService } from '../state/arm';
 import { deadzone } from '../utils/gamepad';
 import { handleTpvControl } from './tpvControl';
+import { store } from '../store/store';
+import {
+  armPresetsSlice,
+  selectSelectedPreset,
+} from '../store/modules/armPresets';
 
 const jointGoalTopic: TopicOptions = {
   name: 'ovis/arm/in/joint_velocity_goal',
   messageType: 'ovis_msgs/OvisJointVelocity',
+};
+
+const jointPositionTopic: TopicOptions = {
+  name: 'ovis/arm/in/joint_position_goal',
+  messageType: 'ovis_msgs/OvisJointPosition',
 };
 
 export const armModeActions: Action[] = [
@@ -49,14 +58,18 @@ export const armModeActions: Action[] = [
   },
   {
     name: 'home',
-    bindings: [
-      { type: 'gamepadBtnDown', button: buttonMappings.Y },
-      // { type: 'keyboard', code: 'KeyT', onKeyDown: true },
-    ],
+    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.Y }],
     perform: () => {
-      rosClient
-        .callService({ name: '/ovis/arm/in/home_joint_positions' })
-        .catch(log.error);
+      rosClient.publish(jointPositionTopic, {
+        joint_positions: selectSelectedPreset(store.getState()).positions,
+      });
+    },
+  },
+  {
+    name: 'changePreset',
+    bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.RS }],
+    perform: () => {
+      store.dispatch(armPresetsSlice.actions.nextPreset());
     },
   },
   {
