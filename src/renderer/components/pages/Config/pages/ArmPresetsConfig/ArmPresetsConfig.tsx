@@ -24,6 +24,14 @@ const PresetsContainer = styled.div`
   flex-wrap: wrap;
 `;
 
+const ButtonRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  fit-content: fit-content;
+`;
+
 const ArmPresetsConfig = () => {
   const armPresets = useSelector(selectAllPresets);
   const selectedPreset = useSelector(selectSelectedPreset);
@@ -39,6 +47,16 @@ const ArmPresetsConfig = () => {
       })
     );
   }, [dispatch]);
+
+  const addPresetWithCurrentPositions = () => {
+    dispatch(
+      armPresetsSlice.actions.addPreset({
+        id: nanoid(),
+        name: 'New Preset',
+        positions: jointPositions,
+      })
+    );
+  };
 
   const onPresetSelect = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -75,10 +93,20 @@ const ArmPresetsConfig = () => {
         )}
 
         <SectionTitle>Presets</SectionTitle>
-        <Button onClick={addPreset}>
-          <FaPlus />
-          <span style={{ marginLeft: '0.2rem' }}>Add Preset</span>
-        </Button>
+        <ButtonRow>
+          <Button onClick={addPreset}>
+            <FaPlus />
+            <span style={{ marginLeft: '0.2rem' }}>Add Preset</span>
+          </Button>
+          {jointPositions.length > 0 && (
+            <Button onClick={addPresetWithCurrentPositions}>
+              <FaPlus />
+              <span style={{ marginLeft: '0.2rem' }}>
+                Add Preset With Current Positions
+              </span>
+            </Button>
+          )}
+        </ButtonRow>
         <PresetsContainer>
           {armPresets.map((preset) => (
             <ArmPreset key={preset.id} preset={preset} />

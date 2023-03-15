@@ -1,4 +1,5 @@
 import { LabeledInput } from '@/renderer/components/common/LabeledInput';
+import { defaultTheme } from '@/renderer/globalStyles/themes/defaultTheme';
 import React, { useCallback, useState } from 'react';
 
 interface ArmJointInputProps {
@@ -40,12 +41,12 @@ const ArmJointInput = ({
         value={inputValue}
         type="number"
         onChange={onInputChange}
+        labelStyle={
+          error
+            ? { color: defaultTheme.colors.danger }
+            : { color: defaultTheme.colors.fontLight }
+        }
       />
-      {error && (
-        <div>
-          Value must be between {min} and {max}
-        </div>
-      )}
     </div>
   );
 };
