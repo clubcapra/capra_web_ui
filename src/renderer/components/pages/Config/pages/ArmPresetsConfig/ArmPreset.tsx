@@ -8,6 +8,9 @@ import { useDispatch } from 'react-redux';
 import { FaCheck, FaPen, FaTimes } from 'react-icons/fa';
 import ArmJointInput from './ArmJointInput';
 import { Input } from '@/renderer/components/common/Input';
+import { Modal } from '@/renderer/components/common/Modal';
+import { useOpenClose } from '@/renderer/hooks/useOpenClose';
+import { Button } from '@/renderer/components/common/Button';
 
 interface ArmPresetProps {
   preset: ArmPreset;
@@ -91,6 +94,7 @@ const EditButton = styled.a`
 const ArmPreset = ({ preset }: ArmPresetProps) => {
   const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
+  const [isModalOpen, openModal, closeModal] = useOpenClose();
 
   const onJointChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>, id: number) => {
@@ -132,45 +136,59 @@ const ArmPreset = ({ preset }: ArmPresetProps) => {
   );
 
   return (
-    <Card>
-      {editMode ? (
-        <>
+    <>
+      <Card>
+        {editMode ? (
+          <>
+            <HeaderRow>
+              <Input value={preset.name} type="text" onChange={onNameChange} />
+              <EditButton onClick={() => setEditMode(!editMode)}>
+                {<FaCheck />}
+              </EditButton>
+            </HeaderRow>
+            <InputRow>
+              {preset.positions.map((joint, index) => (
+                <div key={index}>
+                  <ArmJointInput
+                    value={joint}
+                    id={index}
+                    onChange={onJointChange}
+                    min={jointBoundaries[index].min}
+                    max={jointBoundaries[index].max}
+                  />
+                </div>
+              ))}
+            </InputRow>
+          </>
+        ) : (
           <HeaderRow>
-            <Input value={preset.name} type="text" onChange={onNameChange} />
-            <EditButton onClick={() => setEditMode(!editMode)}>
-              {<FaCheck />}
-            </EditButton>
+            <h3>{preset.name}</h3>
+            <ButtonRow>
+              <EditButton onClick={() => setEditMode(!editMode)}>
+                {<FaPen />}
+              </EditButton>
+              {!editMode && (
+                <DeleteButton onClick={openModal}>
+                  <FaTimes />
+                </DeleteButton>
+              )}
+            </ButtonRow>
           </HeaderRow>
-          <InputRow>
-            {preset.positions.map((joint, index) => (
-              <div key={index}>
-                <ArmJointInput
-                  value={joint}
-                  id={index}
-                  onChange={onJointChange}
-                  min={jointBoundaries[index].min}
-                  max={jointBoundaries[index].max}
-                />
-              </div>
-            ))}
-          </InputRow>
-        </>
-      ) : (
-        <HeaderRow>
-          <h3>{preset.name}</h3>
-          <ButtonRow>
-            <EditButton onClick={() => setEditMode(!editMode)}>
-              {<FaPen />}
-            </EditButton>
-            {!editMode && (
-              <DeleteButton onClick={() => onDelete(preset.id)}>
-                <FaTimes />
-              </DeleteButton>
-            )}
-          </ButtonRow>
-        </HeaderRow>
-      )}
-    </Card>
+        )}
+      </Card>
+      <Modal
+        title="Do you really want to delete the preset"
+        isOpen={isModalOpen}
+        onClose={closeModal}
+      >
+        <ButtonRow>
+          <Button onClick={() => onDelete(preset.id)} btnType="danger">
+            Delete
+          </Button>
+          <Button onClick={closeModal}>Cancel</Button>
+        </ButtonRow>
+      </Modal>
+    </>
   );
 };
 
