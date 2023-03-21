@@ -15,6 +15,7 @@ import { useOpenClose } from '@/renderer/hooks/useOpenClose';
 import React, { ChangeEvent, FC, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { EmptyFeed } from '@/renderer/components/Feed/Feeds/EmptyFeed';
+import { MapFeed } from './Feeds/MapFeed';
 
 export const Feed: FC<{
   feed_id: string;
@@ -60,6 +61,8 @@ const FeedView: FC<{
       return <CameraFeed feed={feed} />;
     case FeedTypeEnum.Urdf:
       return <UrdfFeed feed={feed} />;
+    case FeedTypeEnum.Nav2D:
+      return <MapFeed />;
     case FeedTypeEnum.Graph:
       return <GraphFeed feed={feed} />;
     default:

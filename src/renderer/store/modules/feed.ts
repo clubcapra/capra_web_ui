@@ -22,6 +22,7 @@ export enum FeedTypeEnum {
   Urdf,
   Graph,
   NotSelected,
+  Nav2D,
 }
 
 export enum CameraType {
@@ -37,6 +38,7 @@ export type FeedType =
   | IEmptyFeed
   | ICameraFeed
   | IUrdfFeed
+  | INav2DFeed
   | IGraphFeed
   | INotSelected;
 
@@ -68,6 +70,10 @@ export interface ICameraData {
 
 export interface IUrdfFeed extends BaseFeed {
   type: FeedTypeEnum.Urdf;
+}
+
+export interface INav2DFeed extends BaseFeed {
+  type: FeedTypeEnum.Nav2D;
 }
 
 export interface IGraphFeed extends BaseFeed {
@@ -161,6 +167,10 @@ export const initialState: FeedState = {
     urdf_viewer: {
       type: FeedTypeEnum.Urdf,
       id: 'urdf_viewer',
+    },
+    nav2d_viewer: {
+      type: FeedTypeEnum.Nav2D,
+      id: 'nav2d_viewer',
     },
     magnet_graph: {
       type: FeedTypeEnum.Graph,
