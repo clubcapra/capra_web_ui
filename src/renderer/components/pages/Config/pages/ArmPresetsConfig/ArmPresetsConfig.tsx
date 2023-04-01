@@ -24,12 +24,13 @@ const PresetsContainer = styled.div`
   flex-wrap: wrap;
 `;
 
+const PresetButtonContainer = styled.div`
+  display: inline-block;
+  margin-right: 0.5rem;
+`;
+
 const ButtonRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  fit-content: fit-content;
+  width: 100%;
 `;
 
 const ArmPresetsConfig = () => {
@@ -53,7 +54,7 @@ const ArmPresetsConfig = () => {
       armPresetsSlice.actions.addPreset({
         id: nanoid(),
         name: 'New Preset',
-        positions: jointPositions,
+        positions: jointPositions.map((value) => round(value, 0)),
       })
     );
   };
@@ -94,17 +95,22 @@ const ArmPresetsConfig = () => {
 
         <SectionTitle>Presets</SectionTitle>
         <ButtonRow>
-          <Button onClick={addPreset}>
-            <FaPlus />
-            <span style={{ marginLeft: '0.2rem' }}>Add Preset</span>
-          </Button>
-          {jointPositions.length > 0 && (
-            <Button onClick={addPresetWithCurrentPositions}>
+          <PresetButtonContainer>
+            <Button onClick={addPreset}>
               <FaPlus />
-              <span style={{ marginLeft: '0.2rem' }}>
-                Add Preset With Current Positions
-              </span>
+              <span style={{ marginLeft: '0.2rem' }}>Add Preset</span>
             </Button>
+          </PresetButtonContainer>
+
+          {jointPositions.length > 0 && (
+            <PresetButtonContainer>
+              <Button onClick={addPresetWithCurrentPositions}>
+                <FaPlus />
+                <span style={{ marginLeft: '0.2rem' }}>
+                  Add Preset With Current Positions
+                </span>
+              </Button>
+            </PresetButtonContainer>
           )}
         </ButtonRow>
         <PresetsContainer>

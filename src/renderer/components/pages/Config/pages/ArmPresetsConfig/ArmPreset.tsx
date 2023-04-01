@@ -35,13 +35,14 @@ const Card = styled.div`
   background-color: ${({ theme }) => theme.colors.darkerBackground};
   border-radius: 4px;
   padding: 16px;
-  margin: 8px;
+  margin-top: 8px;
+  margin-right: 8px;
   display: flex;
   width: 350px;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
 `;
 
 const HeaderRow = styled.div`
