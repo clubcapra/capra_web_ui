@@ -11,6 +11,7 @@ import { configureStore, AnyAction, combineReducers } from '@reduxjs/toolkit';
 import { throttle } from 'lodash';
 import { launchFilesSlice } from './modules/launchFiles';
 import { armPresetsSlice } from './modules/armPresets';
+import { gpioPinsSlice } from './modules/gpioPins';
 
 const appReducer = combineReducers({
   feed: feedSlice.reducer,
@@ -19,6 +20,7 @@ const appReducer = combineReducers({
   debugTab: debugTabSlice.reducer,
   launchFiles: launchFilesSlice.reducer,
   armPresets: armPresetsSlice.reducer,
+  gpioPins: gpioPinsSlice.reducer,
 });
 
 export type GlobalState = ReturnType<typeof appReducer>;
