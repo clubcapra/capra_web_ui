@@ -58,6 +58,7 @@
     "polished": "^4.1.4",
     "qr-scanner": "^1.4.1",
     "react": "^17.0.2",
+    "react-battery-gauge": "^1.0.5",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
     "react-redux": "^7.2.6",

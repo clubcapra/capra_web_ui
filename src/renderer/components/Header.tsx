@@ -3,6 +3,7 @@ import { styled } from '@/renderer/globalStyles/styled';
 import { NavLink } from 'react-router-dom';
 import { selectDebugTabVisible } from '@/renderer/store/modules/debugTab';
 import { useSelector } from 'react-redux';
+import BatteryGauge from 'react-battery-gauge'
 
 interface NavLinkDefinition {
   to: string;
@@ -46,15 +47,39 @@ export const Header: FC = () => {
           ))}
       </LeftHeader>
       <RightHeader>
+        <BatteryStatus />
         <StyledLogo src="assets/images/logo.png" />
       </RightHeader>
     </HeaderGrid>
   );
 };
 
+const BatteryStatus = () => {
+  const customization = {
+    batteryMeter: {
+      lowBatteryValue: 40,
+    },
+    readingText: {
+      opacity: 0,
+    },
+  }
+  const batteryLevel = 40.8;
+  return <> <StyledP>{batteryLevel} %</StyledP>
+    <StyledBatteryGauge>
+      <BatteryGauge value={batteryLevel} size={40} aspectRatio={0.42} customization={customization} />
+    </StyledBatteryGauge>
+  </>
+}
+
+const StyledBatteryGauge = styled.div`
+  display:inline-block;
+  align-self: center;
+  align-content: center;
+`
+
 const HeaderGrid = styled.div`
   display: grid;
-  grid-template-columns: 1fr 100px;
+  grid-template-columns: 1fr 215px;
   box-shadow: 0 3px 2px rgba(0, 0, 0, 0.25);
 `;
 
@@ -68,6 +93,8 @@ const LeftHeader = styled.div<{
 
 const RightHeader = styled.div`
   margin: 2px;
+  display : flex;
+  justify-content : space-between;
 `;
 
 const StyledNavLink = styled(NavLink)`
@@ -92,5 +119,9 @@ const StyledNavLink = styled(NavLink)`
 
 const StyledLogo = styled.img`
   height: auto;
-  max-width: 100%;
+  width: 100px;
 `;
+
+const StyledP = styled.p`
+  font-weight: bold;
+`
