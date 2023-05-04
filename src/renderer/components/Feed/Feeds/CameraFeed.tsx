@@ -9,6 +9,7 @@ import * as React from 'react';
 import { FC, useEffect, useRef, useState } from 'react';
 import { log } from '@/renderer/logger';
 import { QRFeed } from './QRFeed/QRFeed';
+import { RTSPFeed } from './RTSPFeed/RTSPFeed';
 
 interface Props {
   feed: ICameraFeed;
@@ -145,6 +146,8 @@ const View: FC<Props> = ({ feed }) => {
           />
         </QRFeed>
       );
+    case CameraType.RTSP:
+      return <RTSPFeed />;
     default:
       return <TextFeed text="stream type not supported" />;
   }
@@ -153,7 +156,7 @@ const View: FC<Props> = ({ feed }) => {
 export const CameraFeed: FC<Props> = ({ feed }) => {
   const [state] = useActor(rosService);
   const connected =
-    state.matches('connected') || feed.camera.type === CameraType.WEBCAM;
+    !state.matches('connected') || feed.camera.type === CameraType.WEBCAM;
   useEffect(() => {
     log.debug('mounting camera', feed.camera.name);
     return () => {
