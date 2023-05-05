@@ -2,6 +2,7 @@ module.exports = {
   extends: 'electron-snowpack/config/snowpack.js',
   mount: {
     'src/shared': '/shared',
+    script: '/script',
   },
   alias: {
     '@/': './src/',
@@ -12,4 +13,4 @@ module.exports = {
   packageOptions: {
     knownEntrypoints: ['date-fns/fp/format', 'react-is'],
   },
-}
+};

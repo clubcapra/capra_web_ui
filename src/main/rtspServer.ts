@@ -1,6 +1,8 @@
 import { log } from '@/main/logger';
-import { ipcMain } from 'electron';
-import { execaNode, ExecaChildProcess } from 'execa';
+import { app, ipcMain } from 'electron';
+import { ExecaChildProcess, execa } from 'execa';
+import path from 'path';
+import { isDev } from '@/main/isDev';
 
 interface RtspProcess {
   process: ExecaChildProcess;
@@ -8,18 +10,26 @@ interface RtspProcess {
 }
 
 const rtspServers: Map<string, RtspProcess> = new Map();
-let nextPort = 9000;
+
+// Stack array of ports from (9000 to 9060) to use for rtsp servers
+const ports = Array.from({ length: 61 }, (_, i) => i + 9000);
 
 ipcMain.handle('rtsp_start', (event, url: string) => {
-  const process = execaNode('script.ts');
+  const nextPort = ports.shift() ?? 9000;
+  const process = execa('node', [
+    isDev
+      ? './script/rtspServer.js'
+      : path.join(app.getAppPath(), '../renderer/script/rtspServer.js'),
+    url,
+    nextPort.toString(),
+  ]);
 
-  log.info('starting rtsp process');
   rtspServers.set(url, {
     process,
     wsPort: nextPort,
   });
 
-  return nextPort++;
+  return nextPort;
 });
 
 ipcMain.on('rtsp_stop', (event, url: string) => {
@@ -28,7 +38,8 @@ ipcMain.on('rtsp_stop', (event, url: string) => {
   if (!rtspProcess) {
     return;
   }
-
+  log.info('stopping rtsp process');
+  ports.push(rtspProcess.wsPort);
   rtspProcess.process.kill();
   rtspServers.delete(url);
 });

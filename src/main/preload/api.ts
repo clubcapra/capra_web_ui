@@ -33,6 +33,6 @@ export const preload = {
   },
   rtsp: {
     start: (url: string) => ipcRenderer.invoke(RTSP_START, url),
-    stop: () => ipcRenderer.send(RTSP_STOP),
+    stop: (url: string) => ipcRenderer.send(RTSP_STOP, url),
   },
 };

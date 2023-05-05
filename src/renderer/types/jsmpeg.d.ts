@@ -9,5 +9,7 @@ declare module '@cycjimmy/jsmpeg-player' {
         audio?: boolean;
       }
     );
+
+    destroy(): void;
   }
 }

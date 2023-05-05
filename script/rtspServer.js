@@ -1,9 +1,12 @@
-import RTSPServer from 'node-rtsp-stream';
+const Stream = require('node-rtsp-stream');
 
-new RTSPServer.Stream({
-  name: 'name',
-  streamUrl: 'rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4',
-  wsPort: 9999,
+// Get node args
+const args = process.argv.slice(2);
+
+new Stream({
+  name: 'RTSP-Stream',
+  streamUrl: args[0],
+  wsPort: parseInt(args[1]),
   ffmpegOptions: {
     // options ffmpeg flags
     '-stats': '', // an option with no neccessary value uses a blank string
