@@ -156,7 +156,7 @@ const View: FC<Props> = ({ feed }) => {
 export const CameraFeed: FC<Props> = ({ feed }) => {
   const [state] = useActor(rosService);
   const connected =
-    !state.matches('connected') || feed.camera.type === CameraType.WEBCAM;
+    state.matches('connected') || feed.camera.type === CameraType.WEBCAM;
   useEffect(() => {
     log.debug('mounting camera', feed.camera.name);
     return () => {
