@@ -43,10 +43,17 @@ export const gpioPinsSlice = createSlice({
     addPin: (state, { payload }: PayloadAction<GpioPinsState>) => {
       state.push(payload);
     },
+    updatePin: (state, { payload }: PayloadAction<GpioPinsState>) => {
+      const element = state.find((element) => element.id === payload.id);
+      if (element) {
+        element.name = payload.name;
+        element.topicName = payload.topicName;
+      }
+    },
     removePin: (state, { payload }: PayloadAction<GpioPinsState>) => {
       state = state.filter((pin) => pin.id !== payload.id);
     },
   },
 });
 
-export const selectAllPins = (state: GlobalState) => state.gpioPins;
+export const selectAllGpioPins = (state: GlobalState) => state.gpioPins;
