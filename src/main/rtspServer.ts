@@ -9,7 +9,7 @@ interface RtspProcess {
   wsPort: number;
 }
 
-const rtspServers: Map<string, RtspProcess> = new Map();
+const rtspServers: Map<number, RtspProcess> = new Map();
 
 // Stack array of ports from (9000 to 9060) to use for rtsp servers
 const ports = Array.from({ length: 61 }, (_, i) => i + 9000);
@@ -24,7 +24,7 @@ ipcMain.handle('rtsp_start', (event, url: string) => {
     nextPort.toString(),
   ]);
 
-  rtspServers.set(url, {
+  rtspServers.set(nextPort, {
     process,
     wsPort: nextPort,
   });
@@ -32,8 +32,8 @@ ipcMain.handle('rtsp_start', (event, url: string) => {
   return nextPort;
 });
 
-ipcMain.on('rtsp_stop', (event, url: string) => {
-  const rtspProcess = rtspServers.get(url);
+ipcMain.on('rtsp_stop', (event, port: number) => {
+  const rtspProcess = rtspServers.get(port);
 
   if (!rtspProcess) {
     return;
@@ -41,5 +41,5 @@ ipcMain.on('rtsp_stop', (event, url: string) => {
   log.info('stopping rtsp process');
   ports.push(rtspProcess.wsPort);
   rtspProcess.process.kill();
-  rtspServers.delete(url);
+  rtspServers.delete(port);
 });

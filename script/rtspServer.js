@@ -9,7 +9,7 @@ new Stream({
   wsPort: parseInt(args[1]),
   ffmpegOptions: {
     // options ffmpeg flags
-    '-stats': '', // an option with no neccessary value uses a blank string
     '-r': 30, // options with required values specify the value after the key
+    '-q': 0, // quality video in scale [0, 32]
   },
 });

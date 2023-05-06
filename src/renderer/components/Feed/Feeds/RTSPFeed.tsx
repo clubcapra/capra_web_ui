@@ -1,51 +1,78 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import JSMpeg from '@cycjimmy/jsmpeg-player';
 import { log } from '@/renderer/logger';
 
 interface Props {
   url: string;
+  flipped: boolean;
+  rotated: boolean;
 }
 
-export const RTSPFeed = ({ url }: Props) => {
+export const RTSPFeed = ({ url, flipped, rotated }: Props) => {
   const videoRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [port, setPort] = useState<number | null>(null);
+  const [videoElement, setVideoElement] =
+    useState<JSMpeg.VideoElement | null>();
 
   useEffect(() => {
-    log.info(`Starting RTSP server for ${url}`);
     const videoWrapper = videoRef.current;
     const canvas = canvasRef.current;
-    let videoElement: JSMpeg.VideoElement | null = null;
     const startServer = async () => {
       const port = (await window.preloadApi.rtsp.start(url)) as number;
       log.info(`RTSP server started on port ${port}`);
       if (videoWrapper && canvas) {
-        videoElement = new JSMpeg.VideoElement(
-          videoWrapper,
-          `ws://localhost:${port}`,
-          {
-            canvas,
-            autoplay: true,
-            audio: false,
-          }
+        setVideoElement(
+          new JSMpeg.VideoElement(
+            videoWrapper,
+            `ws://localhost:${port}`,
+            {
+              canvas,
+              autoplay: true,
+              audio: false,
+            },
+            { videoBufferSize: 2048 * 2048 }
+          )
         );
+        setPort(port);
       }
     };
-    startServer().catch((e) => log.error(e));
+    if (!port && !videoElement) {
+      startServer().catch((e) => log.error(e));
+    }
 
     return () => {
-      log.info('Stopping RTSP server');
-      window.preloadApi.rtsp.stop(url);
-      if (videoElement) {
-        videoElement.destroy();
+      if (port) {
+        log.info(`Stopping RTSP server for ${url}`);
+        window.preloadApi.rtsp.stop(port);
+        setPort(null);
+        if (videoElement) {
+          videoElement.destroy();
+        }
       }
     };
-  }, [url]);
+  }, [port, url, videoElement]);
 
   return (
-    <>
-      <div ref={videoRef}>
-        <canvas ref={canvasRef} />
-      </div>
-    </>
+    <div
+      ref={videoRef}
+      style={{
+        height: '100%',
+        objectFit: 'contain',
+        overflow: 'hidden',
+        transform: `${flipped ? 'scaleX(-1)' : ''} ${
+          rotated ? 'rotate(180deg)' : ''
+        }`,
+      }}
+    >
+      <canvas
+        ref={canvasRef}
+        style={{
+          height: '100%',
+          objectFit: 'contain',
+          overflow: 'hidden',
+        }}
+      />
+    </div>
   );
 };

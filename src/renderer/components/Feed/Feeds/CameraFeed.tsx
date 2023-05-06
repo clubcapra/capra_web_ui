@@ -147,7 +147,13 @@ const View: FC<Props> = ({ feed }) => {
         </QRFeed>
       );
     case CameraType.RTSP:
-      return <RTSPFeed url={feed.camera.topic} />;
+      return (
+        <RTSPFeed
+          url={feed.camera.topic}
+          flipped={feed.camera.flipped}
+          rotated={feed.camera.rotated}
+        />
+      );
     default:
       return <TextFeed text="stream type not supported" />;
   }

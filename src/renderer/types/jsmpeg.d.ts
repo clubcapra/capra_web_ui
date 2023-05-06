@@ -7,9 +7,13 @@ declare module '@cycjimmy/jsmpeg-player' {
         canvas?: HTMLCanvasElement;
         autoplay?: boolean;
         audio?: boolean;
+        autoSetWrapperSize?: boolean;
+      },
+      overlayOptions?: {
+        videoBufferSize?: number;
       }
     );
-
+    paused: boolean;
     destroy(): void;
   }
 }
