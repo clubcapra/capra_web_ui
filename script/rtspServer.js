@@ -19,7 +19,7 @@ new Stream({
   wsPort: parseInt(args[1]),
   ffmpegOptions: {
     // options ffmpeg flags
-    '-re': '', // read input at native frame rate
+    '-r': 30,
     '-q': 0, // quality video in scale [0, 32]
   },
 });
