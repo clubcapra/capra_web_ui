@@ -3,6 +3,7 @@ import { app, ipcMain } from 'electron';
 import { ExecaChildProcess, execa } from 'execa';
 import path from 'path';
 import { isDev } from '@/main/isDev';
+import { RTSP_START, RTSP_STOP } from './preload';
 
 interface RtspProcess {
   process: ExecaChildProcess;
@@ -14,7 +15,7 @@ const rtspServers: Map<number, RtspProcess> = new Map();
 // Stack array of ports from (9000 to 9060) to use for rtsp servers
 const ports = Array.from({ length: 61 }, (_, i) => i + 9000);
 
-ipcMain.handle('rtsp_start', (event, url: string) => {
+ipcMain.handle(RTSP_START, (_, url: string) => {
   const nextPort = ports.shift() ?? 9000;
   const process = execa('node', [
     isDev
@@ -32,7 +33,7 @@ ipcMain.handle('rtsp_start', (event, url: string) => {
   return nextPort;
 });
 
-ipcMain.on('rtsp_stop', (event, port: number) => {
+ipcMain.on(RTSP_STOP, (_, port: number) => {
   const rtspProcess = rtspServers.get(port);
 
   if (!rtspProcess) {
