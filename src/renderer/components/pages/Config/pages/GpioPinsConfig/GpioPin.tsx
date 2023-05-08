@@ -1,6 +1,8 @@
+import IconButton from '@/renderer/components/common/IconButton';
 import { styled } from '@/renderer/globalStyles/styled';
 import { GpioPinsState } from '@/renderer/store/modules/gpioPins';
 import React from 'react';
+import { FaPowerOff } from 'react-icons/fa';
 
 interface GpioPinProps {
   gpioPin: GpioPinsState;
@@ -11,8 +13,8 @@ const Card = styled.div`
   border-radius: 4px;
   padding: 16px;
   margin: 8px;
+  min-width: 150px;
   display: flex;
-  min-width: 300px;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
@@ -24,6 +26,16 @@ export const GpioPin = ({ gpioPin }: GpioPinProps) => {
   return (
     <Card>
       <h3>{gpioPin.name}</h3>
+      <IconButton
+        icon={<FaPowerOff />}
+        title={gpioPin.isOn ? 'Power Off' : 'Power On'}
+        onClick={() => {}}
+        style={
+          gpioPin.isOn
+            ? { backgroundColor: 'red' }
+            : { backgroundColor: 'green' }
+        }
+      />
     </Card>
   );
 };
