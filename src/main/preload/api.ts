@@ -7,6 +7,8 @@ import {
   AUDIO_STOP,
   LOG_MSG,
   LOG_MSG_TYPE,
+  RTSP_START,
+  RTSP_STOP,
 } from '@/main/preload';
 import { ipcRenderer } from 'electron';
 
@@ -28,5 +30,9 @@ export const preload = {
     receive: (cb: (args: AUDIO_MSG_TYPE) => void) => {
       ipcRenderer.on(AUDIO_MSG, (_event, args) => cb(args as AUDIO_MSG_TYPE));
     },
+  },
+  rtsp: {
+    start: (url: string) => ipcRenderer.invoke(RTSP_START, url),
+    stop: (port: number) => ipcRenderer.send(RTSP_STOP, port),
   },
 };
