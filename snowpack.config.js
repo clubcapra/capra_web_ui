@@ -2,7 +2,6 @@ module.exports = {
   extends: 'electron-snowpack/config/snowpack.js',
   mount: {
     'src/shared': '/shared',
-    script: '/script',
   },
   alias: {
     '@/': './src/',

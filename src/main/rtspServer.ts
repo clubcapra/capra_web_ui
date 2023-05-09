@@ -2,8 +2,8 @@ import { log } from '@/main/logger';
 import { app, ipcMain } from 'electron';
 import { ExecaChildProcess, execa } from 'execa';
 import path from 'path';
-import { isDev } from '@/main/isDev';
 import { RTSP_START, RTSP_STOP } from './preload';
+import process from 'process';
 
 interface RtspProcess {
   process: ExecaChildProcess;
@@ -17,16 +17,15 @@ const ports = Array.from({ length: 61 }, (_, i) => i + 9000);
 
 ipcMain.handle(RTSP_START, (_, url: string) => {
   const nextPort = ports.shift() ?? 9000;
-  const process = execa('node', [
-    isDev
+  const rtspProcess = execa('node', [
+    !app.isPackaged
       ? './script/rtspServer.js'
-      : path.join(app.getAppPath(), '../renderer/script/rtspServer.js'),
+      : path.resolve(`${process.resourcesPath}/../script/rtspServer.js`),
     url,
     nextPort.toString(),
   ]);
-
   rtspServers.set(nextPort, {
-    process,
+    process: rtspProcess,
     wsPort: nextPort,
   });
 
