@@ -3,7 +3,7 @@ import { styled } from '@/renderer/globalStyles/styled';
 import { NavLink } from 'react-router-dom';
 import { selectDebugTabVisible } from '@/renderer/store/modules/debugTab';
 import { useSelector } from 'react-redux';
-import BatteryStatus from './BatteryStatus';
+import BatteryStatus from './BatteryStatus/BatteryStatus';
 
 interface NavLinkDefinition {
   to: string;
