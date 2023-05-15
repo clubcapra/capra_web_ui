@@ -13,19 +13,19 @@ export const initialState: GpioPinsState[] = [
   {
     id: nanoid(),
     name: 'LED 1',
-    topicName: '',
+    topicName: '/DOP1',
     isOn: false,
   },
   {
     id: nanoid(),
     name: 'LED 2',
-    topicName: '',
+    topicName: '/DOP2',
     isOn: false,
   },
   {
     id: nanoid(),
     name: 'LED 3',
-    topicName: '',
+    topicName: '/DOP3',
     isOn: false,
   },
 ];
@@ -48,6 +48,15 @@ export const gpioPinsSlice = createSlice({
       if (element) {
         element.name = payload.name;
         element.topicName = payload.topicName;
+      }
+    },
+    updateIsOn: (
+      state,
+      { payload }: PayloadAction<{ id: string; isOn: boolean }>
+    ) => {
+      const element = state.find((element) => element.id === payload.id);
+      if (element) {
+        element.isOn = payload.isOn;
       }
     },
     removePin: (state, { payload }: PayloadAction<GpioPinsState>) => {

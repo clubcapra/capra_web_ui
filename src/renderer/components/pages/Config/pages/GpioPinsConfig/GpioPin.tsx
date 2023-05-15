@@ -7,7 +7,7 @@ import {
 } from '@/renderer/store/modules/gpioPins';
 import { rosClient } from '@/renderer/utils/ros/rosClient';
 import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types';
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { FaPowerOff } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 
@@ -35,22 +35,31 @@ export const GpioPin = ({ gpioPin }: GpioPinProps) => {
   const topic: TopicOptions = useMemo(
     () => ({
       name: gpioPin.topicName,
-      messageType: 'std_msgs/Float32',
+      messageType: 'std_msgs/UInt16',
     }),
     [gpioPin.topicName]
   );
 
   const togglePin = () => {
-    rosClient.publish(topic, gpioPin.isOn ? 0 : 1);
+    rosClient.publish(topic, { data: gpioPin.isOn ? 0 : 1 });
 
     dispatch(gpioPinsSlice.actions.togglePin(gpioPin.id));
   };
 
-  useRosSubscribe(topic, (message) => {
-    dispatch(
-      gpioPinsSlice.actions.updatePin({ ...gpioPin, isOn: !!message.data })
-    );
-  });
+  useRosSubscribe(
+    topic,
+    useCallback(
+      (message) => () => {
+        dispatch(
+          gpioPinsSlice.actions.updateIsOn({
+            id: gpioPin.id,
+            isOn: !!message.data,
+          })
+        );
+      },
+      [dispatch, gpioPin.id]
+    )
+  );
 
   return (
     <Card>
