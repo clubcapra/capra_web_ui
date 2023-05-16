@@ -86,7 +86,27 @@ roslaunch web_video_server web_video_server.launch
 roslaunch rosbridge_server rosbridge_websocket.launch
 ```
 
-### Audio
+## System dependencies
+
+To view RTSP streams your system requires FFmpeg to be installed.
+
+### On Windows
+
+With Chocolatey:
+
+`choco install ffmpeg`
+
+### On Linux (Debian)
+
+`sudo apt install ffmpeg`
+
+### On Mac
+
+With homebrew:
+
+`brew install ffmpeg`
+
+## Audio
 
 Currently, the audio IO is handled by the [capra_audio](https://github.com/clubcapra/capra_audio_common) node. The UI will simply launch the node as a child process. This only works on linux. Windows support should work with wsl but is not currently implemented. For audio to work, you also need to make sure that the capra_audio launch files are sourced in the terminal you are using to launch the UI.
 

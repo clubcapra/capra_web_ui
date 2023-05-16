@@ -12,12 +12,12 @@ import {
 } from '../store/modules/armPresets';
 
 const jointGoalTopic: TopicOptions = {
-  name: 'ovis/arm/in/joint_velocity_goal',
+  name: 'ovis/in/joint_velocity_goal',
   messageType: 'ovis_msgs/OvisJointVelocity',
 };
 
 const jointPositionTopic: TopicOptions = {
-  name: 'ovis/arm/in/joint_position_goal',
+  name: 'ovis/in/joint_position_goal',
   messageType: 'ovis_msgs/OvisJointPosition',
 };
 
