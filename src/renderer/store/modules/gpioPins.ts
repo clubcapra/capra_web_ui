@@ -12,19 +12,19 @@ export interface GpioPinsState {
 export const initialState: GpioPinsState[] = [
   {
     id: nanoid(),
-    name: 'LED 1',
+    name: 'FRONT LED',
     topicName: '/DOP1',
     isOn: false,
   },
   {
     id: nanoid(),
-    name: 'LED 2',
+    name: 'BACK LED',
     topicName: '/DOP2',
     isOn: false,
   },
   {
     id: nanoid(),
-    name: 'LED 3',
+    name: 'ARM LED',
     topicName: '/DOP3',
     isOn: false,
   },
