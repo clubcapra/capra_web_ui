@@ -1,44 +1,46 @@
 import BatteryGauge from 'react-battery-gauge';
-import React from 'react';
+import React, { memo } from 'react';
 import { styled } from '@/renderer/globalStyles/styled';
 import Popup from 'reactjs-popup';
 import BatteryDetailsPopup from './BatteryDetailsPopup';
 import { defaultTheme } from '@/renderer/globalStyles/themes/defaultTheme';
+import useBatteryInfo from '@/renderer/hooks/useBatteryInfo';
 
-const LOW_BATTERY_THRESHOLD = 40;
+const LOW_BATTERY_THRESHOLD = 30;
 
 interface BatteryStatusProps {
   name?: string;
+  topicName: string;
 }
 
-const BatteryStatus = ({ name }: BatteryStatusProps) => {
-  const customization = {
-    batteryMeter: {
-      lowBatteryValue: LOW_BATTERY_THRESHOLD,
-      fill: defaultTheme.colors.success,
-    },
-    readingText: {
-      opacity: 0,
-    },
-    batteryBody: {
-      strokeColor: '#fff',
-      strokeWidth: 2,
-    },
-    batteryCap: {
-      strokeColor: '#fff',
-      strokeWidth: 2,
-    },
-  };
-  const batteryLevel = 50;
+const customization = {
+  batteryMeter: {
+    lowBatteryValue: LOW_BATTERY_THRESHOLD,
+    fill: defaultTheme.colors.success,
+  },
+  readingText: {
+    opacity: 0,
+  },
+  batteryBody: {
+    strokeColor: '#fff',
+    strokeWidth: 2,
+  },
+  batteryCap: {
+    strokeColor: '#fff',
+    strokeWidth: 2,
+  },
+};
 
+const BatteryStatus = ({ name, topicName }: BatteryStatusProps) => {
+  const batteryInfo = useBatteryInfo(topicName);
   return (
     <StyledPopup
       trigger={
         <Container>
           <PercentageText>{name}</PercentageText>
-          <PercentageText>{batteryLevel}%</PercentageText>
+          <PercentageText>{batteryInfo.percentage.toFixed(0)}%</PercentageText>
           <BatteryGauge
-            value={batteryLevel}
+            value={batteryInfo.percentage ?? 0}
             size={40}
             aspectRatio={0.42}
             customization={customization}
@@ -51,9 +53,9 @@ const BatteryStatus = ({ name }: BatteryStatusProps) => {
       repositionOnResize={true}
     >
       <BatteryDetailsPopup
-        batteryValue={batteryLevel}
+        batteryValue={batteryInfo.percentage ?? 0}
         lowBatteryValue={LOW_BATTERY_THRESHOLD}
-        voltage={2.4}
+        voltage={batteryInfo.voltage ?? 0}
       />
     </StyledPopup>
   );
@@ -98,4 +100,4 @@ const StyledPopup = styled(Popup)`
   }
 `;
 
-export default BatteryStatus;
+export default memo(BatteryStatus);

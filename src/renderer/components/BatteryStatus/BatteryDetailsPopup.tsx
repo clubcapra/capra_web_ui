@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { styled } from '@/renderer/globalStyles/styled';
 import BatteryGauge from 'react-battery-gauge';
 import { defaultTheme } from '@/renderer/globalStyles/themes/defaultTheme';
@@ -84,11 +84,11 @@ const BatteryDetailsPopup = ({
         />
       </BatteryContainer>
       <BatteryInfo>
-        <PercentageText>{batteryValue}%</PercentageText>
-        <p>Voltage: {voltage}V</p>
+        <PercentageText>{batteryValue.toFixed(0)}%</PercentageText>
+        <p>Voltage: {voltage.toFixed(2)}V</p>
       </BatteryInfo>
     </Card>
   );
 };
 
-export default BatteryDetailsPopup;
+export default memo(BatteryDetailsPopup);
