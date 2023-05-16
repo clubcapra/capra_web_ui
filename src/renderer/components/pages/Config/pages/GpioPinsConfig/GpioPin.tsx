@@ -1,13 +1,12 @@
 import IconButton from '@/renderer/components/common/IconButton';
 import { styled } from '@/renderer/globalStyles/styled';
-import { useRosSubscribe } from '@/renderer/hooks/useRosSubscribe';
 import {
   GpioPinsState,
   gpioPinsSlice,
 } from '@/renderer/store/modules/gpioPins';
 import { rosClient } from '@/renderer/utils/ros/rosClient';
 import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types';
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { FaPowerOff } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 
@@ -26,7 +25,6 @@ const Card = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
-  transition: box-shadow 0.2s ease-in-out;
 `;
 
 export const GpioPin = ({ gpioPin }: GpioPinProps) => {
@@ -45,21 +43,6 @@ export const GpioPin = ({ gpioPin }: GpioPinProps) => {
 
     dispatch(gpioPinsSlice.actions.togglePin(gpioPin.id));
   };
-
-  useRosSubscribe(
-    topic,
-    useCallback(
-      (message) => () => {
-        dispatch(
-          gpioPinsSlice.actions.updateIsOn({
-            id: gpioPin.id,
-            isOn: !!message.data,
-          })
-        );
-      },
-      [dispatch, gpioPin.id]
-    )
-  );
 
   return (
     <Card>
