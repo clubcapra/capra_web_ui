@@ -1,4 +1,4 @@
-const MIN_VOLTAGE = 16;
+const MIN_VOLTAGE = 16.5;
 const MAX_VOLTAGE = 20.4;
 
 // Get the battery percentage estimate from the last x voltages and go to the nearest 5%
