@@ -31,6 +31,7 @@ export enum CameraType {
   VP8 = 'vp8',
   WEBCAM = 'webcam',
   QR_CODE = 'qr_code',
+  RTSP = 'rtsp',
 }
 
 export type FeedType =

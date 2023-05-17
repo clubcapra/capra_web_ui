@@ -18,6 +18,9 @@ export type AUDIO_MSG_TYPE = {
   stdout: string;
 };
 
+export const RTSP_START = 'rtsp_start';
+export const RTSP_STOP = 'rtsp_stop';
+
 if (contextBridge) {
   // This is done this way because otherwise tests would try to import preload and it wouldn't work
   // It's possible the issue is mostly in the import order.

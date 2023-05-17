@@ -9,6 +9,7 @@ import * as React from 'react';
 import { FC, useEffect, useRef, useState } from 'react';
 import { log } from '@/renderer/logger';
 import { QRFeed } from './QRFeed/QRFeed';
+import { RTSPFeed } from './RTSPFeed';
 
 interface Props {
   feed: ICameraFeed;
@@ -144,6 +145,14 @@ const View: FC<Props> = ({ feed }) => {
             alt="camera stream"
           />
         </QRFeed>
+      );
+    case CameraType.RTSP:
+      return (
+        <RTSPFeed
+          url={feed.camera.topic}
+          flipped={feed.camera.flipped}
+          rotated={feed.camera.rotated}
+        />
       );
     default:
       return <TextFeed text="stream type not supported" />;

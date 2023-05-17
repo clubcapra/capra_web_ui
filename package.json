@@ -1,6 +1,6 @@
 {
   "name": "capra_web_ui",
-  "version": "2.6.1",
+  "version": "2.7.1",
   "author": {
     "name": "Club Capra",
     "email": "admin@clubcapra.com",
@@ -42,9 +42,13 @@
       "output": "dist"
     },
     "artifactName": "capra_web_ui_setup.${ext}",
-    "extends": "electron-snowpack/config/electron-builder.js"
+    "extends": "electron-snowpack/config/electron-builder.js",
+    "extraFiles": [
+      "script/**"
+    ]
   },
   "dependencies": {
+    "@cycjimmy/jsmpeg-player": "^6.0.5",
     "@reduxjs/toolkit": "^1.8.0",
     "@xstate/react": "^1.6.3",
     "chalk": "^5.0.1",
@@ -55,6 +59,7 @@
     "execa": "^6.1.0",
     "lodash": "^4.17.21",
     "nanoid": "^3.3.1",
+    "node-rtsp-stream": "^0.0.9",
     "polished": "^4.1.4",
     "qr-scanner": "^1.4.1",
     "react": "^17.0.2",
