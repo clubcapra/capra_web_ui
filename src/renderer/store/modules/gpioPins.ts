@@ -2,14 +2,14 @@ import { GlobalState } from '@/renderer/store/store';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { nanoid } from 'nanoid';
 
-export interface GpioPinsState {
+export interface GpioPinState {
   id: string;
   name: string;
   topicName: string;
   isOn: boolean;
 }
 
-export const initialState: GpioPinsState[] = [
+export const initialState: GpioPinState[] = [
   {
     id: nanoid(),
     name: 'FRONT LED',
@@ -40,10 +40,10 @@ export const gpioPinsSlice = createSlice({
         element.isOn = !element.isOn;
       }
     },
-    addPin: (state, { payload }: PayloadAction<GpioPinsState>) => {
+    addPin: (state, { payload }: PayloadAction<GpioPinState>) => {
       state.push(payload);
     },
-    updatePin: (state, { payload }: PayloadAction<GpioPinsState>) => {
+    updatePin: (state, { payload }: PayloadAction<GpioPinState>) => {
       const element = state.find((element) => element.id === payload.id);
       if (element) {
         element.name = payload.name;
@@ -59,7 +59,7 @@ export const gpioPinsSlice = createSlice({
         element.isOn = payload.isOn;
       }
     },
-    removePin: (state, { payload }: PayloadAction<GpioPinsState>) => {
+    removePin: (state, { payload }: PayloadAction<GpioPinState>) => {
       state = state.filter((pin) => pin.id !== payload.id);
     },
   },

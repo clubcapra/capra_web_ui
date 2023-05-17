@@ -1,9 +1,6 @@
 import IconButton from '@/renderer/components/common/IconButton';
 import { styled } from '@/renderer/globalStyles/styled';
-import {
-  GpioPinsState,
-  gpioPinsSlice,
-} from '@/renderer/store/modules/gpioPins';
+import { GpioPinState, gpioPinsSlice } from '@/renderer/store/modules/gpioPins';
 import { rosClient } from '@/renderer/utils/ros/rosClient';
 import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types';
 import React, { useMemo } from 'react';
@@ -11,7 +8,7 @@ import { FaPowerOff } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 
 interface GpioPinProps {
-  gpioPin: GpioPinsState;
+  gpioPin: GpioPinState;
 }
 
 const Card = styled.div`
