@@ -11,6 +11,5 @@ export function getBatteryPercentage(voltages: number[]) {
     ((averageVoltage - MIN_VOLTAGE) / (MAX_VOLTAGE - MIN_VOLTAGE)) * 100
   );
 
-  // Round to the nearest 5%
   return Math.max(0, percentage);
 }
