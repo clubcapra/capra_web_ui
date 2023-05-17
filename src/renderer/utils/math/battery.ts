@@ -1,7 +1,7 @@
 const MIN_VOLTAGE = 16.5;
 const MAX_VOLTAGE = 20.4;
 
-// Get the battery percentage estimate from the last x voltages and go to the nearest 5%
+// Get the battery percentage estimate from the last x voltages
 export function getBatteryPercentage(voltages: number[]) {
   // Get the average voltage
   const averageVoltage = voltages.reduce((a, b) => a + b, 0) / voltages.length;
