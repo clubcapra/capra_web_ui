@@ -55,6 +55,7 @@ const StyledButton = styled.button<StyledButtonProps>`
     ${({ theme }) => theme.colors.background},
     ${({ theme }) => theme.colors.darkerBackground}
   );
+  border-radius: 4px;
 
   &:hover {
     background-image: linear-gradient(
