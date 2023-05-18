@@ -3,7 +3,7 @@ import { TopicOptions } from '../utils/ros/roslib-ts-client/@types';
 import { useRosSubscribeNoData } from './useRosSubscribe';
 
 const jointPositionTopic: TopicOptions = {
-  name: 'ovis/arm/out/joint_position',
+  name: 'ovis/out/joint_position',
   messageType: 'ovis_msgs/OvisJointPosition',
 };
 
