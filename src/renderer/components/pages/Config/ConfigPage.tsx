@@ -6,8 +6,9 @@ import { CameraConfig } from '@/renderer/components/pages/Config/pages/CameraCon
 import { GamepadConfig } from '@/renderer/components/pages/Config/pages/GamepadConfig';
 import { GraphConfig } from '@/renderer/components/pages/Config/pages/GraphConfig/GraphConfig';
 import { styled } from '@/renderer/globalStyles/styled';
-import { LaunchConfig } from './pages/LaunchConfig/LaunchConfig';
-import ArmPresetsConfig from './pages/ArmPresetsConfig/ArmPresetsConfig';
+import { LaunchConfig } from '@/renderer/components/pages/Config/pages/LaunchConfig/LaunchConfig';
+import ArmPresetsConfig from '@/renderer/components/pages/Config/pages/ArmPresetsConfig/ArmPresetsConfig';
+import { GpioPinsConfig } from '@/renderer/components/pages/Config/pages/GpioPinsConfig/GpioPinsConfig';
 
 export const ConfigPage: FC = () => {
   return (
@@ -22,6 +23,7 @@ export const ConfigPage: FC = () => {
           <Route path="/camera" element={<CameraConfig />} />
           <Route path="/graph" element={<GraphConfig />} />
           <Route path="/armPresets" element={<ArmPresetsConfig />} />
+          <Route path="/gpioPins" element={<GpioPinsConfig />} />
           <Route path="/gamepad" element={<GamepadConfig />} />
           <Route path="/launch" element={<LaunchConfig />} />
         </Routes>
