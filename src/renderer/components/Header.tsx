@@ -4,8 +4,6 @@ import { NavLink } from 'react-router-dom';
 import { selectDebugTabVisible } from '@/renderer/store/modules/debugTab';
 import { useSelector } from 'react-redux';
 import BatteryStatus from './BatteryStatus/BatteryStatus';
-import { rosService } from '@/renderer/state/ros';
-import { useActor } from '@xstate/react';
 
 interface NavLinkDefinition {
   to: string;
@@ -15,7 +13,6 @@ interface NavLinkDefinition {
 
 export const Header: FC = () => {
   const debugVisible = useSelector(selectDebugTabVisible);
-  const [state] = useActor(rosService);
   const navLinks: NavLinkDefinition[] = [
     {
       to: '/teleop',
@@ -50,13 +47,8 @@ export const Header: FC = () => {
           ))}
       </LeftHeader>
       <RightHeader>
-        {state.matches('connected') && (
-          <>
-            <BatteryStatus name="Motor" topicName="/vbus1" />
-            <BatteryStatus name="Logic" topicName="/vbus2" />
-          </>
-        )}
-
+        <BatteryStatus name="Motor" topicName="/vbus1" />
+        <BatteryStatus name="Logic" topicName="/vbus2" />
         <StyledLogo src="assets/images/logo.png" />
       </RightHeader>
     </HeaderGrid>
