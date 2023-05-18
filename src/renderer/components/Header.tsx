@@ -3,6 +3,7 @@ import { styled } from '@/renderer/globalStyles/styled';
 import { NavLink } from 'react-router-dom';
 import { selectDebugTabVisible } from '@/renderer/store/modules/debugTab';
 import { useSelector } from 'react-redux';
+import BatteryStatus from './BatteryStatus/BatteryStatus';
 
 interface NavLinkDefinition {
   to: string;
@@ -46,6 +47,8 @@ export const Header: FC = () => {
           ))}
       </LeftHeader>
       <RightHeader>
+        <BatteryStatus name="Motor" topicName="/vbus1" />
+        <BatteryStatus name="Logic" topicName="/vbus2" />
         <StyledLogo src="assets/images/logo.png" />
       </RightHeader>
     </HeaderGrid>
@@ -54,7 +57,7 @@ export const Header: FC = () => {
 
 const HeaderGrid = styled.div`
   display: grid;
-  grid-template-columns: 1fr 100px;
+  grid-template-columns: 1fr 400px;
   box-shadow: 0 3px 2px rgba(0, 0, 0, 0.25);
 `;
 
@@ -68,6 +71,9 @@ const LeftHeader = styled.div<{
 
 const RightHeader = styled.div`
   margin: 2px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
 `;
 
 const StyledNavLink = styled(NavLink)`
@@ -92,5 +98,5 @@ const StyledNavLink = styled(NavLink)`
 
 const StyledLogo = styled.img`
   height: auto;
-  max-width: 100%;
+  width: 100px;
 `;
