@@ -18,7 +18,7 @@ export const ExplorationConfig: FC = () => {
   const [duration, setDuration] = useState(0);
   const [timeRemaining, setTimeRemaining] = useState(Number);
   const [isTimerActive, setIsTimerActive] = useState(false);
-  const [timerDisplay, setTimerDisplay] = useState("00:00");
+  const [timerDisplay, setTimerDisplay] = useState('00:00');
   const [countDownDate, setCountDownDate] = useState(Date.now());
 
   const updateDuration = (e: ChangeEvent<HTMLInputElement>) => {
@@ -30,17 +30,17 @@ export const ExplorationConfig: FC = () => {
     setCountDownDate(Date.now() + duration * 60 * 1000);
     setIsTimerActive(true);
     setRosExplorationTimer();
-  }
+  };
 
   const stopTimer = () => {
     setIsTimerActive(false);
     setDuration(0);
     setRosExplorationTimer();
-  }
+  };
 
   useEffect(() => {
     let interval: any = null;
-    let intervalMs = 1000;
+    const intervalMs = 1000;
     if (isTimerActive) {
       interval = setInterval(() => {
         setTimerDisplay(getTimeRemaining());
@@ -48,25 +48,25 @@ export const ExplorationConfig: FC = () => {
       }, intervalMs);
     } else if (!isTimerActive && timeRemaining !== 0) {
       clearInterval(interval);
-      setTimerDisplay("00:00");
+      setTimerDisplay('00:00');
     }
     return () => clearInterval(interval);
   }, [isTimerActive, timeRemaining]);
 
   const getTimeRemaining = () => {
-    var total = countDownDate - Date.now();
+    const total = countDownDate - Date.now();
 
-    var minutes = Math.floor((total % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((total % (1000 * 60)) / 1000);
+    const minutes = Math.floor((total % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((total % (1000 * 60)) / 1000);
 
-    var minutesDiplay = minutes < 10 ? "0" + minutes : minutes.toString();
-    var secondsDiplay = seconds < 10 ? "0" + seconds : seconds.toString();
+    const minutesDiplay = minutes < 10 ? '0' + minutes : minutes.toString();
+    const secondsDiplay = seconds < 10 ? '0' + seconds : seconds.toString();
 
     if (total < 0) {
       setIsTimerActive(false);
     }
     return `${minutesDiplay}:${secondsDiplay}`;
-  }
+  };
 
   const setRosExplorationTimer = () => {
     rosClient
@@ -74,16 +74,21 @@ export const ExplorationConfig: FC = () => {
         {
           name: `/start_exploration`,
         },
-        { 'timeout': duration * 60 }
+        { timeout: duration * 60 }
       )
       .catch(log.error);
-  }
+  };
 
   return (
     <>
       <StyledDiv>
         <div>
-          <LabeledInput label="Duration of exploration (min)" value={duration.toString()} type="number" onChange={updateDuration} />
+          <LabeledInput
+            label="Duration of exploration (min)"
+            value={duration.toString()}
+            type="number"
+            onChange={updateDuration}
+          />
           <StyledDiv>
             <Button
               onClick={startTimer}
