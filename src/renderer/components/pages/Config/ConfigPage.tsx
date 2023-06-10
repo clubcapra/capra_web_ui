@@ -9,6 +9,7 @@ import { styled } from '@/renderer/globalStyles/styled';
 import { LaunchConfig } from '@/renderer/components/pages/Config/pages/LaunchConfig/LaunchConfig';
 import ArmPresetsConfig from '@/renderer/components/pages/Config/pages/ArmPresetsConfig/ArmPresetsConfig';
 import { GpioPinsConfig } from '@/renderer/components/pages/Config/pages/GpioPinsConfig/GpioPinsConfig';
+import { ExplorationConfig } from '@/renderer/components/pages/Config/pages/ExplorationConfig/ExplorationConfig';
 
 export const ConfigPage: FC = () => {
   return (
@@ -26,6 +27,7 @@ export const ConfigPage: FC = () => {
           <Route path="/gpioPins" element={<GpioPinsConfig />} />
           <Route path="/gamepad" element={<GamepadConfig />} />
           <Route path="/launch" element={<LaunchConfig />} />
+          <Route path="/exploration" element={<ExplorationConfig />} />
         </Routes>
       </ConfigRouterArea>
     </ConfigPageGrid>

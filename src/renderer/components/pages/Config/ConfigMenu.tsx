@@ -28,6 +28,9 @@ export const ConfigMenu: FC = () => {
         <li>
           <StyledNavLink to="/config/launch">Launch</StyledNavLink>
         </li>
+        <li>
+          <StyledNavLink to="/config/exploration">Exploration</StyledNavLink>
+        </li>
       </MenuList>
     </aside>
   );
