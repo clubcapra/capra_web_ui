@@ -39,7 +39,7 @@ export const ExplorationConfig: FC = () => {
   };
 
   useEffect(() => {
-    let interval: any = null;
+    let interval: ReturnType<typeof setInterval> | undefined;
     const intervalMs = 1000;
     if (isTimerActive) {
       interval = setInterval(() => {
@@ -47,26 +47,30 @@ export const ExplorationConfig: FC = () => {
         setTimeRemaining(timeRemaining - intervalMs);
       }, intervalMs);
     } else if (!isTimerActive && timeRemaining !== 0) {
-      clearInterval(interval);
+      if (interval !== undefined) {
+        clearInterval(interval);
+      }
       setTimerDisplay('00:00');
     }
+
+    const getTimeRemaining = () => {
+      const total = countDownDate - Date.now();
+
+      const minutes = Math.floor((total % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((total % (1000 * 60)) / 1000);
+
+      const minutesDiplay =
+        minutes < 10 ? '0' + minutes.toString() : minutes.toString();
+      const secondsDiplay =
+        seconds < 10 ? '0' + seconds.toString() : seconds.toString();
+
+      if (total < 0) {
+        setIsTimerActive(false);
+      }
+      return `${minutesDiplay}:${secondsDiplay}`;
+    };
     return () => clearInterval(interval);
-  }, [isTimerActive, timeRemaining]);
-
-  const getTimeRemaining = () => {
-    const total = countDownDate - Date.now();
-
-    const minutes = Math.floor((total % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((total % (1000 * 60)) / 1000);
-
-    const minutesDiplay = minutes < 10 ? '0' + minutes : minutes.toString();
-    const secondsDiplay = seconds < 10 ? '0' + seconds : seconds.toString();
-
-    if (total < 0) {
-      setIsTimerActive(false);
-    }
-    return `${minutesDiplay}:${secondsDiplay}`;
-  };
+  }, [isTimerActive, countDownDate, timeRemaining]);
 
   const setRosExplorationTimer = () => {
     rosClient
