@@ -27,6 +27,18 @@ export const initialState: LaunchFilesState[] = [
     fileName: 'ovis_arm.launch',
     isLaunched: false,
   },
+  {
+    name: 'Navigation',
+    packageName: 'markhor_navigation',
+    fileName: 'markhor_nav.launch',
+    isLaunched: false,
+  },
+  {
+    name: 'Slam',
+    packageName: 'markhor_slam',
+    fileName: 'markhor_slam_real.launch',
+    isLaunched: false,
+  },
 ];
 
 export const launchFilesSlice = createSlice({
