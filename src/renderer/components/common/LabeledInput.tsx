@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC } from 'react';
+import React, { ChangeEvent, CSSProperties, FC } from 'react';
 import { Input } from '@/renderer/components/common/Input';
 import { styled } from '@/renderer/globalStyles/styled';
 
@@ -18,6 +18,7 @@ interface LabeledInputProps {
   label: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   type?: 'text' | 'number' | 'password';
+  labelStyle?: CSSProperties;
 }
 
 export const LabeledInput: FC<LabeledInputProps> = ({
@@ -25,10 +26,11 @@ export const LabeledInput: FC<LabeledInputProps> = ({
   onChange,
   label,
   type,
+  labelStyle,
 }) => {
   return (
     <StyledDiv>
-      <StyledLabel>{label}</StyledLabel>
+      <StyledLabel style={labelStyle}>{label}</StyledLabel>
       <Input type={type || 'text'} value={value} onChange={onChange} />
     </StyledDiv>
   );

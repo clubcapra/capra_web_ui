@@ -17,6 +17,12 @@ export const ConfigMenu: FC = () => {
           <StyledNavLink to="/config/graph">Graph</StyledNavLink>
         </li>
         <li>
+          <StyledNavLink to="/config/armPresets">Arm Presets</StyledNavLink>
+        </li>
+        <li>
+          <StyledNavLink to="/config/gpioPins">GPIO Control</StyledNavLink>
+        </li>
+        <li>
           <StyledNavLink to="/config/gamepad">Gamepad</StyledNavLink>
         </li>
         <li>

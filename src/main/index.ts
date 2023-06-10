@@ -1,3 +1,4 @@
+import '@/main/rtspServer';
 import '@/main/audio';
 import { log } from '@/main/logger';
 import { APP_INFO_QUERY, APP_INFO_TYPE, AUDIO_STOP } from '@/main/preload';

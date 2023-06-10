@@ -10,7 +10,8 @@ import { debugTabSlice } from '@/renderer/store/modules/debugTab';
 import { configureStore, AnyAction, combineReducers } from '@reduxjs/toolkit';
 import { throttle } from 'lodash';
 import { launchFilesSlice } from './modules/launchFiles';
-import { flippersViewToggleSlice } from '@/renderer/store/modules/flippersViewToggle';
+import { armPresetsSlice } from './modules/armPresets';
+import { gpioPinsSlice } from './modules/gpioPins';
 
 const appReducer = combineReducers({
   feed: feedSlice.reducer,
@@ -18,7 +19,8 @@ const appReducer = combineReducers({
   input: inputSlice.reducer,
   debugTab: debugTabSlice.reducer,
   launchFiles: launchFilesSlice.reducer,
-  flippersViewToggle: flippersViewToggleSlice.reducer,
+  armPresets: armPresetsSlice.reducer,
+  gpioPins: gpioPinsSlice.reducer,
 });
 
 export type GlobalState = ReturnType<typeof appReducer>;

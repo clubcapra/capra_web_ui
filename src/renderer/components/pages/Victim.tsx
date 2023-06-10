@@ -1,16 +1,8 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { Feed } from '@/renderer/components/Feed/Feed';
 import { styled } from '@/renderer/globalStyles/styled';
-import { flippersViewToggleSlice } from '@/renderer/store/modules/flippersViewToggle';
-import { useDispatch } from 'react-redux';
 
 export const Victim: FC = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(flippersViewToggleSlice.actions.setNotVisible());
-  }, [dispatch]);
-
   return (
     <Layout>
       <Feed feed_id="victim_feed_1" defaultFeed="not_selected" />
