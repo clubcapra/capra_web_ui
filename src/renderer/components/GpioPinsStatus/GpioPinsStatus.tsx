@@ -15,7 +15,6 @@ const GpioPinsStatus = () => {
       trigger={
         <Container>
           {isAGpioPinOn ? <StyledBsLightbulb /> : <StyledBsLightbulbOff />}
-          <p>GPIO</p>
         </Container>
       }
       on="click"

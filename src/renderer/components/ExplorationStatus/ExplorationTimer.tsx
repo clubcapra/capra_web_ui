@@ -4,10 +4,21 @@ import React, { useEffect, FC, useState, ChangeEvent } from 'react';
 import { LabeledInput } from '@/renderer/components/common/LabeledInput';
 import { log } from '@/renderer/logger';
 import { styled } from '@/renderer/globalStyles/styled';
+import { toast } from 'react-toastify';
 
-export const ExplorationTimer: FC = () => {
+interface ExploationMsg {
+  message: string;
+}
+
+interface TimerDisplayProps {
+  setTimerDisplayProps: (timerDisplay: string) => void;
+}
+
+export const ExplorationTimer: FC<TimerDisplayProps> = ({
+  setTimerDisplayProps,
+}) => {
   const [duration, setDuration] = useState(2);
-  const [timeRemaining, setTimeRemaining] = useState(Number);
+  const [timeRemaining, setTimeRemaining] = useState(0);
   const [isTimerActive, setIsTimerActive] = useState(false);
   const [timerDisplay, setTimerDisplay] = useState('00:00');
   const [countDownDate, setCountDownDate] = useState(Date.now());
@@ -16,24 +27,26 @@ export const ExplorationTimer: FC = () => {
     setDuration(Number(e.target.value));
   };
 
-  const startTimer = () => {
-    setIsTimerActive(false);
-    setCountDownDate(Date.now() + duration * 60 * 1000);
-    setIsTimerActive(true);
-    setRosExplorationTimer();
+  const startTimer = async () => {
+    if (duration > 0) {
+      setCountDownDate(Date.now() + duration * 60 * 1000);
+      await setRosExplorationTimer(duration);
+    }
   };
 
-  const stopTimer = () => {
+  const stopTimer = async () => {
     setIsTimerActive(false);
     setDuration(0);
-    setRosExplorationTimer();
+    setTimeRemaining(0);
+    await setRosExplorationTimer(0);
   };
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval> | undefined;
     const intervalMs = 1000;
-    if (isTimerActive) {
+    if (isTimerActive && timeRemaining > 0) {
       interval = setInterval(() => {
+        setTimerDisplayProps(getTimeRemaining());
         setTimerDisplay(getTimeRemaining());
         setTimeRemaining(timeRemaining - intervalMs);
       }, intervalMs);
@@ -50,28 +63,45 @@ export const ExplorationTimer: FC = () => {
       const minutes = Math.floor((total % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((total % (1000 * 60)) / 1000);
 
-      const minutesDiplay =
+      const minutesDisplay =
         minutes < 10 ? '0' + minutes.toString() : minutes.toString();
-      const secondsDiplay =
+      const secondsDisplay =
         seconds < 10 ? '0' + seconds.toString() : seconds.toString();
 
       if (total < 0) {
         setIsTimerActive(false);
       }
-      return `${minutesDiplay}:${secondsDiplay}`;
+      return `${minutesDisplay}:${secondsDisplay}`;
     };
     return () => clearInterval(interval);
-  }, [isTimerActive, countDownDate, timeRemaining]);
+  }, [
+    isTimerActive,
+    countDownDate,
+    timeRemaining,
+    setTimerDisplayProps,
+    timerDisplay,
+  ]);
 
-  const setRosExplorationTimer = () => {
+  const setRosExplorationTimer = async (timer: number) => {
     rosClient
       .callService(
         {
           name: `/start_exploration`,
         },
-        { timeout: duration * 60 }
+        { timeout: timer * 60 }
       )
       .catch(log.error);
+
+    const result = (await rosClient.callService({
+      name: '/explore/get_loggers',
+    })) as ExploationMsg;
+
+    if (result && result.message === 'ERROR: unknown service') {
+      setIsTimerActive(false);
+      toast.error(result.message);
+    } else {
+      setIsTimerActive(true);
+    }
   };
 
   return (
