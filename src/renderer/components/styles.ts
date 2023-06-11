@@ -23,3 +23,23 @@ export const StyledPopup = styled(Popup)`
     -webkit-animation: anvil 0.2s cubic-bezier(0.38, 0.1, 0.36, 0.9) forwards;
   }
 `;
+
+export const StyledPopupContent = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  background-color: ${({ theme }) => theme.colors.darkerBackground};
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  min-width: 150px;
+`;
+
+export const StyledPopupContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    cursor: pointer;
+  }
+`;

@@ -1,7 +1,10 @@
 import BatteryGauge from 'react-battery-gauge';
 import React, { memo } from 'react';
 import { styled } from '@/renderer/globalStyles/styled';
-import { StyledPopup } from '@/renderer/components/styles';
+import {
+  StyledPopup,
+  StyledPopupContainer,
+} from '@/renderer/components/styles';
 import BatteryDetailsPopup from './BatteryDetailsPopup';
 import { defaultTheme } from '@/renderer/globalStyles/themes/defaultTheme';
 import useBatteryInfo from '@/renderer/hooks/useBatteryInfo';
@@ -36,7 +39,7 @@ const BatteryStatus = ({ name, topicName }: BatteryStatusProps) => {
   return (
     <StyledPopup
       trigger={
-        <Container>
+        <StyledPopupContainer>
           <PercentageText>{name}</PercentageText>
           <PercentageText>{batteryInfo.percentage.toFixed(0)}%</PercentageText>
           <BatteryGauge
@@ -45,7 +48,7 @@ const BatteryStatus = ({ name, topicName }: BatteryStatusProps) => {
             aspectRatio={0.42}
             customization={customization}
           />
-        </Container>
+        </StyledPopupContainer>
       }
       on="click"
       position="bottom center"
@@ -60,16 +63,6 @@ const BatteryStatus = ({ name, topicName }: BatteryStatusProps) => {
     </StyledPopup>
   );
 };
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  &:hover {
-    cursor: pointer;
-  }
-`;
 
 const PercentageText = styled.div`
   font-size: 12px;

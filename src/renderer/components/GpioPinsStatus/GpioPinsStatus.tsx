@@ -7,9 +7,9 @@ import { styled } from '@/renderer/globalStyles/styled';
 import { BsLightbulb } from 'react-icons/bs';
 import { BsLightbulbOff } from 'react-icons/bs';
 
-const GpioPinsConfig = () => {
+const GpioPinsStatus = () => {
   const gpioPins = useSelector(selectAllGpioPins);
-  const isAGpioPinOn = gpioPins.find((gpioPin) => gpioPin.isOn);
+  const isAGpioPinOn = gpioPins.find((gpioPin) => gpioPin.isOn)?.isOn;
   return (
     <StyledPopup
       trigger={
@@ -62,4 +62,4 @@ const StyledBsLightbulbOff = styled(BsLightbulbOff)`
   width: 1.25em;
 `;
 
-export default memo(GpioPinsConfig);
+export default memo(GpioPinsStatus);
