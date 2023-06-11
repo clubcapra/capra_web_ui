@@ -56,7 +56,7 @@ export const ExplorationTimer: FC<TimerDisplayProps> = ({
         setTimerDisplay(getTimeRemaining());
         setTimeRemaining(timeRemaining - intervalMs);
       }, intervalMs);
-    } else {
+    } else if (!isTimerActive && timeRemaining !== 0) {
       if (interval !== undefined) {
         clearInterval(interval);
       }
@@ -106,6 +106,7 @@ export const ExplorationTimer: FC<TimerDisplayProps> = ({
         .catch(() => {
           log.error;
         });
+      toast.info('start_exploration');
     }
   };
 
@@ -119,6 +120,7 @@ export const ExplorationTimer: FC<TimerDisplayProps> = ({
       toast.error(result.message);
     } else if (rosServiceState.matches('connected')) {
       setIsTimerActive(true);
+      toast.info('isStartExplorationStarted');
     }
   };
 
