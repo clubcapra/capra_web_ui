@@ -11,19 +11,6 @@ interface GpioPinProps {
   gpioPin: GpioPinState;
 }
 
-const Card = styled.div`
-  background-color: ${({ theme }) => theme.colors.darkerBackground};
-  border-radius: 4px;
-  padding: 16px;
-  margin: 8px;
-  min-width: 150px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
-`;
-
 export const GpioPin = ({ gpioPin }: GpioPinProps) => {
   const dispatch = useDispatch();
 
@@ -43,7 +30,7 @@ export const GpioPin = ({ gpioPin }: GpioPinProps) => {
 
   return (
     <Card>
-      <h3 style={{ paddingBottom: '4px' }}>{gpioPin.name}</h3>
+      <SytledP>{gpioPin.name}</SytledP>
       <IconButton
         icon={<FaPowerOff />}
         title={gpioPin.isOn ? 'Power Off' : 'Power On'}
@@ -57,3 +44,16 @@ export const GpioPin = ({ gpioPin }: GpioPinProps) => {
     </Card>
   );
 };
+
+const Card = styled.div`
+  padding: 8px;
+  margin: 4px;
+  min-width: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+`;
+
+const SytledP = styled.p`
+  margin-bottom: 0.25em;
+`;

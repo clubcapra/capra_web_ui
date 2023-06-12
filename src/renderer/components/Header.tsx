@@ -4,6 +4,8 @@ import { NavLink } from 'react-router-dom';
 import { selectDebugTabVisible } from '@/renderer/store/modules/debugTab';
 import { useSelector } from 'react-redux';
 import BatteryStatus from './BatteryStatus/BatteryStatus';
+import GpioPinsStatus from './GpioPinsStatus/GpioPinsStatus';
+import { ExplorationStatus } from './ExplorationStatus/ExplorationStatus';
 
 interface NavLinkDefinition {
   to: string;
@@ -47,6 +49,8 @@ export const Header: FC = () => {
           ))}
       </LeftHeader>
       <RightHeader>
+        <ExplorationStatus />
+        <GpioPinsStatus />
         <BatteryStatus name="Motor" topicName="/vbus1" />
         <BatteryStatus name="Logic" topicName="/vbus2" />
         <StyledLogo src="assets/images/logo.png" />
