@@ -34,9 +34,27 @@ export const initialState: LaunchFilesState[] = [
     isLaunched: false,
   },
   {
-    name: 'Slam',
+    name: 'Slam Real',
     packageName: 'markhor_slam',
     fileName: 'markhor_slam_real.launch',
+    isLaunched: false,
+  },
+  {
+    name: 'Slam Real RGB',
+    packageName: 'markhor_slam',
+    fileName: 'markhor_slam_real.launch camera:=true',
+    isLaunched: false,
+  },
+  {
+    name: 'Slam Simulation',
+    packageName: 'markhor_slam',
+    fileName: 'markhor_slam.launch',
+    isLaunched: false,
+  },
+  {
+    name: 'Slam 2D',
+    packageName: 'markhor_slam',
+    fileName: 'markhor_slam_2d.launch',
     isLaunched: false,
   },
 ];
