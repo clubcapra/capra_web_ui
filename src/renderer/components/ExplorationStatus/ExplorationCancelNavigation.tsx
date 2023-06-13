@@ -2,7 +2,7 @@ import { rosClient } from '@/renderer/utils/ros/rosClient';
 import React, { FC } from 'react';
 import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types';
 import { styled } from '@/renderer/globalStyles/styled';
-import { MdOutlineCancelScheduleSend } from 'react-icons/md';
+import { FaStop } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
 const stopNavigationTopic: TopicOptions = {
@@ -23,11 +23,11 @@ export const ExplorationCancelNavigation: FC<CancelNavigation> = ({
     toast.info('Navigation stop');
   };
 
-  return <StyledImCancelCircle onClick={onClick} />;
+  return <StyledFaStop onClick={onClick} />;
 };
 
-export const StyledImCancelCircle = styled(MdOutlineCancelScheduleSend)`
-  margin: 0.25em 0.25em 0 0;
+export const StyledFaStop = styled(FaStop)`
+  margin-top: 0.25em;
   color: red;
   &:hover {
     cursor: pointer;

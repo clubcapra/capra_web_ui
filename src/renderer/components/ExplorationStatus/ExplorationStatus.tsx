@@ -151,7 +151,6 @@ const StyledDiv = styled.div`
 const StyledGoTelescope = styled(GoTelescope)`
   height: 1.25em;
   width: 1.25em;
-  margin-left: 0.5em;
 `;
 const StyledDivTimer = styled.div`
   margin: 1em;
