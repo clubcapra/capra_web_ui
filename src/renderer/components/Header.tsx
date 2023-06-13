@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import BatteryStatus from './BatteryStatus/BatteryStatus';
 import GpioPinsStatus from './GpioPinsStatus/GpioPinsStatus';
 import { ExplorationStatus } from './ExplorationStatus/ExplorationStatus';
+import { CountdownStatus } from './CountdownStatus/CountdownStatus';
 
 interface NavLinkDefinition {
   to: string;
@@ -49,6 +50,7 @@ export const Header: FC = () => {
           ))}
       </LeftHeader>
       <RightHeader>
+        <CountdownStatus />
         <ExplorationStatus />
         <GpioPinsStatus />
         <BatteryStatus name="Motor" topicName="/vbus1" />
@@ -61,7 +63,7 @@ export const Header: FC = () => {
 
 const HeaderGrid = styled.div`
   display: grid;
-  grid-template-columns: 1fr 400px;
+  grid-template-columns: 1fr 500px;
   box-shadow: 0 3px 2px rgba(0, 0, 0, 0.25);
 `;
 
