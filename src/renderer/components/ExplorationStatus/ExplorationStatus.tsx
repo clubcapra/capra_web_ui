@@ -29,12 +29,12 @@ export const ExplorationStatus: FC = () => {
     setIsTimerActive(false);
     setCountDownDate(Date.now() + duration * 60 * 1000);
     setIsTimerActive(true);
-    setRosExplorationTimer(duration);
+    startRosExplorationTimer();
   };
 
   const stopTimer = () => {
     setIsTimerActive(false);
-    setRosExplorationTimer(0);
+    stopRosExplorationTimer();
   };
 
   const isShowTimerDisplay = () => {
@@ -77,13 +77,24 @@ export const ExplorationStatus: FC = () => {
     return () => clearInterval(interval);
   }, [isTimerActive, countDownDate, timeRemaining]);
 
-  const setRosExplorationTimer = (time: number) => {
+  const startRosExplorationTimer = () => {
     rosClient
       .callService(
         {
           name: `/start_exploration`,
         },
-        { timeout: time * 60 }
+        { timeout: duration * 60 }
+      )
+      .catch(log.error);
+  };
+
+  const stopRosExplorationTimer = () => {
+    rosClient
+      .callService(
+        {
+          name: `/stop_exploration`,
+        },
+        {}
       )
       .catch(log.error);
   };
