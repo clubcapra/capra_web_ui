@@ -18,7 +18,7 @@ export const ExplorationCancelNavigation: FC<CancelNavigation> = ({
   isCancelNavigationProps,
 }) => {
   const onClick = () => {
-    rosClient.publish(stopNavigationTopic, { id: -1 });
+    rosClient.publish(stopNavigationTopic, {});
     isCancelNavigationProps();
     toast.info('Navigation stop');
   };

@@ -29,13 +29,12 @@ export const ExplorationStatus: FC = () => {
     setIsTimerActive(false);
     setCountDownDate(Date.now() + duration * 60 * 1000);
     setIsTimerActive(true);
-    setRosExplorationTimer();
+    setRosExplorationTimer(duration);
   };
 
   const stopTimer = () => {
     setIsTimerActive(false);
-    setDuration(0);
-    setRosExplorationTimer();
+    setRosExplorationTimer(0);
   };
 
   const isShowTimerDisplay = () => {
@@ -78,22 +77,20 @@ export const ExplorationStatus: FC = () => {
     return () => clearInterval(interval);
   }, [isTimerActive, countDownDate, timeRemaining]);
 
-  const setRosExplorationTimer = () => {
+  const setRosExplorationTimer = (time: number) => {
     rosClient
       .callService(
         {
           name: `/start_exploration`,
         },
-        { timeout: duration * 60 }
+        { timeout: time * 60 }
       )
       .catch(log.error);
   };
 
   return (
     <StyledDiv>
-      {isShowTimerDisplay() && (
-        <ExplorationCancelNavigation isCancelNavigationProps={stopTimer} />
-      )}
+      <ExplorationCancelNavigation isCancelNavigationProps={stopTimer} />
       <StyledPopup
         trigger={
           <StyledPopupContainer>
@@ -135,11 +132,9 @@ export const ExplorationStatus: FC = () => {
             <StyledDivInfo>
               <StyledP>Time left</StyledP>
               <p>{timerDisplay}</p>
-              {isTimerActive && (
-                <ExplorationCancelNavigation
-                  isCancelNavigationProps={stopTimer}
-                />
-              )}
+              <ExplorationCancelNavigation
+                isCancelNavigationProps={stopTimer}
+              />
             </StyledDivInfo>
           </StyledDivTimer>
         </StyledPopupContent>

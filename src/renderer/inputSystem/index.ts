@@ -67,7 +67,7 @@ const defaultActions: Action[] = [
     name: 'stopNavigation',
     bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.X }],
     perform: () => {
-      rosClient.publish(stopNavigationTopic, { id: -1 });
+      rosClient.publish(stopNavigationTopic, {});
     },
   },
 ];
