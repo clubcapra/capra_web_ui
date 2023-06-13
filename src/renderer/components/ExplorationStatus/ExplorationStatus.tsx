@@ -64,10 +64,8 @@ export const ExplorationStatus: FC = () => {
       const minutes = Math.floor((total % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((total % (1000 * 60)) / 1000);
 
-      const minutesDiplay =
-        minutes < 10 ? '0' + minutes.toString() : minutes.toString();
-      const secondsDiplay =
-        seconds < 10 ? '0' + seconds.toString() : seconds.toString();
+      const minutesDiplay = minutes.toString().padStart(2, '0');
+      const secondsDiplay = seconds.toString().padStart(2, '0');
 
       if (total < 0) {
         setIsTimerActive(false);
