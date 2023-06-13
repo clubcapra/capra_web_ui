@@ -6,13 +6,18 @@ import { controlService } from '@/renderer/state/control';
 import { log } from '@/renderer/logger';
 import { armModeActions } from './armModeActions';
 import { flipperModeActions } from './flipperModeActions';
-import { TopicOptions } from '../utils/ros/roslib-ts-client/@types';
+import { TopicOptions } from '@/renderer/utils/ros/roslib-ts-client/@types';
 import { store } from '@/renderer/store/store';
 import { selectRobotNameState } from '@/renderer/store/modules/input';
 
 const gripperTopic: TopicOptions = {
   name: 'ovis/gripper/position_goal',
   messageType: 'ovis_robotiq_gripper/OvisGripperPosition',
+};
+
+const stopNavigationTopic: TopicOptions = {
+  name: '/move_base/cancel',
+  messageType: 'actionlib_msgs/GoalID',
 };
 
 const defaultActions: Action[] = [
@@ -59,12 +64,10 @@ const defaultActions: Action[] = [
   },
 
   {
-    name: 'wristlights',
+    name: 'stopNavigation',
     bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.X }],
     perform: () => {
-      rosClient
-        .callService({ name: '/capra/wrist_light_toggle' })
-        .catch(log.error);
+      rosClient.publish(stopNavigationTopic, {});
     },
   },
 ];
