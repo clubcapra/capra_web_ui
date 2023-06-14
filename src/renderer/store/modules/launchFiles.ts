@@ -57,6 +57,12 @@ export const initialState: LaunchFilesState[] = [
     fileName: 'markhor_slam_2d.launch',
     isLaunched: false,
   },
+  {
+    name: 'Radiation Sensor Mapping',
+    packageName: 'capra_sensor_mapping',
+    fileName: 'sensor_mapping.launch',
+    isLaunched: false,
+  },
 ];
 
 export const launchFilesSlice = createSlice({
