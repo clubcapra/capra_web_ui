@@ -5,8 +5,10 @@ import {
   StyledPopupContainer,
 } from '@/renderer/components/styles';
 import { Button } from '@/renderer/components/common/Button';
-import React, { useEffect, FC, useState, ChangeEvent } from 'react';
+import React, { useEffect, FC, useState, ChangeEvent, useRef } from 'react';
 import { LabeledInput } from '@/renderer/components/common/LabeledInput';
+
+const INTERVAL_MS = 1000;
 
 interface CountdownProps {
   icon: JSX.Element;
@@ -15,6 +17,9 @@ interface CountdownProps {
   onStartClick?: (duration: number) => void;
   onStopClick?: () => void;
   sideElement?: JSX.Element;
+  /**
+   * If true, the timer will be stopped.
+   */
   isNowStopCountdownTimer?: boolean;
 }
 
@@ -27,74 +32,111 @@ export const Countdown: FC<CountdownProps> = ({
   sideElement,
   isNowStopCountdownTimer,
 }) => {
-  const timeDisplayDefault = '00:00';
+  const intervalRef = useRef<ReturnType<typeof setInterval>>();
 
   const [duration, setDuration] = useState(durationDefault);
-  const [timeRemaining, setTimeRemaining] = useState(0);
-  const [isTimerActive, setIsTimerActive] = useState(false);
-  const [timerDisplay, setTimerDisplay] = useState(timeDisplayDefault);
-  const [countDownDate, setCountDownDate] = useState(Date.now());
+  const [timerDisplay, setTimerDisplay] = useState('00:00');
+  const countDownDate = useRef<number>(0);
 
-  const updateDuration = (e: ChangeEvent<HTMLInputElement>) => {
-    setDuration(Number(e.target.value));
+
+  const getTimeRemaining = () => {
+    return countDownDate.current - Date.now();
+  };
+
+  useEffect(() => {
+    if (isNowStopCountdownTimer) {
+      stopTimer();
+      updateTimerDisplay();
+    }
+  }, [isNowStopCountdownTimer]);
+
+  /**
+   * Parses a time in milliseconds to a string in the format mm:ss
+   *
+   * @param total - time in milliseconds
+   */
+  const formatTime = (total: number): string => {
+    const minutes = Math.floor((total % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((total % (1000 * 60)) / 1000);
+
+    const minutesDiplay = minutes.toString().padStart(2, '0');
+    const secondsDiplay = seconds.toString().padStart(2, '0');
+
+    return `${minutesDiplay}:${secondsDiplay}`;
   };
 
   const startTimer = () => {
-    setIsTimerActive(false);
-    setCountDownDate(Date.now() + duration * 60 * 1000);
-    setIsTimerActive(true);
+    if (intervalRef.current !== undefined) {
+      stopTimer();
+    }
+    countDownDate.current = Date.now() + duration * 60 * 1000;
+    intervalRef.current = setInterval(handleTimerTick, INTERVAL_MS);
     if (onStartClick !== undefined) {
       onStartClick(duration);
     }
   };
 
   const stopTimer = () => {
-    setIsTimerActive(false);
+    clearInterval(intervalRef.current);
+    intervalRef.current = undefined;
+    countDownDate.current = 0;
     if (onStopClick !== undefined) {
       onStopClick();
     }
   };
 
-  const isShowTimerDisplay = () => {
-    return timerDisplay !== '00:00';
+  /**
+   * Updates the timer display.
+   * If the timer is negative, it will be set to 0.
+   */
+  const updateTimerDisplay = () => {
+    let time = getTimeRemaining();
+    if (time < 0) time = 0;
+    const timeDisplay = formatTime(time);
+    setTimerDisplay(timeDisplay);
   };
 
-  useEffect(() => {
-    let interval: ReturnType<typeof setInterval> | undefined;
-    const intervalMs = 1000;
-    if (isTimerActive && !isNowStopCountdownTimer) {
-      interval = setInterval(() => {
-        setTimerDisplay(getTimeRemaining());
-        setTimeRemaining(timeRemaining - intervalMs);
-      }, intervalMs);
-    } else if (
-      isNowStopCountdownTimer ||
-      (!isTimerActive && timeRemaining !== 0)
-    ) {
-      if (interval !== undefined) {
-        clearInterval(interval);
-      }
-      setTimerDisplay(timeDisplayDefault);
-      setTimerDisplay(timeDisplayDefault);
-      setTimeRemaining(0);
+  const isTimerActive = () => {
+    return countDownDate.current > Date.now();
+  };
+
+  /**
+   * This function is called when the user clicks the start button.
+   */
+  const handleStartButtonClick = () => {
+    startTimer();
+    handleTimerTick();
+  };
+
+  /**
+   * This function is called when the user clicks the stop button.
+   */
+  const handleStopButtonClick = () => {
+    stopTimer();
+    updateTimerDisplay();
+  };
+
+
+  /**
+   * This function is called when the user changes the duration.
+   * @param e - the event
+   */
+  const handleDurationChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setDuration(Number(e.target.value));
+  };
+
+  /**
+   * This function is called every second by the timer.
+   */
+  const handleTimerTick = () => {
+    const time = getTimeRemaining();
+    if (time <= 0) {
+      countDownDate.current = 0;
+      stopTimer();
     }
 
-    const getTimeRemaining = () => {
-      const total = countDownDate - Date.now();
-
-      const minutes = Math.floor((total % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((total % (1000 * 60)) / 1000);
-
-      const minutesDiplay = minutes.toString().padStart(2, '0');
-      const secondsDiplay = seconds.toString().padStart(2, '0');
-
-      if (total < 0) {
-        setIsTimerActive(false);
-      }
-      return `${minutesDiplay}:${secondsDiplay}`;
-    };
-    return () => clearInterval(interval);
-  }, [isTimerActive, isNowStopCountdownTimer, countDownDate, timeRemaining]);
+    updateTimerDisplay();
+  };
 
   return (
     <StyledDiv>
@@ -102,7 +144,7 @@ export const Countdown: FC<CountdownProps> = ({
       <StyledPopup
         trigger={
           <StyledPopupContainer>
-            {isShowTimerDisplay() && timerDisplay}
+            {isTimerActive() && timerDisplay}
             {icon}
           </StyledPopupContainer>
         }
@@ -118,18 +160,18 @@ export const Countdown: FC<CountdownProps> = ({
                 label={`Duration of ${labelPopup} (min)`}
                 value={duration.toString()}
                 type="number"
-                onChange={updateDuration}
+                onChange={handleDurationChange}
               />
               <StyledDivDuration>
                 <Button
-                  onClick={startTimer}
+                  onClick={handleStartButtonClick}
                   btnType="success"
                   style={{ maxWidth: '185px' }}
                 >
                   Start
                 </Button>
                 <Button
-                  onClick={stopTimer}
+                  onClick={handleStopButtonClick}
                   btnType="danger"
                   style={{ maxWidth: '185px' }}
                 >
