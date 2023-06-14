@@ -7,7 +7,7 @@ export const CountdownStatus: FC = () => {
   return (
     <Countdown
       icon={<StyledIoMdStopwatch />}
-      labelPopup={'exploration'}
+      labelPopup={'scenario'}
       durationDefault={35}
     />
   );
