@@ -60,11 +60,11 @@ export default class RosClient {
 
   sendHeartbeat() {
     const heartbeatTopic: TopicOptions = {
-      name: '/heartbeat',
+      name: '/markhor/heartbeat',
       messageType: 'std_msgs/String',
     };
 
-    const message = new ROSLIB.Message({ data: 'heartbeat' });
+    const message = new ROSLIB.Message({ data: 'ui' });
 
     rosClient.publish(heartbeatTopic, message);
   }
