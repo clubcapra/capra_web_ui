@@ -32,12 +32,11 @@ export const Countdown: FC<CountdownProps> = ({
   sideElement,
   isNowStopCountdownTimer,
 }) => {
+  const countDownDate = useRef<number>(0);
   const intervalRef = useRef<ReturnType<typeof setInterval>>();
 
   const [duration, setDuration] = useState(durationDefault);
   const [timerDisplay, setTimerDisplay] = useState('00:00');
-  const countDownDate = useRef<number>(0);
-
 
   const getTimeRemaining = () => {
     return countDownDate.current - Date.now();
@@ -53,11 +52,11 @@ export const Countdown: FC<CountdownProps> = ({
   /**
    * Parses a time in milliseconds to a string in the format mm:ss
    *
-   * @param total - time in milliseconds
+   * @param timeRemain - time in milliseconds
    */
-  const formatTime = (total: number): string => {
-    const minutes = Math.floor((total % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((total % (1000 * 60)) / 1000);
+  const formatTime = (timeRemain: number): string => {
+    const minutes = Math.floor((timeRemain % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeRemain % (1000 * 60)) / 1000);
 
     const minutesDiplay = minutes.toString().padStart(2, '0');
     const secondsDiplay = seconds.toString().padStart(2, '0');
@@ -91,7 +90,9 @@ export const Countdown: FC<CountdownProps> = ({
    */
   const updateTimerDisplay = () => {
     let time = getTimeRemaining();
-    if (time < 0) time = 0;
+    if (time < 0) {
+      time = 0;
+    }
     const timeDisplay = formatTime(time);
     setTimerDisplay(timeDisplay);
   };
@@ -115,7 +116,6 @@ export const Countdown: FC<CountdownProps> = ({
     stopTimer();
     updateTimerDisplay();
   };
-
 
   /**
    * This function is called when the user changes the duration.
