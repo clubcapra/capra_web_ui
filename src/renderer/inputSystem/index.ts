@@ -62,7 +62,6 @@ const defaultActions: Action[] = [
       });
     },
   },
-
   {
     name: 'stopNavigation',
     bindings: [{ type: 'gamepadBtnDown', button: buttonMappings.X }],
