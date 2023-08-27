@@ -73,7 +73,10 @@ export const gpioPinsSlice = createSlice({
     removePin: (state, { payload }: PayloadAction<GpioPinState>) => {
       state = state.filter((pin) => pin.id !== payload.id);
     },
-    updateBPM: (state, { payload }: PayloadAction<{ id: string; bpm: number }>) => {
+    updateBPM: (
+      state,
+      { payload }: PayloadAction<{ id: string; bpm: number }>
+    ) => {
       const element = state.find((element) => element.id === payload.id);
       if (element) {
         element.bpm = payload.bpm;

@@ -18,9 +18,13 @@ export const GpioPinsConfig = () => {
     <>
       <SectionTitle>GPIO Control</SectionTitle>
       <Container>
-        {gpioPins.map((gpioPin) => (
-          gpioPin.bpm ? <GpioBPMPin key={gpioPin.id} gpioPin={gpioPin} /> : <GpioPin key={gpioPin.id} gpioPin={gpioPin} /> 
-        ))}
+        {gpioPins.map((gpioPin) =>
+          gpioPin.bpm ? (
+            <GpioBPMPin key={gpioPin.id} gpioPin={gpioPin} />
+          ) : (
+            <GpioPin key={gpioPin.id} gpioPin={gpioPin} />
+          )
+        )}
       </Container>
     </>
   );
