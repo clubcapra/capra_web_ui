@@ -7,6 +7,7 @@ export interface GpioPinState {
   name: string;
   topicName: string;
   isOn: boolean;
+  bpm: number;
 }
 
 export const initialState: GpioPinState[] = [
@@ -15,18 +16,28 @@ export const initialState: GpioPinState[] = [
     name: 'FRONT LED',
     topicName: '/DOP1',
     isOn: false,
+    bpm: 0,
   },
   {
     id: nanoid(),
     name: 'BACK LED',
     topicName: '/DOP2',
     isOn: false,
+    bpm: 0,
   },
   {
     id: nanoid(),
-    name: 'ARM LED',
+    name: 'ARMED LED',
     topicName: '/DOP3',
     isOn: false,
+    bpm: 0,
+  },
+  {
+    id: nanoid(),
+    name: 'START ACTUATOR',
+    topicName: '/DOP4',
+    isOn: false,
+    bpm: 136,
   },
 ];
 
@@ -61,6 +72,15 @@ export const gpioPinsSlice = createSlice({
     },
     removePin: (state, { payload }: PayloadAction<GpioPinState>) => {
       state = state.filter((pin) => pin.id !== payload.id);
+    },
+    updateBPM: (
+      state,
+      { payload }: PayloadAction<{ id: string; bpm: number }>
+    ) => {
+      const element = state.find((element) => element.id === payload.id);
+      if (element) {
+        element.bpm = payload.bpm;
+      }
     },
   },
 });
