@@ -16,6 +16,7 @@ interface FlipperStateSchema {
     rl: Record<string, unknown>;
     rr: Record<string, unknown>;
     all: Record<string, unknown>;
+    none: Record<string, unknown>;
   };
 }
 
@@ -32,44 +33,44 @@ export const flipperMachine = Machine<
 >(
   {
     id: 'flipper',
-    initial: 'all',
+    initial: 'none',
     context: {},
     states: {
       front: {
         on: {
           MODE_LEFT: { target: 'fl', actions: 'set_mode_fl' },
           MODE_RIGHT: { target: 'fr', actions: 'set_mode_fr' },
-          MODE_REAR: { target: 'all', actions: 'set_mode_all' },
+          MODE_REAR: { target: 'none', actions: 'set_mode_none' },
         },
       },
       fl: {
         on: {
           MODE_RIGHT: { target: 'front', actions: 'set_mode_front' },
-          MODE_REAR: { target: 'all', actions: 'set_mode_all' },
+          MODE_REAR: { target: 'none', actions: 'set_mode_none' },
         },
       },
       fr: {
         on: {
           MODE_LEFT: { target: 'front', actions: 'set_mode_front' },
-          MODE_REAR: { target: 'all', actions: 'set_mode_all' },
+          MODE_REAR: { target: 'none', actions: 'set_mode_none' },
         },
       },
       rear: {
         on: {
-          MODE_FRONT: { target: 'all', actions: 'set_mode_all' },
+          MODE_FRONT: { target: 'none', actions: 'set_mode_none' },
           MODE_LEFT: { target: 'rl', actions: 'set_mode_rl' },
           MODE_RIGHT: { target: 'rr', actions: 'set_mode_rr' },
         },
       },
       rl: {
         on: {
-          MODE_FRONT: { target: 'all', actions: 'set_mode_all' },
+          MODE_FRONT: { target: 'none', actions: 'set_mode_none' },
           MODE_RIGHT: { target: 'rear', actions: 'set_mode_rear' },
         },
       },
       rr: {
         on: {
-          MODE_FRONT: { target: 'all', actions: 'set_mode_none' },
+          MODE_FRONT: { target: 'none', actions: 'set_mode_none' },
           MODE_LEFT: { target: 'rear', actions: 'set_mode_rear' },
         },
       },
@@ -77,12 +78,24 @@ export const flipperMachine = Machine<
         on: {
           MODE_FRONT: { target: 'front', actions: 'set_mode_front' },
           MODE_REAR: { target: 'rear', actions: 'set_mode_rear' },
+          MODE_LEFT: { target: 'none', actions: 'set_mode_none' },
+        },
+      },
+      none: {
+        on: {
+          MODE_FRONT: { target: 'front', actions: 'set_mode_front' },
+          MODE_REAR: { target: 'rear', actions: 'set_mode_rear' },
+          MODE_RIGHT: { target: 'all', actions: 'set_mode_all' },
         },
       },
     },
   },
   {
     actions: {
+      set_mode_none: () => {
+        void sendFlipperMode('front_disable');
+        void sendFlipperMode('rear_disable');
+      },
       set_mode_all: () => {
         void sendFlipperMode('front_enable');
         void sendFlipperMode('rear_enable');

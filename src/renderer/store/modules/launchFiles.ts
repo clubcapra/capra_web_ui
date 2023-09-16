@@ -27,6 +27,42 @@ export const initialState: LaunchFilesState[] = [
     fileName: 'ovis_arm.launch',
     isLaunched: false,
   },
+  {
+    name: 'Navigation',
+    packageName: 'markhor_navigation',
+    fileName: 'markhor_nav.launch',
+    isLaunched: false,
+  },
+  {
+    name: 'Slam Real',
+    packageName: 'markhor_slam',
+    fileName: 'markhor_slam_real.launch',
+    isLaunched: false,
+  },
+  {
+    name: 'Slam Real RGB',
+    packageName: 'markhor_slam',
+    fileName: 'markhor_slam_real.launch camera:=true',
+    isLaunched: false,
+  },
+  {
+    name: 'Slam Simulation',
+    packageName: 'markhor_slam',
+    fileName: 'markhor_slam.launch',
+    isLaunched: false,
+  },
+  {
+    name: 'Slam 2D',
+    packageName: 'markhor_slam',
+    fileName: 'markhor_slam_2d.launch',
+    isLaunched: false,
+  },
+  {
+    name: 'Radiation Sensor Mapping',
+    packageName: 'capra_sensor_mapping',
+    fileName: 'sensor_mapping.launch',
+    isLaunched: false,
+  },
 ];
 
 export const launchFilesSlice = createSlice({
