@@ -2,7 +2,7 @@
 name = "capra_tauri_ui"
 version = "0.0.0"
 description = "User Interface for ROS based robots"
-authors = ["Club Capra <admin@clubcapra.com>"]
+authors = ["Club Capra <capra@ens.etsmtl.ca>"]
 license = "GPL-3.0"
 repository = "https://github.com/clubcapra/capra_web_ui"
 edition = "2021"
