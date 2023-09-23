@@ -17,9 +17,17 @@ Proposed
 The Vue 3 framework has undergone a complete rewrite and is now believed to be more performant than React.
 Additionally, a lot of new features were added:
 
-- Composition API
+- Composition API: a new way to write components that is more flexible and powerful than the Options API.
+  - Better Logic Reuse: It enables clean and efficient logic reuse. Allow us to extract common logic into reusable functions and reuse them across components.
+  - More Flexible Code Organization: It allows us to organize our code in a more flexible way. We can group logic by feature instead of by lifecycle hooks.
+  - Better Type Inference: Composition API utilizes mostly plain variables and functions, which are naturally type friendly.
 - SFC Composition API Syntax Sugar (`<script setup>`)
-- Teleport
+  - Smaller Production Bundle and Less Overhead: Code written in Composition API and `<script setup>` is more efficient and minification-friendly.
+    - More succinct code with less boilerplate
+    - Ability to declare props and emitted events using pure TypeScript
+    - Better runtime performance (the template is compiled into a render function in the same scope, without an intermediate proxy)
+    - Better IDE type-inference performance (less work for the language server to extract types from code)
+- Teleport: built-in component that allow to "teleport" a part of a component's template into a DOM node that exists outside the DOM hierarchy of that component.
 - Fragments; i.e., multiple root nodes
 
 Another factors:
