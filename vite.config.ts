@@ -49,7 +49,7 @@ export default defineConfig(
     resolve: {
       // https://vitejs.dev/config/shared-options.html#resolve-alias
       alias: {
-        '@clubcapra': fileURLToPath(new URL('./src', import.meta.url)),
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
       },
       extensions: ['.js', '.json', '.jsx', '.mjs', '.ts', '.tsx', '.vue'],
     },
