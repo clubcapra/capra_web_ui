@@ -1,9 +1,10 @@
 import { fileURLToPath, URL } from 'node:url';
 
-import { defineConfig, type UserConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import { defineConfig, type UserConfig } from 'vite';
 import { checker } from 'vite-plugin-checker';
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
+import { configDefaults } from 'vitest/config';
 
 /**
  * Vite Configure
@@ -56,5 +57,16 @@ export default defineConfig(
     // 3. to make use of `TAURI_DEBUG` and other env variables
     // https://tauri.studio/v1/api/config#buildconfig.beforedevcommand
     envPrefix: ['VITE_', 'TAURI_'],
+    test: {
+      // https://vitest.dev/guide/#configuring-vitest
+      clearMocks: true,
+      environment: 'node',
+      exclude: [...configDefaults.exclude, 'e2e/*', 'src-tauri/*'],
+      globals: true,
+      globalSetup: [
+        fileURLToPath(new URL('./vitest/setup.ts', import.meta.url)),
+      ],
+      root: fileURLToPath(new URL('./', import.meta.url)),
+    },
   })
 );
