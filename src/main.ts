@@ -1,6 +1,5 @@
 // Load vue core
 import { createApp } from 'vue';
-import router from './router';
 import store from './store';
 
 // Load plugins
@@ -11,11 +10,8 @@ import App from './App.vue';
 
 /** Register Vue */
 const vue = createApp(App);
-vue.use(router);
 vue.use(store);
 vue.use(vuetify);
 
 // Run!
-router.isReady().then(() => {
-  vue.mount('#app');
-});
+vue.mount('#app');

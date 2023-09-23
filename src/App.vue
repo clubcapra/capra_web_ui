@@ -1,30 +1,38 @@
 <script setup lang="ts">
-import type { WritableComputedRef } from 'vue';
-import { computed, onMounted } from 'vue';
-import { useGlobalStore } from './store';
+import { ref } from 'vue';
+import { invoke } from '@tauri-apps/api/tauri';
 
-/** Global Store */
-const globalStore = useGlobalStore();
+const greetMsg = ref('');
+const name = ref('');
 
-/** loading overlay visibility */
-const loading: WritableComputedRef<boolean> = computed({
-  get: () => globalStore.loading,
-  set: v => globalStore.setLoading(v),
-});
-
-onMounted(() => {
-  loading.value = false;
-});
+/**
+ * Greet the user
+ */
+async function greet() {
+  // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
+  greetMsg.value = await invoke('greet', { name: name.value });
+}
 </script>
 
 <template>
   <v-app>
     <v-main>
-      <router-view />
-    </v-main>
+      <v-sheet width="300" class="mx-auto">
+        <form class="row" @submit.prevent="greet">
+          <v-form>
+            <v-container>
+              <v-text-field v-model="name" placeholder="Enter a name...." />
+            </v-container>
+          </v-form>
+          <div class="d-flex flex-column">
+            <v-btn block class="mt-4" type="submit" color="primary">
+              Greet
+            </v-btn>
+          </div>
+        </form>
 
-    <v-overlay :model-value="loading" app class="justify-center align-center">
-      <v-progress-circular indeterminate size="64" />
-    </v-overlay>
+        <p>{{ greetMsg }}</p>
+      </v-sheet>
+    </v-main>
   </v-app>
 </template>

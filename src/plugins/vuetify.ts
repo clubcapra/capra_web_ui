@@ -5,7 +5,7 @@ import { aliases, mdi } from 'vuetify/iconsets/mdi';
 import { createVuetify } from 'vuetify';
 
 // Translations provided by Vuetify
-import { en, fr } from 'vuetify/locale';
+import { en } from 'vuetify/locale';
 
 // Styles
 import 'vuetify/styles';
@@ -26,12 +26,12 @@ const vuetify = createVuetify({
   locale: {
     locale: 'en',
     fallback: 'en',
-    messages: { en, fr },
+    messages: { en },
   },
   // Theme
   // https://next.vuetifyjs.com/en/features/theme/
   theme: {
-    defaultTheme: 'light',
+    defaultTheme: 'dark',
   },
 });
 export default vuetify;
