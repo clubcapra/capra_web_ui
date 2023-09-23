@@ -1,0 +1,32 @@
+/**
+ * src/styles/settings.scss
+ *
+ * Configures SASS variables and Vuetify overwrites
+ */
+
+// https://next.vuetifyjs.com/features/sass-variables/
+@use 'vuetify/settings' with (
+  // Place SASS variable overrides here
+  $body-font-family:
+    (
+      'Segoe UI',
+      'Roboto',
+      'Oxygen',
+      'Ubuntu',
+      'Cantarell',
+      'Fira Sans',
+      'Droid sans',
+      'Helvetica Neue',
+      'sans-serif'
+    )
+);
+
+// Fix for monospace Font.
+code,
+kbd,
+pre,
+samp,
+var {
+  font-family: 'source-code-pro', 'Menlo', 'Monaco', 'Consolas', 'Courier New',
+    monospace !important;
+}

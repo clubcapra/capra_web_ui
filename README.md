@@ -2,14 +2,18 @@
 
 This is a UI application for manually controlling ROS-based robots in real-time. While it is designed for the use case of club capra, we try to make it as robot agnostic as possible. As long as your robots has the required dependencies it should be almost plug and play.
 
-- [capra_web_ui](#capra_web_ui)
+- [capra\_web\_ui](#capra_web_ui)
   - [Installation](#installation)
   - [npm setup](#npm-setup)
     - [For Linux](#for-linux)
     - [For Windows](#for-windows)
   - [Building](#building)
   - [ROS dependencies](#ros-dependencies)
-    - [Audio](#audio)
+  - [System dependencies](#system-dependencies)
+    - [On Windows](#on-windows)
+    - [On Linux (Debian)](#on-linux-debian)
+    - [On Mac](#on-mac)
+  - [Audio](#audio)
   - [Global state - redux and xstate](#global-state---redux-and-xstate)
   - [Code Formatting](#code-formatting)
   - [Release](#release)
@@ -18,6 +22,9 @@ This is a UI application for manually controlling ROS-based robots in real-time.
     - [Connecting](#connecting)
     - [Config](#config)
     - [Logging](#logging)
+    - [Testing ROS features locally](#testing-ros-features-locally)
+  - [Recommended IDE Setup](#recommended-ide-setup)
+  - [Type Support For `.vue` Imports in TS](#type-support-for-vue-imports-in-ts)
 
 ## Installation
 
@@ -177,3 +184,18 @@ To run the rosbridge server simply open a terminal and run the following command
 If the package is not installed you can install it:
 
 `sudo apt-get install ros-<rosdistro>-rosbridge-suite`.
+
+## Recommended IDE Setup
+
+- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer).
+
+## Type Support For `.vue` Imports in TS
+
+TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+
+If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+
+1. Disable the built-in TypeScript Extension
+   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
+   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
+2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.

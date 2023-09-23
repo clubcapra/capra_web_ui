@@ -1,25 +1,11 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig.json",
+  "files": [],
   "compilerOptions": {
-    "target": "es2021",
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "exactOptionalPropertyTypes": true,
-    "moduleResolution": "node",
-    "noEmit": true,
-    "jsx": "react",
-    "baseUrl": ".",
-    "skipLibCheck": true,
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    }
+    "newLine": "lf"
   },
-  "include": [
-    "src",
-  ],
-  "exclude": [
-    "node_modules"
+  "references": [
+    { "path": "./tsconfig.config.json" },
+    { "path": "./tsconfig.app.json" }
   ]
 }
