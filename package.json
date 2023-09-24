@@ -19,7 +19,6 @@
   "dependencies": {
     "@mdi/font": "^7.2.96",
     "@tauri-apps/api": "^1.4.0",
-    "pinia": "^2.1.6",
     "roslib": "^1.3.0",
     "vue": "^3.3.4",
     "vuetify": "^3.3.17"

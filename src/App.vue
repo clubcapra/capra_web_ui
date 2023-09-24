@@ -16,23 +16,19 @@ async function greet() {
 
 <template>
   <v-app>
-    <v-main>
-      <v-sheet width="300" class="mx-auto">
-        <form class="row" @submit.prevent="greet">
-          <v-form>
-            <v-container>
-              <v-text-field v-model="name" placeholder="Enter a name...." />
-            </v-container>
-          </v-form>
-          <div class="d-flex flex-column">
-            <v-btn block class="mt-4" type="submit" color="primary">
-              Greet
-            </v-btn>
-          </div>
-        </form>
+    <v-sheet width="300" class="mx-auto">
+      <form class="row" @submit.prevent="greet">
+        <v-form>
+          <v-container>
+            <v-text-field v-model="name" placeholder="Enter a name...." />
+          </v-container>
+        </v-form>
+        <div class="d-flex flex-column">
+          <v-btn block class="mt-4" type="submit" color="primary">Greet</v-btn>
+        </div>
+      </form>
 
-        <p>{{ greetMsg }}</p>
-      </v-sheet>
-    </v-main>
+      <p>{{ greetMsg }}</p>
+    </v-sheet>
   </v-app>
 </template>
