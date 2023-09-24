@@ -12,7 +12,7 @@ const tab = ref();
 </script>
 
 <template>
-  <v-layout>
+  <v-app>
     <v-app-bar density="compact">
       <v-tabs v-model="tab">
         <v-tab value="teleop">Teleop</v-tab>
@@ -53,5 +53,5 @@ const tab = ref();
         </v-window-item>
       </v-window>
     </v-main>
-  </v-layout>
+  </v-app>
 </template>
