@@ -58,13 +58,13 @@ npm i
 - Bundle the typescript in src/main and src/renderer in `/build` and use those to build the electron app installer. The final executable will be found in `/dist`
 
 ```shell
-npm run build
+npm run tauri build
 ```
 
 - Start the application in development mode with hot module reloading. This means you can make changes in your editor and they will be instantly visible in the app.
 
 ```shell
-npm run start
+npm run tauri dev
 ```
 
 ## ROS dependencies
