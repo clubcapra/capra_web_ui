@@ -3,6 +3,7 @@ import { ref } from 'vue';
 
 // Components
 import ConfigWindow from './components/ConfigWindow.vue';
+import EmergencyStop from './components/EmergencyStop.vue';
 
 // Assets
 import logoCapra from './assets/logo.png';
@@ -13,7 +14,7 @@ const tab = ref();
 
 <template>
   <v-app>
-    <v-app-bar density="compact">
+    <v-app-bar density="compact" order="1">
       <v-tabs v-model="tab">
         <v-tab value="teleop">Teleop</v-tab>
         <v-tab value="victim">Victim</v-tab>
@@ -53,5 +54,8 @@ const tab = ref();
         </v-window-item>
       </v-window>
     </v-main>
+    <v-navigation-drawer width="70" permanent location="end">
+      <EmergencyStop />
+    </v-navigation-drawer>
   </v-app>
 </template>
