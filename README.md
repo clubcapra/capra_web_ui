@@ -28,6 +28,8 @@ Follow these steps to install the prerequisites:
 
 Once you have installed these software, you are ready to run the application.
 
+> **Note for Windows Users:** While you can use WSL (Windows Subsystem for Linux) to install and run the required tools, we recommend using the native Windows versions. WSL can significantly slow down your development process, making your code execution slower than it should be.
+
 ## Running the Web Application
 
 To run the web application, open a terminal and follow these steps:
