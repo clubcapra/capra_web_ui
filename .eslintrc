@@ -1,0 +1,110 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2022": true,
+    "node": false
+  },
+  "extends": [
+    "eslint:recommended",
+    "google",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:markdown/recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+    "plugin:jsdoc/recommended",
+    "plugin:prettier/recommended",
+    "plugin:vue/vue3-recommended",
+    "plugin:vuetify/base",
+    "plugin:yaml/recommended",
+    "@vue/eslint-config-prettier"
+  ],
+  "plugins": [
+    "@typescript-eslint",
+    "jsdoc",
+    "tsdoc",
+    "html",
+    "yaml",
+    "vue"
+  ],
+  "parser": "vue-eslint-parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "parser": "@typescript-eslint/parser",
+    "sourceType": "module",
+    "createDefaultProgram": true
+  },
+  "rules": {
+    "new-cap": "off",
+    "no-invalid-this": "off",
+    "no-unused-vars": "warn",
+    "no-console": "off",
+    "require-jsdoc": "off",
+    "valid-jsdoc": "off",
+    "jsdoc/require-param-type": "off",
+    "jsdoc/require-param": [
+      "off",
+      {
+        "enableRootFixer": false
+      }
+    ],
+    "jsdoc/require-returns-description": "off",
+    "jsdoc/require-returns-type": "off",
+    "jsdoc/require-returns": "off",
+    "tsdoc/syntax": "warn",
+    "jsdoc/tag-lines": "off",
+    "vue/html-self-closing": [
+      "error",
+      {
+        "html": {
+          "void": "always"
+        }
+      }
+    ],
+    "vue/multi-word-component-names": "warn",
+    "vuetify/no-deprecated-components": "off"
+  },
+  "overrides": [
+    {
+      "files": [
+        "*.html"
+      ],
+      "processor": "vue/.vue"
+    }
+  ],
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [
+        "*.ts",
+        "*.tsx"
+      ],
+      "vue-eslint-parser": [
+        "*.vue"
+      ]
+    },
+    "import/resolver": {
+      "typescript": true,
+      "node": true,
+      "alias": {
+        "map": [
+          [
+            "@",
+            "./src"
+          ]
+        ],
+        "extensions": [
+          ".cjs",
+          ".js",
+          ".jsx",
+          ".mjs",
+          ".ts",
+          ".tsx",
+          ".vue"
+        ]
+      }
+    },
+    "vite": {
+      "configPath": "./vite.config.ts"
+    }
+  }
+}

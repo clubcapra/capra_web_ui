@@ -1,136 +1,89 @@
 # capra_web_ui
 
-This is a UI application for manually controlling ROS-based robots in real-time. While it is designed for the use case of club capra, we try to make it as robot agnostic as possible. As long as your robots has the required dependencies it should be almost plug and play.
+This project is an application with a user interface (UI) designed for manually controlling ROS-based robots in real-time. While it is primarily intended for use in the context of the Capra club, we have aimed to make it as robot-agnostic as possible. As long as your robots have the required dependencies, installation should be nearly plug and play.
 
-- [capra_web_ui](#capra_web_ui)
+- [capra\_web\_ui](#capra_web_ui)
+  - [Prerequisites](#prerequisites)
   - [Installation](#installation)
-  - [npm setup](#npm-setup)
-    - [For Linux](#for-linux)
-    - [For Windows](#for-windows)
-  - [Building](#building)
-  - [ROS dependencies](#ros-dependencies)
-    - [Audio](#audio)
-  - [Global state - redux and xstate](#global-state---redux-and-xstate)
-  - [Code Formatting](#code-formatting)
+  - [Running the Web Application](#running-the-web-application)
+  - [Running the Desktop Application with Tauri](#running-the-desktop-application-with-tauri)
+  - [Building the Application with Tauri](#building-the-application-with-tauri)
   - [Release](#release)
-  - [Usage Guide](#usage-guide)
-    - [Reverse mode](#reverse-mode)
-    - [Connecting](#connecting)
-    - [Config](#config)
-    - [Logging](#logging)
+  - [Recommended IDE Setup](#recommended-ide-setup)
+  - [Type Support For `.vue` Imports in TS](#type-support-for-vue-imports-in-ts)
+
+## Prerequisites
+
+Before you can run the application, make sure you have the following software installed on your system:
+
+- [Node.js and npm](https://nodejs.org/) - To run the web application.
+- [Rust](https://www.rust-lang.org/) - To run the desktop application with Tauri.
 
 ## Installation
 
-We provide installers for Windows and Ubuntu that can be found in the release page. If a release is marked as pre-release it means the features haven't been tested with an actual robot.
-<https://github.com/clubcapra/capra_web_ui/releases>
+Follow these steps to install the prerequisites:
 
-## npm setup
+1. Install Node.js and npm by following the instructions available on the [official Node.js website](https://nodejs.org/).
+2. Install Rust by following the instructions available on the [official Rust website](https://www.rust-lang.org/).
 
-<!-- TODO make a dev setup readme or wiki page -->
+Once you have installed these software, you are ready to run the application.
 
-While you can install node/npm manually, it's easier to use a version manager. This let's you have multiple node version installed without any issues.
+> **Note for Windows Users:** While you can use WSL (Windows Subsystem for Linux) to install and run the required tools, we recommend using the native Windows versions. WSL can significantly slow down your development process, making your code execution slower than it should be.
 
-### For Linux
+## Running the Web Application
 
-We recommend using <https://github.com/nvm-sh/nvm>
+To run the web application, open a terminal and follow these steps:
 
-### For Windows
+1. Navigate to the project directory:
+   ```shell
+   cd capra_web_ui
+   ```
+2. Install npm dependenccies by running the following command:
+   ```shell
+   npm install
+   ```
+3. Launch the web application using Vite:
+   ```shell
+   npm run dev
+   ```
 
-We recommend using <https://github.com/coreybutler/nvm-windows>
+The web application will be accessible at <http://localhost:1420>.
 
-## Building
+## Running the Desktop Application with Tauri
 
-capra_web_ui is made with web technologies this means you need node.js installed on your machine to build it. We assume the latest version of nodejs is installed.
+To run the desktop application with Tauri, open a terminal and follow these steps:
 
-- Download and install all required dependencies to build or develop the app.
+1. Navigate to the project directory:
+   ```shell
+   cd capra_web_ui
+   ```
+2. Make sure npm dependencies are installed by running:
+   ```shell
+   npm install
+   ```
+3. Launch the desktop application using the Tauri command:
+   ```shell
+   npm run tauri dev
+   ```
 
-```shell
-npm i
-```
+The desktop application will be launched using Tauri.
 
-- Bundle the typescript in src/main and src/renderer in `/build` and use those to build the electron app installer. The final executable will be found in `/dist`
+## Building the Application with Tauri
 
-```shell
-npm run build
-```
+To build the desktop application with Tauri, follow these steps:
 
-- Start the application in development mode with hot module reloading. This means you can make changes in your editor and they will be instantly visible in the app.
-
-```shell
-npm run start
-```
-
-## ROS dependencies
-
-- [rosbrige_suite](http://wiki.ros.org/rosbridge_suite) used to communicrate with robot
-- [web_video_server](http://wiki.ros.org/web_video_server) used to stream video
-- [tf2_web_republisher](https://wiki.ros.org/tf2_web_republisher) used to stream 3d model
-- [capra_audio](https://github.com/clubcapra/capra_audio_common)
-
-You need to have a small web server running in the folder containing the robot_description.
-
-For example, for our markhor robot:
-
-```bash
-cd catkin_ws/src/markhor
-python3 -m http.server 88 # launch a server with python on port 88
-```
-
-Note: the port for the robot_description is currently hardcoded to 88. It will be configurable in the future.
-
-After that you need to `rosrun` a robot_description
-
-```shell
-rosrun tf2_web_republisher tf2_web_republisher
-roslaunch web_video_server web_video_server.launch
-roslaunch rosbridge_server rosbridge_websocket.launch
-```
-
-## System dependencies
-
-To view RTSP streams your system requires FFmpeg to be installed.
-
-### On Windows
-
-With Chocolatey:
-
-`choco install ffmpeg`
-
-### On Linux (Debian)
-
-`sudo apt install ffmpeg`
-
-### On Mac
-
-With homebrew:
-
-`brew install ffmpeg`
-
-## Audio
-
-Currently, the audio IO is handled by the [capra_audio](https://github.com/clubcapra/capra_audio_common) node. The UI will simply launch the node as a child process. This only works on linux. Windows support should work with wsl but is not currently implemented. For audio to work, you also need to make sure that the capra_audio launch files are sourced in the terminal you are using to launch the UI.
-
-## Global state - redux and xstate
-
-For global state handle we use a mix of redux and xstate. While it's technically possible to use xstate context for the entirety of the global state. It's much easier to store global state in redux and only use xstate when the state is an actual state machine and not just pure data.
-
-## Code Formatting
-
-Our code formatting is handled by Prettier and ESLint. The configuration files for both are located in the root of the project. We recommend using the Prettier and ESLint extensions on VSCode to automatically detect style errors.
-
-To automatically format the code every time you save, add the following to your `settings.json` in the `.vscode` folder:
-
-```json
-{
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  },
-  "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
-}
-```
-
-If you do not have a `settings.json` file or a `.vscode` folder at the root of the project, you can manually create them.
+1. Navigate to the project directory:
+   ```shell
+   cd capra_web_ui
+   ```
+2. Install npm dependencies by running the following command:
+   ```shell
+   npm install
+   ```
+3. Build. the desktop application with Tauri:
+    ```shell
+    npm run tauri build
+    ```
 
 ## Release
 
@@ -138,42 +91,17 @@ To create a new release, simply use `npm version [major | minor | patch]`. This 
 
 Just make sure to make the github release public once it's done.
 
-## Usage Guide
+## Recommended IDE Setup
 
-### Reverse mode
+- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer).
 
-Our markhor robot doesn't have a reverse mode. Instead we simply flip the input sent from the UI to the robot. To activate this revers mode, you can either press the back button of the gamepad or click the button identified either FORWARD or REVERSE to toggle the front direction. When changing the front direction it will also automatically update which camera is focused in the center of the screen. Essentially it will toggle between the camera at the bottom left and the one in the center. It is therefore recommended to configure those cameras with directly front facing and back facing view angles.
+## Type Support For `.vue` Imports in TS
 
-### Connecting
+TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
 
-To connect to a robot, if you know that the IP is already configured properly, you click on the Disconnected button in the statusbar and it will immediately try to connect. Otherwise, go to the config tab, specify an appropriate IP address and press the connect button.
+If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
 
-### Config
-
-All configurations can be found in the config tab. It is separated in multiple sections.
-
-- General: Contains any general purpose configs
-- Camera: Configurations related to cameras. In this page you can add as many camera as you have. You can also modify things like the type of camera or the orientation. Every camera added here will be available in the dropdown of each feed.
-- Graph: This page is very similar to the camera page, but instead it's to add topics that constantly publish data to be shown in a graph. Like for the cameras, each graph added will be available in any feed.
-- Gamepad: Right now this only shows the current mapping of the gamepad. Eventually it will be possible to modify the bindings directly.
-
-### Logging
-
-Since the UI is built on top of electron, there's a sandbox between the web part of the app and the node part of the app. The logs from both parts are configured to log to a file that changes daily.
-
-Logs are written to the following locations:
-
-- Linux: `~/.config/capra_web_ui/logs/{DATE}/{process type}.log`
-- Windows: `%USERPROFILE%\AppData\Roaming\capra_web_ui\logs\{DATE}\{process type}.log`
-
-### Testing ROS features locally
-
-To test ROS features without connecting to a robot you simply need to specify `localhost` as the host to connect to while a rosbridge web_socket node is running.
-
-To run the rosbridge server simply open a terminal and run the following command:
-
-`roslaunch rosbridge_server rosbridge_websocket.launch`.
-
-If the package is not installed you can install it:
-
-`sudo apt-get install ros-<rosdistro>-rosbridge-suite`.
+1. Disable the built-in TypeScript Extension
+   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
+   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
+2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.

@@ -1,0 +1,8 @@
+.vscode/
+.yarn/
+coverage/
+dist/
+index.html
+node_module/
+src-tauri/
+src/assets/

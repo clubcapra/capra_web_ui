@@ -1,0 +1,10 @@
+.vscode/
+.yarn/
+coverage/
+dist/
+js/
+node_module/
+src-tauri/
+src/assets/
+tsconfig.*.json
+vendor/
