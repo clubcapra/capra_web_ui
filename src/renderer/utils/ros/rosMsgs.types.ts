@@ -1,7 +1,6 @@
 import { Vector3 } from '@/renderer/utils/math/types';
 export interface IJoyMsg {
   header: {
-    seq: number;
     stamp: {
       sec: number;
       nsecs: number;
