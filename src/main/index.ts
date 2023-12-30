@@ -2,7 +2,13 @@ import '@/main/rtspServer';
 import '@/main/audio';
 import { log } from '@/main/logger';
 import { APP_INFO_QUERY, APP_INFO_TYPE, AUDIO_STOP } from '@/main/preload';
-import { app, BrowserWindow, ipcMain, powerSaveBlocker } from 'electron';
+import {
+  app,
+  BrowserWindow,
+  ipcMain,
+  powerSaveBlocker,
+  session,
+} from 'electron';
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS,
@@ -72,6 +78,18 @@ app
   .whenReady()
   .then(async () => {
     log.info('app is ready');
+
+    session.defaultSession.setPermissionRequestHandler(
+      (webContents, permission, callback) => {
+        if (permission === 'media') {
+          // Approve microphone access
+          callback(true);
+        } else {
+          // Deny all other permissions
+          callback(false);
+        }
+      }
+    );
 
     // Since we don't ever want the display to sleep while the robot is connected
     // we try to force it to never sleep
