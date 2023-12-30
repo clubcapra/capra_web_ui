@@ -4,6 +4,7 @@ import { Teleop } from '@/renderer/components/pages/Teleop';
 import { Victim } from '@/renderer/components/pages/Victim';
 import { Debug } from '@/renderer/components/pages/Debug';
 import { ConfigPage } from '@/renderer/components/pages/Config/ConfigPage';
+import { Marvin } from '@/renderer/components/pages/Marvin';
 
 export const Router: FC = () => {
   return (
@@ -12,6 +13,7 @@ export const Router: FC = () => {
         <Route path="/" element={<Navigate to="/teleop" />} />
         <Route path="/teleop" element={<Teleop />} />
         <Route path="/victim" element={<Victim />} />
+        <Route path="/marvin" element={<Marvin />} />
         <Route path="/config/*" element={<ConfigPage />} />
         <Route path="/debug" element={<Debug />} />
       </Routes>

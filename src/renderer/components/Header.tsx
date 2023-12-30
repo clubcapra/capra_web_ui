@@ -28,6 +28,11 @@ export const Header: FC = () => {
       visible: true,
     },
     {
+      to: '/marvin',
+      label: 'Marvin',
+      visible: true,
+    },
+    {
       to: '/config',
       label: 'Config',
       visible: true,
