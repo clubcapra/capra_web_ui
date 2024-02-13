@@ -44,7 +44,8 @@
     "artifactName": "capra_web_ui_setup.${ext}",
     "extends": "electron-snowpack/config/electron-builder.js",
     "extraFiles": [
-      "script/**"
+      "script/**",
+      "./public/assets/images/icon/*"
     ]
   },
   "dependencies": {

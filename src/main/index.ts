@@ -33,7 +33,7 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.js'),
       webSecurity: false, // TODO figure out CORS policy for robot_description server
     },
-    icon: 'public/assets/images/icon/192x192.png',
+    icon: './public/assets/images/icon/192x192.png',
   });
   log.info('Window created');
 
