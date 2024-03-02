@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { invoke } from '@tauri-apps/api/tauri';
 
 const selectedTab = ref(null);
 
@@ -16,6 +17,28 @@ const tabs = [
   'Gamepad',
   'Launch',
 ];
+
+/**
+ * Updates the state by invoking the 'update_state' function with the provided parameters.
+ */
+async function updateState() {
+  await invoke('set_state', {
+    host: ipAddress.value,
+    port: Number(port.value),
+    name: robotName.value,
+  });
+}
+
+onMounted(async () => {
+  const state = await invoke<{
+    host: string;
+    port: number;
+    robot_name: string;
+  }>('get_state');
+  ipAddress.value = state.host;
+  port.value = state.port.toString();
+  robotName.value = state.robot_name;
+});
 </script>
 
 <template>
@@ -66,7 +89,12 @@ const tabs = [
                       </v-col>
                     </v-row>
                     <v-row>
-                      <v-btn class="mx-2" variant="outlined" color="green">
+                      <v-btn
+                        class="mx-2"
+                        variant="outlined"
+                        color="green"
+                        @click="updateState"
+                      >
                         Connect
                       </v-btn>
                       <v-btn class="mx-2" variant="outlined" color="red">

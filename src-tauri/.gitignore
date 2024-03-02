@@ -2,3 +2,8 @@
 # will have compiled files and executables
 /target/
 
+# Ignore configuration file
+config.bin
+
+# Ignore protobuf generated files
+src/capra.rs
