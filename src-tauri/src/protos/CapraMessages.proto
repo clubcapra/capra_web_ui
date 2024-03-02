@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package capra;
+
+message HostConfig {
+  string host = 1;
+  uint32 port = 2;
+}
+
+message Config { HostConfig host = 1; }

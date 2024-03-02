@@ -1,34 +1,61 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { invoke } from '@tauri-apps/api/tauri';
 
-const greetMsg = ref('');
-const name = ref('');
+// Components
+import ConfigWindow from './components/ConfigWindow.vue';
+import EmergencyStop from './components/EmergencyStop.vue';
 
-/**
- * Greet the user
- */
-async function greet() {
-  // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-  greetMsg.value = await invoke('greet', { name: name.value });
-}
+// Assets
+import logoCapra from './assets/logo.png';
+
+// Current selected tab
+const tab = ref();
 </script>
 
 <template>
   <v-app>
-    <v-sheet width="300" class="mx-auto">
-      <form class="row" @submit.prevent="greet">
-        <v-form>
-          <v-container>
-            <v-text-field v-model="name" placeholder="Enter a name...." />
-          </v-container>
-        </v-form>
-        <div class="d-flex flex-column">
-          <v-btn block class="mt-4" type="submit" color="primary">Greet</v-btn>
-        </div>
-      </form>
+    <v-app-bar density="compact" order="1">
+      <v-tabs v-model="tab">
+        <v-tab value="teleop">Teleop</v-tab>
+        <v-tab value="victim">Victim</v-tab>
+        <v-tab value="config">Config</v-tab>
+      </v-tabs>
+      <v-spacer />
+      <v-btn icon symbol>
+        <v-icon>mdi-timer-outline</v-icon>
+      </v-btn>
+      <v-btn icon symbol>
+        <v-icon>mdi-telescope</v-icon>
+      </v-btn>
+      <v-btn icon symbol>
+        <v-icon>mdi-lightbulb-off-outline</v-icon>
+      </v-btn>
+      <v-btn icon symbol>
+        <v-icon>mdi-battery-remove-outline</v-icon>
+      </v-btn>
+      <v-btn icon symbol>
+        <v-icon>mdi-battery-remove-outline</v-icon>
+      </v-btn>
+      <v-img
+        class="mx-2"
+        :src="logoCapra"
+        max-height="25"
+        max-width="100"
+        cover
+      />
+    </v-app-bar>
 
-      <p>{{ greetMsg }}</p>
-    </v-sheet>
+    <v-main>
+      <v-window v-model="tab">
+        <v-window-item value="teleop">Teleop</v-window-item>
+        <v-window-item value="victim">Victim</v-window-item>
+        <v-window-item value="config">
+          <ConfigWindow />
+        </v-window-item>
+      </v-window>
+    </v-main>
+    <v-navigation-drawer width="70" permanent location="end">
+      <EmergencyStop />
+    </v-navigation-drawer>
   </v-app>
 </template>
