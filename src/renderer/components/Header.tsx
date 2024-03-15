@@ -7,6 +7,7 @@ import BatteryStatus from './BatteryStatus/BatteryStatus';
 import GpioPinsStatus from './GpioPinsStatus/GpioPinsStatus';
 import { ExplorationStatus } from './ExplorationStatus/ExplorationStatus';
 import { CountdownStatus } from './CountdownStatus/CountdownStatus';
+import BasicExample from './Dropdown/dropdown';
 
 interface NavLinkDefinition {
   to: string;
@@ -50,6 +51,7 @@ export const Header: FC = () => {
           ))}
       </LeftHeader>
       <RightHeader>
+        <BasicExample/>
         <CountdownStatus />
         <ExplorationStatus />
         <GpioPinsStatus />

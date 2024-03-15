@@ -9,11 +9,17 @@ export const Router: FC = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Navigate to="/teleop" />} />
-        <Route path="/teleop" element={<Teleop />} />
-        <Route path="/victim" element={<Victim />} />
-        <Route path="/config/*" element={<ConfigPage />} />
-        <Route path="/debug" element={<Debug />} />
+        <Route path="/markhor" element={<Navigate to="/markhor/teleop" />} />
+        <Route path="/markhor/teleop" element={<Teleop />} />
+        <Route path="/markhor/victim" element={<Victim />} />
+        <Route path="/markhor/config/*" element={<ConfigPage />} />
+        <Route path="/markhor/debug" element={<Debug />} />
+        <Route path="/" element={<Navigate to="/markhor/teleop" />} />
+        <Route path="/rove" element={<Navigate to="/rove/teleop" />} />
+        <Route path="/rove/teleop" element={<Teleop />} />
+        <Route path="/rove/victim" element={<Victim />} />
+        <Route path="/rove/config/*" element={<ConfigPage />} />
+        <Route path="/rove/debug" element={<Debug />} />
       </Routes>
     </>
   );
