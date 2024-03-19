@@ -13,8 +13,6 @@ const joyTopic: TopicOptions = {
   messageType: 'sensor_msgs/Joy',
 };
 
-let joySeqId = 0;
-
 const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
   const d = new Date();
   const seconds = Math.round(d.getTime() / 1000);
@@ -39,7 +37,6 @@ const mapGamepadToJoy = (gamepad: Gamepad): IJoyMsg => {
   const buttons = gamepad.buttons.map((x) => Math.floor(x.value));
   return {
     header: {
-      seq: joySeqId++,
       stamp: {
         sec: seconds,
         nsecs: 0,
